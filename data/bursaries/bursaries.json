@@ -3,7 +3,8 @@
     "description": "South African bursaries and scholarships for higher education",
     "lastUpdated": "2026-03",
     "note": "URLs and amounts change regularly. Verify directly with bursary provider.",
-    "schema": "v2 - migrated to detailed schema with careerIds, coverage booleans, valuePerYear"
+    "schema": "v2 - migrated to detailed schema with careerIds, coverage booleans, valuePerYear",
+    "totalBursaries": 219
   },
   "bursaries": [
     {
@@ -5664,6 +5665,443 @@
       "applicationDeadlineMonth": 3,
       "requiresWorkback": true,
       "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "dept-health-medical",
+      "name": "Department of Health Medical Bursary",
+      "provider": "Department of Health",
+      "fields": [
+        "Medicine",
+        "Dentistry",
+        "Pharmacy"
+      ],
+      "careerIds": [
+        "doctor",
+        "dentist",
+        "pharmacist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 95000,
+      "applicationUrl": "https://www.health.gov.za/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "dept-education",
+      "name": "Department of Education Bursary",
+      "provider": "Department of Basic Education",
+      "fields": [
+        "Education"
+      ],
+      "careerIds": [
+        "high-school-teacher",
+        "primary-teacher",
+        "special-needs-teacher"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 70000,
+      "applicationUrl": "https://www.education.gov.za",
+      "applicationDeadlineMonth": 10,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "petrosa",
+      "name": "PetroSA Bursary Programme",
+      "provider": "PetroSA",
+      "fields": [
+        "Chemical Engineering",
+        "Geology",
+        "Mechanical Engineering"
+      ],
+      "careerIds": [
+        "chemical-engineer",
+        "geologist",
+        "mechanical-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 100000,
+      "applicationUrl": "https://www.petrosa.co.za",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "necsa",
+      "name": "NECSA Bursary Programme",
+      "provider": "Nuclear Energy Corporation of South Africa",
+      "fields": [
+        "Nuclear Engineering",
+        "Physics",
+        "Chemistry"
+      ],
+      "careerIds": [
+        "chemical-engineer",
+        "environmental-scientist"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 110000,
+      "applicationUrl": "https://www.necsa.co.za",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "city-power",
+      "name": "City Power Bursary",
+      "provider": "City Power Johannesburg",
+      "fields": [
+        "Electrical Engineering"
+      ],
+      "careerIds": [
+        "electrical-engineer",
+        "electrician"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": true,
+      "valuePerYear": 75000,
+      "applicationUrl": "https://www.citypower.co.za",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "telkom",
+      "name": "Telkom Bursary Programme",
+      "provider": "Telkom SA",
+      "fields": [
+        "Computer Science",
+        "Electrical Engineering",
+        "IT"
+      ],
+      "careerIds": [
+        "software-developer",
+        "network-engineer",
+        "electrical-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 90000,
+      "applicationUrl": "https://www.telkom.co.za/about/careers/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "nhbrc",
+      "name": "NHBRC Bursary Programme",
+      "provider": "National Home Builders Registration Council",
+      "fields": [
+        "Civil Engineering",
+        "Construction Management",
+        "Architecture"
+      ],
+      "careerIds": [
+        "civil-engineer",
+        "architect",
+        "quantity-surveyor-technician"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": true,
+      "valuePerYear": 70000,
+      "applicationUrl": "https://www.nhbrc.org.za",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "sacpcmp",
+      "name": "SACPCMP Bursary",
+      "provider": "SA Council for Project and Construction Management Professions",
+      "fields": [
+        "Construction Management",
+        "Project Management"
+      ],
+      "careerIds": [
+        "quantity-surveyor-technician",
+        "civil-engineer"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 50000,
+      "applicationUrl": "https://www.sacpcmp.org.za",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "tongaat-hulett",
+      "name": "Tongaat Hulett Bursary",
+      "provider": "Tongaat Hulett",
+      "fields": [
+        "Agriculture",
+        "Chemical Engineering",
+        "Mechanical Engineering"
+      ],
+      "careerIds": [
+        "chemical-engineer",
+        "mechanical-engineer",
+        "farm-manager"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 85000,
+      "applicationUrl": "https://www.tongaat.com",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "rcl-foods",
+      "name": "RCL Foods Bursary",
+      "provider": "RCL Foods",
+      "fields": [
+        "Food Science",
+        "Supply Chain",
+        "Finance"
+      ],
+      "careerIds": [
+        "supply-chain-manager",
+        "financial-analyst"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 80000,
+      "applicationUrl": "https://www.rclfoods.com",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "chieta",
+      "name": "CHIETA Bursary Programme",
+      "provider": "Chemical Industries Education and Training Authority",
+      "fields": [
+        "Chemical Engineering",
+        "Chemistry",
+        "Environmental Science"
+      ],
+      "careerIds": [
+        "chemical-engineer",
+        "chemist",
+        "environmental-scientist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": true,
+      "valuePerYear": 60000,
+      "applicationUrl": "https://www.chieta.org.za",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "hwseta",
+      "name": "HWSETA Bursary Programme",
+      "provider": "Health and Welfare SETA",
+      "fields": [
+        "Nursing",
+        "Social Work",
+        "Psychology"
+      ],
+      "careerIds": [
+        "nurse",
+        "social-worker",
+        "clinical-psychologist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": true,
+      "valuePerYear": 55000,
+      "applicationUrl": "https://www.hwseta.org.za",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "moshal",
+      "name": "Moshal Scholarship Program",
+      "provider": "Moshal Scholarship Program",
+      "fields": [
+        "All fields"
+      ],
+      "careerIds": [],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 90000,
+      "applicationUrl": "https://www.moshalscholarship.org",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 250000
+    },
+    {
+      "id": "kagiso-trust",
+      "name": "Kagiso Trust Bursary",
+      "provider": "Kagiso Trust",
+      "fields": [
+        "Education",
+        "Health",
+        "Social Sciences"
+      ],
+      "careerIds": [
+        "high-school-teacher",
+        "doctor",
+        "social-worker"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 70000,
+      "applicationUrl": "https://www.kagiso.co.za",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 300000
+    },
+    {
+      "id": "cyril-ramaphosa-foundation",
+      "name": "Cyril Ramaphosa Foundation Bursary",
+      "provider": "Cyril Ramaphosa Foundation",
+      "fields": [
+        "All fields"
+      ],
+      "careerIds": [],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 80000,
+      "applicationUrl": "https://www.cyrilramaphosafoundation.org",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "motsepe-foundation",
+      "name": "Motsepe Foundation Bursary",
+      "provider": "Motsepe Foundation",
+      "fields": [
+        "All fields"
+      ],
+      "careerIds": [],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 85000,
+      "applicationUrl": "https://www.motsepefoundation.org",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "harry-crossley",
+      "name": "Harry Crossley Foundation Bursary",
+      "provider": "Harry Crossley Foundation",
+      "fields": [
+        "All fields"
+      ],
+      "careerIds": [],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 40000,
+      "applicationUrl": "",
+      "applicationDeadlineMonth": 10,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "canon-collins",
+      "name": "Canon Collins Trust Scholarship",
+      "provider": "Canon Collins Trust",
+      "fields": [
+        "Law",
+        "Social Sciences",
+        "Education"
+      ],
+      "careerIds": [
+        "attorney",
+        "advocate",
+        "social-worker",
+        "high-school-teacher"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 75000,
+      "applicationUrl": "https://www.canoncollins.org.uk",
+      "applicationDeadlineMonth": 7,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "nelson-mandela-foundation",
+      "name": "Nelson Mandela Foundation Scholarship",
+      "provider": "Nelson Mandela Foundation",
+      "fields": [
+        "All fields"
+      ],
+      "careerIds": [],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 80000,
+      "applicationUrl": "https://www.nelsonmandela.org",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
       "incomeThreshold": null
     }
   ]

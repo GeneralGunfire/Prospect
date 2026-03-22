@@ -4,7 +4,7 @@
     "lastUpdated": "2026-03",
     "note": "URLs and amounts change regularly. Verify directly with bursary provider.",
     "schema": "v2 - migrated to detailed schema with careerIds, coverage booleans, valuePerYear",
-    "totalBursaries": 219
+    "totalBursaries": 245
   },
   "bursaries": [
     {
@@ -6100,6 +6100,712 @@
       "valuePerYear": 80000,
       "applicationUrl": "https://www.nelsonmandela.org",
       "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "nsfas-disability",
+      "name": "NSFAS Disability Bursary",
+      "provider": "National Student Financial Aid Scheme",
+      "fields": [
+        "All fields"
+      ],
+      "careerIds": [],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 80000,
+      "applicationUrl": "https://www.nsfas.org.za/content/disability.html",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "saps",
+      "name": "SAPS Bursary",
+      "provider": "South African Police Service",
+      "fields": [
+        "Policing",
+        "Criminology",
+        "Forensic Science",
+        "Law"
+      ],
+      "careerIds": [
+        "police-officer",
+        "attorney",
+        "safety-officer"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 60000,
+      "applicationUrl": "https://www.saps.gov.za/careers/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "dirco",
+      "name": "DIRCO Bursary",
+      "provider": "Department of International Relations and Cooperation",
+      "fields": [
+        "International Relations",
+        "Political Science",
+        "Law",
+        "Economics",
+        "Languages"
+      ],
+      "careerIds": [
+        "public-administrator",
+        "attorney",
+        "economist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 65000,
+      "applicationUrl": "https://www.dirco.gov.za/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "sa-weather-service",
+      "name": "SA Weather Service Bursary",
+      "provider": "South African Weather Service",
+      "fields": [
+        "Meteorology",
+        "Atmospheric Science",
+        "Mathematics",
+        "Physics"
+      ],
+      "careerIds": [
+        "meteorologist",
+        "environmental-scientist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 70000,
+      "applicationUrl": "https://www.weathersa.co.za/home/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "csir",
+      "name": "CSIR Bursary",
+      "provider": "Council for Scientific and Industrial Research",
+      "fields": [
+        "Science",
+        "Engineering",
+        "Information Technology",
+        "Built Environment",
+        "Defence Technology"
+      ],
+      "careerIds": [
+        "chemical-engineer",
+        "civil-engineer",
+        "mechanical-engineer",
+        "electrical-engineer",
+        "software-developer",
+        "data-scientist",
+        "environmental-scientist",
+        "biologist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": false,
+      "coversAccommodation": false,
+      "coversLiving": true,
+      "valuePerYear": 80000,
+      "applicationUrl": "https://www.csir.co.za/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "dsi-innovation",
+      "name": "DSI Innovation Bursary",
+      "provider": "Department of Science and Innovation",
+      "fields": [
+        "Science",
+        "Technology",
+        "Engineering",
+        "Innovation",
+        "Mathematics"
+      ],
+      "careerIds": [
+        "data-scientist",
+        "biologist",
+        "chemist",
+        "environmental-scientist",
+        "chemical-engineer",
+        "software-developer",
+        "bioinformatics-analyst"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": false,
+      "coversAccommodation": false,
+      "coversLiving": true,
+      "valuePerYear": 75000,
+      "applicationUrl": "https://www.dst.gov.za/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "exxaro",
+      "name": "Exxaro Bursary",
+      "provider": "Exxaro Resources",
+      "fields": [
+        "Mining Engineering",
+        "Mechanical Engineering",
+        "Electrical Engineering",
+        "Environmental Science",
+        "Finance"
+      ],
+      "careerIds": [
+        "mining-engineer",
+        "mechanical-engineer",
+        "electrical-engineer",
+        "environmental-scientist",
+        "environmental-engineer",
+        "financial-analyst",
+        "chartered-accountant"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 120000,
+      "applicationUrl": "https://www.exxaro.com/careers/bursaries",
+      "applicationDeadlineMonth": 3,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "vedanta-zinc",
+      "name": "Vedanta Zinc International Bursary",
+      "provider": "Vedanta Zinc International",
+      "fields": [
+        "Mining Engineering",
+        "Mechanical Engineering",
+        "Electrical Engineering",
+        "Chemistry",
+        "Metallurgy"
+      ],
+      "careerIds": [
+        "mining-engineer",
+        "mechanical-engineer",
+        "electrical-engineer",
+        "chemist",
+        "chemical-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 95000,
+      "applicationUrl": "https://www.vedantazincinternational.com/careers/bursaries",
+      "applicationDeadlineMonth": 3,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "master-drilling",
+      "name": "Master Drilling Bursary",
+      "provider": "Master Drilling Group",
+      "fields": [
+        "Mining Engineering",
+        "Mechanical Engineering",
+        "Electrical Engineering",
+        "Civil Engineering"
+      ],
+      "careerIds": [
+        "mining-engineer",
+        "mechanical-engineer",
+        "electrical-engineer",
+        "civil-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 80000,
+      "applicationUrl": "https://www.masterdrilling.com/careers/bursaries",
+      "applicationDeadlineMonth": 3,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "ipp-office",
+      "name": "IPP Office Renewable Energy Bursary",
+      "provider": "IPP Office",
+      "fields": [
+        "Electrical Engineering",
+        "Renewable Energy",
+        "Environmental Science",
+        "Finance"
+      ],
+      "careerIds": [
+        "electrical-engineer",
+        "renewable-energy-consultant",
+        "environmental-scientist",
+        "financial-analyst"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 70000,
+      "applicationUrl": "https://www.ipp-renewables.co.za/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "pic",
+      "name": "Public Investment Corporation Bursary",
+      "provider": "Public Investment Corporation",
+      "fields": [
+        "Finance",
+        "Economics",
+        "Investment Management",
+        "Actuarial Science",
+        "Accounting"
+      ],
+      "careerIds": [
+        "financial-analyst",
+        "chartered-accountant",
+        "actuary",
+        "economist",
+        "investment-analyst"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 100000,
+      "applicationUrl": "https://www.pic.gov.za/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "ioco",
+      "name": "iOCO Bursary",
+      "provider": "iOCO",
+      "fields": [
+        "Information Technology",
+        "Software Development",
+        "Computer Science",
+        "Data Science",
+        "Cloud Computing"
+      ],
+      "careerIds": [
+        "software-developer",
+        "data-scientist",
+        "network-engineer",
+        "it-technician",
+        "cloud-architect",
+        "systems-analyst"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 110000,
+      "applicationUrl": "https://www.ioco.tech/careers/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "bbd",
+      "name": "BBD Software Development Bursary",
+      "provider": "BBD",
+      "fields": [
+        "Software Development",
+        "Computer Science",
+        "Data Science",
+        "Mathematics"
+      ],
+      "careerIds": [
+        "software-developer",
+        "data-scientist",
+        "systems-analyst",
+        "ai-ml-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 100000,
+      "applicationUrl": "https://www.bbd.co.za/careers/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "solidarity-health",
+      "name": "Solidarity Health Bursary",
+      "provider": "Solidarity",
+      "fields": [
+        "Nursing",
+        "Midwifery",
+        "Community Health"
+      ],
+      "careerIds": [
+        "nurse",
+        "community-health-worker"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 45000,
+      "applicationUrl": "https://www.solidarity.co.za/healthcare/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "afrisam",
+      "name": "AfriSam Bursary",
+      "provider": "AfriSam",
+      "fields": [
+        "Civil Engineering",
+        "Chemical Engineering",
+        "Mechanical Engineering",
+        "Geology",
+        "Mining Engineering"
+      ],
+      "careerIds": [
+        "civil-engineer",
+        "chemical-engineer",
+        "mechanical-engineer",
+        "geologist",
+        "mining-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 90000,
+      "applicationUrl": "https://www.afrisam.co.za/careers/bursaries",
+      "applicationDeadlineMonth": 3,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "lafarge-sa",
+      "name": "Lafarge SA Bursary",
+      "provider": "Lafarge SA",
+      "fields": [
+        "Civil Engineering",
+        "Chemical Engineering",
+        "Mechanical Engineering",
+        "Mining Engineering"
+      ],
+      "careerIds": [
+        "civil-engineer",
+        "chemical-engineer",
+        "mechanical-engineer",
+        "mining-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 85000,
+      "applicationUrl": "https://www.lafarge.co.za/careers/bursaries",
+      "applicationDeadlineMonth": 3,
+      "requiresWorkback": true,
+      "workbackYears": 2,
+      "incomeThreshold": null
+    },
+    {
+      "id": "sapoa",
+      "name": "SAPOA Bursary",
+      "provider": "South African Property Owners Association",
+      "fields": [
+        "Property Management",
+        "Built Environment",
+        "Urban Planning",
+        "Quantity Surveying",
+        "Architecture"
+      ],
+      "careerIds": [
+        "quantity-surveyor-technician",
+        "architect",
+        "urban-planner",
+        "civil-engineer"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 60000,
+      "applicationUrl": "https://www.sapoa.org.za/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "sacap",
+      "name": "SACAP Bursary",
+      "provider": "South African Council for the Architectural Profession",
+      "fields": [
+        "Architecture",
+        "Architectural Technology",
+        "Interior Architecture"
+      ],
+      "careerIds": [
+        "architect"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 50000,
+      "applicationUrl": "https://www.sacapsa.com/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "clover",
+      "name": "Clover Bursary",
+      "provider": "Clover SA",
+      "fields": [
+        "Food Technology",
+        "Food Science",
+        "Dairy Science",
+        "Mechanical Engineering",
+        "Chemical Engineering"
+      ],
+      "careerIds": [
+        "chef",
+        "chemical-engineer",
+        "mechanical-engineer"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": false,
+      "valuePerYear": 75000,
+      "applicationUrl": "https://www.clover.co.za/careers/bursaries",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "bayer-crop-science",
+      "name": "Bayer Crop Science Bursary",
+      "provider": "Bayer Crop Science",
+      "fields": [
+        "Agricultural Science",
+        "Agronomy",
+        "Biotechnology",
+        "Plant Pathology",
+        "Chemistry"
+      ],
+      "careerIds": [
+        "farm-manager",
+        "agricultural-technician",
+        "agritech-specialist",
+        "chemist"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 90000,
+      "applicationUrl": "https://www.bayer.com/za/careers/bursaries",
+      "applicationDeadlineMonth": 3,
+      "requiresWorkback": true,
+      "workbackYears": 1,
+      "incomeThreshold": null
+    },
+    {
+      "id": "sabi",
+      "name": "SABI Bursary",
+      "provider": "South African Sugarcane Research Institute",
+      "fields": [
+        "Agronomy",
+        "Sugarcane Science",
+        "Agriculture",
+        "Plant Pathology"
+      ],
+      "careerIds": [
+        "farm-manager",
+        "agricultural-technician",
+        "horticulturist"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 50000,
+      "applicationUrl": "https://www.sugar.org.za/bursaries",
+      "applicationDeadlineMonth": 9,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": null
+    },
+    {
+      "id": "cathsseta",
+      "name": "CATHSSETA Bursary",
+      "provider": "Culture, Arts, Tourism, Hospitality and Sport SETA",
+      "fields": [
+        "Hospitality Management",
+        "Tourism Management",
+        "Sport Management",
+        "Arts and Culture"
+      ],
+      "careerIds": [
+        "hotel-manager",
+        "tourism-operator",
+        "chef",
+        "events-coordinator"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 50000,
+      "applicationUrl": "https://www.cathsseta.org.za/bursaries",
+      "applicationDeadlineMonth": 1,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "pseta",
+      "name": "PSETA Bursary",
+      "provider": "Public Service SETA",
+      "fields": [
+        "Public Administration",
+        "Public Management",
+        "Human Resources",
+        "Finance",
+        "Information Technology"
+      ],
+      "careerIds": [
+        "public-administrator",
+        "hr-manager",
+        "financial-analyst",
+        "software-developer",
+        "network-engineer"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 55000,
+      "applicationUrl": "https://www.pseta.gov.za/bursaries",
+      "applicationDeadlineMonth": 1,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "services-seta",
+      "name": "Services SETA Bursary",
+      "provider": "Services SETA",
+      "fields": [
+        "Retail Management",
+        "Wholesale Management",
+        "Business Management",
+        "Customer Relations"
+      ],
+      "careerIds": [
+        "marketing-manager",
+        "hr-manager",
+        "supply-chain-manager"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": true,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 45000,
+      "applicationUrl": "https://www.serviceseta.org.za/bursaries",
+      "applicationDeadlineMonth": 1,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "thuthuka",
+      "name": "Thuthuka Bursary Fund",
+      "provider": "Thuthuka Bursary Fund",
+      "fields": [
+        "Chartered Accountancy",
+        "Accounting",
+        "Auditing"
+      ],
+      "careerIds": [
+        "chartered-accountant",
+        "auditor"
+      ],
+      "nsfasAlternative": true,
+      "coversTuition": true,
+      "coversAccommodation": true,
+      "coversLiving": true,
+      "valuePerYear": 85000,
+      "applicationUrl": "https://www.thuthukabursaryfund.co.za",
+      "applicationDeadlineMonth": 8,
+      "requiresWorkback": false,
+      "workbackYears": 0,
+      "incomeThreshold": 350000
+    },
+    {
+      "id": "cfa-institute",
+      "name": "CFA Institute Scholarship",
+      "provider": "CFA Institute",
+      "fields": [
+        "Investment Management",
+        "Finance",
+        "Economics",
+        "Actuarial Science"
+      ],
+      "careerIds": [
+        "financial-analyst",
+        "investment-analyst",
+        "actuary",
+        "economist",
+        "chartered-accountant"
+      ],
+      "nsfasAlternative": false,
+      "coversTuition": false,
+      "coversAccommodation": false,
+      "coversLiving": false,
+      "valuePerYear": 20000,
+      "applicationUrl": "https://www.cfainstitute.org/scholarships",
+      "applicationDeadlineMonth": 9,
       "requiresWorkback": false,
       "workbackYears": 0,
       "incomeThreshold": null

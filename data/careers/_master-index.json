@@ -1,0 +1,2241 @@
+{
+  "meta": {
+    "description": "Master index of all careers in the SA Career Guide database",
+    "lastUpdated": "2026-03",
+    "totalCareers": 161,
+    "breakdown": {
+      "university": 81,
+      "tvet": 65,
+      "either": 15,
+      "emerging": 40
+    }
+  },
+  "careers": [
+    {
+      "id": "3d-printing-specialist",
+      "title": "3D Printing Specialist",
+      "category": "Manufacturing & Technology",
+      "pathway": "either",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "I",
+        "A"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "actuary",
+      "title": "Actuary",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "C",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "advocate",
+      "title": "Advocate",
+      "category": "Law & Government",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "S",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "agricultural-technician",
+      "title": "Agricultural Technician",
+      "category": "Agriculture",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "agritech-specialist",
+      "title": "Agritech Specialist",
+      "category": "Agriculture & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "ai-ml-engineer",
+      "title": "AI / Machine Learning Engineer",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "animal-production",
+      "title": "Animal Production Technician",
+      "category": "Agriculture",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "aquaculture-technician",
+      "title": "Aquaculture Technician",
+      "category": "Agriculture",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "I",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "aquaponics-technician",
+      "title": "Aquaponics Technician",
+      "category": "Agriculture",
+      "pathway": "either",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "I",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "architect",
+      "title": "Architect",
+      "category": "Creative & Media",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "I",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "attorney",
+      "title": "Attorney",
+      "category": "Law & Government",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "auditor",
+      "title": "Auditor",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "E",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "auto-electrician",
+      "title": "Auto Electrician",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "baker",
+      "title": "Baker",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "A",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "barista",
+      "title": "Barista",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "S",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "beauty-therapist",
+      "title": "Beauty Therapist",
+      "category": "Beauty",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "S",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "bioinformatics-analyst",
+      "title": "Bioinformatics Analyst",
+      "category": "Science & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "biologist",
+      "title": "Biologist",
+      "category": "Science & Research",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "R",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "blockchain-developer",
+      "title": "Blockchain Developer",
+      "category": "Information Technology",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "boilermaker",
+      "title": "Boilermaker",
+      "category": "Engineering Trades",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "bookkeeper",
+      "title": "Bookkeeper",
+      "category": "Business & Administration",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "E",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "bricklayer",
+      "title": "Bricklayer",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "C",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "carpenter",
+      "title": "Carpenter",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "chartered-accountant",
+      "title": "Chartered Accountant (CA(SA))",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "E",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "chef",
+      "title": "Chef",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "A",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "chemical-engineer",
+      "title": "Chemical Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "chemist",
+      "title": "Chemist",
+      "category": "Science & Research",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "civil-engineer",
+      "title": "Civil Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "clinical-psychologist",
+      "title": "Clinical Psychologist",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "I",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "cloud-architect",
+      "title": "Cloud Architect",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "community-health-worker",
+      "title": "Community Health Worker",
+      "category": "Health & Wellness",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "computer-hardware-technician",
+      "title": "Computer Hardware Technician",
+      "category": "Information Technology",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "content-creator",
+      "title": "Content Creator",
+      "category": "Digital & Marketing",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "A",
+        "E",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "crane-operator",
+      "title": "Crane Operator",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "C",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "cybersecurity-analyst",
+      "title": "Cybersecurity Analyst",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "data-privacy-officer",
+      "title": "Data Privacy Officer",
+      "category": "Legal & Compliance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "C",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "data-scientist",
+      "title": "Data Scientist",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "dentist",
+      "title": "Dentist",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "devops-engineer",
+      "title": "DevOps Engineer",
+      "category": "Information Technology",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "diesel-mechanic",
+      "title": "Diesel Mechanic",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "dietitian",
+      "title": "Dietitian",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "accessibility-specialist",
+      "title": "Digital Accessibility Specialist",
+      "category": "Design & Technology",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "S",
+        "I",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "digital-marketer",
+      "title": "Digital Marketer",
+      "category": "Digital & Marketing",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "A",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "draughtsperson",
+      "title": "Draughtsperson",
+      "category": "Engineering & Technical",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "drone-pilot",
+      "title": "Drone Pilot",
+      "category": "Aviation & Technology",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "early-childhood-educator",
+      "title": "Early Childhood Educator",
+      "category": "Education",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "A",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "economist",
+      "title": "Economist",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "E",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "edtech-designer",
+      "title": "EdTech Designer",
+      "category": "Education & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "A",
+        "I",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "education-psychologist",
+      "title": "Educational Psychologist",
+      "category": "Education",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "I",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "ev-mechanic",
+      "title": "Electric Vehicle Technician",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "electrical-engineer",
+      "title": "Electrical Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "electrician",
+      "title": "Electrician",
+      "category": "Electrical",
+      "pathway": "tvet",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "environmental-engineer",
+      "title": "Environmental Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "environmental-scientist",
+      "title": "Environmental Scientist",
+      "category": "Science & Research",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "esports-manager",
+      "title": "Esports Manager",
+      "category": "Gaming & Entertainment",
+      "pathway": "either",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "ethical-hacker",
+      "title": "Ethical Hacker",
+      "category": "Information Technology",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "events-coordinator",
+      "title": "Events Coordinator",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "A",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "farm-manager",
+      "title": "Farm Manager",
+      "category": "Agriculture",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "E",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "fashion-designer",
+      "title": "Fashion Designer",
+      "category": "Creative Arts",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "E",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "film-producer",
+      "title": "Film and TV Producer",
+      "category": "Creative & Media",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "E",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "financial-analyst",
+      "title": "Financial Analyst",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "E",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "fintech-developer",
+      "title": "Fintech Developer",
+      "category": "Information Technology",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "fitness-trainer",
+      "title": "Fitness Trainer",
+      "category": "Health & Wellness",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "S",
+        "R",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "fitter-and-turner",
+      "title": "Fitter and Turner",
+      "category": "Engineering Trades",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "gig-economy-consultant",
+      "title": "Freelance Consultant",
+      "category": "Business & Services",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "I",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "geologist",
+      "title": "Geologist",
+      "category": "Science & Research",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "graphic-designer",
+      "title": "Graphic Designer",
+      "category": "Creative & Media",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "R",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "green-building-consultant",
+      "title": "Green Building Consultant",
+      "category": "Construction & Environment",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "R",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "growth-hacker",
+      "title": "Growth Specialist",
+      "category": "Business & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "I",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "hairdresser",
+      "title": "Hairdresser",
+      "category": "Beauty",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "S",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "safety-officer",
+      "title": "Health and Safety Officer",
+      "category": "Engineering & Technical",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "health-informatics-specialist",
+      "title": "Health Informatics Specialist",
+      "category": "Health & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "C",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "high-school-teacher",
+      "title": "High School Teacher",
+      "category": "Education",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "S",
+        "I",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "horticulturist",
+      "title": "Horticulturist",
+      "category": "Agriculture",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "I",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "hotel-manager",
+      "title": "Hotel Manager",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "hr-manager",
+      "title": "Human Resources Manager",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "industrial-engineer",
+      "title": "Industrial Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "electrician-instrumentation",
+      "title": "Instrumentation Technician",
+      "category": "Engineering & Technical",
+      "pathway": "tvet",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "insurtech-specialist",
+      "title": "Insurtech Specialist",
+      "category": "Financial Services & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "E",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "investment-analyst",
+      "title": "Investment Analyst",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "E",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "iot-specialist",
+      "title": "IoT Specialist",
+      "category": "Information Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "it-technician",
+      "title": "IT Technician",
+      "category": "Information Technology",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "journalist",
+      "title": "Journalist",
+      "category": "Creative & Media",
+      "pathway": "university",
+      "demandLevel": "low",
+      "riasec": [
+        "A",
+        "S",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "legal-secretary",
+      "title": "Legal Secretary",
+      "category": "Business & Administration",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "C",
+        "E",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "logistics-coordinator",
+      "title": "Logistics Coordinator",
+      "category": "Business & Administration",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "E",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "magistrate",
+      "title": "Magistrate",
+      "category": "Law & Government",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "makeup-artist",
+      "title": "Makeup Artist",
+      "category": "Beauty",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "S",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "marketing-manager",
+      "title": "Marketing Manager",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "A",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "mechanical-engineer",
+      "title": "Mechanical Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "mechatronics-engineer",
+      "title": "Mechatronics Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "doctor",
+      "title": "Medical Doctor",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "S",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "medical-secretary",
+      "title": "Medical Secretary",
+      "category": "Business & Administration",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "C",
+        "S",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "meteorologist",
+      "title": "Meteorologist",
+      "category": "Science & Research",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "millwright",
+      "title": "Millwright",
+      "category": "Engineering Trades",
+      "pathway": "tvet",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "mining-engineer",
+      "title": "Mining Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "motor-mechanic",
+      "title": "Motor Mechanic",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "nail-technician",
+      "title": "Nail Technician",
+      "category": "Beauty",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "S",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "network-engineer",
+      "title": "Network Engineer",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "occupational-therapist",
+      "title": "Occupational Therapist",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "I",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "oceanographer",
+      "title": "Oceanographer",
+      "category": "Science & Research",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "R",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "office-administrator",
+      "title": "Office Administrator",
+      "category": "Business & Administration",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "E",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "painter",
+      "title": "Painter and Decorator",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "A",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "panel-beater",
+      "title": "Panel Beater",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "A",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "paramedic",
+      "title": "Paramedic",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "R",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "pastry-chef",
+      "title": "Pastry Chef",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "pharmacist",
+      "title": "Pharmacist",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "pharmacy-assistant",
+      "title": "Pharmacy Assistant",
+      "category": "Health & Wellness",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "S",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "physiotherapist",
+      "title": "Physiotherapist",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "I",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "plasterer",
+      "title": "Plasterer",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "C",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "plumber",
+      "title": "Plumber",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "podcast-producer",
+      "title": "Podcast Producer",
+      "category": "Digital & Media",
+      "pathway": "either",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "E",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "police-officer",
+      "title": "Police Officer",
+      "category": "Law & Government",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "E",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "primary-teacher",
+      "title": "Primary School Teacher",
+      "category": "Education",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "S",
+        "A",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "product-manager",
+      "title": "Product Manager",
+      "category": "Business & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "I",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "nurse",
+      "title": "Professional Nurse",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "S",
+        "I",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "public-administrator",
+      "title": "Public Administrator",
+      "category": "Law & Government",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "C",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "quantity-surveyor-technician",
+      "title": "Quantity Surveyor Technician",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "I",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "radiographer",
+      "title": "Radiographer",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "R",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "refrigeration-mechanic",
+      "title": "Refrigeration and Air Conditioning Mechanic",
+      "category": "Engineering Trades",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "remote-work-coordinator",
+      "title": "Remote Work Coordinator",
+      "category": "Business & Administration",
+      "pathway": "either",
+      "demandLevel": "medium",
+      "riasec": [
+        "S",
+        "E",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "renewable-energy-consultant",
+      "title": "Renewable Energy Consultant",
+      "category": "Renewable Energy",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "E",
+        "R"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "restaurant-manager",
+      "title": "Restaurant Manager",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "robotics-technician",
+      "title": "Robotics Technician",
+      "category": "Engineering & Technology",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "roofer",
+      "title": "Roofer",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "C",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "scrum-master",
+      "title": "Scrum Master",
+      "category": "Business & Technology",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "E",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "security-officer",
+      "title": "Security Officer",
+      "category": "Security & Law Enforcement",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "S",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "seo-specialist",
+      "title": "SEO Specialist",
+      "category": "Digital & Marketing",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "C",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "site-reliability-engineer",
+      "title": "Site Reliability Engineer",
+      "category": "Information Technology",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "smart-city-planner",
+      "title": "Smart City Planner",
+      "category": "Urban Planning & Technology",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "E",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "social-media-manager",
+      "title": "Social Media Manager",
+      "category": "Digital & Marketing",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "A",
+        "E",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "social-worker",
+      "title": "Social Worker",
+      "category": "Law & Government",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "S",
+        "I",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "software-developer",
+      "title": "Software Developer",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "I",
+        "R",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "solar-panel-installer",
+      "title": "Solar Panel Installer",
+      "category": "Renewable Energy",
+      "pathway": "tvet",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "sound-technician",
+      "title": "Sound Technician",
+      "category": "Creative Arts",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "A",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "special-needs-teacher",
+      "title": "Special Needs Teacher",
+      "category": "Education",
+      "pathway": "university",
+      "demandLevel": "critical",
+      "riasec": [
+        "S",
+        "A",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "spray-painter",
+      "title": "Spray Painter (Automotive)",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "A",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "structural-engineer",
+      "title": "Structural Engineer",
+      "category": "Engineering",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "supply-chain-manager",
+      "title": "Supply Chain Manager",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "C",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "surveyor-technician",
+      "title": "Surveyor Technician",
+      "category": "Engineering & Technical",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "sustainability-officer",
+      "title": "Sustainability Officer",
+      "category": "Environment & Sustainability",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "E",
+        "S"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "systems-analyst",
+      "title": "Systems Analyst",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "C",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "tax-consultant",
+      "title": "Tax Consultant",
+      "category": "Business & Finance",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "C",
+        "I",
+        "E"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "telemedicine-coordinator",
+      "title": "Telemedicine Coordinator",
+      "category": "Health & Technology",
+      "pathway": "either",
+      "demandLevel": "high",
+      "riasec": [
+        "S",
+        "C",
+        "I"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "tiler",
+      "title": "Tiler",
+      "category": "Construction",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "C",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "toolmaker",
+      "title": "Toolmaker",
+      "category": "Engineering Trades",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "tourism-operator",
+      "title": "Tourism Operator",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "E",
+        "S",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "tourism-guide",
+      "title": "Tourist Guide",
+      "category": "Hospitality & Tourism",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "S",
+        "E",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "travel-agent",
+      "title": "Travel Agent",
+      "category": "Hospitality",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "E",
+        "S",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "university-lecturer",
+      "title": "University Lecturer",
+      "category": "Education",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "S",
+        "A"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "urban-planner",
+      "title": "Urban and Regional Planner",
+      "category": "Law & Government",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "I",
+        "E",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "urban-farmer",
+      "title": "Urban Farmer",
+      "category": "Agriculture",
+      "pathway": "either",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "I",
+        "E"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "ux-designer",
+      "title": "UX Designer",
+      "category": "Tech & Digital",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "A",
+        "I",
+        "S"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "ux-researcher",
+      "title": "UX Researcher",
+      "category": "Design & Technology",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "S",
+        "A"
+      ],
+      "emerging": true,
+      "shortage": true
+    },
+    {
+      "id": "vehicle-inspector",
+      "title": "Vehicle Inspector",
+      "category": "Automotive",
+      "pathway": "tvet",
+      "demandLevel": "medium",
+      "riasec": [
+        "R",
+        "C",
+        "I"
+      ],
+      "emerging": false,
+      "shortage": false
+    },
+    {
+      "id": "veterinarian",
+      "title": "Veterinarian",
+      "category": "Health & Medicine",
+      "pathway": "university",
+      "demandLevel": "high",
+      "riasec": [
+        "I",
+        "S",
+        "R"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "virtual-reality-designer",
+      "title": "VR / AR Experience Designer",
+      "category": "Design & Technology",
+      "pathway": "university",
+      "demandLevel": "medium",
+      "riasec": [
+        "A",
+        "I",
+        "R"
+      ],
+      "emerging": true,
+      "shortage": false
+    },
+    {
+      "id": "water-care-technician",
+      "title": "Water Care Technician",
+      "category": "Engineering & Technical",
+      "pathway": "tvet",
+      "demandLevel": "critical",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "welder",
+      "title": "Welder",
+      "category": "Engineering Trades",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": false,
+      "shortage": true
+    },
+    {
+      "id": "wind-turbine-technician",
+      "title": "Wind Turbine Technician",
+      "category": "Renewable Energy",
+      "pathway": "tvet",
+      "demandLevel": "high",
+      "riasec": [
+        "R",
+        "I",
+        "C"
+      ],
+      "emerging": true,
+      "shortage": true
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "description": "South African job market gaps by sector and province — careers where demand exceeds supply",
+    "lastUpdated": "2026-03",
+    "methodology": "Based on DHET scarce skills reports, SETA sector skills plans, employer surveys, and government skills audit data"
+  },
+  "sectors": [
+    {
+      "id": "healthcare",
+      "name": "Healthcare",
+      "nationalShortageLevel": "critical",
+      "context": "South Africa has one of the world's lowest doctor-to-patient ratios at public hospitals. The National Health Insurance system rollout will require significant additional health workers. Rural and township health facilities face the most severe shortages.",
+      "criticalRoles": ["doctor", "nurse", "pharmacist", "physiotherapist", "occupational-therapist", "clinical-psychologist", "dietitian", "radiographer"],
+      "byProvince": {
+        "Gauteng": "high",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "critical",
+        "Eastern Cape": "critical",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "critical",
+        "Free State": "critical",
+        "Northern Cape": "critical"
+      }
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "nationalShortageLevel": "critical",
+      "context": "South Africa's Department of Public Works and Infrastructure estimates a shortage of over 45,000 engineers. Civil, electrical, and mechanical engineers are most scarce. Infrastructure backlog across municipalities requires engineering capacity that does not exist.",
+      "criticalRoles": ["civil-engineer", "electrical-engineer", "mechanical-engineer", "structural-engineer", "industrial-engineer", "environmental-engineer"],
+      "byProvince": {
+        "Gauteng": "high",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "critical",
+        "Eastern Cape": "critical",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "critical",
+        "Free State": "critical",
+        "Northern Cape": "critical"
+      }
+    },
+    {
+      "id": "skilled-trades",
+      "name": "Skilled Trades & Artisans",
+      "nationalShortageLevel": "critical",
+      "context": "South Africa has an artisan shortage estimated at over 40,000. The DHET National Artisan Development Programme aims to address this. Electricians, millwrights, plumbers, boilermakers, and instrumentation technicians are most critical. The artisan development pipeline through TVET colleges and apprenticeships is insufficient.",
+      "criticalRoles": ["electrician", "millwright", "boilermaker", "plumber", "fitter-and-turner", "electrician-instrumentation", "welder", "diesel-mechanic"],
+      "byProvince": {
+        "Gauteng": "high",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "high",
+        "Eastern Cape": "high",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "critical",
+        "Free State": "high",
+        "Northern Cape": "high"
+      }
+    },
+    {
+      "id": "information-technology",
+      "name": "Information Technology",
+      "nationalShortageLevel": "critical",
+      "context": "South Africa's digital economy is growing rapidly but the technology talent pipeline is insufficient. AI, cybersecurity, cloud, and DevOps skills are in acute shortage. Remote work has also created an international talent drain as South African tech workers access US and European salaries.",
+      "criticalRoles": ["software-developer", "cybersecurity-analyst", "data-scientist", "cloud-architect", "ai-ml-engineer", "devops-engineer", "site-reliability-engineer"],
+      "byProvince": {
+        "Gauteng": "critical",
+        "Western Cape": "critical",
+        "KwaZulu-Natal": "high",
+        "Eastern Cape": "medium",
+        "Limpopo": "low",
+        "Mpumalanga": "low",
+        "North West": "low",
+        "Free State": "low",
+        "Northern Cape": "low"
+      }
+    },
+    {
+      "id": "agriculture",
+      "name": "Agriculture",
+      "nationalShortageLevel": "high",
+      "context": "South Africa's government extension service has one of the lowest extension officer-to-farmer ratios in sub-Saharan Africa. Skilled farm managers and agricultural technicians are in shortage particularly in commercial farming regions. Land reform and emerging farmer support programmes require additional technical capacity.",
+      "criticalRoles": ["farm-manager", "agricultural-technician", "horticulturist", "animal-production"],
+      "byProvince": {
+        "Gauteng": "low",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "high",
+        "Eastern Cape": "medium",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "high",
+        "Free State": "critical",
+        "Northern Cape": "high"
+      }
+    },
+    {
+      "id": "education",
+      "name": "Education",
+      "nationalShortageLevel": "high",
+      "context": "South Africa has a shortage of qualified mathematics and science teachers, particularly in rural and township schools. Early childhood development practitioners are critically short as government expands subsidised ECD. Special needs education teachers are chronically understaffed.",
+      "criticalRoles": ["high-school-teacher", "primary-teacher", "special-needs-teacher", "early-childhood-educator"],
+      "byProvince": {
+        "Gauteng": "medium",
+        "Western Cape": "medium",
+        "KwaZulu-Natal": "high",
+        "Eastern Cape": "critical",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "high",
+        "Free State": "high",
+        "Northern Cape": "critical"
+      }
+    },
+    {
+      "id": "renewable-energy",
+      "name": "Renewable Energy",
+      "nationalShortageLevel": "critical",
+      "context": "South Africa's just energy transition is the largest infrastructure programme in the country's history. Solar PV installation, wind turbine maintenance, and energy storage technology require skills that the country does not have in sufficient numbers. The REIPPPP and private renewable energy market are both constrained by skills shortages.",
+      "criticalRoles": ["solar-panel-installer", "wind-turbine-technician", "renewable-energy-consultant"],
+      "byProvince": {
+        "Gauteng": "critical",
+        "Western Cape": "critical",
+        "KwaZulu-Natal": "high",
+        "Eastern Cape": "high",
+        "Limpopo": "medium",
+        "Mpumalanga": "medium",
+        "North West": "medium",
+        "Free State": "medium",
+        "Northern Cape": "critical"
+      }
+    },
+    {
+      "id": "water-sanitation",
+      "name": "Water & Sanitation",
+      "nationalShortageLevel": "critical",
+      "context": "South Africa faces a water management crisis — municipalities cannot find qualified water care technicians to operate their treatment plants. The Department of Water and Sanitation Blue Drop/Green Drop compliance audits reveal widespread operational failures linked to skills shortages. Over 40% of treated water is lost due to aging infrastructure and poor operational management.",
+      "criticalRoles": ["water-care-technician", "civil-engineer", "environmental-scientist"],
+      "byProvince": {
+        "Gauteng": "high",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "critical",
+        "Eastern Cape": "critical",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "critical",
+        "Free State": "critical",
+        "Northern Cape": "critical"
+      }
+    },
+    {
+      "id": "financial-services",
+      "name": "Financial Services",
+      "nationalShortageLevel": "high",
+      "context": "South Africa's sophisticated financial services sector — one of Africa's largest — faces specific skills shortages in actuarial science, quantitative analysis, fintech development, and compliance. The FSCA's expanding regulatory regime requires compliance professionals. The CA(SA) pipeline produces insufficient candidates for corporate demand.",
+      "criticalRoles": ["actuary", "chartered-accountant", "financial-analyst", "auditor", "tax-consultant"],
+      "byProvince": {
+        "Gauteng": "high",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "medium",
+        "Eastern Cape": "low",
+        "Limpopo": "low",
+        "Mpumalanga": "low",
+        "North West": "low",
+        "Free State": "low",
+        "Northern Cape": "low"
+      }
+    },
+    {
+      "id": "social-services",
+      "name": "Social Services",
+      "nationalShortageLevel": "high",
+      "context": "Social workers are critically short across South Africa, with the Department of Social Development reporting a deficit of over 50,000 social workers against the required complement. Community health workers are being professionalised and expanded under the ward-based outreach team model. Police and justice sector professionals are needed in all provinces.",
+      "criticalRoles": ["social-worker", "community-health-worker", "clinical-psychologist", "police-officer"],
+      "byProvince": {
+        "Gauteng": "high",
+        "Western Cape": "high",
+        "KwaZulu-Natal": "critical",
+        "Eastern Cape": "critical",
+        "Limpopo": "critical",
+        "Mpumalanga": "critical",
+        "North West": "critical",
+        "Free State": "critical",
+        "Northern Cape": "critical"
+      }
+    }
+  ]
+}

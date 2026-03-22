@@ -1,0 +1,509 @@
+[
+  {
+    "id": "3d-printing-specialist",
+    "title": "3D Printing Specialist",
+    "category": "Manufacturing & Technology",
+    "pathway": "either",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "I",
+      "A"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "agritech-specialist",
+    "title": "Agritech Specialist",
+    "category": "Agriculture & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "R",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "aquaponics-technician",
+    "title": "Aquaponics Technician",
+    "category": "Agriculture",
+    "pathway": "either",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "I",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "bioinformatics-analyst",
+    "title": "Bioinformatics Analyst",
+    "category": "Science & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "R",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "blockchain-developer",
+    "title": "Blockchain Developer",
+    "category": "Information Technology",
+    "pathway": "university",
+    "demandLevel": "medium",
+    "riasec": [
+      "I",
+      "R",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "content-creator",
+    "title": "Content Creator",
+    "category": "Digital & Marketing",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "A",
+      "E",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "data-privacy-officer",
+    "title": "Data Privacy Officer",
+    "category": "Legal & Compliance",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "C",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "devops-engineer",
+    "title": "DevOps Engineer",
+    "category": "Information Technology",
+    "pathway": "university",
+    "demandLevel": "critical",
+    "riasec": [
+      "I",
+      "R",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "accessibility-specialist",
+    "title": "Digital Accessibility Specialist",
+    "category": "Design & Technology",
+    "pathway": "university",
+    "demandLevel": "medium",
+    "riasec": [
+      "S",
+      "I",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "digital-marketer",
+    "title": "Digital Marketer",
+    "category": "Digital & Marketing",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "E",
+      "A",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "drone-pilot",
+    "title": "Drone Pilot",
+    "category": "Aviation & Technology",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "edtech-designer",
+    "title": "EdTech Designer",
+    "category": "Education & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "A",
+      "I",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "ev-mechanic",
+    "title": "Electric Vehicle Technician",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "esports-manager",
+    "title": "Esports Manager",
+    "category": "Gaming & Entertainment",
+    "pathway": "either",
+    "demandLevel": "medium",
+    "riasec": [
+      "E",
+      "S",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "ethical-hacker",
+    "title": "Ethical Hacker",
+    "category": "Information Technology",
+    "pathway": "university",
+    "demandLevel": "critical",
+    "riasec": [
+      "I",
+      "R",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "fintech-developer",
+    "title": "Fintech Developer",
+    "category": "Information Technology",
+    "pathway": "university",
+    "demandLevel": "critical",
+    "riasec": [
+      "I",
+      "R",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "gig-economy-consultant",
+    "title": "Freelance Consultant",
+    "category": "Business & Services",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "E",
+      "I",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "green-building-consultant",
+    "title": "Green Building Consultant",
+    "category": "Construction & Environment",
+    "pathway": "university",
+    "demandLevel": "medium",
+    "riasec": [
+      "I",
+      "R",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "growth-hacker",
+    "title": "Growth Specialist",
+    "category": "Business & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "E",
+      "I",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "health-informatics-specialist",
+    "title": "Health Informatics Specialist",
+    "category": "Health & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "C",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "insurtech-specialist",
+    "title": "Insurtech Specialist",
+    "category": "Financial Services & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "E",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "iot-specialist",
+    "title": "IoT Specialist",
+    "category": "Information Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "R",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "podcast-producer",
+    "title": "Podcast Producer",
+    "category": "Digital & Media",
+    "pathway": "either",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "E",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "product-manager",
+    "title": "Product Manager",
+    "category": "Business & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "E",
+      "I",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "remote-work-coordinator",
+    "title": "Remote Work Coordinator",
+    "category": "Business & Administration",
+    "pathway": "either",
+    "demandLevel": "medium",
+    "riasec": [
+      "S",
+      "E",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "renewable-energy-consultant",
+    "title": "Renewable Energy Consultant",
+    "category": "Renewable Energy",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "E",
+      "R"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "robotics-technician",
+    "title": "Robotics Technician",
+    "category": "Engineering & Technology",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "scrum-master",
+    "title": "Scrum Master",
+    "category": "Business & Technology",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "S",
+      "E",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "seo-specialist",
+    "title": "SEO Specialist",
+    "category": "Digital & Marketing",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "C",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "site-reliability-engineer",
+    "title": "Site Reliability Engineer",
+    "category": "Information Technology",
+    "pathway": "university",
+    "demandLevel": "critical",
+    "riasec": [
+      "I",
+      "R",
+      "C"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "smart-city-planner",
+    "title": "Smart City Planner",
+    "category": "Urban Planning & Technology",
+    "pathway": "university",
+    "demandLevel": "medium",
+    "riasec": [
+      "I",
+      "E",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "social-media-manager",
+    "title": "Social Media Manager",
+    "category": "Digital & Marketing",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "A",
+      "E",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "solar-panel-installer",
+    "title": "Solar Panel Installer",
+    "category": "Renewable Energy",
+    "pathway": "tvet",
+    "demandLevel": "critical",
+    "riasec": [
+      "R",
+      "I",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "sustainability-officer",
+    "title": "Sustainability Officer",
+    "category": "Environment & Sustainability",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "E",
+      "S"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "telemedicine-coordinator",
+    "title": "Telemedicine Coordinator",
+    "category": "Health & Technology",
+    "pathway": "either",
+    "demandLevel": "high",
+    "riasec": [
+      "S",
+      "C",
+      "I"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "urban-farmer",
+    "title": "Urban Farmer",
+    "category": "Agriculture",
+    "pathway": "either",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "I",
+      "E"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "ux-researcher",
+    "title": "UX Researcher",
+    "category": "Design & Technology",
+    "pathway": "university",
+    "demandLevel": "high",
+    "riasec": [
+      "I",
+      "S",
+      "A"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "virtual-reality-designer",
+    "title": "VR / AR Experience Designer",
+    "category": "Design & Technology",
+    "pathway": "university",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "I",
+      "R"
+    ],
+    "emerging": true
+  },
+  {
+    "id": "wind-turbine-technician",
+    "title": "Wind Turbine Technician",
+    "category": "Renewable Energy",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ],
+    "emerging": true
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "id": "agricultural-technician",
+    "title": "Agricultural Technician",
+    "category": "Agriculture",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "S"
+    ]
+  },
+  {
+    "id": "animal-production",
+    "title": "Animal Production Technician",
+    "category": "Agriculture",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "S"
+    ]
+  },
+  {
+    "id": "aquaculture-technician",
+    "title": "Aquaculture Technician",
+    "category": "Agriculture",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "I",
+      "S"
+    ]
+  },
+  {
+    "id": "auto-electrician",
+    "title": "Auto Electrician",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "baker",
+    "title": "Baker",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "A",
+      "C"
+    ]
+  },
+  {
+    "id": "barista",
+    "title": "Barista",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "S",
+      "A"
+    ]
+  },
+  {
+    "id": "beauty-therapist",
+    "title": "Beauty Therapist",
+    "category": "Beauty",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "S",
+      "R"
+    ]
+  },
+  {
+    "id": "boilermaker",
+    "title": "Boilermaker",
+    "category": "Engineering Trades",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "bookkeeper",
+    "title": "Bookkeeper",
+    "category": "Business & Administration",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "C",
+      "E",
+      "I"
+    ]
+  },
+  {
+    "id": "bricklayer",
+    "title": "Bricklayer",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "C",
+      "I"
+    ]
+  },
+  {
+    "id": "carpenter",
+    "title": "Carpenter",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "chef",
+    "title": "Chef",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "A",
+      "E"
+    ]
+  },
+  {
+    "id": "community-health-worker",
+    "title": "Community Health Worker",
+    "category": "Health & Wellness",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "S",
+      "R",
+      "C"
+    ]
+  },
+  {
+    "id": "computer-hardware-technician",
+    "title": "Computer Hardware Technician",
+    "category": "Information Technology",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "crane-operator",
+    "title": "Crane Operator",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "C",
+      "I"
+    ]
+  },
+  {
+    "id": "diesel-mechanic",
+    "title": "Diesel Mechanic",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "draughtsperson",
+    "title": "Draughtsperson",
+    "category": "Engineering & Technical",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "early-childhood-educator",
+    "title": "Early Childhood Educator",
+    "category": "Education",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "S",
+      "A",
+      "C"
+    ]
+  },
+  {
+    "id": "electrician",
+    "title": "Electrician",
+    "category": "Electrical",
+    "pathway": "tvet",
+    "demandLevel": "critical",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "events-coordinator",
+    "title": "Events Coordinator",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "E",
+      "A",
+      "S"
+    ]
+  },
+  {
+    "id": "farm-manager",
+    "title": "Farm Manager",
+    "category": "Agriculture",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "E",
+      "I"
+    ]
+  },
+  {
+    "id": "fashion-designer",
+    "title": "Fashion Designer",
+    "category": "Creative Arts",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "E",
+      "S"
+    ]
+  },
+  {
+    "id": "fitness-trainer",
+    "title": "Fitness Trainer",
+    "category": "Health & Wellness",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "S",
+      "R",
+      "E"
+    ]
+  },
+  {
+    "id": "fitter-and-turner",
+    "title": "Fitter and Turner",
+    "category": "Engineering Trades",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "hairdresser",
+    "title": "Hairdresser",
+    "category": "Beauty",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "S",
+      "R"
+    ]
+  },
+  {
+    "id": "safety-officer",
+    "title": "Health and Safety Officer",
+    "category": "Engineering & Technical",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "horticulturist",
+    "title": "Horticulturist",
+    "category": "Agriculture",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "I",
+      "S"
+    ]
+  },
+  {
+    "id": "hotel-manager",
+    "title": "Hotel Manager",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "E",
+      "S",
+      "C"
+    ]
+  },
+  {
+    "id": "electrician-instrumentation",
+    "title": "Instrumentation Technician",
+    "category": "Engineering & Technical",
+    "pathway": "tvet",
+    "demandLevel": "critical",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "it-technician",
+    "title": "IT Technician",
+    "category": "Information Technology",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "legal-secretary",
+    "title": "Legal Secretary",
+    "category": "Business & Administration",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "C",
+      "E",
+      "S"
+    ]
+  },
+  {
+    "id": "logistics-coordinator",
+    "title": "Logistics Coordinator",
+    "category": "Business & Administration",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "C",
+      "E",
+      "R"
+    ]
+  },
+  {
+    "id": "makeup-artist",
+    "title": "Makeup Artist",
+    "category": "Beauty",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "S",
+      "E"
+    ]
+  },
+  {
+    "id": "medical-secretary",
+    "title": "Medical Secretary",
+    "category": "Business & Administration",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "C",
+      "S",
+      "E"
+    ]
+  },
+  {
+    "id": "millwright",
+    "title": "Millwright",
+    "category": "Engineering Trades",
+    "pathway": "tvet",
+    "demandLevel": "critical",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "motor-mechanic",
+    "title": "Motor Mechanic",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "nail-technician",
+    "title": "Nail Technician",
+    "category": "Beauty",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "S",
+      "R"
+    ]
+  },
+  {
+    "id": "office-administrator",
+    "title": "Office Administrator",
+    "category": "Business & Administration",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "C",
+      "E",
+      "S"
+    ]
+  },
+  {
+    "id": "painter",
+    "title": "Painter and Decorator",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "A",
+      "C"
+    ]
+  },
+  {
+    "id": "panel-beater",
+    "title": "Panel Beater",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "A",
+      "C"
+    ]
+  },
+  {
+    "id": "pastry-chef",
+    "title": "Pastry Chef",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "A",
+      "R",
+      "C"
+    ]
+  },
+  {
+    "id": "pharmacy-assistant",
+    "title": "Pharmacy Assistant",
+    "category": "Health & Wellness",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "C",
+      "S",
+      "I"
+    ]
+  },
+  {
+    "id": "plasterer",
+    "title": "Plasterer",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "C",
+      "I"
+    ]
+  },
+  {
+    "id": "plumber",
+    "title": "Plumber",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "critical",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "quantity-surveyor-technician",
+    "title": "Quantity Surveyor Technician",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "C",
+      "I",
+      "R"
+    ]
+  },
+  {
+    "id": "refrigeration-mechanic",
+    "title": "Refrigeration and Air Conditioning Mechanic",
+    "category": "Engineering Trades",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "restaurant-manager",
+    "title": "Restaurant Manager",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "E",
+      "S",
+      "C"
+    ]
+  },
+  {
+    "id": "roofer",
+    "title": "Roofer",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "C",
+      "I"
+    ]
+  },
+  {
+    "id": "security-officer",
+    "title": "Security Officer",
+    "category": "Security & Law Enforcement",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "S",
+      "E"
+    ]
+  },
+  {
+    "id": "sound-technician",
+    "title": "Sound Technician",
+    "category": "Creative Arts",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "A",
+      "I"
+    ]
+  },
+  {
+    "id": "spray-painter",
+    "title": "Spray Painter (Automotive)",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "A",
+      "C"
+    ]
+  },
+  {
+    "id": "surveyor-technician",
+    "title": "Surveyor Technician",
+    "category": "Engineering & Technical",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "tiler",
+    "title": "Tiler",
+    "category": "Construction",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "C",
+      "A"
+    ]
+  },
+  {
+    "id": "toolmaker",
+    "title": "Toolmaker",
+    "category": "Engineering Trades",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "tourism-operator",
+    "title": "Tourism Operator",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "E",
+      "S",
+      "A"
+    ]
+  },
+  {
+    "id": "tourism-guide",
+    "title": "Tourist Guide",
+    "category": "Hospitality & Tourism",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "S",
+      "E",
+      "A"
+    ]
+  },
+  {
+    "id": "travel-agent",
+    "title": "Travel Agent",
+    "category": "Hospitality",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "E",
+      "S",
+      "C"
+    ]
+  },
+  {
+    "id": "vehicle-inspector",
+    "title": "Vehicle Inspector",
+    "category": "Automotive",
+    "pathway": "tvet",
+    "demandLevel": "medium",
+    "riasec": [
+      "R",
+      "C",
+      "I"
+    ]
+  },
+  {
+    "id": "water-care-technician",
+    "title": "Water Care Technician",
+    "category": "Engineering & Technical",
+    "pathway": "tvet",
+    "demandLevel": "critical",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  },
+  {
+    "id": "welder",
+    "title": "Welder",
+    "category": "Engineering Trades",
+    "pathway": "tvet",
+    "demandLevel": "high",
+    "riasec": [
+      "R",
+      "I",
+      "C"
+    ]
+  }
+]

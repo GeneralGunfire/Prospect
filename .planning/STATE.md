@@ -1,28 +1,65 @@
-# SA Career Guide — Project State
+# Project State
 
-**Last activity:** 2026-03-22 - Completed quick task 260322-nhj (phase 2): Bursary database gap-fill (26 new bursaries added to reach 245 total, BURSARY-REVIEW.md updated)
-**Current phase:** Phase 1 — Architecture & Data Design
-**Status:** Pre-development
+## Project Reference
 
-## Progress
+See: .planning/PROJECT.md (updated 2026-03-25)
 
-| Phase | Description | Status |
-|-------|-------------|--------|
-| 1 | Architecture & Data Design | In progress |
-| 2 | Core Quiz & Career Matching | Not started |
-| 3 | Career Database & UI | Not started |
-| 4 | Parent Summary & Sharing | Not started |
-| 5 | Analytics & Optimization | Not started |
-| 6 | Optional User Accounts | Not started |
+**Core value:** A student with a matric report card and 10 minutes must be able to discover a realistic career path, see exactly what to study and where, find bursary funding, and understand what demand exists for that career in their province — all for free, no login required.
+**Current focus:** Phase 0 — Foundation and Configuration
 
-## Blockers/Concerns
+## Current Position
 
-None currently.
+Phase: 0 of 7 (Foundation and Configuration)
+Plan: 0 of 2 in current phase
+Status: Ready to plan
+Last activity: 2026-03-25 — Roadmap created; all 24 v1 requirements mapped across Phases 0-4; Phases 5-6 stubbed for v2
 
-### Quick Tasks Completed
+Progress: [░░░░░░░░░░] 0%
 
-| # | Description | Date | Commit | Directory |
-|---|-------------|------|--------|-----------|
-| 260320-j3y | Data Architecture and Storage Strategy for SA Career Guide | 2026-03-20 | n/a (no git) | [260320-j3y-data-architecture-and-storage-strategy-f](./quick/260320-j3y-data-architecture-and-storage-strategy-f/) |
-| 260322-dyd | SA Career Guide Multi-Phase Career Database — 161 careers (60 uni, 61 TVET, 40 emerging), 26 universities, 50 TVET colleges, 200 bursaries, job-gaps, master index | 2026-03-22 | n/a (no git) | [260322-dyd-sa-career-guide-multi-phase-career-datab](./quick/260322-dyd-sa-career-guide-multi-phase-career-datab/) |
-| 260322-nhj | Bursary database completion — schema migration (200→v2, 219 total) + gap-fill (26 new entries, 245 total), BURSARY-REVIEW.md audit report | 2026-03-22 | adf2d17 | [260322-nhj-sa-career-guide-bursary-database-complet](./quick/260322-nhj-sa-career-guide-bursary-database-complet/) |
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 0
+- Average duration: —
+- Total execution time: 0 hours
+
+**By Phase:**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
+
+**Recent Trend:**
+- Last 5 plans: —
+- Trend: —
+
+*Updated after each plan completion*
+
+## Accumulated Context
+
+### Decisions
+
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- [Roadmap]: Phase 0 must lock in Vercel `cpt1` region and PWA cache tiers before any feature work — infrastructure decisions are not reversible cheaply
+- [Roadmap]: Phase 2 (Data Architecture) runs before Phase 3 (Career Discovery) — schema changes after UI is built are the most expensive rework in this project
+- [Roadmap]: Province SVG map deferred to v2 (PROV-01, PROV-02); province dropdown (DISC-04) ships in Phase 3
+- [Research]: NSFAS R350K income threshold must be verified against current NSFAS website before Phase 1 — thresholds change annually
+- [Research]: Study library content licensing (Khan Academy, OpenStax) must be verified before Phase 5 content creation
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+- [Research flag] Phase 2: Existing career JSONs may need schema migration for `subjects_required[]` arrays — audit actual records before estimating data migration effort
+- [Research flag] Phase 5: Content sourcing and licensing for SA CAPS curriculum not yet verified
+- [Research flag] Phase 6: Supabase free tier pause behaviour and 500MB limit should be verified at supabase.com/pricing before implementation
+
+## Session Continuity
+
+Last session: 2026-03-25
+Stopped at: Roadmap created — ROADMAP.md and STATE.md written; REQUIREMENTS.md traceability section already populated
+Resume file: None

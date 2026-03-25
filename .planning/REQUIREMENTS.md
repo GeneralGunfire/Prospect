@@ -103,8 +103,14 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Populated during roadmap creation.
 
+### v1 Requirements (Phases 0–4)
+
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| PLAT-01 | Phase 0 | Pending |
+| PLAT-02 | Phase 0 | Pending |
+| PLAT-03 | Phase 0 | Pending |
+| PLAT-04 | Phase 0 | Pending |
 | QUIZ-01 | Phase 1 | Pending |
 | QUIZ-02 | Phase 1 | Pending |
 | QUIZ-03 | Phase 1 | Pending |
@@ -125,16 +131,31 @@ Which phases cover which requirements. Populated during roadmap creation.
 | BURS-01 | Phase 4 | Pending |
 | BURS-02 | Phase 4 | Pending |
 | BURS-03 | Phase 4 | Pending |
-| PLAT-01 | Phase 0 | Pending |
-| PLAT-02 | Phase 0 | Pending |
-| PLAT-03 | Phase 0 | Pending |
-| PLAT-04 | Phase 0 | Pending |
 
-**Coverage:**
+**v1 Coverage:**
 - v1 requirements: 24 total
 - Mapped to phases: 24
 - Unmapped: 0 ✓
 
+### v2 Requirements (Phase Stubs 5–6)
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| STUD-01 | Phase 5 | Deferred (v2) |
+| STUD-02 | Phase 5 | Deferred (v2) |
+| STUD-03 | Phase 5 | Deferred (v2) |
+| STUD-04 | Phase 5 | Deferred (v2) |
+| PWA-01 | Phase 6 | Deferred (v2) |
+| PWA-02 | Phase 6 | Deferred (v2) |
+| PWA-03 | Phase 6 | Deferred (v2) |
+| AUTH-01 | Phase 6 | Deferred (v2) |
+| AUTH-02 | Phase 6 | Deferred (v2) |
+| AUTH-03 | Phase 6 | Deferred (v2) |
+| PROV-01 | Phase 6 | Deferred (v2) |
+| PROV-02 | Phase 6 | Deferred (v2) |
+| TOOL-01 | Phase 6 | Deferred (v2) |
+| TOOL-02 | Phase 6 | Deferred (v2) |
+
 ---
 *Requirements defined: 2026-03-25*
-*Last updated: 2026-03-25 after initial definition*
+*Last updated: 2026-03-25 after roadmap creation — traceability fully populated*

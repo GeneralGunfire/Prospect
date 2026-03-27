@@ -48,6 +48,13 @@
                 |-- Footer.tsx
                 |-- Header.tsx
                 |-- Layout.tsx
+            |-- lessons
+                |-- AnimatedExplainer.tsx
+                |-- LessonPlayer.tsx
+                |-- PracticeQuestion.tsx
+                |-- QuizComponent.tsx
+                |-- TestComponent.tsx
+                |-- WorkedExample.tsx
             |-- ModeSelector.tsx
             |-- NetflixLoader.tsx
             |-- ProtectedRoute.tsx
@@ -58,16 +65,39 @@
         |-- data
             |-- bursaries.ts
             |-- careers.ts
+            |-- lessons
+                |-- grade10
+                    |-- term1
+                        |-- accounting
+                        |-- afrikaans
+                        |-- cat
+                        |-- chemistry
+                            |-- index.ts
+                        |-- economics
+                        |-- egd
+                        |-- english
+                        |-- life-sciences
+                        |-- mathematics
+                            |-- all-lessons.ts
+                            |-- expanding-brackets.ts
+                            |-- index.ts
+                            |-- laws-of-exponents.ts
+                        |-- physical-sciences
+                            |-- all-lessons.ts
+                            |-- index.ts
+                |-- lessonRegistry.ts
             |-- provinces.ts
             |-- quizQuestions.ts
             |-- subjects.ts
             |-- universities.ts
         |-- hooks
             |-- useDataSaverMode.ts
+            |-- useLesson.ts
             |-- useLocalStorage.ts
         |-- index.css
         |-- lib
             |-- database.ts
+            |-- lessonUtils.ts
             |-- riasec.ts
             |-- supabase.ts
             |-- utils.ts
@@ -91,6 +121,9 @@
             |-- SubjectSelectorPage.tsx
         |-- types
             |-- lesson.ts
+    |-- supabase
+        |-- migrations
+            |-- 20260327_create_study_progress.sql
     |-- test-results
         |-- .last-run.json
         |-- website-Prospect-Website-E-16d37-uld-navigate-to-signup-page-chromium

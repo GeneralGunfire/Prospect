@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { StudyProgress } from '../types/lesson'
 
 // ============================================
 // TYPES
@@ -578,6 +579,122 @@ export const referenceService = {
     } catch (err) {
       console.error('Error searching bursaries:', err)
       return []
+    }
+  },
+}
+
+// ============================================
+// STUDY PROGRESS FUNCTIONS
+// ============================================
+
+export const studyService = {
+  // Save or update study progress
+  async saveStudyProgress(
+    userId: string,
+    subjectId: string,
+    grade: number,
+    term: number,
+    topicId: string,
+    quizScore?: number,
+    testScore?: number
+  ): Promise<StudyProgress | null> {
+    try {
+      const now = new Date().toISOString()
+      const { data, error } = await supabase
+        .from('study_progress')
+        .upsert(
+          {
+            user_id: userId,
+            subject_id: subjectId,
+            grade,
+            term,
+            topic_id: topicId,
+            quiz_score: quizScore,
+            test_score: testScore,
+            last_accessed: now,
+          },
+          {
+            onConflict: 'user_id,subject_id,grade,term,topic_id',
+          }
+        )
+        .select()
+        .single()
+
+      if (error) throw error
+      return data
+    } catch (err) {
+      console.error('Error saving study progress:', err)
+      return null
+    }
+  },
+
+  // Get all study progress for a user
+  async getUserStudyProgress(userId: string): Promise<StudyProgress[]> {
+    try {
+      const { data, error } = await supabase
+        .from('study_progress')
+        .select('*')
+        .eq('user_id', userId)
+        .order('last_accessed', { ascending: false })
+
+      if (error) throw error
+      return data || []
+    } catch (err) {
+      console.error('Error fetching study progress:', err)
+      return []
+    }
+  },
+
+  // Get progress for a specific subject/grade/term
+  async getSubjectProgress(
+    userId: string,
+    subjectId: string,
+    grade: number,
+    term: number
+  ): Promise<StudyProgress[]> {
+    try {
+      const { data, error } = await supabase
+        .from('study_progress')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('subject_id', subjectId)
+        .eq('grade', grade)
+        .eq('term', term)
+        .order('topic_id')
+
+      if (error) throw error
+      return data || []
+    } catch (err) {
+      console.error('Error fetching subject progress:', err)
+      return []
+    }
+  },
+
+  // Get progress for a specific topic
+  async getTopicProgress(
+    userId: string,
+    subjectId: string,
+    grade: number,
+    term: number,
+    topicId: string
+  ): Promise<StudyProgress | null> {
+    try {
+      const { data, error } = await supabase
+        .from('study_progress')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('subject_id', subjectId)
+        .eq('grade', grade)
+        .eq('term', term)
+        .eq('topic_id', topicId)
+        .single()
+
+      if (error && error.code === 'PGRST116') return null
+      if (error) throw error
+      return data
+    } catch (err) {
+      console.error('Error fetching topic progress:', err)
+      return null
     }
   },
 }

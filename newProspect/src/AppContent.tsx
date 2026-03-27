@@ -246,7 +246,7 @@ const DrawerLink = ({ to, icon, label }: { to: string, icon: React.ReactNode, la
 );
 
 const Hero = () => (
-  <section id="home" className="relative pt-16 pb-20 md:pt-24 md:pb-32 overflow-hidden bg-white">
+  <section id="home" className="relative pt-20 pb-28 md:pt-40 md:pb-56 lg:pt-48 lg:pb-64 overflow-hidden bg-white">
     {/* Background Grid & Atmosphere */}
     <div className="absolute inset-0 grid-bg opacity-5" />
     <div className="absolute inset-0 noise-bg opacity-50" />
@@ -271,7 +271,7 @@ const Hero = () => (
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-2.5 py-1.5 px-4 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] mb-6 md:mb-8 backdrop-blur-sm"
+            className="inline-flex items-center gap-3 py-2 px-5 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-[10px] md:text-sm font-bold uppercase tracking-[0.3em] mb-8 md:mb-10 lg:mb-12 backdrop-blur-sm"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
@@ -283,7 +283,7 @@ const Hero = () => (
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-black via-black to-gray-700 leading-[1.2] mb-6 md:mb-8 tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-black via-black to-gray-700 leading-[1.15] mb-8 md:mb-10 lg:mb-12 tracking-tight"
           >
             Leveling the <br className="hidden md:block" /> playing field.
           </motion.h1>
@@ -291,7 +291,7 @@ const Hero = () => (
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-sm md:text-base text-gray-600 mb-8 md:mb-12 leading-relaxed max-w-2xl mx-auto font-medium"
+            className="text-base md:text-lg lg:text-xl text-gray-600 mb-10 md:mb-14 lg:mb-16 leading-relaxed max-w-3xl mx-auto font-medium"
           >
             Prospect is a non-profit organization dedicated to bridging the educational gap. We provide data-driven career pathing and academic resources to ensure every student has a fair shot at success.
           </motion.p>
@@ -299,14 +299,14 @@ const Hero = () => (
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6"
           >
-            <Link to="/signup" className="w-full sm:w-auto px-10 py-3 bg-blue-600 text-white font-bold rounded-full shadow-md hover:bg-blue-700 hover:-translate-y-0.5 active:scale-95 transition-all uppercase tracking-[0.2em] text-[10px] md:text-xs text-center">
+            <Link to="/signup" className="w-full sm:w-auto px-12 md:px-14 py-4 md:py-5 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 hover:-translate-y-1 active:scale-95 transition-all uppercase tracking-[0.2em] text-xs md:text-sm text-center">
               Start Your Journey
             </Link>
-            <button className="flex items-center gap-3 text-black font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs group">
-              <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-400 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all shadow-sm">
-                <Play className="w-3 h-3 fill-current" />
+            <button className="flex items-center gap-4 text-black font-bold uppercase tracking-[0.2em] text-xs md:text-sm group">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-400 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all shadow-sm">
+                <Play className="w-4 h-4 fill-current" />
               </div>
               Watch Our Story
             </button>

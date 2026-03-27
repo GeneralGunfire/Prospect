@@ -14,6 +14,7 @@ export function SignupPage() {
   const [loading, setLoading] = useState(false)
   const [localError, setLocalError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [retryCountdown, setRetryCountdown] = useState(0)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,13 +41,45 @@ export function SignupPage() {
       const result = await signUp(email, password, username, name)
 
       if (result.error) {
-        setLocalError(result.error)
+        // Handle rate limit errors specifically
+        const errorMsg = result.error.toLowerCase()
+        if (errorMsg.includes('rate limit') || errorMsg.includes('too many')) {
+          setLocalError('Too many signup attempts. Please wait a few minutes and try again.')
+          setRetryCountdown(60) // 60 second countdown
+          const interval = setInterval(() => {
+            setRetryCountdown(prev => {
+              if (prev <= 1) {
+                clearInterval(interval)
+                return 0
+              }
+              return prev - 1
+            })
+          }, 1000)
+        } else {
+          setLocalError(result.error)
+        }
       } else {
         setSuccess(true)
         setTimeout(() => navigate('/login'), 2000)
       }
     } catch (err) {
-      setLocalError(err instanceof Error ? err.message : 'Signup failed')
+      const errorMsg = err instanceof Error ? err.message : 'Signup failed'
+      // Check for rate limit in catch block too
+      if (errorMsg.toLowerCase().includes('rate limit') || errorMsg.toLowerCase().includes('too many')) {
+        setLocalError('Too many signup attempts. Please wait a few minutes and try again.')
+        setRetryCountdown(60)
+        const interval = setInterval(() => {
+          setRetryCountdown(prev => {
+            if (prev <= 1) {
+              clearInterval(interval)
+              return 0
+            }
+            return prev - 1
+          })
+        }, 1000)
+      } else {
+        setLocalError(errorMsg)
+      }
     } finally {
       setLoading(false)
     }
@@ -135,7 +168,14 @@ export function SignupPage() {
                 className="mb-6 flex gap-3 p-4 bg-red-50 border border-red-200 rounded-lg"
               >
                 <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
-                <p className="text-red-700 text-sm font-medium">{displayError}</p>
+                <div className="flex-1">
+                  <p className="text-red-700 text-sm font-medium">{displayError}</p>
+                  {retryCountdown > 0 && (
+                    <p className="text-red-600 text-xs mt-2">
+                      ⏱️ Try again in {retryCountdown} second{retryCountdown !== 1 ? 's' : ''}
+                    </p>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -230,13 +270,17 @@ export function SignupPage() {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                disabled={loading}
+                disabled={loading || retryCountdown > 0}
                 className="w-full mt-8 py-3 bg-navy text-white font-bold rounded-lg uppercase tracking-widest text-xs hover:bg-secondary transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-navy/20 active:scale-95"
               >
                 {loading ? (
                   <>
                     <Loader className="w-4 h-4 animate-spin" />
                     Creating account...
+                  </>
+                ) : retryCountdown > 0 ? (
+                  <>
+                    Try again in {retryCountdown}s
                   </>
                 ) : (
                   <>

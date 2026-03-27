@@ -29,6 +29,7 @@
     |-- .env.example
     |-- .env.local
     |-- .gitignore
+    |-- DESIGN_CHANGES.md
     |-- index.html
     |-- metadata.json
     |-- MIGRATION_COMPLETE.md
@@ -88,6 +89,8 @@
             |-- StudyLibraryPage.tsx
             |-- StudyTopicPage.tsx
             |-- SubjectSelectorPage.tsx
+        |-- types
+            |-- lesson.ts
     |-- test-results
         |-- .last-run.json
         |-- website-Prospect-Website-E-16d37-uld-navigate-to-signup-page-chromium

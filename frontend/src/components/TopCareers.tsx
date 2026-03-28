@@ -1,60 +1,95 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 export default function TopCareers() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
   const careers = [
     {
       name: "Software Developer",
       demand: "High",
-      entrySalary: "R300,000 - R400,000",
-      unis: ["UCT", "Wits", "Stellenbosch"],
-      tvet: ["City TVET", "Damelin"],
+      entrySalary: "R300K - R400K",
+      unis: ["UCT", "Wits"],
     },
     {
       name: "Registered Nurse",
       demand: "High",
-      entrySalary: "R200,000 - R280,000",
-      unis: ["University of Cape Town", "University of Johannesburg"],
-      tvet: ["Peninsula Maternity Hospital", "Western Cape TVET"],
+      entrySalary: "R200K - R280K",
+      unis: ["UCT", "Wits"],
     },
     {
       name: "Electrician",
       demand: "High",
-      entrySalary: "R180,000 - R250,000",
+      entrySalary: "R180K - R250K",
       unis: [],
-      tvet: ["Boland College", "Northlink College"],
     },
     {
       name: "Chartered Accountant",
       demand: "High",
-      entrySalary: "R280,000 - R380,000",
-      unis: ["University of Pretoria", "UNISA", "Stellenbosch"],
-      tvet: [],
+      entrySalary: "R280K - R380K",
+      unis: ["UP", "Stellenbosch"],
     },
   ];
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+
   return (
-    <section className="py-20 px-4 md:px-8 lg:px-16 bg-prospect-gray">
+    <section
+      ref={ref}
+      className="py-20 px-4 md:px-8 lg:px-16 bg-prospect-gray"
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-prospect-navy mb-4 font-display">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-prospect-navy mb-4">
             Top In-Demand Careers in South Africa
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate={inView ? "show" : "hidden"}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {careers.map((career, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+              variants={item}
+              whileHover={{
+                scale: 1.05,
+                transition: { type: "spring", stiffness: 300, damping: 25 },
+              }}
+              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-all"
             >
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-prospect-navy font-display">
+                <h3 className="text-lg font-bold text-prospect-navy">
                   {career.name}
                 </h3>
-                <span className="text-red-500 text-2xl">🔥</span>
+                <span className="text-2xl">🔥</span>
               </div>
 
               <div className="space-y-3 text-sm">
                 <div>
-                  <p className="text-gray-600 font-semibold">Demand Level</p>
+                  <p className="text-gray-600 font-semibold">Demand</p>
                   <p className="text-prospect-blue font-semibold">{career.demand}</p>
                 </div>
 
@@ -65,21 +100,14 @@ export default function TopCareers() {
 
                 {career.unis.length > 0 && (
                   <div>
-                    <p className="text-gray-600 font-semibold">Top Universities</p>
-                    <p className="text-prospect-dark">{career.unis.slice(0, 2).join(", ")}</p>
-                  </div>
-                )}
-
-                {career.tvet.length > 0 && (
-                  <div>
-                    <p className="text-gray-600 font-semibold">TVET Options</p>
-                    <p className="text-prospect-dark">{career.tvet.slice(0, 1).join(", ")}</p>
+                    <p className="text-gray-600 font-semibold">Universities</p>
+                    <p className="text-prospect-dark">{career.unis.join(", ")}</p>
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

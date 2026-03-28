@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { getProspectMode, setProspectMode } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function ModeToggle() {
   const router = useRouter();
@@ -29,12 +30,21 @@ export default function ModeToggle() {
   if (!mounted) return null;
 
   return (
-    <button
+    <motion.button
       onClick={toggleMode}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
       className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors text-sm"
       title={`Switch to ${mode === "normal" ? "Data Saver" : "Normal"} Mode`}
     >
-      {mode === "normal" ? "📊" : "📵"}
-    </button>
+      <motion.span
+        key={mode}
+        initial={{ scale: 0, rotate: -180 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      >
+        {mode === "normal" ? "📊" : "📵"}
+      </motion.span>
+    </motion.button>
   );
 }

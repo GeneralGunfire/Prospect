@@ -1,4 +1,12 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 export default function WhoAreWe() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
   const sections = [
     {
       title: "For Students",
@@ -14,41 +22,76 @@ export default function WhoAreWe() {
     },
   ];
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, x: -30 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+
   return (
-    <section className="py-20 px-4 md:px-8 lg:px-16 bg-prospect-gray">
+    <section
+      ref={ref}
+      className="py-20 px-4 md:px-8 lg:px-16 bg-prospect-gray"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Text Content */}
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-prospect-navy mb-4 font-display">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate={inView ? "show" : "hidden"}
+          >
+            <motion.h2
+              variants={item}
+              className="text-4xl md:text-5xl font-bold text-prospect-navy mb-4"
+            >
               Helping South African Students Succeed
-            </h2>
-            <p className="text-lg text-gray-600 mb-8">
+            </motion.h2>
+            <motion.p
+              variants={item}
+              className="text-lg text-gray-600 mb-8"
+            >
               We believe every student deserves a clear path forward. Our mission is to make career guidance free, accessible, and tailored to the South African context.
-            </p>
+            </motion.p>
 
             {/* 3 Bulleted Sections */}
-            <div className="space-y-6">
+            <motion.div variants={container} className="space-y-6">
               {sections.map((section, index) => (
-                <div key={index}>
+                <motion.div key={index} variants={item}>
                   <h3 className="text-lg font-bold text-prospect-navy mb-2">
                     {section.title}
                   </h3>
                   <p className="text-gray-600">
                     {section.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Image Placeholder (2x2 Grid) */}
-          <div className="hidden md:grid grid-cols-2 gap-4">
-            <div className="bg-gradient-to-br from-prospect-blue to-blue-400 rounded-lg h-40 opacity-50"></div>
-            <div className="bg-gradient-to-br from-purple-400 to-blue-300 rounded-lg h-40 opacity-50"></div>
-            <div className="bg-gradient-to-br from-indigo-400 to-blue-400 rounded-lg h-40 opacity-50"></div>
-            <div className="bg-gradient-to-br from-blue-300 to-prospect-blue rounded-lg h-40 opacity-50"></div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="hidden md:grid grid-cols-2 gap-4"
+          >
+            {[0, 1, 2, 3].map((idx) => (
+              <motion.div
+                key={idx}
+                className="bg-gradient-to-br from-prospect-blue/30 to-blue-400/30 rounded-xl h-40"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              />
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

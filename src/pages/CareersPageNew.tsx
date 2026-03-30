@@ -133,7 +133,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
         <div className="mb-12 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(30,41,59,0.05)' }}>
             <Briefcase className="w-4 h-4" style={{ color: '#1e293b' }} />
-            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>
               Career Explorer
             </span>
           </div>
@@ -161,7 +161,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-sm border ${
+              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
                 isFilterOpen ? 'text-white border-transparent' : 'bg-white border-slate-200 hover:border-slate-400'
               }`}
               style={isFilterOpen ? { backgroundColor: '#1e293b', color: 'white' } : { color: '#1e293b' }}
@@ -169,7 +169,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               <Filter className="w-4 h-4" />
               Filters
               {(selectedCategory || selectedRIASEC || selectedDemand || (salaryRange[0] > 0 || salaryRange[1] < 100000)) && (
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold" style={{ backgroundColor: '#64748b', color: 'white' }}>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: '#64748b', color: 'white' }}>
                   {(selectedCategory ? 1 : 0) + (selectedRIASEC ? 1 : 0) + (selectedDemand ? 1 : 0) + ((salaryRange[0] > 0 || salaryRange[1] < 100000) ? 1 : 0)}
                 </span>
               )}
@@ -187,7 +187,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                 <div className="pt-6 space-y-6 border-t border-slate-100 mt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
                         Career Categories
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -195,7 +195,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={cat}
                             onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedCategory === cat
                                 ? { backgroundColor: '#64748b', color: 'white', borderColor: '#64748b' }
@@ -208,7 +208,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
                         RIASEC Interests
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -232,7 +232,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
                         Job Demand
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -240,7 +240,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={level}
                             onClick={() => setSelectedDemand(selectedDemand === level ? null : level)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedDemand === level
                                 ? {
@@ -257,7 +257,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
                         Entry Salary Range
                       </h4>
                       <div className="space-y-3">
@@ -270,7 +270,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           onChange={(e) => setSalaryRange([salaryRange[0], parseInt(e.target.value)])}
                           className="w-full"
                         />
-                        <p className="text-[10px] font-bold" style={{ color: '#1e293b' }}>
+                        <p className="text-xs font-bold" style={{ color: '#1e293b' }}>
                           R{salaryRange[0].toLocaleString()} - R{salaryRange[1].toLocaleString()}
                         </p>
                       </div>
@@ -278,7 +278,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                   </div>
                 </div>
                 <div className="flex justify-end mt-6">
-                  <button onClick={clearFilters} className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity" style={{ color: '#64748b' }}>
+                  <button onClick={clearFilters} className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity" style={{ color: '#64748b' }}>
                     <X className="w-4 h-4" /> Clear All Filters
                   </button>
                 </div>
@@ -311,7 +311,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               <p className="text-sm mb-8" style={{ color: '#64748b' }}>
                 Try adjusting your search or filters.
               </p>
-              <button onClick={clearFilters} className="text-white px-8 py-3 rounded-full font-bold text-[10px] uppercase tracking-widest" style={{ backgroundColor: '#1e293b' }}>
+              <button onClick={clearFilters} className="text-white px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1e293b' }}>
                 Clear All Filters
               </button>
             </div>
@@ -325,7 +325,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
-              className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
+              className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
               style={{ backgroundColor: '#1e293b' }}
             >
               Load More Careers ({remainingCareers} more)

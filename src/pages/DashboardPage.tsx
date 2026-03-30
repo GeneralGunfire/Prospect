@@ -81,7 +81,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ background: 'rgba(30,41,59,0.05)' }}>
               <LayoutDashboard className="w-4 h-4" style={{ color: '#1e293b' }} />
-              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Student Dashboard</span>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Student Dashboard</span>
             </div>
             <h1 className="text-2xl md:text-4xl font-bold tracking-tight" style={{ color: '#1e293b' }}>
               Welcome back, <span className="text-prospect-green">{firstName}</span>
@@ -89,7 +89,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
           </div>
           <button
             onClick={() => onNavigate('quiz')}
-            className="px-8 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest text-white transition-all"
+            className="px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all"
             style={{ backgroundColor: '#1e293b' }}
           >
             Retake Quiz
@@ -114,7 +114,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
               <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center mb-4`}>
                 <stat.icon className={`w-5 h-5 ${stat.color ?? ''}`} style={stat.iconStyle} />
               </div>
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>{stat.label}</p>
+              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>{stat.label}</p>
               <p className="text-2xl font-bold" style={{ color: '#1e293b' }}>{stat.value}</p>
             </motion.div>
           ))}
@@ -134,7 +134,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 </h3>
                 <button
                   onClick={() => onNavigate('careers')}
-                  className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform"
+                  className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform"
                   style={{ color: '#64748b' }}
                 >
                   Browse More <ArrowRight className="w-4 h-4" />
@@ -167,7 +167,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <p className="text-sm mb-4" style={{ color: '#64748b' }}>You haven't saved any careers yet.</p>
                   <button
                     onClick={() => onNavigate('careers')}
-                    className="text-[10px] font-bold uppercase tracking-widest border border-slate-200 px-6 py-2 rounded-xl hover:bg-slate-50 transition-all"
+                    className="text-xs font-bold uppercase tracking-widest border border-slate-200 px-6 py-2 rounded-xl hover:bg-slate-50 transition-all"
                     style={{ color: '#1e293b' }}
                   >
                     Start Exploring
@@ -185,7 +185,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 </h3>
                 <button
                   onClick={() => onNavigate('bursaries')}
-                  className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform"
+                  className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:translate-x-1 transition-transform"
                   style={{ color: '#64748b' }}
                 >
                   Find More <ArrowRight className="w-4 h-4" />
@@ -207,7 +207,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                         </div>
                         <div className="flex-1">
                           <h4 className="text-sm font-bold group-hover:text-prospect-green transition-colors" style={{ color: '#1e293b' }}>{bursary.name}</h4>
-                          <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>{bursary.provider} • Closes {bursary.deadline}</p>
+                          <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>{bursary.provider} • Closes {bursary.deadline}</p>
                         </div>
                       </div>
                       <button
@@ -238,7 +238,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   onClick={() => onNavigate('careers')}
                   className="w-full flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl hover:border-slate-300 transition-all group"
                 >
-                  <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Explore Careers</span>
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Explore Careers</span>
                   <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
                 </button>
 
@@ -246,7 +246,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   onClick={() => onNavigate('bursaries')}
                   className="w-full flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl hover:border-slate-300 transition-all group"
                 >
-                  <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Find Bursaries</span>
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Find Bursaries</span>
                   <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
                 </button>
 
@@ -254,16 +254,16 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   onClick={() => onNavigate('library')}
                   className="w-full flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl hover:border-slate-300 transition-all group"
                 >
-                  <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Study Library</span>
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Study Library</span>
                   <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
                 </button>
               </div>
             </section>
 
             <div className="rounded-2xl p-7 text-white relative overflow-hidden" style={{ backgroundColor: '#1e293b' }}>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-6" style={{ color: '#64748b' }}>Tip</h3>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color: '#64748b' }}>Tip</h3>
               <p className="text-xs leading-relaxed mb-4">Save careers and bursaries to track opportunities that match your interests and qualifications.</p>
-              <p className="text-[9px]" style={{ color: '#94a3b8' }}>Bookmarks sync across all your devices automatically.</p>
+              <p className="text-xs" style={{ color: '#94a3b8' }}>Bookmarks sync across all your devices automatically.</p>
             </div>
           </div>
         </div>

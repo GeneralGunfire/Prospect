@@ -109,7 +109,7 @@ function QuizPhase({
           <div className="mb-12">
             <button
               onClick={() => onNavigate('dashboard')}
-              className="flex items-center gap-2 text-navy hover:text-secondary transition-colors mb-6 font-bold text-[10px] uppercase tracking-widest"
+              className="flex items-center gap-2 text-navy hover:text-secondary transition-colors mb-6 font-bold text-xs uppercase tracking-widest"
             >
               <ChevronLeft className="w-4 h-4" />
               Back to Dashboard
@@ -117,7 +117,7 @@ function QuizPhase({
           <div className="flex justify-between items-end mb-4">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
-              <p className="text-secondary text-[10px] font-bold uppercase tracking-widest">RIASEC Assessment</p>
+              <p className="text-secondary text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
             </div>
             <div className="flex items-center gap-4">
               {hasSkipped && (
@@ -125,7 +125,7 @@ function QuizPhase({
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   onClick={() => setIsPanelOpen(true)}
-                  className="bg-secondary text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
+                  className="bg-secondary text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
                 >
                   <SkipForward className="w-3 h-3" />
                   Skipped ({skippedQuestions.length})
@@ -185,7 +185,7 @@ function QuizPhase({
                   {currentAnswer === option.value && <CheckCircle2 className="w-6 h-6 text-white" />}
                 </div>
                 <span
-                  className={`text-[8px] md:text-[10px] font-bold uppercase tracking-wider text-center leading-tight ${
+                  className={`text-xs md:text-xs font-bold uppercase tracking-wider text-center leading-tight ${
                     currentAnswer === option.value ? 'text-navy' : 'text-secondary'
                   }`}
                 >
@@ -201,7 +201,7 @@ function QuizPhase({
           <button
             onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
             disabled={currentQuestionIndex === 0}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous
@@ -210,7 +210,7 @@ function QuizPhase({
           {/* Skip Button */}
           <button
             onClick={handleSkip}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest text-secondary hover:bg-secondary/10 transition-all border border-secondary/30"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-secondary hover:bg-secondary/10 transition-all border border-secondary/30"
           >
             <SkipForward className="w-4 h-4" />
             Skip
@@ -220,7 +220,7 @@ function QuizPhase({
             <button
               onClick={handleFinish}
               disabled={!isComplete}
-              className="bg-secondary text-white px-10 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
+              className="bg-secondary text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
             >
               Finish Quiz
             </button>
@@ -228,7 +228,7 @@ function QuizPhase({
             <button
               onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
               disabled={!currentAnswer}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Next
               <ChevronRight className="w-4 h-4" />
@@ -289,13 +289,13 @@ function QuizPhase({
                   onClick={() => {
                     setShowSkipReminder(false);
                   }}
-                  className="w-full bg-secondary text-white px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:shadow-lg transition-all"
+                  className="w-full bg-secondary text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all"
                 >
                   Go Back & Answer
                 </button>
                 <button
                   onClick={handleConfirmFinish}
-                  className="w-full bg-slate-100 text-navy px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-slate-200 transition-all"
+                  className="w-full bg-slate-100 text-navy px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
                 >
                   View Results
                 </button>
@@ -412,7 +412,7 @@ function ResultsPhase({
           {/* Back Button */}
           <button
             onClick={() => onNavigate('dashboard')}
-            className="flex items-center gap-2 text-navy hover:text-secondary transition-colors mb-8 font-bold text-[10px] uppercase tracking-widest"
+            className="flex items-center gap-2 text-navy hover:text-secondary transition-colors mb-8 font-bold text-xs uppercase tracking-widest"
           >
             <ChevronLeft className="w-4 h-4" />
             Back to Dashboard
@@ -422,7 +422,7 @@ function ResultsPhase({
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full mb-6">
             <Star className="w-4 h-4 text-secondary fill-secondary" />
-            <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">Assessment Complete</span>
+            <span className="text-xs font-bold text-secondary uppercase tracking-widest">Assessment Complete</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-navy mb-4 uppercase tracking-tight">
             Your RIASEC Profile

@@ -165,7 +165,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
                 href={bursary.contact.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="grow md:grow-0 text-white px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:opacity-80 transition-all flex items-center justify-center gap-2"
+                className="grow md:grow-0 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center justify-center gap-2"
                 style={{ backgroundColor: '#1e293b' }}
               >
                 Apply Now <ExternalLink className="w-4 h-4" />
@@ -183,7 +183,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           </div>
           <div className="flex flex-wrap gap-3">
             {bursary.tags.map((tag, i) => (
-              <span key={i} className="px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest" style={{ background: 'rgba(30,41,59,0.05)', color: '#1e293b' }}>
+              <span key={i} className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest" style={{ background: 'rgba(30,41,59,0.05)', color: '#1e293b' }}>
                 {tag}
               </span>
             ))}
@@ -461,14 +461,14 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
               href={bursary.contact.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 text-white"
+              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 text-white"
               style={{ backgroundColor: '#1e293b' }}
             >
               Official Website <ExternalLink className="w-4 h-4" />
             </a>
             <button
               onClick={toggleSave}
-              className="px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest border transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border transition-all flex items-center gap-2"
               style={savedBursaries.includes(bursary.id)
                 ? { backgroundColor: '#64748b', borderColor: '#64748b', color: 'white' }
                 : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#1e293b' }}
@@ -476,7 +476,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
               <Bookmark className={`w-4 h-4 ${savedBursaries.includes(bursary.id) ? 'fill-white' : ''}`} />
               Save for Later
             </button>
-            <button className="px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest border border-slate-200 text-slate-600 hover:border-slate-400 transition-all flex items-center gap-2">
+            <button className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 text-slate-600 hover:border-slate-400 transition-all flex items-center gap-2">
               <Share2 className="w-4 h-4" /> Share
             </button>
           </div>
@@ -494,7 +494,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
               href={bursary.contact.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:opacity-80 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all"
               style={{ backgroundColor: '#f59e0b', color: '#1e293b' }}
             >
               Start Your Application <ExternalLink className="w-4 h-4" />

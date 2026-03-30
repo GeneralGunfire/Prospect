@@ -408,7 +408,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(100,116,139,0.1)' }}>
             <Heart className="w-4 h-4" style={{ color: '#64748b' }} />
-            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>Support for You</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>Support for You</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1e293b' }}>
             Disadvantaged Student <span style={{ color: '#64748b' }}>Guide</span>
@@ -483,7 +483,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
               sessionStorage.removeItem('selectedBursaryId');
               onNavigate('bursaries');
             }}
-            className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:opacity-80 transition-all"
+            className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all"
             style={{ backgroundColor: '#f59e0b', color: '#1e293b' }}
           >
             Browse Bursaries Now

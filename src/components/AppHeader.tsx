@@ -114,7 +114,7 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
               style={{ background: 'rgba(30,41,59,0.05)' }}
               aria-label="User menu"
             >
-              <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:block" style={{ color: '#1e293b' }}>
+              <span className="text-xs font-bold uppercase tracking-wider hidden sm:block" style={{ color: '#1e293b' }}>
                 {firstName}
               </span>
               <div className="w-7 h-7 text-white rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e293b' }}>
@@ -142,7 +142,7 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
                       <p className="text-xs font-bold uppercase tracking-wider" style={{ color: '#1e293b' }}>
                         {firstName}
                       </p>
-                      <p className="text-[10px] truncate" style={{ color: '#64748b' }}>{email}</p>
+                      <p className="text-xs truncate" style={{ color: '#64748b' }}>{email}</p>
                     </div>
                     <div className="p-2">
                       <button

@@ -59,7 +59,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ background: 'rgba(30,41,59,0.05)' }}>
             <BookOpen className="w-4 h-4" style={{ color: '#1e293b' }} />
-            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Subject Selection</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Subject Selection</span>
           </div>
           <h1 className="text-2xl md:text-4xl font-bold tracking-tight" style={{ color: '#1e293b' }}>
             Explore Careers by <span className="text-prospect-green">Subject</span>
@@ -104,13 +104,13 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 ))}
               </div>
               <div className="mt-6 pt-6 border-t border-slate-100">
-                <p className="text-[9px] font-bold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>
                   Selected: {selectedSubjects.length}
                 </p>
                 {selectedSubjects.length > 0 && (
                   <button
                     onClick={() => setSelectedSubjects([])}
-                    className="text-[10px] font-bold uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors"
+                    className="text-xs font-bold uppercase tracking-widest text-red-500 hover:text-red-700 transition-colors"
                   >
                     Clear All
                   </button>
@@ -137,14 +137,14 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 <div className="flex gap-4 justify-center flex-wrap">
                   <button
                     onClick={() => onNavigate('quiz')}
-                    className="px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest text-white transition-all"
+                    className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all"
                     style={{ backgroundColor: '#1e293b' }}
                   >
                     Take Quiz
                   </button>
                   <button
                     onClick={() => onNavigate('library')}
-                    className="px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest border border-slate-200 transition-all"
+                    className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all"
                     style={{ color: '#1e293b' }}
                   >
                     Study Library
@@ -163,7 +163,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                       <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1B5E20' }} />
                       Matching Careers
                     </h3>
-                    <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
+                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
                       {matchingCareers.length} results
                     </span>
                   </div>
@@ -184,7 +184,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                             </h4>
                             <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-prospect-green transition-colors ml-2" />
                           </div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest mb-4" style={{ color: '#64748b' }}>
+                          <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#64748b' }}>
                             {career.sector || 'Professional'}
                           </p>
                           <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>
@@ -229,13 +229,13 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                                 key={req.degreeType}
                                 className="bg-slate-50 rounded-xl p-4 border border-slate-100"
                               >
-                                <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
+                                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
                                   {req.degreeType}
                                 </p>
                                 <p className="text-xs mb-2 font-bold" style={{ color: '#1e293b' }}>
                                   Min Mark: {req.minMark}%
                                 </p>
-                                <p className="text-[9px]" style={{ color: '#64748b' }}>
+                                <p className="text-xs" style={{ color: '#64748b' }}>
                                   {req.description}
                                 </p>
                               </div>
@@ -261,7 +261,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                         <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1B5E20' }} />
                         TVET Pathways
                       </h3>
-                      <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
+                      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
                         {tvetCareers.length} options
                       </span>
                     </div>
@@ -281,13 +281,13 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                             </h4>
                             <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-prospect-green transition-colors ml-2" />
                           </div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>
+                          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>
                             {career.duration} • {career.jobDemand} Demand
                           </p>
                           <p className="text-xs leading-relaxed mb-4" style={{ color: '#64748b' }}>
                             {career.description}
                           </p>
-                          <p className="text-[9px] font-bold" style={{ color: '#1B5E20' }}>
+                          <p className="text-xs font-bold" style={{ color: '#1B5E20' }}>
                             {career.salaryRange}
                           </p>
                         </motion.div>
@@ -334,14 +334,14 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 >
                   <button
                     onClick={() => onNavigate('quiz')}
-                    className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest text-white transition-all hover:shadow-lg"
+                    className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all hover:shadow-lg"
                     style={{ backgroundColor: '#1e293b' }}
                   >
                     Take Quiz
                   </button>
                   <button
                     onClick={() => onNavigate('library')}
-                    className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest border border-slate-200 transition-all hover:bg-slate-50"
+                    className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all hover:bg-slate-50"
                     style={{ color: '#1e293b' }}
                   >
                     Study Library

@@ -63,7 +63,7 @@ export function SkippedQuestionsPanel({
                     >
                       <div className="space-y-2">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+                          <span className="text-xs font-bold uppercase tracking-widest text-secondary">
                             Q{item.index + 1}
                           </span>
                           <span className="text-xs font-medium text-navy/80 line-clamp-2">
@@ -75,7 +75,7 @@ export function SkippedQuestionsPanel({
                             onSelectQuestion(item.index);
                             onClose();
                           }}
-                          className="w-full flex items-center justify-between px-3 py-2 bg-secondary/10 hover:bg-secondary/20 text-secondary rounded-lg font-bold text-[10px] uppercase tracking-widest transition-all"
+                          className="w-full flex items-center justify-between px-3 py-2 bg-secondary/10 hover:bg-secondary/20 text-secondary rounded-lg font-bold text-xs uppercase tracking-widest transition-all"
                         >
                           Go to Question
                           <ArrowRight className="w-3 h-3" />
@@ -93,7 +93,7 @@ export function SkippedQuestionsPanel({
 
             {/* Footer */}
             <div className="border-t border-slate-200 bg-slate-50 p-4">
-              <p className="text-[10px] font-bold text-navy/70 uppercase tracking-widest">
+              <p className="text-xs font-bold text-navy/70 uppercase tracking-widest">
                 {skippedQuestions.length} Question{skippedQuestions.length !== 1 ? 's' : ''} Skipped
               </p>
             </div>

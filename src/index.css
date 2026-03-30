@@ -65,8 +65,16 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  @apply outline-none ring-2 ring-offset-2;
-  ring-color: #1B5E20;
+  @apply outline-none ring-2 ring-offset-2 ring-prospect-green;
+}
+
+/* Minimum accessible text sizes - labels at 12px minimum */
+.label-xs {
+  @apply text-xs font-bold uppercase tracking-widest;
+}
+
+.label-sm {
+  @apply text-sm font-bold uppercase tracking-wide;
 }
 
 /* Form input enhancements */

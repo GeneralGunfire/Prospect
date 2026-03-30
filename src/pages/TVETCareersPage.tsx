@@ -135,7 +135,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
             style={{ background: 'rgba(27,94,32,0.05)' }}
           >
             <Briefcase className="w-4 h-4" style={{ color: '#1B5E20' }} />
-            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1B5E20' }}>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1B5E20' }}>
               TVET Career Explorer
             </span>
           </div>
@@ -166,7 +166,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all shadow-sm border ${
+              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
                 isFilterOpen ? 'text-white border-transparent' : 'bg-white border-slate-200 hover:border-slate-400'
               }`}
               style={isFilterOpen ? { backgroundColor: '#1B5E20', color: 'white' } : { color: '#1B5E20' }}
@@ -178,7 +178,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                 selectedDemand ||
                 salaryRange[0] > 0 ||
                 salaryRange[1] < 70000) && (
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold" style={{ backgroundColor: '#64748b', color: 'white' }}>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: '#64748b', color: 'white' }}>
                   {(selectedTradeType ? 1 : 0) + (selectedProvince ? 1 : 0) + (selectedDemand ? 1 : 0) + ((salaryRange[0] > 0 || salaryRange[1] < 70000) ? 1 : 0)}
                 </span>
               )}
@@ -196,7 +196,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                 <div className="pt-6 space-y-6 border-t border-slate-100 mt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
                         Trade Type
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -204,7 +204,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           <button
                             key={type}
                             onClick={() => setSelectedTradeType(selectedTradeType === type ? null : type)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedTradeType === type
                                 ? { backgroundColor: '#1B5E20', color: 'white', borderColor: '#1B5E20' }
@@ -217,7 +217,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
                         Province
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -225,7 +225,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           <button
                             key={prov}
                             onClick={() => setSelectedProvince(selectedProvince === prov ? null : prov)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedProvince === prov
                                 ? { backgroundColor: '#1B5E20', color: 'white', borderColor: '#1B5E20' }
@@ -241,7 +241,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
                         Job Demand
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -249,7 +249,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           <button
                             key={level}
                             onClick={() => setSelectedDemand(selectedDemand === level ? null : level)}
-                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedDemand === level
                                 ? {
@@ -266,7 +266,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1B5E20' }}>
                         Entry Salary Range
                       </h4>
                       <div className="space-y-3">
@@ -279,7 +279,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           onChange={(e) => setSalaryRange([salaryRange[0], parseInt(e.target.value)])}
                           className="w-full"
                         />
-                        <p className="text-[10px] font-bold" style={{ color: '#1B5E20' }}>
+                        <p className="text-xs font-bold" style={{ color: '#1B5E20' }}>
                           R{salaryRange[0].toLocaleString()} - R{salaryRange[1].toLocaleString()}
                         </p>
                       </div>
@@ -289,7 +289,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                 <div className="flex justify-end mt-6">
                   <button
                     onClick={clearFilters}
-                    className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity"
+                    className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity"
                     style={{ color: '#64748b' }}
                   >
                     <X className="w-4 h-4" /> Clear All Filters
@@ -324,7 +324,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
               <p className="text-sm mb-8" style={{ color: '#64748b' }}>
                 Try adjusting your search or filters.
               </p>
-              <button onClick={clearFilters} className="text-white px-8 py-3 rounded-full font-bold text-[10px] uppercase tracking-widest" style={{ backgroundColor: '#1B5E20' }}>
+              <button onClick={clearFilters} className="text-white px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1B5E20' }}>
                 Clear All Filters
               </button>
             </div>
@@ -338,7 +338,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
-              className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
+              className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
               style={{ backgroundColor: '#1B5E20' }}
             >
               Load More Careers ({remainingCareers} more)

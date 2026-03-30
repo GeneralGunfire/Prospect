@@ -61,14 +61,14 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
   return (
     <div onClick={onCardClick} className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-prospect-green transition-all duration-300 flex flex-col h-full cursor-pointer">
       <div className="flex justify-between items-start mb-4">
-        <span className="px-3 py-1 bg-prospect-green/10 text-prospect-green text-[9px] font-bold uppercase tracking-widest rounded-full">
+        <span className="px-3 py-1 bg-prospect-green/10 text-prospect-green text-xs font-bold uppercase tracking-widest rounded-full">
           {career.category}
         </span>
         <div className="flex gap-1">
           {riasecCodes.map((type) => (
             <span
               key={type}
-              className="w-5 h-5 text-white text-[10px] font-bold flex items-center justify-center rounded-md"
+              className="w-5 h-5 text-white text-xs font-bold flex items-center justify-center rounded-md"
               style={{ backgroundColor: RIASEC_COLORS[type] || '#64748b' }}
             >
               {type}
@@ -88,15 +88,15 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
       <div className="mt-auto space-y-3">
         <div className="flex items-center gap-3 text-prospect-green">
           <Wallet className="w-4 h-4" />
-          <span className="text-[10px] font-bold uppercase tracking-wider">{salaryDisplay}</span>
+          <span className="text-xs font-bold uppercase tracking-wider">{salaryDisplay}</span>
         </div>
         <div className="flex items-center gap-3 text-prospect-green">
           <GraduationCap className="w-4 h-4" />
-          <span className="text-[10px] font-bold uppercase tracking-wider">APS: {apsDisplay}+</span>
+          <span className="text-xs font-bold uppercase tracking-wider">APS: {apsDisplay}+</span>
         </div>
 
         <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
-          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">View Details</span>
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">View Details</span>
           <ArrowRight className="w-4 h-4 text-prospect-green group-hover:translate-x-1 transition-transform" />
         </div>
       </div>

@@ -121,7 +121,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
                 </h3>
 
                 <div className="mb-4">
-                  <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
                     Required Subjects
                   </p>
                   <ul className="space-y-1">
@@ -135,7 +135,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
                 </div>
 
                 <div className="mb-4 pb-4 border-t border-slate-200">
-                  <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
                     Recommended Subjects
                   </p>
                   <ul className="space-y-1">
@@ -287,7 +287,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
                 >
                   <div className="flex-shrink-0">
                     <span
-                      className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white"
+                      className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white"
                       style={{ backgroundColor: '#1B5E20' }}
                     >
                       {item.importance}

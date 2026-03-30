@@ -72,7 +72,7 @@ export function DashboardVideoGrid() {
 
                 {/* Duration Badge */}
                 <div
-                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-white text-[10px] font-bold"
+                  className="absolute top-3 right-3 px-3 py-1 rounded-full text-white text-xs font-bold"
                   style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
                 >
                   {video.duration}

@@ -88,7 +88,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
         <div className="mb-12 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(30,41,59,0.05)' }}>
             <Library className="w-4 h-4" style={{ color: '#1e293b' }} />
-            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Digital Study Library</span>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Digital Study Library</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1e293b' }}>
             Master Your <span style={{ color: '#64748b' }}>Subjects</span>
@@ -139,14 +139,14 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                           <BookOpen className="w-6 h-6 transition-colors" style={{ color: '#1e293b' }} />
                         </div>
                         <h3 className="text-lg font-bold mb-2 transition-colors" style={{ color: '#1e293b' }}>{subject.name}</h3>
-                        <p className="text-[10px] font-bold uppercase tracking-widest mb-6" style={{ color: '#64748b' }}>{subject.category} Subject</p>
+                        <p className="text-xs font-bold uppercase tracking-widest mb-6" style={{ color: '#64748b' }}>{subject.category} Subject</p>
                         <div className="mt-auto space-y-4">
-                          <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(30,41,59,0.4)' }}>
+                          <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(30,41,59,0.4)' }}>
                             <div className="flex items-center gap-2"><Play className="w-3 h-3" style={{ color: '#64748b' }} />12 Lessons</div>
                             <div className="flex items-center gap-2"><Clock className="w-3 h-3" style={{ color: '#64748b' }} />4.5 Hours</div>
                           </div>
                           <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
-                            <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'rgba(30,41,59,0.4)' }}>
+                            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(30,41,59,0.4)' }}>
                               {hasContent ? 'Select Subject' : 'Coming Soon'}
                             </span>
                             <ArrowRight className="w-4 h-4 transition-transform" style={{ color: '#64748b' }} />
@@ -156,7 +156,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
 
                       {!hasContent && (
                         <div
-                          className="absolute top-4 right-4 px-3 py-1 rounded-lg text-[9px] font-bold uppercase tracking-widest text-slate-900"
+                          className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest text-slate-900"
                           style={{ backgroundColor: '#F9A825' }}
                           title="This subject will be available soon!"
                         >
@@ -174,11 +174,11 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                   <div className="relative z-10">
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full mb-6">
                       <Star className="w-3 h-3 fill-current" style={{ color: '#64748b' }} />
-                      <span className="text-[9px] font-bold uppercase tracking-widest">Featured Course</span>
+                      <span className="text-xs font-bold uppercase tracking-widest">Featured Course</span>
                     </div>
                     <h2 className="text-3xl font-bold mb-4 uppercase tracking-tight leading-tight">Mathematics Paper 1 Masterclass</h2>
                     <p className="text-white/60 text-sm leading-relaxed mb-8">Covers Algebra, Calculus, and Functions in detail.</p>
-                    <button className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 text-white" style={{ backgroundColor: '#64748b' }}>
+                    <button className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 text-white" style={{ backgroundColor: '#64748b' }}>
                       Enroll Now <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -198,7 +198,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                         </div>
                         <div>
                           <h4 className="text-sm font-bold group-hover:text-slate-500 transition-colors" style={{ color: '#1e293b' }}>{item.title}</h4>
-                          <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>{item.type} • {item.date}</p>
+                          <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>{item.type} • {item.date}</p>
                         </div>
                       </div>
                       <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
@@ -211,11 +211,11 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
 
           {step === 'grade' && (
             <motion.div key="grade" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="max-w-4xl mx-auto">
-              <button onClick={goBack} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity" style={{ color: '#1e293b' }}>
+              <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity" style={{ color: '#1e293b' }}>
                 <ChevronLeft className="w-4 h-4" /> Back to Subjects
               </button>
               <h2 className="text-2xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1e293b' }}>Select Your Grade</h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-12" style={{ color: '#64748b' }}>Subject: {currentSubjectName}</p>
+              <p className="text-xs font-bold uppercase tracking-widest mb-12" style={{ color: '#64748b' }}>Subject: {currentSubjectName}</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[10, 11, 12].map((grade) => (
                   <button key={grade} onClick={() => { setSelectedGrade(grade); setStep('term'); }}
@@ -234,11 +234,11 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
 
           {step === 'term' && (
             <motion.div key="term" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="max-w-4xl mx-auto">
-              <button onClick={goBack} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity" style={{ color: '#1e293b' }}>
+              <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity" style={{ color: '#1e293b' }}>
                 <ChevronLeft className="w-4 h-4" /> Back to Grade Selection
               </button>
               <h2 className="text-2xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1e293b' }}>Select Term</h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-12" style={{ color: '#64748b' }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-12" style={{ color: '#64748b' }}>
                 {currentSubjectName} • Grade {selectedGrade}
               </p>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -250,7 +250,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                       <Calendar className="w-6 h-6" style={{ color: '#1e293b' }} />
                     </div>
                     <h3 className="text-xl font-bold group-hover:text-slate-500 transition-colors" style={{ color: '#1e293b' }}>Term {term}</h3>
-                    <p className="text-[10px] font-medium uppercase tracking-wider mt-1" style={{ color: '#475569' }}>Quarter {term}</p>
+                    <p className="text-xs font-medium uppercase tracking-wider mt-1" style={{ color: '#475569' }}>Quarter {term}</p>
                   </button>
                 ))}
               </div>
@@ -259,7 +259,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
 
           {step === 'content' && (
             <motion.div key="content" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="max-w-4xl mx-auto">
-              <button onClick={goBack} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity" style={{ color: '#1e293b' }}>
+              <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity" style={{ color: '#1e293b' }}>
                 <ChevronLeft className="w-4 h-4" /> Back
               </button>
               <h2 className="text-2xl font-bold mb-2" style={{ color: '#1e293b' }}>{currentSubjectName} — Grade {selectedGrade}, Term {selectedTerm}</h2>
@@ -284,7 +284,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                         <h3 className="text-lg font-bold mb-2 group-hover:text-slate-600 transition-colors" style={{ color: '#1e293b' }}>{topic.title}</h3>
                         <p className="text-xs font-medium mb-4 flex-1" style={{ color: '#475569' }}>{topic.description}</p>
                         <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
-                          <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'rgba(30,41,59,0.4)' }}>Start Learning</span>
+                          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(30,41,59,0.4)' }}>Start Learning</span>
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" style={{ color: '#64748b' }} />
                         </div>
                       </button>

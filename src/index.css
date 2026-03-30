@@ -52,3 +52,72 @@
 .prospect-btn-primary:hover {
   background: linear-gradient(135deg, #14451A 0%, #1B5E20 100%);
 }
+
+/* ─── Global Button & Interactive States ─── */
+
+/* All buttons should have smooth transitions */
+button {
+  @apply transition-all duration-200 ease-out;
+}
+
+/* Focus states for better accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply outline-none ring-2 ring-offset-2;
+  ring-color: #1B5E20;
+}
+
+/* Form input enhancements */
+input,
+textarea,
+select {
+  @apply transition-all duration-200;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  @apply border-prospect-green ring-1 ring-prospect-green/50;
+}
+
+/* Smooth link transitions */
+a {
+  @apply transition-colors duration-200;
+}
+
+/* Smooth transform animations */
+.group:hover {
+  --tw-translate-y: 0;
+}
+
+/* Ensure animations are GPU-accelerated */
+@supports (transform: translate3d(0, 0, 0)) {
+  .group,
+  button,
+  a {
+    will-change: auto;
+  }
+
+  .group:hover,
+  button:hover,
+  button:active {
+    will-change: transform, box-shadow;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  transform-origin: center;
+}

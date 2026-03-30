@@ -52,7 +52,7 @@ export function DashboardVideoGrid() {
               key={video.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: Math.min(index, 7) * 0.08 }}
               onClick={() => setModalVideo(video)}
               className="group bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-prospect-green transition-all duration-300 cursor-pointer flex flex-col h-full"
             >

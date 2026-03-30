@@ -459,7 +459,7 @@ function ResultsPhase({
                     key={code}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * index }}
+                    transition={{ delay: Math.min(index, 7) * 0.04 }}
                   >
                     <div className="flex justify-between items-center mb-3">
                       <div className="flex items-center gap-3">
@@ -482,7 +482,7 @@ function ResultsPhase({
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${score}%` }}
-                        transition={{ delay: 0.15 + index * 0.1, duration: 1 }}
+                        transition={{ delay: 0.15 + Math.min(index, 7) * 0.08, duration: 1 }}
                         className={`h-full ${scoreColor(score)} transition-all`}
                       />
                     </div>
@@ -507,7 +507,7 @@ function ResultsPhase({
                 key={career.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + index * 0.05 }}
+                transition={{ delay: 0.25 + Math.min(index, 7) * 0.04 }}
                 className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 {/* Compatibility Badge */}

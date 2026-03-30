@@ -295,7 +295,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                 key={career.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: Math.min(index, 7) * 0.04 }}
               >
                 <CareerCard career={career} onCardClick={() => handleCareerClick(career)} />
               </motion.div>

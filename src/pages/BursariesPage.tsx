@@ -267,7 +267,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     key={bursary.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    transition={{ delay: Math.min(index, 7) * 0.04 }}
                     className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 group cursor-pointer"
                     onClick={() => handleViewDetail(bursary.id)}
                   >

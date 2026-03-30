@@ -163,14 +163,14 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsDrawerOpen(false)}
-              className="fixed inset-0 bg-black/50 z-55 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
             />
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 z-70 w-72 bg-white shadow-2xl overflow-y-auto"
+              className="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-2xl overflow-y-auto"
             >
               <div className="flex items-center justify-between p-6 border-b border-slate-100 sticky top-0 bg-white z-10">
                 <span className="text-sm font-bold tracking-widest uppercase" style={{ color: '#1e293b' }}>

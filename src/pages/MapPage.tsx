@@ -181,14 +181,14 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 </motion.button>
               </motion.div>
 
-              {/* Two-Column Layout */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Map - Left/Top (2/3 width on desktop) */}
+              {/* Two-Row Layout: Map on top, Results below */}
+              <div className="space-y-6">
+                {/* Map - Full width */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1 }}
-                  className="lg:col-span-2 h-96 lg:h-[600px] rounded-2xl overflow-hidden shadow-lg"
+                  className="w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-lg"
                 >
                   {userLocation && (
                     <MapDisplay
@@ -202,12 +202,12 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                   )}
                 </motion.div>
 
-                {/* Results Panel - Right/Bottom (1/3 width on desktop) */}
+                {/* Results Panel - Full width, scrollable */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="lg:col-span-1 flex flex-col gap-4 h-auto lg:h-[600px]"
+                  className="flex flex-col gap-4"
                 >
                   {/* Search Box */}
                   <SearchBox
@@ -217,14 +217,14 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                   />
 
                   {/* Tab Navigation */}
-                  <div className="flex gap-2 border-b-2 border-slate-200">
+                  <div className="flex gap-2 border-b-2 border-slate-200 flex-wrap">
                     {tabs.map((tab) => (
                       <motion.button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className={`px-4 py-3 font-semibold text-sm transition rounded-lg ${
+                        className={`px-4 py-3 font-semibold text-sm transition rounded-lg flex-1 min-w-fit sm:flex-none ${
                           activeTab === tab.id
                             ? 'text-white'
                             : 'text-slate-600 hover:text-slate-900'
@@ -240,7 +240,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
 
                   {/* Tab Content - Scrollable */}
                   <motion.div
-                    className="flex-1 overflow-y-auto pr-2 bg-white rounded-xl p-4 border-2 border-slate-100"
+                    className="bg-white rounded-xl p-6 border-2 border-slate-100 max-h-96 lg:max-h-full overflow-y-auto"
                   >
                     <AnimatePresence mode="wait">
                       {activeTab === 'careers' && province && (

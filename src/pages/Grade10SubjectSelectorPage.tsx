@@ -78,9 +78,13 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
               </h3>
               <div className="space-y-3">
                 {GRADE_10_SUBJECTS.map(subject => (
-                  <label key={subject} className="flex items-center gap-3 cursor-pointer group">
+                  <button
+                    key={subject}
+                    onClick={() => toggleSubject(subject)}
+                    className="w-full flex items-center gap-3 cursor-pointer group text-left hover:bg-slate-50 p-2 rounded-lg transition-colors"
+                  >
                     <div
-                      className="w-5 h-5 rounded border-2 flex items-center justify-center transition-all"
+                      className="w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0"
                       style={{
                         borderColor: selectedSubjects.includes(subject) ? '#1B5E20' : '#cbd5e1',
                         backgroundColor: selectedSubjects.includes(subject) ? '#1B5E20' : 'white',
@@ -91,12 +95,12 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                       )}
                     </div>
                     <span
-                      className="text-sm font-medium transition-colors group-hover:text-prospect-green"
+                      className="text-sm font-medium transition-colors group-hover:text-prospect-green flex-1"
                       style={{ color: '#1e293b' }}
                     >
                       {subject}
                     </span>
-                  </label>
+                  </button>
                 ))}
               </div>
               <div className="mt-6 pt-6 border-t border-slate-100">

@@ -5,6 +5,18 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { PROVINCES, getProvinceFromCoords, PROVINCE_JOB_DEMAND } from '../data/mapData';
 
+// CSS for heatmap pulse animation
+const heatmapAnimationStyle = `
+  @keyframes heatmapPulse {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.35; }
+    100% { opacity: 0.2; }
+  }
+  .heatmap-pulse {
+    animation: heatmapPulse 3s ease-in-out infinite;
+  }
+`;
+
 interface UserLocation {
   lat: number;
   lng: number;
@@ -121,6 +133,7 @@ export default function MapDisplay({
 
   return (
     <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden">
+      <style>{heatmapAnimationStyle}</style>
       <MapContainer ref={mapRef} center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
         {/* Base Map */}
         <TileLayer
@@ -138,7 +151,7 @@ export default function MapDisplay({
             const color = getDemandColor(demand?.level || 'low');
 
             return (
-              <div key={`demand-${province.name}`}>
+              <FeatureGroup key={`demand-${province.name}`}>
                 {/* Outer ring - most transparent */}
                 <Circle
                   center={[province.centroid.lat, province.centroid.lng]}
@@ -159,16 +172,21 @@ export default function MapDisplay({
                   fillOpacity={0.12}
                 />
 
-                {/* Inner ring - most opaque */}
-                <Circle
-                  center={[province.centroid.lat, province.centroid.lng]}
-                  radius={45000}
-                  fillColor={color}
-                  color={color}
-                  weight={0}
-                  fillOpacity={0.25}
-                />
-              </div>
+                {/* Inner ring - most opaque, with pulsing animation via CSS */}
+                <motion.div
+                  className="heatmap-pulse"
+                  style={{ pointerEvents: 'none' }}
+                >
+                  <Circle
+                    center={[province.centroid.lat, province.centroid.lng]}
+                    radius={45000}
+                    fillColor={color}
+                    color={color}
+                    weight={0}
+                    fillOpacity={0.25}
+                  />
+                </motion.div>
+              </FeatureGroup>
             );
           })}
 

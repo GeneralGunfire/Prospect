@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
-    const timer = setTimeout(onComplete, 3800);
+    const timer = setTimeout(onComplete, 2400);
     return () => clearTimeout(timer);
   }, [onComplete]);
 
@@ -38,7 +38,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1.4, opacity: 0 }}
-            transition={{ delay: 1, duration: 1.2, ease: 'easeOut', repeat: Infinity, repeatDelay: 0.8 }}
+            transition={{ delay: 1, duration: 1.2, ease: 'easeOut', repeat: Infinity, repeatDelay: 0.5 }}
             className="absolute inset-0 border-2 border-slate-300/40 rounded-2xl -z-10"
           />
         </div>

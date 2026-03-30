@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-calm-blue: #176293;
+  --color-calm-dark-blue: #1A3E6F;
+  --color-calm-bg: #F7F7F7;
+  --color-calm-footer: #1B2250;
+
+  /* Prospect brand */
+  --color-prospect-green: #1B5E20;
+  --color-prospect-green-dark: #14451A;
+  --color-prospect-gold: #F9A825;
+
+  /* Old site compat tokens used in extracted pages */
+  --color-navy: #1e293b;
+  --color-secondary: #64748b;
+  --color-surface: #ffffff;
+  --color-on-surface-variant: #475569;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-gray-900 bg-white;
+  }
+}
+
+.calm-gradient {
+  background: linear-gradient(180deg, #60B4E7 0%, #6461E0 100%);
+}
+
+.calm-header-gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 71%, rgba(255, 255, 255, 0) 100%);
+}
+
+.review-gradient {
+  background: linear-gradient(180deg, #2477AA 0%, #6461E0 100%);
+}
+
+.faq-gradient {
+  background: linear-gradient(180deg, rgba(226, 234, 255, 0) 0%, #e2eaff 100%);
+}
+
+.prospect-auth-bg {
+  background: linear-gradient(135deg, #f0f7f0 0%, #fefefe 50%, #fffbf0 100%);
+}
+
+.prospect-btn-primary {
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+}
+.prospect-btn-primary:hover {
+  background: linear-gradient(135deg, #14451A 0%, #1B5E20 100%);
+}

@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, FeatureGroup } from 're
 import { motion } from 'motion/react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { PROVINCES, getProvinceFromCoords } from '../data/mapData';
+import { PROVINCES, getProvinceFromCoords, PROVINCE_JOB_DEMAND } from '../data/mapData';
 
 interface UserLocation {
   lat: number;
@@ -132,13 +132,13 @@ export default function MapDisplay({
         {/* Province Demand Heatmap Circles */}
         {activeLayers.includes('demand') &&
           PROVINCES.map((province) => {
-            const demand = require('../data/mapData').PROVINCE_JOB_DEMAND.find(
+            const demand = PROVINCE_JOB_DEMAND.find(
               (p: any) => p.province === province.name
             );
             const color = getDemandColor(demand?.level || 'low');
 
             return (
-              <motion.g key={`demand-${province.name}`}>
+              <div key={`demand-${province.name}`}>
                 {/* Outer ring - most transparent */}
                 <Circle
                   center={[province.centroid.lat, province.centroid.lng]}
@@ -159,26 +159,16 @@ export default function MapDisplay({
                   fillOpacity={0.12}
                 />
 
-                {/* Inner ring - most opaque, animated */}
-                <motion.circle
-                  cx={0}
-                  cy={0}
-                  animate={{ fillOpacity: [0.2, 0.35, 0.2] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  style={{
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <Circle
-                    center={[province.centroid.lat, province.centroid.lng]}
-                    radius={45000}
-                    fillColor={color}
-                    color={color}
-                    weight={0}
-                    fillOpacity={0.25}
-                  />
-                </motion.circle>
-              </motion.g>
+                {/* Inner ring - most opaque */}
+                <Circle
+                  center={[province.centroid.lat, province.centroid.lng]}
+                  radius={45000}
+                  fillColor={color}
+                  color={color}
+                  weight={0}
+                  fillOpacity={0.25}
+                />
+              </div>
             );
           })}
 

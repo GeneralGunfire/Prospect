@@ -27,8 +27,10 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
   const [showCareerModal, setShowCareerModal] = useState(false);
 
   const handleLocationSelect = (location: UserLocation) => {
-    console.log('Location selected:', location);
+    console.log('🔹 Location selected:', location);
+    console.log('🔹 Setting userLocation:', location);
     setUserLocation(location);
+    console.log('🔹 Setting step to exploring');
     setStep('exploring');
     setSearchQuery('');
     setActiveTab('careers');
@@ -186,7 +188,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1 }}
-                  className="lg:col-span-2 h-96 lg:h-150 rounded-2xl overflow-hidden shadow-lg"
+                  className="lg:col-span-2 h-96 lg:h-[600px] rounded-2xl overflow-hidden shadow-lg"
                 >
                   {userLocation && (
                     <MapDisplay
@@ -205,7 +207,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="lg:col-span-1 flex flex-col gap-4 h-auto lg:h-150"
+                  className="lg:col-span-1 flex flex-col gap-4 h-auto lg:h-[600px]"
                 >
                   {/* Search Box */}
                   <SearchBox

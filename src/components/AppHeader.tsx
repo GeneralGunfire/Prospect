@@ -90,16 +90,15 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
 
           {/* Center: nav links */}
           <nav className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => (
+            {navLinks.slice(0, 5).map((link) => (
               <button
                 key={link.page}
                 onClick={() => onNavigate(link.page)}
-                className={`font-semibold tracking-wider text-[11px] uppercase transition-colors ${
+                className={`font-semibold tracking-wider text-xs uppercase transition-colors pb-1 border-b-2 ${
                   currentPage === link.page
-                    ? 'text-prospect-green'
-                    : 'hover:text-prospect-green'
+                    ? 'text-prospect-green border-prospect-green'
+                    : 'text-navy border-transparent hover:text-prospect-green'
                 }`}
-                style={{ color: currentPage === link.page ? undefined : '#1e293b' }}
               >
                 {link.name}
               </button>
@@ -208,9 +207,10 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
                     key={link.page}
                     onClick={() => { setIsDrawerOpen(false); onNavigate(link.page); }}
                     className={`text-lg font-semibold py-4 px-2 border-b border-slate-100 text-left transition-colors touch-target ${
-                      currentPage === link.page ? 'text-prospect-green' : 'hover:text-prospect-green'
+                      currentPage === link.page
+                        ? 'text-prospect-green border-l-4 border-l-prospect-green pl-1'
+                        : 'text-slate-900 hover:text-prospect-green'
                     }`}
-                    style={{ color: currentPage === link.page ? undefined : '#1e293b' }}
                   >
                     {link.name}
                   </button>

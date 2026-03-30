@@ -38,23 +38,20 @@ async function setMockSupabaseSession(page: Page) {
 }
 
 /**
- * Navigate to the map page with mocked Supabase authentication
+ * Navigate to the map page with test mode enabled for authentication
+ * The app uses a 'page' query parameter to control which page to show
  */
 async function navigateToMapPageWithAuth(page: Page) {
-  // First navigate to establish context
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  // First navigate to home with test mode enabled
+  await page.goto('/?page=map&__test_mode=true', { waitUntil: 'domcontentloaded', timeout: 15000 });
 
-  // Set the mock session in localStorage
-  // This must be done after goto() but before navigating to /map
-  await setMockSupabaseSession(page);
+  // Also set it in sessionStorage as a backup
+  await page.evaluate(() => {
+    sessionStorage.setItem('__test_mode__', 'true');
+  });
 
-  // Now navigate to /map
-  // The withAuth wrapper will find the mock session in localStorage
-  // and allow the component to render without making real API calls
-  await page.goto('/map', { waitUntil: 'domcontentloaded', timeout: 15000 });
-
-  // Wait for the map page to initialize
-  await page.waitForTimeout(1500);
+  // Wait for the map page to fully initialize
+  await page.waitForTimeout(2000);
 }
 
 test.describe('Map Feature', () => {

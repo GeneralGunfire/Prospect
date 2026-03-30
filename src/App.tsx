@@ -36,7 +36,6 @@ import {
 
 const Header = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,110 +45,44 @@ const Header = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Career Quiz', href: '#' },
-    { name: 'Explore Careers', href: '#' },
-    { name: 'Study Library', href: '#' },
-    { name: 'Job Market', href: '#' },
-  ];
-
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16 lg:h-24 flex items-center px-4 lg:px-10 backdrop-blur-md ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16 lg:h-20 flex items-center px-4 lg:px-10 backdrop-blur-md ${
         isScrolled ? 'bg-white/70 shadow-md' : 'calm-header-gradient'
       }`}
     >
       <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <motion.a
-            href="/"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-            className="flex items-center gap-3 group"
-          >
-            <div className="w-9 h-9 lg:w-11 lg:h-11 shrink-0 rounded-xl flex items-center justify-center text-white font-semibold text-xl lg:text-2xl shadow-lg" style={{ backgroundColor: '#1e293b' }}>P</div>
-            <span className={`hidden lg:block font-bold text-lg tracking-tight transition-colors duration-300 ${
-              isScrolled ? 'text-calm-dark-blue' : 'text-white'
-            }`}>
-              Prospect
-            </span>
-          </motion.a>
-          <nav className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                whileHover={{ y: -2 }}
-                className={`font-medium transition-colors ${isScrolled ? 'text-gray-700 hover:text-calm-blue' : 'text-white hover:text-white/80'}`}
-              >
-                {link.name}
-              </motion.a>
-            ))}
-          </nav>
-        </div>
+        <motion.button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
+          className="flex items-center gap-3 group"
+        >
+          <div className="w-9 h-9 lg:w-11 lg:h-11 shrink-0 rounded-xl flex items-center justify-center text-white font-semibold text-xl lg:text-2xl shadow-lg" style={{ backgroundColor: '#1e293b' }}>P</div>
+          <span className={`hidden lg:block font-bold text-lg tracking-tight transition-colors duration-300 ${
+            isScrolled ? 'text-calm-dark-blue' : 'text-white'
+          }`}>
+            Prospect
+          </span>
+        </motion.button>
 
-        <div className="flex items-center gap-4">
-          <motion.button
-            onClick={onNavigateAuth}
-            whileHover={{ y: -2 }}
-            className={`hidden lg:block font-medium transition-colors ${isScrolled ? 'text-gray-700 hover:text-calm-blue' : 'text-white hover:text-white/80'}`}
-          >
-            Log In
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onNavigateAuth}
-            className="bg-white text-gray-800 px-6 py-3 rounded-full font-bold text-sm lg:text-base hover:bg-gray-100 transition-colors shadow-sm"
-          >
-            Start Quiz
-          </motion.button>
-          <button
-            className="lg:hidden text-white p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={onNavigateAuth}
+          className="font-bold text-sm lg:text-base px-6 py-2 lg:py-3 rounded-full transition-colors shadow-sm"
+          style={{ backgroundColor: '#1B5E20', color: 'white' }}
+        >
+          Login
+        </motion.button>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            className="fixed inset-0 z-40 calm-gradient flex flex-col pt-24 px-8"
-          >
-            <nav className="flex flex-col gap-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-2xl font-medium text-white"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
-              <button
-                className="text-2xl font-medium text-white text-left"
-                onClick={() => { setIsMobileMenuOpen(false); onNavigateAuth(); }}
-              >
-                Log In
-              </button>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
   );
 };
 
 const Hero = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
   return (
-    <section className="relative h-150 lg:h-200 flex items-center justify-center overflow-hidden">
+    <section className="relative h-150 lg:h-200 flex items-center justify-center overflow-hidden pt-16 lg:pt-20">
       <div className="absolute inset-0 z-0">
         <img
           src="/images/students.jpg"
@@ -180,23 +113,16 @@ const Hero = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex justify-center"
         >
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onNavigateAuth}
-            className="bg-white text-gray-800 px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-xl"
+            className="px-10 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-all shadow-xl"
+            style={{ backgroundColor: '#1B5E20', color: 'white' }}
           >
-            Start Quiz
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onNavigateAuth}
-            className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all shadow-xl"
-          >
-            Explore Careers
+            Get Started
           </motion.button>
         </motion.div>
       </div>

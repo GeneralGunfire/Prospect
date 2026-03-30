@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Map as MapIcon, MapPin, BarChart2, Loader2, Briefcase, GraduationCap } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import type { AppPage, AuthedProps } from '../lib/withAuth';
 import { withAuth } from '../lib/withAuth';
@@ -27,10 +27,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
   const [showCareerModal, setShowCareerModal] = useState(false);
 
   const handleLocationSelect = (location: UserLocation) => {
-    console.log('🔹 Location selected:', location);
-    console.log('🔹 Setting userLocation:', location);
     setUserLocation(location);
-    console.log('🔹 Setting step to exploring');
     setStep('exploring');
     setSearchQuery('');
     setActiveTab('careers');
@@ -86,9 +83,9 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
   }, [province, activeTab]);
 
   const tabs = [
-    { id: 'careers', label: 'Careers', icon: '💼' },
-    { id: 'colleges', label: 'Colleges', icon: '🎓' },
-    { id: 'insights', label: 'Insights', icon: '📊' },
+    { id: 'careers', label: 'Careers', icon: Briefcase },
+    { id: 'colleges', label: 'Colleges', icon: GraduationCap },
+    { id: 'insights', label: 'Insights', icon: BarChart2 },
   ] as const;
 
   return (
@@ -104,15 +101,17 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
             className="min-h-screen flex items-center justify-center px-4 prospect-auth-bg"
           >
             <div className="text-center max-w-lg w-full">
-              <motion.h1
+              <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-4xl lg:text-5xl font-bold mb-4 uppercase tracking-tight"
-                style={{ color: '#1B5E20' }}
+                className="flex items-center justify-center gap-4 mb-4"
               >
-                Job Market Map 🗺️
-              </motion.h1>
+                <MapIcon size={44} style={{ color: '#1B5E20' }} />
+                <h1 className="text-4xl lg:text-5xl font-bold uppercase tracking-tight" style={{ color: '#1B5E20' }}>
+                  Job Market Map
+                </h1>
+              </motion.div>
 
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
@@ -137,11 +136,12 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="mt-8 p-4 rounded-lg"
+                className="mt-8 p-4 rounded-lg flex items-center gap-3"
                 style={{ backgroundColor: '#F0F7F0', borderLeft: '4px solid #1B5E20' }}
               >
+                <MapIcon size={20} style={{ color: '#1B5E20', flexShrink: 0 }} />
                 <p className="text-sm" style={{ color: '#1B5E20' }}>
-                  💡 Enter your location to see careers, colleges, and job market insights for your area.
+                  Enter your location to see careers, colleges, and job market insights for your area.
                 </p>
               </motion.div>
             </div>
@@ -162,13 +162,16 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-6 pb-4 border-b-2 border-slate-200 flex items-center justify-between"
               >
-                <div>
-                  <h2 className="text-3xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1B5E20' }}>
-                    📍 {userLocation?.label || 'Unknown'}
-                  </h2>
-                  <p className="text-sm" style={{ color: '#64748b' }}>
-                    Province: <strong>{province || 'Loading...'}</strong>
-                  </p>
+                <div className="flex items-center gap-3">
+                  <MapPin size={32} style={{ color: '#1B5E20' }} />
+                  <div>
+                    <h2 className="text-3xl font-bold uppercase tracking-tight" style={{ color: '#1B5E20' }}>
+                      {userLocation?.label || 'Unknown'}
+                    </h2>
+                    <p className="text-sm" style={{ color: '#64748b' }}>
+                      Province: <strong>{province || 'Loading...'}</strong>
+                    </p>
+                  </div>
                 </div>
                 <div className="flex gap-3">
                   <motion.button
@@ -243,7 +246,8 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                           backgroundColor: activeTab === tab.id ? '#1B5E20' : 'transparent',
                         }}
                       >
-                        {tab.icon} {tab.label}
+                        <tab.icon size={18} className="inline-block mr-2" />
+                        {tab.label}
                       </motion.button>
                     ))}
                   </div>
@@ -304,7 +308,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                           className="flex items-center justify-center py-12"
                         >
                           <div className="text-center">
-                            <div className="text-4xl mb-4">🔄</div>
+                            <Loader2 size={48} className="animate-spin mx-auto mb-4 text-slate-400" />
                             <p className="text-slate-600">Detecting your province...</p>
                           </div>
                         </motion.div>
@@ -315,15 +319,16 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
               </div>
 
               {/* Footer Note */}
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="text-xs text-center mt-6 font-medium"
+                className="text-xs text-center mt-6 font-medium flex items-center justify-center gap-2"
                 style={{ color: '#64748b' }}
               >
-                📊 Data based on 59+ careers, 26 universities, and 50+ TVET colleges across South Africa
-              </motion.p>
+                <BarChart2 size={14} />
+                <p>Data based on 59+ careers, 26 universities, and 50+ TVET colleges across South Africa</p>
+              </motion.div>
             </div>
           </motion.div>
         )}

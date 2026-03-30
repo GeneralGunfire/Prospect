@@ -14,6 +14,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [savedBursaries, setSavedBursaries] = useState<string[]>([]);
   const [isLoadingSaves, setIsLoadingSaves] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
 
   // Fetch saved bursaries from Supabase on mount
   useEffect(() => {
@@ -374,7 +375,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       Official Website <ExternalLink className="w-4 h-4" />
                     </a>
                     <button
-                      onClick={() => setShowGuide(true)}
+                      onClick={() => onNavigate('disadvantaged-guide')}
                       className="px-8 py-4 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2"
                       style={{ backgroundColor: '#64748b' }}
                     >

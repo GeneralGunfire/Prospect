@@ -119,9 +119,22 @@ function QuizPhase({
               <h1 className="text-2xl md:text-3xl font-bold text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
               <p className="text-secondary text-[10px] font-bold uppercase tracking-widest">RIASEC Assessment</p>
             </div>
-            <div className="text-right">
-              <span className="text-navy font-bold text-lg">{currentQuestionIndex + 1}</span>
-              <span className="text-secondary text-xs font-medium"> / {quizQuestions.length}</span>
+            <div className="flex items-center gap-4">
+              {hasSkipped && (
+                <motion.button
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  onClick={() => setIsPanelOpen(true)}
+                  className="bg-secondary text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
+                >
+                  <SkipForward className="w-3 h-3" />
+                  Skipped ({skippedQuestions.length})
+                </motion.button>
+              )}
+              <div className="text-right">
+                <span className="text-navy font-bold text-lg">{currentQuestionIndex + 1}</span>
+                <span className="text-secondary text-xs font-medium"> / {quizQuestions.length}</span>
+              </div>
             </div>
           </div>
           <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -133,20 +146,8 @@ function QuizPhase({
           </div>
         </div>
 
-        {/* Question Card & Skip Button */}
+        {/* Question Card */}
         <div className="relative mb-8">
-          {/* Skip Button */}
-          {hasSkipped && (
-            <motion.button
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              onClick={() => setIsPanelOpen(true)}
-              className="absolute -right-20 md:right-0 md:-top-12 top-1/2 -translate-y-1/2 md:translate-y-0 bg-secondary text-white px-4 py-3 rounded-lg font-bold text-[10px] uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap z-10"
-            >
-              <SkipForward className="w-4 h-4" />
-              Skipped ({skippedQuestions.length})
-            </motion.button>
-          )}
 
           <div className="bg-white border border-slate-100 rounded-3xl p-8 md:p-12 shadow-sm relative overflow-hidden">
           <AnimatePresence mode="wait">

@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
-    const timer = setTimeout(onComplete, 5000);
+    const timer = setTimeout(onComplete, 3000);
     return () => clearTimeout(timer);
   }, [onComplete]);
 
@@ -21,7 +21,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="w-24 h-24 rounded-2xl flex items-center justify-center shadow-xl"
-          style={{ backgroundColor: '#1B5E20' }}
+          style={{ backgroundColor: '#1e293b' }}
         >
           <motion.span
             initial={{ opacity: 0, scale: 0 }}
@@ -54,6 +54,18 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         >
           Know your path. Own your future.
         </motion.p>
+
+        {/* Progress bar */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.5, duration: 2.5, ease: 'easeInOut' }}
+          className="h-0.5 w-16 bg-gradient-to-r mt-8"
+          style={{
+            backgroundImage: 'linear-gradient(to right, #1e293b, #1B5E20)',
+            transformOrigin: 'left'
+          }}
+        />
       </div>
     </motion.div>
   );

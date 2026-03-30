@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, CheckCircle2, Info, RefreshCw, ArrowRight, S
 import { quizQuestions } from '../data/quizQuestions';
 import { computeQuizResults, type QuizResults } from '../data/quizScoringLogic';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
-import { supabase } from '../lib/supabase';
+import { saveQuizResults } from '../services/quizService';
 import AppHeader from '../components/AppHeader';
 import { SkippedQuestionsPanel } from '../components/SkippedQuestionsPanel';
 import type { User } from '@supabase/supabase-js';
@@ -311,15 +311,31 @@ function QuizPhase({
 
 // ── Supabase Save ─────────────────────────────────────────────────────────────
 
-async function saveToSupabase(results: QuizResults, userId: string) {
+async function saveQuizResultsToSupabase(results: QuizResults, userId: string) {
   try {
-    await supabase.from('quiz_results').insert({
-      user_id: userId,
-      riasec_scores: results.percentages,
-      top_codes: results.topCodes,
-      career_matches: results.topCareerMatches.slice(0, 15),
-      subject_recommendations: results.subjectRecommendations,
-    });
+    // Extract top 15 career IDs from career matches
+    const topCareerId = results.topCareerMatches.slice(0, 15).map(c => c.id);
+
+    // Build subject recommendations object
+    const subjectRecommendations: Record<string, string[]> = {};
+    if (results.subjectRecommendations && results.subjectRecommendations.length > 0) {
+      results.subjectRecommendations.forEach(subject => {
+        const key = subject.importance || 'Recommended';
+        if (!subjectRecommendations[key]) {
+          subjectRecommendations[key] = [];
+        }
+        subjectRecommendations[key].push(subject.subject);
+      });
+    }
+
+    await saveQuizResults(
+      userId,
+      results.percentages, // RIASEC scores
+      topCareerId, // Top 15 career IDs
+      undefined, // APS score (not available from quiz)
+      undefined, // Matric subjects (not available from quiz)
+      subjectRecommendations
+    );
   } catch (err) {
     // Silent fail — results already displayed in UI
     console.error('Failed to save quiz results:', err);
@@ -677,7 +693,7 @@ function QuizPage({ user, onNavigate }: AuthedProps) {
     setQuizResults(results);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     // Fire-and-forget save to Supabase
-    saveToSupabase(results, user.id);
+    saveQuizResultsToSupabase(results, user.id);
   };
 
   const handleRetake = () => {

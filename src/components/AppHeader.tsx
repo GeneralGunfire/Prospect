@@ -41,6 +41,7 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
   const navLinks: { name: string; page: AppPage }[] = [
     { name: 'Dashboard', page: 'dashboard' },
     { name: 'Quiz', page: 'quiz' },
+    { name: 'Subject Selector', page: 'subject-selector' },
     { name: 'Job Map', page: 'map' },
     { name: 'Careers', page: 'careers' },
     { name: 'TVET Pathways', page: 'tvet' },

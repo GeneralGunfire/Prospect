@@ -4,6 +4,7 @@ import type { User } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
+import Grade10SubjectSelectorPage from './pages/Grade10SubjectSelectorPage';
 import StudyLibraryPage from './pages/StudyLibraryPage';
 import CareersPageNew from './pages/CareersPageNew';
 import BursariesPage from './pages/BursariesPage';
@@ -590,6 +591,12 @@ export default function App() {
           {page === 'quiz' && (
             <PageTransition pageKey="quiz">
               <QuizPage {...protectedPageProps} />
+            </PageTransition>
+          )}
+
+          {page === 'subject-selector' && (
+            <PageTransition pageKey="subject-selector">
+              <Grade10SubjectSelectorPage {...protectedPageProps} />
             </PageTransition>
           )}
 

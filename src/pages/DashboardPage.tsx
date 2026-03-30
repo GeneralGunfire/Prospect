@@ -20,23 +20,32 @@ import { CareerCard } from '../components/CareerCard';
 import { DashboardVideoGrid } from '../components/DashboardVideoGrid';
 import AppHeader from '../components/AppHeader';
 import { getUserBookmarks, removeBookmark, type BookmarkState } from '../services/bookmarkService';
+import { getLatestQuizResult } from '../services/quizService';
 
 function DashboardPage({ user, onNavigate }: AuthedProps) {
   const [savedCareers, setSavedCareers] = useState<string[]>([]);
   const [savedBursaries, setSavedBursaries] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [latestApsScore, setLatestApsScore] = useState<number | undefined>(undefined);
 
-  // Fetch bookmarks on mount
+  // Fetch bookmarks and quiz results on mount
   useEffect(() => {
-    const loadBookmarks = async () => {
+    const loadData = async () => {
       setIsLoading(true);
       const bookmarks = await getUserBookmarks(user.id);
       setSavedCareers(bookmarks.careers);
       setSavedBursaries(bookmarks.bursaries);
+
+      // Load latest quiz result for APS score
+      const latestResult = await getLatestQuizResult(user.id);
+      if (latestResult?.aps_score) {
+        setLatestApsScore(latestResult.aps_score);
+      }
+
       setIsLoading(false);
     };
 
-    loadBookmarks();
+    loadData();
   }, [user.id]);
 
   // Get career and bursary data
@@ -90,9 +99,9 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {[
+            { label: 'Current APS', value: isLoading ? '-' : (latestApsScore ?? '-'), icon: GraduationCap, bg: 'bg-blue-100', iconStyle: { color: '#1e293b' } },
             { label: 'Saved Careers', value: isLoading ? '-' : savedCareers.length, icon: Briefcase, bg: 'bg-slate-100', iconStyle: { color: '#1e293b' } },
             { label: 'Saved Bursaries', value: isLoading ? '-' : savedBursaries.length, icon: Wallet, color: 'text-green-600', bg: 'bg-green-50' },
-            { label: 'Total Saved', value: isLoading ? '-' : savedCareers.length + savedBursaries.length, icon: Star, color: 'text-prospect-green', bg: 'bg-prospect-green/10' },
             { label: 'Status', value: isLoading ? 'Loading...' : 'Active', icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-50' },
           ].map((stat, i) => (
             <motion.div

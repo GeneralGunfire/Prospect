@@ -156,7 +156,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
             className="px-4 pb-8"
           >
             <div className="max-w-7xl mx-auto">
-              {/* Header with Back Button */}
+              {/* Header with Back Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -170,15 +170,25 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                     Province: <strong>{province || 'Loading...'}</strong>
                   </p>
                 </div>
-                <motion.button
-                  onClick={handleBackClick}
-                  whileHover={{ x: -4 }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold transition"
-                  style={{ backgroundColor: '#1B5E20' }}
-                >
-                  <ChevronLeft size={20} />
-                  Back
-                </motion.button>
+                <div className="flex gap-3">
+                  <motion.button
+                    onClick={handleBackClick}
+                    whileHover={{ x: -4 }}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold transition"
+                    style={{ backgroundColor: '#1B5E20' }}
+                  >
+                    <ChevronLeft size={20} />
+                    Back
+                  </motion.button>
+                  <motion.button
+                    onClick={() => onNavigate('dashboard')}
+                    whileHover={{ scale: 1.05 }}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold transition"
+                    style={{ backgroundColor: '#1e293b' }}
+                  >
+                    Dashboard
+                  </motion.button>
+                </div>
               </motion.div>
 
               {/* Two-Row Layout: Map on top, Results below */}

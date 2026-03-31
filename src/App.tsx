@@ -547,7 +547,6 @@ export default function App() {
         updated_at: new Date().toISOString(),
         is_anonymous: false,
       } as any);
-      setLoading(false);
       return;
     }
 
@@ -560,7 +559,6 @@ export default function App() {
           setPage('dashboard');
         }
       }
-      setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {

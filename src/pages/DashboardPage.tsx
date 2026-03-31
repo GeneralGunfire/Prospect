@@ -84,7 +84,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
               <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Student Dashboard</span>
             </div>
             <h1 className="text-2xl md:text-4xl font-bold tracking-tight" style={{ color: '#1e293b' }}>
-              Welcome back, <span className="text-prospect-green">{firstName}</span>
+              Welcome back, <span className="text-[#3B5A7F]">{firstName}</span>
             </h1>
           </div>
           <button
@@ -153,7 +153,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                       <CareerCard career={career} />
                       <button
                         onClick={() => handleRemoveCareer(career.id)}
-                        className="absolute top-3 right-3 p-2 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                            className="absolute top-3 right-3 p-2 bg-red-500 text-white rounded-lg lg:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                         title="Remove from saved"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -206,7 +206,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                           <Wallet className="w-5 h-5" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-sm font-bold group-hover:text-prospect-green transition-colors" style={{ color: '#1e293b' }}>{bursary.name}</h4>
+                          <h4 className="text-sm font-bold group-hover:text-[#3B5A7F] transition-colors" style={{ color: '#1e293b' }}>{bursary.name}</h4>
                           <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>{bursary.provider} • Closes {bursary.deadline}</p>
                         </div>
                       </div>

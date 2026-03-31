@@ -1,15 +1,15 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, Map as MapIcon, MapPin, BarChart2, Loader2, Briefcase, GraduationCap } from 'lucide-react';
+import { ChevronLeft, Map as MapIcon, MapPin, BarChart2, Loader2, GraduationCap } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import type { AppPage, AuthedProps } from '../lib/withAuth';
 import { withAuth } from '../lib/withAuth';
 import LocationInput, { UserLocation } from '../components/LocationInput';
 import MapDisplay from '../components/MapDisplay';
 import SearchBox from '../components/SearchBox';
-import CareersTab from '../components/CareersTab';
 import CollegesTab from '../components/CollegesTab';
 import InsightsTab from '../components/InsightsTab';
+import AppHeader from '../components/AppHeader';
 import { CareerDetailModal } from '../components/CareerDetailModal';
 import type { CareerFull } from '../data/careersTypes';
 import { getCareersByProvince, getUniversitiesByProvince, getTVETCollegesByProvince, createCareerMarkers, createUniversityMarkers, createTVETMarkers } from '../services/mapService';
@@ -20,7 +20,7 @@ interface MapPageProps extends AuthedProps {}
 function MapPageComponent({ user, onNavigate }: MapPageProps) {
   const [step, setStep] = useState<'location' | 'exploring'>('location');
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
-  const [activeTab, setActiveTab] = useState<'careers' | 'colleges' | 'insights'>('careers');
+  const [activeTab, setActiveTab] = useState<'colleges' | 'insights'>('colleges');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeLayers, setActiveLayers] = useState(['demand', 'colleges']);
   const [selectedCareer, setSelectedCareer] = useState<CareerFull | null>(null);
@@ -30,18 +30,13 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
     setUserLocation(location);
     setStep('exploring');
     setSearchQuery('');
-    setActiveTab('careers');
+    setActiveTab('colleges');
   };
 
   const handleLayerToggle = (layer: string) => {
     setActiveLayers((prev) =>
       prev.includes(layer) ? prev.filter((l) => l !== layer) : [...prev, layer]
     );
-  };
-
-  const handleCareerSelect = (career: CareerFull) => {
-    setSelectedCareer(career);
-    setShowCareerModal(true);
   };
 
   const handleBackClick = () => {
@@ -83,13 +78,13 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
   }, [province, activeTab]);
 
   const tabs = [
-    { id: 'careers', label: 'Careers', icon: Briefcase },
     { id: 'colleges', label: 'Colleges', icon: GraduationCap },
     { id: 'insights', label: 'Insights', icon: BarChart2 },
   ] as const;
 
   return (
-    <div className="min-h-screen w-full bg-white pt-24">
+    <div className="min-h-screen w-full bg-white">
+      <AppHeader currentPage="map" user={user} onNavigate={onNavigate} />
       <AnimatePresence mode="wait">
         {step === 'location' ? (
           // Step 1: Location Input
@@ -98,7 +93,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="min-h-screen flex items-center justify-center px-4 prospect-auth-bg"
+            className="min-h-screen flex items-center justify-center px-4 pt-20 prospect-auth-bg"
           >
             <div className="text-center max-w-lg w-full">
               <motion.div
@@ -107,8 +102,8 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 transition={{ delay: 0.1 }}
                 className="flex items-center justify-center gap-4 mb-4"
               >
-                <MapIcon size={44} style={{ color: '#1B5E20' }} />
-                <h1 className="text-4xl lg:text-5xl font-bold uppercase tracking-tight" style={{ color: '#1B5E20' }}>
+                <MapIcon size={44} style={{ color: '#1E3A5F' }} />
+                <h1 className="text-4xl lg:text-5xl font-bold uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
                   Job Market Map
                 </h1>
               </motion.div>
@@ -137,10 +132,10 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
                 className="mt-8 p-4 rounded-lg flex items-center gap-3"
-                style={{ backgroundColor: '#F0F7F0', borderLeft: '4px solid #1B5E20' }}
+                style={{ backgroundColor: '#f0f4f7', borderLeft: '4px solid #1E3A5F' }}
               >
-                <MapIcon size={20} style={{ color: '#1B5E20', flexShrink: 0 }} />
-                <p className="text-sm" style={{ color: '#1B5E20' }}>
+                <MapIcon size={20} style={{ color: '#1E3A5F', flexShrink: 0 }} />
+                <p className="text-sm" style={{ color: '#1E3A5F' }}>
                   Enter your location to see careers, colleges, and job market insights for your area.
                 </p>
               </motion.div>
@@ -153,9 +148,22 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="px-4 pb-8"
+            className="px-4 pb-8 pt-24"
           >
             <div className="max-w-7xl mx-auto">
+              {/* Back to Dashboard Button */}
+              <div className="mb-6">
+                <motion.button
+                  onClick={() => onNavigate('dashboard')}
+                  whileHover={{ x: -4 }}
+                  className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest transition-colors"
+                  style={{ color: '#1E3A5F' }}
+                >
+                  <ChevronLeft size={16} />
+                  Back to Dashboard
+                </motion.button>
+              </div>
+
               {/* Header with Back Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -163,9 +171,9 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 className="mb-6 pb-4 border-b-2 border-slate-200 flex items-center justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <MapPin size={32} style={{ color: '#1B5E20' }} />
+                  <MapPin size={32} style={{ color: '#1E3A5F' }} />
                   <div>
-                    <h2 className="text-3xl font-bold uppercase tracking-tight" style={{ color: '#1B5E20' }}>
+                    <h2 className="text-3xl font-bold uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
                       {userLocation?.label || 'Unknown'}
                     </h2>
                     <p className="text-sm" style={{ color: '#64748b' }}>
@@ -178,18 +186,10 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                     onClick={handleBackClick}
                     whileHover={{ x: -4 }}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold transition"
-                    style={{ backgroundColor: '#1B5E20' }}
+                    style={{ backgroundColor: '#1E3A5F' }}
                   >
                     <ChevronLeft size={20} />
-                    Back
-                  </motion.button>
-                  <motion.button
-                    onClick={() => onNavigate('dashboard')}
-                    whileHover={{ scale: 1.05 }}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold transition"
-                    style={{ backgroundColor: '#1e293b' }}
-                  >
-                    Dashboard
+                    Change Location
                   </motion.button>
                 </div>
               </motion.div>
@@ -243,7 +243,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                         style={{
-                          backgroundColor: activeTab === tab.id ? '#1B5E20' : 'transparent',
+                          backgroundColor: activeTab === tab.id ? '#1E3A5F' : 'transparent',
                         }}
                       >
                         <tab.icon size={18} className="inline-block mr-2" />
@@ -257,21 +257,6 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                     className="bg-white rounded-xl p-6 border-2 border-slate-100 max-h-96 lg:max-h-full overflow-y-auto"
                   >
                     <AnimatePresence mode="wait">
-                      {activeTab === 'careers' && province && (
-                        <motion.div
-                          key="careers"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          <CareersTab
-                            province={province}
-                            searchQuery={searchQuery}
-                            onCareerSelect={handleCareerSelect}
-                          />
-                        </motion.div>
-                      )}
-
                       {activeTab === 'colleges' && province && (
                         <motion.div
                           key="colleges"

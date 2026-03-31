@@ -41,12 +41,12 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
   const navLinks: { name: string; page: AppPage }[] = [
     { name: 'Dashboard', page: 'dashboard' },
     { name: 'Quiz', page: 'quiz' },
+    { name: 'TVET Path', page: 'tvet' },
     { name: 'Subject Selector', page: 'subject-selector' },
+    { name: 'Study Library', page: 'library' },
     { name: 'Job Map', page: 'map' },
     { name: 'Careers', page: 'careers' },
-    { name: 'TVET Pathways', page: 'tvet' },
     { name: 'Bursaries', page: 'bursaries' },
-    { name: 'Library', page: 'library' },
   ];
 
   const firstName = user.user_metadata?.full_name?.split(' ')[0] ?? 'Student';
@@ -89,15 +89,15 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
           </div>
 
           {/* Center: nav links */}
-          <nav className="hidden md:flex items-center space-x-6">
-            {navLinks.slice(0, 5).map((link) => (
+          <nav className="hidden lg:flex items-center space-x-4">
+            {navLinks.map((link) => (
               <button
                 key={link.page}
                 onClick={() => onNavigate(link.page)}
                 className={`font-semibold tracking-wider text-xs uppercase transition-colors pb-1 border-b-2 ${
-                  currentPage === link.page
-                    ? 'text-prospect-green border-prospect-green'
-                    : 'text-navy border-transparent hover:text-prospect-green'
+                  (currentPage === link.page)
+                    ? 'text-[#3B5A7F] border-[#3B5A7F]'
+                    : 'text-navy border-transparent hover:text-[#3B5A7F]'
                 }`}
               >
                 {link.name}
@@ -201,15 +201,15 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
                   <X className="w-5 h-5" style={{ color: '#1e293b' }} />
                 </button>
               </div>
-              <div className="p-6 flex flex-col gap-1">
+              <div className="p-6 flex flex-col gap-1 overflow-y-auto">
                 {navLinks.map((link) => (
                   <button
                     key={link.page}
                     onClick={() => { setIsDrawerOpen(false); onNavigate(link.page); }}
-                    className={`text-lg font-semibold py-4 px-2 border-b border-slate-100 text-left transition-colors touch-target ${
+                    className={`text-sm font-semibold py-4 px-2 border-b border-slate-100 text-left transition-colors touch-target uppercase tracking-widest ${
                       currentPage === link.page
-                        ? 'text-prospect-green border-l-4 border-l-prospect-green pl-1'
-                        : 'text-slate-900 hover:text-prospect-green'
+                        ? 'text-[#3B5A7F] border-l-4 border-l-[#3B5A7F] pl-4'
+                        : 'text-slate-900 hover:text-[#3B5A7F]'
                     }`}
                   >
                     {link.name}

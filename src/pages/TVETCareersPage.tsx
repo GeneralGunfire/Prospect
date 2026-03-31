@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Filter, X, Briefcase, ChevronDown } from 'lucide-react';
-import { tvetCareers } from '../data/tvetCareers';
+import { careersFullData } from '../data/careersFullData';
 import { TVETCareerCard } from '../components/TVETCareerCard';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
 import AppHeader from '../components/AppHeader';
@@ -23,6 +23,9 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
   const [displayCount, setDisplayCount] = useState(30);
   const [isLoadingSaves, setIsLoadingSaves] = useState(true);
   const LOAD_MORE_INCREMENT = 30;
+
+  // Filter to TVET careers only
+  const tvetCareers = useMemo(() => careersFullData.filter((c) => c.category === 'tvet'), []);
 
   // Fetch saved careers on mount
   useEffect(() => {

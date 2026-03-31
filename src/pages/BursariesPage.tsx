@@ -126,7 +126,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
           <div className="flex flex-wrap justify-center gap-3">
             <button
               className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all"
-              style={{ backgroundColor: '#1e293b', color: 'white' }}
+              style={{ backgroundColor: '#1E3A5F', color: 'white' }}
             >
               Browse Bursaries
             </button>

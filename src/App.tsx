@@ -72,7 +72,7 @@ const Header = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
           whileTap={{ scale: 0.95 }}
           onClick={onNavigateAuth}
           className="font-bold text-sm lg:text-base px-6 py-2 lg:py-3 rounded-full transition-colors shadow-sm"
-          style={{ backgroundColor: '#1B5E20', color: 'white' }}
+          style={{ backgroundColor: '#1E3A5F', color: 'white' }}
         >
           Login
         </motion.button>
@@ -94,22 +94,14 @@ const Hero = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
       </div>
 
       <div className="relative z-10 text-center px-4 max-w-4xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl lg:text-7xl font-bold text-white mb-6 tracking-tight"
-        >
+        <h1 className="text-4xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
           Find Your Career. <br /> Know Your Path.
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+        </h1>
+        <p
           className="text-lg lg:text-xl text-white/90 mb-10 max-w-2xl mx-auto"
         >
           Discover the right career path based on your strengths, explore top SA careers, and learn exactly how to get there.
-        </motion.p>
+        </p>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -121,7 +113,7 @@ const Hero = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
             whileTap={{ scale: 0.95 }}
             onClick={onNavigateAuth}
             className="px-10 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-all shadow-xl"
-            style={{ backgroundColor: '#1B5E20', color: 'white' }}
+            style={{ backgroundColor: '#1E3A5F', color: 'white' }}
           >
             Get Started
           </motion.button>
@@ -133,23 +125,15 @@ const Hero = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
 
 const BrandSlogan = () => (
   <section className="py-12 px-4 bg-white flex flex-col items-center gap-4">
-    <motion.div
+    <div
       className="w-20 h-20 rounded-3xl flex items-center justify-center text-white font-semibold text-5xl shadow-xl"
       style={{ backgroundColor: '#1e293b' }}
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-    >P</motion.div>
-    <motion.p
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.15 }}
-      className="text-xl font-bold text-[#1B5E20]"
+    >P</div>
+    <p
+      className="text-xl font-bold text-[#1E3A5F]"
     >
       Know your path. Own your future.
-    </motion.p>
+    </p>
   </section>
 );
 

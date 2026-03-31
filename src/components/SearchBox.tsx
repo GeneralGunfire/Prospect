@@ -92,8 +92,8 @@ export default function SearchBox({ value, onChange, placeholder = 'Search caree
                 className="w-full px-4 py-3 text-left text-sm border-b last:border-b-0 transition"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-slate-600">
-                    {'type' in item ? '💼' : '📍'}
+                  <span className="text-xs font-bold text-slate-500 uppercase">
+                    {'type' in item ? 'Career' : 'Location'}
                   </span>
                   <span className="text-slate-900">
                     {'type' in item ? item.name : item.name}

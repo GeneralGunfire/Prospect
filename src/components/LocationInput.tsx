@@ -201,7 +201,7 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
                       <div className="font-semibold text-gray-900">{city.name}</div>
                       <div className="text-sm text-gray-600">{city.province}</div>
                     </div>
-                    {city.hotspot && <span className="text-lg">🔥</span>}
+                    {city.hotspot && <span className="text-xs font-bold text-orange-600">HOT</span>}
                   </motion.button>
                 ))}
               </motion.div>
@@ -241,7 +241,7 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
             disabled={isLoading || geoLoading}
             className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-3 rounded-lg transition disabled:opacity-50"
           >
-            {geoLoading ? 'Finding...' : '📍 Use My Location'}
+            {geoLoading ? 'Finding...' : 'Use My Location'}
           </motion.button>
         </div>
 

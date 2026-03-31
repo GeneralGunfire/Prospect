@@ -141,7 +141,7 @@ function QuizPhase({
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              className="h-full bg-secondary"
+              className="h-full bg-[#3B5A7F]"
             />
           </div>
         </div>
@@ -210,7 +210,7 @@ function QuizPhase({
           {/* Skip Button */}
           <button
             onClick={handleSkip}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-secondary hover:bg-secondary/10 transition-all border border-secondary/30"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-[#3B5A7F] hover:bg-[#3B5A7F]/10 transition-all border border-[#3B5A7F]/30"
           >
             <SkipForward className="w-4 h-4" />
             Skip
@@ -220,7 +220,7 @@ function QuizPhase({
             <button
               onClick={handleFinish}
               disabled={!isComplete}
-              className="bg-secondary text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
+              className="bg-[#1E3A5F] text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
             >
               Finish Quiz
             </button>

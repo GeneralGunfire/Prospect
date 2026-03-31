@@ -8,11 +8,11 @@
   --color-calm-bg: #F7F7F7;
   --color-calm-footer: #1B2250;
 
-  /* Prospect brand */
-  --color-prospect-green: #1B5E20;
-  --color-prospect-green-dark: #14451A;
+  /* Prospect brand - Redesigned to Blue-Gray */
+  --color-prospect-green: #1E3A5F;
+  --color-prospect-green-dark: #152a45;
+  --color-prospect-blue-accent: #3B5A7F;
   --color-prospect-gold: #F9A825;
-
   /* Old site compat tokens used in extracted pages */
   --color-navy: #1e293b;
   --color-secondary: #64748b;
@@ -43,14 +43,14 @@
 }
 
 .prospect-auth-bg {
-  background: linear-gradient(135deg, #f0f7f0 0%, #fefefe 50%, #fffbf0 100%);
+  background: linear-gradient(135deg, #f0f4f7 0%, #fefefe 50%, #fffbf7 100%);
 }
 
 .prospect-btn-primary {
-  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+  background: linear-gradient(135deg, #1E3A5F 0%, #2b4d7a 100%);
 }
 .prospect-btn-primary:hover {
-  background: linear-gradient(135deg, #14451A 0%, #1B5E20 100%);
+  background: linear-gradient(135deg, #152a45 0%, #1E3A5F 100%);
 }
 
 /* ─── Global Button & Interactive States ─── */

@@ -21,9 +21,9 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [relatedCareers, setRelatedCareers] = useState<CareerFull[]>([]);
   const [savedCareers, setSavedCareers] = useState<string[]>([]);
-  const [displayCount, setDisplayCount] = useState(30);
+  const [displayCount, setDisplayCount] = useState(25);
   const [isLoadingSaves, setIsLoadingSaves] = useState(true);
-  const LOAD_MORE_INCREMENT = 30;
+  const LOAD_MORE_INCREMENT = 25;
 
   // Fetch saved careers from Supabase on mount
   useEffect(() => {
@@ -86,7 +86,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
     setSelectedRIASEC(null);
     setSelectedDemand(null);
     setSalaryRange([0, 100000]);
-    setDisplayCount(30); // Reset to initial display count
+    setDisplayCount(25); // Reset to initial display count
   };
 
   const handleCareerClick = (career: CareerFull) => {
@@ -293,6 +293,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
             displayedCareers.map((career, index) => (
               <motion.div
                 key={career.id}
+                data-career-card
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: Math.min(index, 7) * 0.04 }}
@@ -325,12 +326,20 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
+              data-load-more-btn
               className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
               style={{ backgroundColor: '#1e293b' }}
             >
               Load More Careers ({remainingCareers} more)
               <ChevronDown className="w-4 h-4" />
             </motion.button>
+          </div>
+        )}
+
+        {/* All careers loaded */}
+        {!hasMoreCareers && allFilteredCareers.length > 0 && (
+          <div className="text-center mb-8 text-sm" style={{ color: '#64748b' }}>
+            Showing all {allFilteredCareers.length} careers
           </div>
         )}
       </div>

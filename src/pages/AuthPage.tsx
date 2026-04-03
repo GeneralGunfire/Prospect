@@ -311,7 +311,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
       {/* Back to home */}
       <button
         onClick={onNavigateHome}
-        className="absolute top-6 left-6 flex items-center gap-1.5 text-sm text-gray-500 hover:text-prospect-green transition-colors"
+        className="absolute top-6 left-6 flex items-center gap-1.5 text-sm text-gray-500 hover:text-prospect-green transition-colors z-10"
       >
         <ArrowLeft size={16} />
         <span>Back to home</span>
@@ -321,10 +321,43 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-full max-w-md"
+        className="w-full max-w-4xl"
       >
-        {/* Card */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-black/10 border border-white/60 overflow-hidden">
+        {/* Card — split layout */}
+        <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-black/10 border border-white/60 overflow-hidden flex">
+          {/* Left panel — visual (uses SignInCard's layout concept) */}
+          <div className="hidden md:flex w-1/2 flex-col items-center justify-center p-10 bg-linear-to-br from-blue-50 to-slate-100 border-r border-slate-100 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-30">
+              {/* Dot grid background */}
+              {Array.from({ length: 12 }).map((_, row) =>
+                Array.from({ length: 10 }).map((_, col) => (
+                  <div
+                    key={`${row}-${col}`}
+                    className="absolute w-1 h-1 rounded-full bg-calm-blue"
+                    style={{ top: `${row * 9 + 2}%`, left: `${col * 10 + 2}%`, opacity: Math.random() * 0.6 + 0.2 }}
+                  />
+                ))
+              )}
+            </div>
+            <div className="relative z-10 text-center">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-3xl mx-auto mb-4 shadow-lg bg-calm-blue">P</div>
+              <h2 className="text-3xl font-bold mb-2 text-transparent bg-clip-text bg-linear-to-r from-calm-blue to-calm-dark-blue">Prospect SA</h2>
+              <p className="text-sm text-slate-600 max-w-xs">Your free career guidance platform for South African students</p>
+              <div className="mt-6 space-y-3 text-left">
+                {['Career assessments & quiz', 'Browse 200+ career paths', 'Bursaries & funding info', 'Study resources & calendar'].map(f => (
+                  <div key={f} className="flex items-center gap-2 text-sm text-slate-600">
+                    <div className="w-5 h-5 rounded-full bg-calm-blue/20 flex items-center justify-center shrink-0">
+                      <Check size={11} className="text-calm-blue" />
+                    </div>
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right panel — form */}
+          <div className="w-full md:w-1/2">
           {/* Logo + brand */}
           <div className="px-8 pt-8 pb-6 text-center border-b border-gray-100">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-semibold text-4xl mx-auto mb-3 shadow-lg" style={{ backgroundColor: '#1e293b' }}>P</div>
@@ -631,7 +664,8 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
               )}
             </AnimatePresence>
           </div>
-        </div>
+          </div>{/* end right panel */}
+        </div>{/* end split card */}
 
         {/* Footer note */}
         <p className="text-center text-xs text-gray-400 mt-6">

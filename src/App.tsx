@@ -2,6 +2,11 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
+import { Hero as AnimatedHero } from '../components/ui/animated-hero';
+import { LogoCloud } from '../components/ui/logo-cloud-2';
+import { CategoryList } from '../components/ui/category-list';
+import { NeoMinimalFooter } from '../components/ui/neo-minimal-footer';
+import { GraduationCap, Briefcase, BookOpen, MapPin, Award } from 'lucide-react';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import Grade10SubjectSelectorPage from './pages/Grade10SubjectSelectorPage';
@@ -17,6 +22,7 @@ import TVETCareersPage from './pages/TVETCareersPage';
 import TVETCollegesPage from './pages/TVETCollegesPage';
 import TVETFundingPage from './pages/TVETFundingPage';
 import TVETRequirementsPage from './pages/TVETRequirementsPage';
+import CalendarPage from './pages/CalendarPage';
 import LoadingScreen from './components/LoadingScreen';
 import { VideoPlayer } from './components/VideoPlayer';
 import type { AppPage } from './lib/withAuth';
@@ -678,12 +684,18 @@ export default function App() {
             </PageTransition>
           )}
 
+          {page === 'calendar' && (
+            <PageTransition pageKey="calendar">
+              <CalendarPage {...protectedPageProps} />
+            </PageTransition>
+          )}
+
           {page === 'home' && (
             <PageTransition pageKey="home">
               <div className="min-h-screen">
                 <Header onNavigateAuth={() => setPage('auth')} />
                 <main id="main-content">
-                  <Hero onNavigateAuth={() => setPage('auth')} />
+                  <AnimatedHero />
                   <BrandSlogan />
                   <VideoPlayer
                     src="/videos/video1.mp4"
@@ -693,11 +705,32 @@ export default function App() {
                     poster="/thumbnails/video1-poster.png"
                   />
                   <ValueProps />
+                  <section className="py-16 bg-slate-50">
+                    <CategoryList
+                      title="Explore by Category"
+                      subtitle="Find the right path for your future"
+                      categories={[
+                        { id: 'quiz', title: 'Career Quiz', subtitle: 'Discover careers that match you', icon: <Award className="w-5 h-5" />, onClick: () => setPage('quiz' as any) },
+                        { id: 'careers', title: 'Career Paths', subtitle: 'Browse hundreds of career options', icon: <Briefcase className="w-5 h-5" />, onClick: () => setPage('careers' as any) },
+                        { id: 'tvet', title: 'TVET Programmes', subtitle: 'Vocational and technical training', icon: <GraduationCap className="w-5 h-5" />, onClick: () => setPage('tvet' as any) },
+                        { id: 'library', title: 'Study Library', subtitle: 'Study guides and past papers', icon: <BookOpen className="w-5 h-5" />, onClick: () => setPage('library' as any) },
+                        { id: 'bursaries', title: 'Bursaries & Funding', subtitle: 'Scholarships for SA students', icon: <Award className="w-5 h-5" />, onClick: () => setPage('bursaries' as any) },
+                        { id: 'map', title: 'Job Map', subtitle: 'Explore employers across SA', icon: <MapPin className="w-5 h-5" />, onClick: () => setPage('map' as any) },
+                      ]}
+                    />
+                  </section>
+                  <section className="py-12 bg-white">
+                    <div className="max-w-6xl mx-auto px-4">
+                      <h2 className="text-2xl font-bold text-center text-slate-800 mb-2">Partner Institutions</h2>
+                      <p className="text-center text-slate-500 mb-8">Trusted by leading South African universities and colleges</p>
+                      <LogoCloud />
+                    </div>
+                  </section>
                   <Banner />
                   <Reviews />
                   <FAQ />
                 </main>
-                <Footer />
+                <NeoMinimalFooter />
               </div>
             </PageTransition>
           )}

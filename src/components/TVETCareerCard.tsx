@@ -26,10 +26,10 @@ export function TVETCareerCard({ career, onCardClick }: TVETCareerCardProps) {
   return (
     <div
       onClick={onCardClick}
-      className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#1B5E20] transition-all duration-300 flex flex-col h-full cursor-pointer"
+      className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#1E3A5F] transition-all duration-300 flex flex-col h-full cursor-pointer"
     >
       <div className="flex justify-between items-start mb-4">
-        <span className="px-3 py-1 bg-[#1B5E20]/10 text-[#1B5E20] text-xs font-bold uppercase tracking-widest rounded-full">
+        <span className="px-3 py-1 bg-[#1E3A5F]/10 text-[#1E3A5F] text-xs font-bold uppercase tracking-widest rounded-full">
           TVET Career
         </span>
         <div
@@ -40,7 +40,7 @@ export function TVETCareerCard({ career, onCardClick }: TVETCareerCardProps) {
         </div>
       </div>
 
-      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#1B5E20] transition-colors">
+      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#1E3A5F] transition-colors">
         {career.title}
       </h3>
 
@@ -49,17 +49,17 @@ export function TVETCareerCard({ career, onCardClick }: TVETCareerCardProps) {
       </p>
 
       <div className="mt-auto space-y-3">
-        <div className="flex items-center gap-3" style={{ color: '#1B5E20' }}>
+        <div className="flex items-center gap-3" style={{ color: '#1E3A5F' }}>
           <DollarSign className="w-4 h-4" />
           <span className="text-xs font-bold uppercase tracking-wider">{salaryDisplay}/month</span>
         </div>
 
-        <div className="flex items-center gap-3" style={{ color: '#1B5E20' }}>
+        <div className="flex items-center gap-3" style={{ color: '#1E3A5F' }}>
           <Briefcase className="w-4 h-4" />
           <span className="text-xs font-bold uppercase tracking-wider">{duration}</span>
         </div>
 
-        <div className="flex items-center gap-3" style={{ color: '#1B5E20' }}>
+        <div className="flex items-center gap-3" style={{ color: '#1E3A5F' }}>
           <Zap className="w-4 h-4" />
           <span className="text-xs font-bold uppercase tracking-wider">
             {career.jobDemand.growthPercentage}% growth
@@ -68,7 +68,7 @@ export function TVETCareerCard({ career, onCardClick }: TVETCareerCardProps) {
 
         <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
           <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">View Details</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" style={{ color: '#1B5E20' }} />
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" style={{ color: '#1E3A5F' }} />
         </div>
       </div>
     </div>

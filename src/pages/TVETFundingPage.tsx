@@ -7,7 +7,7 @@ import { TVETSubNav } from '../components/TVETSubNav';
 function TVETFundingPage({ user, onNavigate }: AuthedProps) {
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} />
       <TVETSubNav currentPage="funding" onNavigate={onNavigate} />
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">

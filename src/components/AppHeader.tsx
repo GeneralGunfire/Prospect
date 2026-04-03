@@ -47,6 +47,7 @@ export default function AppHeader({ currentPage, user, onNavigate }: AppHeaderPr
     { name: 'Job Map', page: 'map' },
     { name: 'Careers', page: 'careers' },
     { name: 'Bursaries', page: 'bursaries' },
+    { name: 'Study Calendar', page: 'calendar' },
   ];
 
   const firstName = user.user_metadata?.full_name?.split(' ')[0] ?? 'Student';

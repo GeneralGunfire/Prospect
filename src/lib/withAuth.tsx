@@ -2,7 +2,7 @@ import { useEffect, useState, type ComponentType } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 
-export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'disadvantaged-guide' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements';
+export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'disadvantaged-guide' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar';
 
 export interface AuthedProps {
   user: User;

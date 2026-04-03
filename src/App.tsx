@@ -719,13 +719,6 @@ export default function App() {
                       ]}
                     />
                   </section>
-                  <section className="py-12 bg-white">
-                    <div className="max-w-6xl mx-auto px-4">
-                      <h2 className="text-2xl font-bold text-center text-slate-800 mb-2">Partner Institutions</h2>
-                      <p className="text-center text-slate-500 mb-8">Trusted by leading South African universities and colleges</p>
-                      <LogoCloud />
-                    </div>
-                  </section>
                   <Banner />
                   <Reviews />
                   <FAQ />

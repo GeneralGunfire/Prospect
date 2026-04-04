@@ -1,32 +1,7 @@
 import { supabase } from '../lib/supabase';
 
 /**
- * SUPABASE SETUP: Run this SQL in your Supabase SQL Editor
- *
- * CREATE TABLE quiz_results (
- *   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
- *   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
- *   riasec_scores JSONB NOT NULL,
- *   top_careers JSONB NOT NULL,
- *   aps_score INT,
- *   matric_subjects JSONB,
- *   subject_recommendations JSONB,
- *   created_at TIMESTAMP DEFAULT NOW()
- * );
- *
- * CREATE INDEX idx_quiz_results_user ON quiz_results(user_id);
- *
- * ALTER TABLE quiz_results ENABLE ROW LEVEL SECURITY;
- *
- * CREATE POLICY "Users can view own quiz results" ON quiz_results
- *   FOR SELECT
- *   TO authenticated
- *   USING (auth.uid() = user_id);
- *
- * CREATE POLICY "Users can insert own quiz results" ON quiz_results
- *   FOR INSERT
- *   TO authenticated
- *   WITH CHECK (auth.uid() = user_id);
+ * Quiz service with localStorage fallback for non-authenticated users.
  */
 
 export interface QuizResult {
@@ -38,6 +13,26 @@ export interface QuizResult {
   matric_subjects?: string[];
   subject_recommendations?: Record<string, string[]>;
   created_at: string;
+}
+
+const QUIZ_RESULTS_KEY = 'prospect_quiz_results';
+
+function getLocalQuizResults(): QuizResult[] {
+  const stored = localStorage.getItem(QUIZ_RESULTS_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
+
+function setLocalQuizResults(results: QuizResult[]): void {
+  localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+}
+
+async function isUserAuthenticated(): Promise<boolean> {
+  try {
+    const { data } = await supabase.auth.getUser();
+    return !!data?.user;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -58,28 +53,56 @@ export async function saveQuizResults(
   matricSubjects?: string[],
   subjectRecommendations?: Record<string, string[]>
 ): Promise<boolean> {
-  try {
-    const { error } = await supabase
-      .from('quiz_results')
-      .insert({
-        user_id: userId,
-        riasec_scores: riasecScores,
-        top_careers: topCareers,
-        aps_score: apsScore,
-        matric_subjects: matricSubjects,
-        subject_recommendations: subjectRecommendations,
-        created_at: new Date().toISOString(),
-      });
+  const isAuth = await isUserAuthenticated();
 
-    if (error) {
-      console.error('Error saving quiz results:', error);
-      return false;
+  const result: QuizResult = {
+    id: `local_${Date.now()}`,
+    user_id: userId,
+    riasec_scores: riasecScores,
+    top_careers: topCareers,
+    aps_score: apsScore,
+    matric_subjects: matricSubjects,
+    subject_recommendations: subjectRecommendations,
+    created_at: new Date().toISOString(),
+  };
+
+  if (isAuth) {
+    try {
+      const { error } = await supabase
+        .from('quiz_results')
+        .insert({
+          user_id: userId,
+          riasec_scores: riasecScores,
+          top_careers: topCareers,
+          aps_score: apsScore,
+          matric_subjects: matricSubjects,
+          subject_recommendations: subjectRecommendations,
+          created_at: new Date().toISOString(),
+        });
+
+      if (error) {
+        console.error('Error saving quiz results to DB:', error);
+        // Fall back to localStorage
+        const results = getLocalQuizResults();
+        results.unshift(result);
+        setLocalQuizResults(results);
+        return true;
+      }
+      return true;
+    } catch (err) {
+      console.error('Error saving quiz results:', err);
+      // Fall back to localStorage
+      const results = getLocalQuizResults();
+      results.unshift(result);
+      setLocalQuizResults(results);
+      return true;
     }
-
+  } else {
+    // No auth - use localStorage
+    const results = getLocalQuizResults();
+    results.unshift(result);
+    setLocalQuizResults(results);
     return true;
-  } catch (err) {
-    console.error('Error saving quiz results:', err);
-    return false;
   }
 }
 
@@ -89,22 +112,29 @@ export async function saveQuizResults(
  * @returns Array of quiz results ordered by creation date (newest first)
  */
 export async function getQuizHistory(userId: string): Promise<QuizResult[]> {
-  try {
-    const { data, error } = await supabase
-      .from('quiz_results')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false });
+  const isAuth = await isUserAuthenticated();
 
-    if (error) {
-      console.error('Error fetching quiz history:', error);
-      return [];
+  if (isAuth) {
+    try {
+      const { data, error } = await supabase
+        .from('quiz_results')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching quiz history from DB:', error);
+        return getLocalQuizResults();
+      }
+
+      return (data as QuizResult[]) || [];
+    } catch (err) {
+      console.error('Error fetching quiz history:', err);
+      return getLocalQuizResults();
     }
-
-    return (data as QuizResult[]) || [];
-  } catch (err) {
-    console.error('Error fetching quiz history:', err);
-    return [];
+  } else {
+    // No auth - use localStorage
+    return getLocalQuizResults();
   }
 }
 
@@ -114,24 +144,33 @@ export async function getQuizHistory(userId: string): Promise<QuizResult[]> {
  * @returns The most recent quiz result, or null if none found
  */
 export async function getLatestQuizResult(userId: string): Promise<QuizResult | null> {
-  try {
-    const { data, error } = await supabase
-      .from('quiz_results')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+  const isAuth = await isUserAuthenticated();
 
-    if (error && error.code !== 'PGRST116') {
-      // PGRST116 = no rows found, which is expected
-      console.error('Error fetching latest quiz result:', error);
-      return null;
+  if (isAuth) {
+    try {
+      const { data, error } = await supabase
+        .from('quiz_results')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching latest quiz result from DB:', error);
+        const localResults = getLocalQuizResults();
+        return localResults.length > 0 ? localResults[0] : null;
+      }
+
+      return (data as QuizResult) || null;
+    } catch (err) {
+      console.error('Error fetching latest quiz result:', err);
+      const localResults = getLocalQuizResults();
+      return localResults.length > 0 ? localResults[0] : null;
     }
-
-    return (data as QuizResult) || null;
-  } catch (err) {
-    console.error('Error fetching latest quiz result:', err);
-    return null;
+  } else {
+    // No auth - use localStorage
+    const results = getLocalQuizResults();
+    return results.length > 0 ? results[0] : null;
   }
 }

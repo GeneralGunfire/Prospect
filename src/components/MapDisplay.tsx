@@ -1,21 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Circle, FeatureGroup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, FeatureGroup } from 'react-leaflet';
 import { motion } from 'motion/react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { MapPin, Briefcase, GraduationCap, Building2 } from 'lucide-react';
 import { PROVINCES, getProvinceFromCoords, PROVINCE_JOB_DEMAND } from '../data/mapData';
-
-// CSS for heatmap pulse animation
-const heatmapAnimationStyle = `
-  @keyframes heatmapPulse {
-    0% { opacity: 0.2; }
-    50% { opacity: 0.35; }
-    100% { opacity: 0.2; }
-  }
-  .heatmap-pulse {
-    animation: heatmapPulse 3s ease-in-out infinite;
-  }
-`;
 
 interface UserLocation {
   lat: number;
@@ -46,11 +35,10 @@ export default function MapDisplay({
   zoom = 8,
   userLocation,
   markers = [],
-  activeLayers = ['demand', 'colleges'],
+  activeLayers = ['colleges'],
   onLayerToggle,
 }: MapDisplayProps) {
   const mapRef = useRef<L.Map | null>(null);
-  const [animateCircles, setAnimateCircles] = useState(false);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -58,24 +46,7 @@ export default function MapDisplay({
     }
   }, [center, zoom]);
 
-  // Trigger animation on mount
-  useEffect(() => {
-    setAnimateCircles(true);
-  }, []);
-
-  // Get demand color based on level
-  const getDemandColor = (level: string) => {
-    switch (level) {
-      case 'high':
-        return '#DC2626'; // red
-      case 'medium':
-        return '#FBBF24'; // amber
-      default:
-        return '#22C55E'; // green
-    }
-  };
-
-  // Custom user location icon
+  // Custom user location icon with MapPin
   const userIcon = L.divIcon({
     className: 'user-marker',
     html: `
@@ -88,10 +59,10 @@ export default function MapDisplay({
         box-shadow: 0 0 0 2px #1B5E20;
         display: flex;
         align-items: center;
-        justify-items: center;
+        justify-content: center;
         animation: pulse 2s infinite;
       ">
-        📍
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
       </div>
       <style>
         @keyframes pulse {
@@ -105,35 +76,77 @@ export default function MapDisplay({
     popupAnchor: [0, -20],
   });
 
-  // Career marker icon
+  // Career marker icon (Briefcase)
   const careerIcon = L.divIcon({
     className: 'career-marker',
-    html: '<div style="font-size: 20px;">💼</div>',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-    popupAnchor: [0, -15],
+    html: `
+      <div style="
+        width: 32px;
+        height: 32px;
+        background: white;
+        border: 2px solid #8B5CF6;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg>
+      </div>
+    `,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
   });
 
-  // College marker icons
+  // University marker icon (GraduationCap)
   const universityIcon = L.divIcon({
     className: 'university-marker',
-    html: '<div style="font-size: 20px;">🎓</div>',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-    popupAnchor: [0, -15],
+    html: `
+      <div style="
+        width: 32px;
+        height: 32px;
+        background: white;
+        border: 2px solid #10B981;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      </div>
+    `,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
   });
 
+  // TVET marker icon (Building2)
   const tvetIcon = L.divIcon({
     className: 'tvet-marker',
-    html: '<div style="font-size: 20px;">🏗️</div>',
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-    popupAnchor: [0, -15],
+    html: `
+      <div style="
+        width: 32px;
+        height: 32px;
+        background: white;
+        border: 2px solid #3B82F6;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>
+    `,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
   });
 
   return (
     <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden">
-      <style>{heatmapAnimationStyle}</style>
       <MapContainer ref={mapRef} center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
         {/* Base Map */}
         <TileLayer
@@ -141,54 +154,6 @@ export default function MapDisplay({
           attribution="&copy; OpenStreetMap contributors"
           maxZoom={19}
         />
-
-        {/* Province Demand Heatmap Circles */}
-        {activeLayers.includes('demand') &&
-          PROVINCES.map((province) => {
-            const demand = PROVINCE_JOB_DEMAND.find(
-              (p: any) => p.province === province.name
-            );
-            const color = getDemandColor(demand?.level || 'low');
-
-            return (
-              <FeatureGroup key={`demand-${province.name}`}>
-                {/* Outer ring - most transparent */}
-                <Circle
-                  center={[province.centroid.lat, province.centroid.lng]}
-                  radius={150000}
-                  fillColor={color}
-                  color={color}
-                  weight={0}
-                  fillOpacity={0.05}
-                />
-
-                {/* Mid ring */}
-                <Circle
-                  center={[province.centroid.lat, province.centroid.lng]}
-                  radius={90000}
-                  fillColor={color}
-                  color={color}
-                  weight={0}
-                  fillOpacity={0.12}
-                />
-
-                {/* Inner ring - most opaque, with pulsing animation via CSS */}
-                <motion.div
-                  className="heatmap-pulse"
-                  style={{ pointerEvents: 'none' }}
-                >
-                  <Circle
-                    center={[province.centroid.lat, province.centroid.lng]}
-                    radius={45000}
-                    fillColor={color}
-                    color={color}
-                    weight={0}
-                    fillOpacity={0.25}
-                  />
-                </motion.div>
-              </FeatureGroup>
-            );
-          })}
 
         {/* User Location Marker */}
         {userLocation && (
@@ -249,18 +214,8 @@ export default function MapDisplay({
       </MapContainer>
 
       {/* Layer Controls */}
-      <div className="absolute top-4 right-4 bg-white rounded-xl shadow-lg p-3 z-40 space-y-2">
+      <div className="absolute top-4 right-4 bg-white rounded-xl shadow-lg p-3 z-50 space-y-2">
         <div className="text-xs font-bold text-slate-700 px-2 py-1 uppercase tracking-widest">Layers</div>
-
-        <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer hover:bg-slate-50 px-2 py-1 rounded">
-          <input
-            type="checkbox"
-            checked={activeLayers.includes('demand')}
-            onChange={() => onLayerToggle?.('demand')}
-            className="w-4 h-4"
-          />
-          <span>🔥 Demand</span>
-        </label>
 
         <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer hover:bg-slate-50 px-2 py-1 rounded">
           <input
@@ -269,7 +224,10 @@ export default function MapDisplay({
             onChange={() => onLayerToggle?.('colleges')}
             className="w-4 h-4"
           />
-          <span>🏫 Colleges</span>
+          <span className="flex items-center gap-1">
+            <Building2 size={14} />
+            Colleges
+          </span>
         </label>
 
         <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer hover:bg-slate-50 px-2 py-1 rounded">
@@ -279,27 +237,11 @@ export default function MapDisplay({
             onChange={() => onLayerToggle?.('careers')}
             className="w-4 h-4"
           />
-          <span>💼 Careers</span>
+          <span className="flex items-center gap-1">
+            <Briefcase size={14} />
+            Careers
+          </span>
         </label>
-      </div>
-
-      {/* Demand Legend */}
-      <div className="absolute bottom-4 left-4 bg-white rounded-xl shadow-lg p-4 z-40 text-sm">
-        <div className="font-bold text-slate-900 mb-2">Job Demand</div>
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#DC2626' }}></div>
-            <span className="text-slate-700">High</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#FBBF24' }}></div>
-            <span className="text-slate-700">Medium</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#22C55E' }}></div>
-            <span className="text-slate-700">Low</span>
-          </div>
-        </div>
       </div>
     </div>
   );

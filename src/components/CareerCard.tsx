@@ -59,7 +59,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
   const apsDisplay = getAPSDisplay(career);
 
   return (
-    <div onClick={onCardClick} className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-prospect-green transition-all duration-300 flex flex-col h-full cursor-pointer">
+    <div onClick={onCardClick} data-testid="career-card" className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-prospect-green transition-all duration-300 flex flex-col h-full cursor-pointer">
       <div className="flex justify-between items-start mb-4">
         <span className="px-3 py-1 bg-prospect-green/10 text-prospect-green text-xs font-bold uppercase tracking-widest rounded-full">
           {career.category}

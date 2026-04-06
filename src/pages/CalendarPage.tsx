@@ -164,7 +164,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
             {/* Year Calendar - Left Sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 sticky top-24">
+              <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 sticky top-24" data-testid="year-calendar">
                 <h3 className="text-sm font-bold mb-3 uppercase tracking-wider text-slate-700">Year {year}</h3>
                 <div className="grid grid-cols-3 gap-1">
                   {Array.from({ length: 12 }, (_, i) => {
@@ -173,6 +173,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
                       <button
                         key={i}
                         onClick={() => setMonth(i)}
+                        data-testid="month-selector-btn"
                         className={`p-2 text-xs font-semibold rounded transition-all ${
                           isSelected
                             ? 'bg-slate-800 text-white'
@@ -193,7 +194,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
                 {/* Month navigation */}
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold" style={{ color: '#1e293b' }}>
+                  <h2 className="text-2xl font-bold" data-testid="current-month" style={{ color: '#1e293b' }}>
                     {MONTH_NAMES[month]} {year}
                   </h2>
                   <div className="flex gap-2">
@@ -240,7 +241,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
                       <button
                         key={dateStr}
                         onClick={() => handleDateClick(day)}
-                        data-calendar-day
+                        data-testid="calendar-day"
                         className={`p-1 border rounded-lg min-h-16 text-sm transition-all hover:shadow-md cursor-pointer ${
                           bgClass || 'border-slate-100 bg-white hover:bg-slate-50'
                         }`}
@@ -338,7 +339,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
       {/* Create Event Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-lg max-w-md w-full p-6">
+          <div className="bg-white rounded-2xl shadow-lg max-w-md w-full p-6" data-testid="create-event-modal">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold text-slate-800">Create Study Event</h3>
               <button
@@ -362,6 +363,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                data-testid="event-description"
                 rows={4}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-800 focus:border-transparent"
                 placeholder="What do you plan to study? Any notes?"
@@ -381,6 +383,7 @@ function CalendarPage({ user, onNavigate }: AuthedProps) {
               <button
                 onClick={handleCreateEvent}
                 disabled={!description.trim()}
+                data-testid="create-event-btn"
                 className="flex-1 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Create Event

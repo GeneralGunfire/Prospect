@@ -60,6 +60,7 @@ export function CareerDetailModal({
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            data-testid="career-modal"
             className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vh] md:h-[90vh] md:max-w-5xl bg-white rounded-3xl shadow-2xl z-50 overflow-y-auto"
           >
             {/* Header */}
@@ -86,6 +87,7 @@ export function CareerDetailModal({
               <div className="flex gap-2 shrink-0">
                 <button
                   onClick={() => onToggleSave?.(career.id)}
+                  data-testid="bookmark-btn"
                   className={`p-3 rounded-xl transition-all ${
                     isSaved
                       ? 'bg-prospect-green text-white'

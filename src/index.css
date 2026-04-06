@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-calm-blue: #176293;
+  --color-calm-dark-blue: #1A3E6F;
+  --color-calm-bg: #F7F7F7;
+  --color-calm-footer: #1B2250;
+
+  /* Prospect brand - Redesigned to Blue-Gray */
+  --color-prospect-green: #1E3A5F;
+  --color-prospect-green-dark: #152a45;
+  --color-prospect-blue-accent: #3B5A7F;
+  --color-prospect-gold: #F9A825;
+  /* Old site compat tokens used in extracted pages */
+  --color-navy: #1e293b;
+  --color-secondary: #64748b;
+  --color-surface: #ffffff;
+  --color-on-surface-variant: #475569;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 205 73% 33%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 205 73% 33%;
+    --radius: 0.5rem;
+  }
+
+  body {
+    @apply font-sans text-gray-900 bg-white;
+  }
+}
+
+.calm-gradient {
+  background: linear-gradient(180deg, #60B4E7 0%, #6461E0 100%);
+}
+
+.calm-header-gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 71%, rgba(255, 255, 255, 0) 100%);
+}
+
+.review-gradient {
+  background: linear-gradient(180deg, #2477AA 0%, #6461E0 100%);
+}
+
+.faq-gradient {
+  background: linear-gradient(180deg, rgba(226, 234, 255, 0) 0%, #e2eaff 100%);
+}
+
+.prospect-auth-bg {
+  background: linear-gradient(135deg, #f0f4f7 0%, #fefefe 50%, #fffbf7 100%);
+}
+
+.prospect-btn-primary {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2b4d7a 100%);
+}
+.prospect-btn-primary:hover {
+  background: linear-gradient(135deg, #152a45 0%, #1E3A5F 100%);
+}
+
+/* ─── Global Button & Interactive States ─── */
+
+/* All buttons should have smooth transitions */
+button {
+  @apply transition-all duration-200 ease-out;
+}
+
+/* Focus states for better accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-prospect-green;
+}
+
+/* Minimum accessible text sizes - labels at 12px minimum */
+.label-xs {
+  @apply text-xs font-bold uppercase tracking-widest;
+}
+
+.label-sm {
+  @apply text-sm font-bold uppercase tracking-wide;
+}
+
+/* Form input enhancements */
+input,
+textarea,
+select {
+  @apply transition-all duration-200;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  @apply border-prospect-green ring-1 ring-prospect-green/50;
+}
+
+/* Smooth link transitions */
+a {
+  @apply transition-colors duration-200;
+}
+
+/* Smooth transform animations */
+.group:hover {
+  --tw-translate-y: 0;
+}
+
+/* Ensure animations are GPU-accelerated */
+@supports (transform: translate3d(0, 0, 0)) {
+  .group,
+  button,
+  a {
+    will-change: auto;
+  }
+
+  .group:hover,
+  button:hover,
+  button:active {
+    will-change: transform, box-shadow;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  transform-origin: center;
+}

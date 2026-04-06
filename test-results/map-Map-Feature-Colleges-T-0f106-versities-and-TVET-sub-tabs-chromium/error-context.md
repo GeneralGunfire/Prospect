@@ -1,0 +1,240 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e6]:
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - heading "📍 Johannesburg, Gauteng" [level=2] [ref=e9]
+      - paragraph [ref=e10]:
+        - text: "Province:"
+        - strong [ref=e11]: Gauteng
+    - button "Back" [ref=e12]:
+      - img [ref=e13]
+      - text: Back
+  - generic [ref=e15]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - generic:
+          - generic:
+            - img
+          - button "📍" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 📍
+        - generic:
+          - generic [ref=e27]:
+            - button "Zoom in" [ref=e28] [cursor=pointer]: +
+            - button "Zoom out" [ref=e29] [cursor=pointer]: −
+          - generic [ref=e30]:
+            - link "Leaflet" [ref=e31] [cursor=pointer]:
+              - /url: https://leafletjs.com
+              - img [ref=e32]
+              - text: Leaflet
+            - text: "| © OpenStreetMap contributors"
+      - generic [ref=e36]:
+        - generic [ref=e37]: Layers
+        - generic [ref=e38] [cursor=pointer]:
+          - checkbox "🔥 Demand" [checked] [ref=e39]
+          - generic [ref=e40]: 🔥 Demand
+        - generic [ref=e41] [cursor=pointer]:
+          - checkbox "🏫 Colleges" [checked] [ref=e42]
+          - generic [ref=e43]: 🏫 Colleges
+        - generic [ref=e44] [cursor=pointer]:
+          - checkbox "💼 Careers" [ref=e45]
+          - generic [ref=e46]: 💼 Careers
+      - generic [ref=e47]:
+        - generic [ref=e48]: Job Demand
+        - generic [ref=e49]:
+          - generic [ref=e52]: High
+          - generic [ref=e55]: Medium
+          - generic [ref=e58]: Low
+    - generic [ref=e59]:
+      - generic [ref=e61]:
+        - img
+        - textbox "Search careers, cities..." [ref=e62]
+      - generic [ref=e63]:
+        - button "💼 Careers" [ref=e64]
+        - button "🎓 Colleges" [ref=e65]
+        - button "📊 Insights" [ref=e66]
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - heading "54 careers in Gauteng" [level=3] [ref=e71]
+          - paragraph [ref=e72]: Explore opportunities in your area
+        - generic [ref=e73]:
+          - button "🎯 All" [ref=e74]
+          - button "🔥 High Demand" [ref=e75]
+          - button "💰 Good Salary" [ref=e76]
+          - button "🔧 TVET Available" [ref=e77]
+        - generic [ref=e78]:
+          - generic [ref=e80] [cursor=pointer]:
+            - generic [ref=e81]:
+              - generic [ref=e82]: digital
+              - generic [ref=e83]:
+                - generic [ref=e84]: I
+                - generic [ref=e85]: C
+                - generic [ref=e86]: E
+            - heading "Software Engineer / Developer" [level=3] [ref=e87]
+            - paragraph [ref=e88]: Design, develop, test software applications. Work for tech companies, banks, startups.
+            - generic [ref=e89]:
+              - generic [ref=e90]:
+                - img [ref=e91]
+                - generic [ref=e94]: R35k
+              - generic [ref=e95]:
+                - img [ref=e96]
+                - generic [ref=e99]: "APS: 32+"
+              - generic [ref=e100]:
+                - generic [ref=e101]: View Details
+                - img [ref=e102]
+          - generic [ref=e105] [cursor=pointer]:
+            - generic [ref=e106]:
+              - generic [ref=e107]: digital
+              - generic [ref=e108]:
+                - generic [ref=e109]: I
+                - generic [ref=e110]: C
+                - generic [ref=e111]: E
+            - heading "Data Scientist / Data Analyst" [level=3] [ref=e112]
+            - paragraph [ref=e113]: Analyze data for business insights. Work in finance, retail, tech, government.
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - img [ref=e116]
+                - generic [ref=e119]: R40k
+              - generic [ref=e120]:
+                - img [ref=e121]
+                - generic [ref=e124]: "APS: 34+"
+              - generic [ref=e125]:
+                - generic [ref=e126]: View Details
+                - img [ref=e127]
+          - generic [ref=e130] [cursor=pointer]:
+            - generic [ref=e131]:
+              - generic [ref=e132]: digital
+              - generic [ref=e133]:
+                - generic [ref=e134]: I
+                - generic [ref=e135]: C
+                - generic [ref=e136]: R
+            - heading "Cybersecurity Analyst / Security Engineer" [level=3] [ref=e137]
+            - paragraph [ref=e138]: Protect systems and data from cyber threats. Work for government, banks, security firms.
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - img [ref=e141]
+                - generic [ref=e144]: R38k
+              - generic [ref=e145]:
+                - img [ref=e146]
+                - generic [ref=e149]: "APS: 32+"
+              - generic [ref=e150]:
+                - generic [ref=e151]: View Details
+                - img [ref=e152]
+          - generic [ref=e155] [cursor=pointer]:
+            - generic [ref=e156]:
+              - generic [ref=e157]: digital
+              - generic [ref=e158]:
+                - generic [ref=e159]: I
+                - generic [ref=e160]: C
+                - generic [ref=e161]: R
+            - heading "Cloud Architect / Cloud Engineer" [level=3] [ref=e162]
+            - paragraph [ref=e163]: Design and manage cloud infrastructure (AWS, Azure, Google Cloud).
+            - generic [ref=e164]:
+              - generic [ref=e165]:
+                - img [ref=e166]
+                - generic [ref=e169]: R42k
+              - generic [ref=e170]:
+                - img [ref=e171]
+                - generic [ref=e174]: "APS: 32+"
+              - generic [ref=e175]:
+                - generic [ref=e176]: View Details
+                - img [ref=e177]
+          - generic [ref=e180] [cursor=pointer]:
+            - generic [ref=e181]:
+              - generic [ref=e182]: digital
+              - generic [ref=e183]:
+                - generic [ref=e184]: I
+                - generic [ref=e185]: C
+                - generic [ref=e186]: R
+            - heading "DevOps Engineer" [level=3] [ref=e187]
+            - paragraph [ref=e188]: Automate software deployment and bridge dev/ops teams.
+            - generic [ref=e189]:
+              - generic [ref=e190]:
+                - img [ref=e191]
+                - generic [ref=e194]: R38k
+              - generic [ref=e195]:
+                - img [ref=e196]
+                - generic [ref=e199]: "APS: 30+"
+              - generic [ref=e200]:
+                - generic [ref=e201]: View Details
+                - img [ref=e202]
+          - generic [ref=e205] [cursor=pointer]:
+            - generic [ref=e206]:
+              - generic [ref=e207]: digital
+              - generic [ref=e208]:
+                - generic [ref=e209]: I
+                - generic [ref=e210]: C
+                - generic [ref=e211]: R
+            - heading "Machine Learning Engineer" [level=3] [ref=e212]
+            - paragraph [ref=e213]: Build and deploy machine learning models.
+            - generic [ref=e214]:
+              - generic [ref=e215]:
+                - img [ref=e216]
+                - generic [ref=e219]: R45k
+              - generic [ref=e220]:
+                - img [ref=e221]
+                - generic [ref=e224]: "APS: 36+"
+              - generic [ref=e225]:
+                - generic [ref=e226]: View Details
+                - img [ref=e227]
+          - generic [ref=e230] [cursor=pointer]:
+            - generic [ref=e231]:
+              - generic [ref=e232]: digital
+              - generic [ref=e233]:
+                - generic [ref=e234]: I
+                - generic [ref=e235]: C
+                - generic [ref=e236]: R
+            - heading "Mobile App Developer (iOS/Android)" [level=3] [ref=e237]
+            - paragraph [ref=e238]: Develop mobile applications for smartphones and tablets.
+            - generic [ref=e239]:
+              - generic [ref=e240]:
+                - img [ref=e241]
+                - generic [ref=e244]: R32k
+              - generic [ref=e245]:
+                - img [ref=e246]
+                - generic [ref=e249]: "APS: 26+"
+              - generic [ref=e250]:
+                - generic [ref=e251]: View Details
+                - img [ref=e252]
+          - generic [ref=e255] [cursor=pointer]:
+            - generic [ref=e256]:
+              - generic [ref=e257]: digital
+              - generic [ref=e258]:
+                - generic [ref=e259]: I
+                - generic [ref=e260]: R
+                - generic [ref=e261]: C
+            - heading "Systems Architect" [level=3] [ref=e262]
+            - paragraph [ref=e263]: Design complex IT systems and infrastructure solutions.
+            - generic [ref=e264]:
+              - generic [ref=e265]:
+                - img [ref=e266]
+                - generic [ref=e269]: R50k
+              - generic [ref=e270]:
+                - img [ref=e271]
+                - generic [ref=e274]: "APS: 34+"
+              - generic [ref=e275]:
+                - generic [ref=e276]: View Details
+                - img [ref=e277]
+          - generic [ref=e280] [cursor=pointer]:
+            - generic [ref=e281]:
+              - generic [ref=e282]: digital
+              - generic [ref=e283]:
+                - generic [ref=e284]: A
+                - generic [ref=e285]: S
+                - generic [ref=e286]: I
+            - heading "UX/UI Designer" [level=3] [ref=e287]
+            - paragraph [ref=e288]: Design user interfaces and experiences for digital products.
+            - generic [ref=e289]:
+              - generic [ref=e290]:
+                - img [ref=e291]
+                - generic [ref=e294]: R28k
+              - generic [ref=e295]:
+                - img [ref=e296]
+                - generic [ref=e299]: "APS: 26+"
+              - generic [ref=e300]:
+                - generic [ref=e301]: View Details
+                - img [ref=e302]
+        - button "Load More Results ↓" [ref=e304]
+  - paragraph [ref=e305]: 📊 Data based on 59+ careers, 26 universities, and 50+ TVET colleges across South Africa
+```

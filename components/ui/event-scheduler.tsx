@@ -140,12 +140,12 @@ export default function EventScheduler() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Event Type</label>
-              <Select value={eventType || ""} onValueChange={(value) => setEventType(value as EventType || null)}>
+              <Select value={eventType || "none"} onValueChange={(value) => setEventType(value === "none" ? null : value as EventType)}>
                 <SelectTrigger className="w-full min-h-[48px]">
                   <SelectValue placeholder="Select event type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   <SelectItem value="school-term">School Term</SelectItem>
                   <SelectItem value="holiday">Holiday</SelectItem>
                   <SelectItem value="exam-week">Exam Week</SelectItem>

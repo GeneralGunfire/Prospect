@@ -21,7 +21,10 @@ import {
   CalendarDays,
   Users,
   Globe,
-  Lock
+  Lock,
+  Brain,
+  Coins,
+  Trophy,
 } from 'lucide-react';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
@@ -315,20 +318,36 @@ const ValueProps = () => {
 
 const HowItWorks = () => {
   const steps = [
-    { number: '01', title: 'Discover', desc: 'Take the RIASEC quiz to find career paths that match your personality.' },
-    { number: '02', title: 'Explore', desc: 'Deep dive into 400+ South African careers with salary and demand data.' },
-    { number: '03', title: 'Fund', desc: 'Find bursaries and scholarships to pay for your studies at top institutions.' },
-    { number: '04', title: 'Achieve', desc: 'Access study resources and planning tools to ensure your academic success.' },
+    {
+      number: '01', title: 'Discover', icon: <Brain className="w-7 h-7" />,
+      desc: 'Take the RIASEC quiz to find career paths that match your personality.',
+      bg: 'bg-blue-50', border: 'border-blue-100', iconBg: 'bg-blue-600', dot: 'bg-blue-400',
+    },
+    {
+      number: '02', title: 'Explore', icon: <Compass className="w-7 h-7" />,
+      desc: 'Deep dive into 400+ South African careers with salary and demand data.',
+      bg: 'bg-indigo-50', border: 'border-indigo-100', iconBg: 'bg-indigo-600', dot: 'bg-indigo-400',
+    },
+    {
+      number: '03', title: 'Fund', icon: <Coins className="w-7 h-7" />,
+      desc: 'Find bursaries and scholarships to pay for your studies at top institutions.',
+      bg: 'bg-emerald-50', border: 'border-emerald-100', iconBg: 'bg-emerald-600', dot: 'bg-emerald-400',
+    },
+    {
+      number: '04', title: 'Achieve', icon: <Trophy className="w-7 h-7" />,
+      desc: 'Access study resources and planning tools to ensure your academic success.',
+      bg: 'bg-amber-50', border: 'border-amber-100', iconBg: 'bg-amber-500', dot: 'bg-amber-400',
+    },
   ];
 
   return (
     <section className="py-24 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_400px]">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
           <p className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-4">The Process</p>
           <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">How Prospect Works</h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, i) => (
             <motion.div
               key={i}
@@ -336,15 +355,21 @@ const HowItWorks = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="relative p-10 rounded-[2.5rem] bg-white/20 border border-white/30 backdrop-blur-sm hover:bg-white/50 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 group will-change-transform"
+              whileHover={{ y: -6, scale: 1.02 }}
+              className={`relative p-8 rounded-3xl border ${step.bg} ${step.border} transition-all duration-300 group will-change-transform cursor-default overflow-hidden`}
             >
-              <span className="text-8xl font-black text-indigo-600/5 absolute top-4 right-8 leading-none select-none group-hover:text-indigo-600/10 transition-colors">
+              {/* Step number watermark */}
+              <span className="text-7xl font-black text-slate-900/[0.04] absolute -bottom-2 -right-2 leading-none select-none">
                 {step.number}
               </span>
-              <h3 className="text-2xl font-black text-slate-950 mb-5 relative">{step.title}</h3>
-              <p className="text-slate-500 text-base leading-relaxed font-medium opacity-80">
-                {step.desc}
-              </p>
+              {/* Icon */}
+              <div className={`w-14 h-14 ${step.iconBg} rounded-2xl flex items-center justify-center mb-6 text-white shadow-md`}>
+                {step.icon}
+              </div>
+              {/* Dot accent */}
+              <div className={`w-1.5 h-1.5 rounded-full ${step.dot} mb-3`} />
+              <h3 className="text-xl font-black text-slate-900 mb-3">{step.title}</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">{step.desc}</p>
             </motion.div>
           ))}
         </div>

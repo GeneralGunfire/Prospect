@@ -180,24 +180,29 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
       />
 
       <main className="pt-24 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
-        {/* Hero Section */}
-        <div className="mb-10 relative overflow-hidden rounded-[3rem] bg-navy p-10 md:p-14 text-white shadow-2xl shadow-navy/20">
-          <div className="relative z-10 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest mb-6">
-              <Clock className="w-3 h-3 text-prospect-gold" />
-              Academic Year {ACADEMIC_YEAR}
+        {/* Hero Section — functional, not decorative */}
+        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/5 mb-4">
+              <CalendarIcon className="w-4 h-4 text-slate-900" />
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Academic Calendar {ACADEMIC_YEAR}</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter leading-[0.9]">
-              Stay Ahead of the <span className="text-prospect-gold italic">Game.</span>
+            <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900">
+              Study Calendar
             </h1>
-            <p className="text-blue-100/70 text-lg font-medium leading-relaxed max-w-lg">
-              Your centralized academic hub for South African school terms, public holidays, and critical matric deadlines.
+            <p className="text-sm text-slate-500 mt-1 max-w-lg">
+              Track school terms, public holidays, and critical application deadlines. Click any day to add personal events.
             </p>
           </div>
-          
-          {/* Abstract calendar decoration */}
-          <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none hidden lg:block">
-            <CalendarIcon className="w-full h-full -rotate-12 translate-x-20" />
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Next deadline pill */}
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-red-50 border border-red-100 rounded-xl">
+              <Bell className="w-3.5 h-3.5 text-red-500 shrink-0" />
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-red-400">Next Deadline</p>
+                <p className="text-xs font-bold text-red-700">{nextDeadline.title}</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -324,7 +329,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                       className="group bg-white border border-slate-200 rounded-3xl p-6 hover:shadow-xl hover:border-blue-200 transition-all cursor-default"
                     >
                       <div className="flex justify-between items-start mb-6">
-                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${term.color} flex items-center justify-center text-white font-black text-xl shadow-lg`}>
+                        <div className={`w-12 h-12 rounded-2xl bg-linear-to-br ${term.color} flex items-center justify-center text-white font-black text-xl shadow-lg`}>
                           {term.id}
                         </div>
                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -349,28 +354,44 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               )}
 
               {activeTab === 'deadlines' && (
-                <motion.div 
+                <motion.div
                   key="deadlines-view"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-4 max-w-3xl mx-auto"
+                  className="space-y-3 max-w-3xl mx-auto"
                 >
-                  {DEADLINES.map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 bg-white border border-slate-200 p-5 rounded-2xl group hover:border-red-200 transition-all">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                        item.type === 'danger' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-600'
-                      }`}>
-                        <Bell className="w-5 h-5" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-0.5">{item.category}</p>
-                        <h4 className="font-bold text-navy truncate">{item.title}</h4>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-sm font-black text-navy">{item.date}</span>
-                      </div>
-                    </div>
-                  ))}
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">Key Dates for 2026</p>
+                  {DEADLINES.map((item, i) => {
+                    const DEADLINE_ICONS: Record<string, React.ReactNode> = {
+                      University: <ChevronRight className="w-4 h-4" />,
+                      Funding: <Bell className="w-4 h-4" />,
+                      Exams: <Bell className="w-4 h-4" />,
+                    };
+                    const typeStyle = {
+                      danger:  { bg: 'bg-red-50',   border: 'border-red-100',   text: 'text-red-600',   badge: 'bg-red-100 text-red-700',   dot: 'bg-red-400' },
+                      warning: { bg: 'bg-amber-50',  border: 'border-amber-100', text: 'text-amber-600', badge: 'bg-amber-100 text-amber-700', dot: 'bg-amber-400' },
+                      info:    { bg: 'bg-blue-50',   border: 'border-blue-100',  text: 'text-blue-600',  badge: 'bg-blue-100 text-blue-700',   dot: 'bg-blue-400' },
+                      success: { bg: 'bg-green-50',  border: 'border-green-100', text: 'text-green-600', badge: 'bg-green-100 text-green-700', dot: 'bg-green-400' },
+                    }[item.type];
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.07 }}
+                        className={`flex items-center gap-4 ${typeStyle.bg} border ${typeStyle.border} p-5 rounded-2xl`}
+                      >
+                        <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${typeStyle.dot}`} />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-0.5">{item.category}</p>
+                          <h4 className={`font-bold truncate ${typeStyle.text}`}>{item.title}</h4>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <span className={`text-xs font-black px-2.5 py-1 rounded-lg ${typeStyle.badge}`}>{item.date}</span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </motion.div>
               )}
             </AnimatePresence>

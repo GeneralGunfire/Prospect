@@ -98,24 +98,25 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {[
-            { label: 'Current APS',     value: isLoading ? '—' : (latestApsScore ?? '—'), icon: GraduationCap, iconBg: 'bg-blue-50',    iconCls: 'text-blue-600',    accentCls: 'bg-blue-400' },
-            { label: 'Saved Careers',   value: isLoading ? '—' : savedCareers.length,       icon: Briefcase,    iconBg: 'bg-slate-100',   iconCls: 'text-slate-700',   accentCls: 'bg-slate-400' },
-            { label: 'Saved Bursaries', value: isLoading ? '—' : savedBursaries.length,     icon: Wallet,       iconBg: 'bg-green-50',    iconCls: 'text-green-600',   accentCls: 'bg-green-400' },
-            { label: 'Status',          value: isLoading ? '...' : 'Active',                icon: CheckCircle2, iconBg: 'bg-emerald-50',  iconCls: 'text-emerald-600', accentCls: 'bg-emerald-400' },
+            { label: 'Current APS',     value: isLoading ? '—' : (latestApsScore ?? '—'), sub: 'out of 210',      icon: GraduationCap, iconBg: 'bg-blue-600',    stripe: 'border-l-blue-500' },
+            { label: 'Saved Careers',   value: isLoading ? '—' : savedCareers.length,     sub: 'career paths',    icon: Briefcase,    iconBg: 'bg-slate-800',   stripe: 'border-l-slate-400' },
+            { label: 'Saved Bursaries', value: isLoading ? '—' : savedBursaries.length,   sub: 'funding options', icon: Wallet,       iconBg: 'bg-green-600',   stripe: 'border-l-green-500' },
+            { label: 'Status',          value: isLoading ? '...' : 'Active',               sub: 'account',         icon: CheckCircle2, iconBg: 'bg-emerald-600', stripe: 'border-l-emerald-500' },
           ].map((stat, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
-              className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm overflow-hidden relative"
+              whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+              className={`bg-white border-l-4 ${stat.stripe} rounded-2xl p-5 shadow-sm overflow-hidden`}
             >
-              <div className={`absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl opacity-50 ${stat.accentCls}`} />
-              <div className={`w-9 h-9 ${stat.iconBg} rounded-xl flex items-center justify-center mb-3`}>
-                <stat.icon className={`w-4 h-4 ${stat.iconCls}`} />
+              <div className={`w-10 h-10 ${stat.iconBg} rounded-xl flex items-center justify-center mb-4`}>
+                <stat.icon className="w-5 h-5 text-white" />
               </div>
               <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-slate-400">{stat.label}</p>
-              <p className="text-2xl font-bold tabular-nums text-slate-900">{stat.value}</p>
+              <p className="text-3xl font-black tabular-nums text-slate-900 leading-none mb-1">{stat.value}</p>
+              <p className="text-[10px] text-slate-400">{stat.sub}</p>
             </motion.div>
           ))}
         </div>

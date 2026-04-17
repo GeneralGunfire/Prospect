@@ -287,22 +287,21 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.0, duration: 0.7 }}
-            className="mt-12 flex flex-wrap items-center gap-6"
+            className="mt-12 flex flex-wrap items-center gap-3"
           >
             {[
-              { value: '400+', label: 'Careers' },
-              { value: '100%', label: 'Free' },
-              { value: 'Gr 10–12', label: 'Content' },
-            ].map(({ value, label }) => (
-              <div key={label} className="flex items-center gap-2">
-                <span className="text-lg font-black text-slate-900" style={{ letterSpacing: '-0.02em' }}>{value}</span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</span>
+              { value: '400+', label: 'SA Careers', color: 'bg-blue-50 border-blue-100' },
+              { value: '100%', label: 'Free Forever', color: 'bg-emerald-50 border-emerald-100' },
+              { value: 'Gr 10–12', label: 'All Grades', color: 'bg-amber-50 border-amber-100' },
+            ].map(({ value, label, color }) => (
+              <div key={label} className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border ${color}`}>
+                <span className="text-xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>{value}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</span>
               </div>
             ))}
-            <div className="w-px h-4 bg-slate-200" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-100">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Live & Free</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Now</span>
             </div>
           </motion.div>
 

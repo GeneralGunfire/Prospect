@@ -200,7 +200,7 @@ function CareersPage({ user, onNavigate }: AuthedProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
           {displayedCareers.length > 0 ? (
             displayedCareers.map((career, index) => (
-              <motion.div key={career.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index, 7) * 0.04 }}>
+              <motion.div key={career.id} data-career-card initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index, 7) * 0.04 }}>
                 <CareerCard career={career} onCardClick={() => handleCardClick(career)} />
               </motion.div>
             ))
@@ -223,9 +223,15 @@ function CareersPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Load More Button */}
+        {!hasMoreCareers && displayedCareers.length > 0 && (
+          <div className="flex justify-center mb-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Showing all {displayedCareers.length} careers</p>
+          </div>
+        )}
         {hasMoreCareers && (
           <div className="flex justify-center mb-8">
             <motion.button
+              data-load-more-btn
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + 30)}

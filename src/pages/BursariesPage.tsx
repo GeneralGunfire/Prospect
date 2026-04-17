@@ -268,7 +268,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(index, 7) * 0.04 }}
-                    className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 group cursor-pointer"
+                    className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer"
                     onClick={() => handleViewDetail(bursary.id)}
                   >
                     <div className="flex flex-col md:flex-row gap-8 items-start">

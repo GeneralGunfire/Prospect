@@ -408,22 +408,24 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             {/* Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
               {[
-                { label: 'Total',    value: stats.total,   stripe: 'border-l-slate-500',   icon: <Building2 className="w-4 h-4 text-white" />,     bg: 'bg-slate-800' },
-                { label: 'Schools',  value: stats.school,  stripe: 'border-l-blue-500',    icon: <GraduationCap className="w-4 h-4 text-white" />, bg: 'bg-blue-600' },
-                { label: 'Colleges', value: stats.college, stripe: 'border-l-indigo-500',  icon: <BookOpen className="w-4 h-4 text-white" />,      bg: 'bg-indigo-600' },
-                { label: 'Jobs',     value: stats.job,     stripe: 'border-l-emerald-500', icon: <Briefcase className="w-4 h-4 text-white" />,     bg: 'bg-emerald-600' },
-                { label: 'Services', value: stats.service, stripe: 'border-l-red-400',     icon: <Heart className="w-4 h-4 text-white" />,         bg: 'bg-red-500' },
+                { label: 'Total',    value: stats.total,   iconBg: 'bg-slate-900',    iconRing: 'ring-slate-200', icon: <Building2 className="w-4 h-4 text-white" /> },
+                { label: 'Schools',  value: stats.school,  iconBg: 'bg-blue-600',     iconRing: 'ring-blue-100',  icon: <GraduationCap className="w-4 h-4 text-white" /> },
+                { label: 'Colleges', value: stats.college, iconBg: 'bg-indigo-600',   iconRing: 'ring-indigo-100',icon: <BookOpen className="w-4 h-4 text-white" /> },
+                { label: 'Jobs',     value: stats.job,     iconBg: 'bg-emerald-600',  iconRing: 'ring-emerald-100',icon: <Briefcase className="w-4 h-4 text-white" /> },
+                { label: 'Services', value: stats.service, iconBg: 'bg-red-500',      iconRing: 'ring-red-100',   icon: <Heart className="w-4 h-4 text-white" /> },
               ].map((s, i) => (
                 <motion.div
                   key={s.label}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.06 }}
-                  whileHover={{ y: -2, boxShadow: '0 6px 20px rgba(0,0,0,0.07)' }}
-                  className={`bg-white rounded-2xl border border-slate-200 border-l-4 ${s.stripe} p-4 shadow-sm transition-shadow`}
+                  whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(0,0,0,0.07)' }}
+                  className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm transition-shadow flex flex-col items-center text-center gap-2"
                 >
-                  <div className={`w-8 h-8 ${s.bg} rounded-xl flex items-center justify-center mb-3 shadow-sm`}>{s.icon}</div>
-                  <p className="text-2xl font-black tabular-nums text-slate-900 leading-none mb-1">{s.value}</p>
+                  <div className={`w-10 h-10 ${s.iconBg} rounded-2xl flex items-center justify-center ring-4 ${s.iconRing}`}>
+                    {s.icon}
+                  </div>
+                  <p className="text-3xl font-black tabular-nums text-slate-900 leading-none">{s.value}</p>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
                 </motion.div>
               ))}

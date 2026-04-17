@@ -83,43 +83,71 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
   const meta = TYPE_META[item.submission_type];
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      whileHover={{ y: -2, boxShadow: '0 6px 20px rgba(0,0,0,0.07)' }}
-      className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm transition-shadow"
+      whileHover={{ y: -2, boxShadow: '0 8px 28px rgba(0,0,0,0.08)' }}
+      className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-shadow group"
     >
-      <div className="flex items-start gap-4">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${meta.bg}`}>
-          <span className={meta.color}>{meta.icon}</span>
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-1">
-            <h3 className="text-sm font-black text-slate-900 leading-tight">{item.name}</h3>
-            <StatusBadge status={item.verification_status} />
+      <div className="flex items-stretch">
+        {/* Left accent bar */}
+        <div className={`w-1 shrink-0 ${
+          item.submission_type === 'school'  ? 'bg-blue-500' :
+          item.submission_type === 'college' ? 'bg-indigo-500' :
+          item.submission_type === 'job'     ? 'bg-emerald-500' :
+          'bg-red-400'
+        }`} />
+
+        <div className="flex-1 p-5">
+          <div className="flex items-start gap-4">
+            {/* Icon */}
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${meta.bg} border`}>
+              <span className={meta.color}>{meta.icon}</span>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-3 mb-1.5">
+                <h3 className="text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-700 transition-colors">
+                  {item.name}
+                </h3>
+                <StatusBadge status={item.verification_status} />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2.5">
+                <span className={`text-[10px] font-black uppercase tracking-widest ${meta.color}`}>
+                  {meta.label}
+                </span>
+                {item.category && (
+                  <span className="text-[10px] text-slate-400 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-full font-medium">
+                    {item.category}
+                  </span>
+                )}
+                <span className="flex items-center gap-1 text-[10px] text-slate-400">
+                  <MapPin className="w-3 h-3" />
+                  {item.city}, {item.province}
+                </span>
+              </div>
+
+              {item.description && (
+                <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-2">
+                  {item.description}
+                </p>
+              )}
+
+              {item.website_url && (
+                <a
+                  href={item.website_url.startsWith('http') ? item.website_url : `https://${item.website_url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[10px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                >
+                  <Globe className="w-3 h-3" />
+                  Visit website
+                </a>
+              )}
+            </div>
           </div>
-          <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium mb-2">
-            <span className={`font-bold uppercase tracking-widest ${meta.color}`}>{meta.label}</span>
-            {item.category && <span className="text-slate-300">•</span>}
-            {item.category && <span>{item.category}</span>}
-          </div>
-          <div className="flex items-center gap-1 text-xs text-slate-500 mb-2">
-            <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-            <span>{item.city}, {item.province}</span>
-          </div>
-          {item.description && (
-            <p className="text-xs text-slate-500 line-clamp-2">{item.description}</p>
-          )}
-          {item.website_url && (
-            <a
-              href={item.website_url.startsWith('http') ? item.website_url : `https://${item.website_url}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
-            >
-              <Globe className="w-3 h-3" />Visit website
-            </a>
-          )}
         </div>
       </div>
     </motion.div>
@@ -380,21 +408,22 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             {/* Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
               {[
-                { label: 'Total',    value: stats.total,   color: 'border-l-slate-400',   icon: <Building2 className="w-4 h-4 text-white" />,     bg: 'bg-slate-700' },
-                { label: 'Schools',  value: stats.school,  color: 'border-l-blue-500',    icon: <GraduationCap className="w-4 h-4 text-white" />, bg: 'bg-blue-600' },
-                { label: 'Colleges', value: stats.college, color: 'border-l-indigo-500',  icon: <BookOpen className="w-4 h-4 text-white" />,      bg: 'bg-indigo-600' },
-                { label: 'Jobs',     value: stats.job,     color: 'border-l-emerald-500', icon: <Briefcase className="w-4 h-4 text-white" />,     bg: 'bg-emerald-600' },
-                { label: 'Services', value: stats.service, color: 'border-l-red-400',     icon: <Heart className="w-4 h-4 text-white" />,         bg: 'bg-red-500' },
+                { label: 'Total',    value: stats.total,   stripe: 'border-l-slate-500',   icon: <Building2 className="w-4 h-4 text-white" />,     bg: 'bg-slate-800' },
+                { label: 'Schools',  value: stats.school,  stripe: 'border-l-blue-500',    icon: <GraduationCap className="w-4 h-4 text-white" />, bg: 'bg-blue-600' },
+                { label: 'Colleges', value: stats.college, stripe: 'border-l-indigo-500',  icon: <BookOpen className="w-4 h-4 text-white" />,      bg: 'bg-indigo-600' },
+                { label: 'Jobs',     value: stats.job,     stripe: 'border-l-emerald-500', icon: <Briefcase className="w-4 h-4 text-white" />,     bg: 'bg-emerald-600' },
+                { label: 'Services', value: stats.service, stripe: 'border-l-red-400',     icon: <Heart className="w-4 h-4 text-white" />,         bg: 'bg-red-500' },
               ].map((s, i) => (
                 <motion.div
                   key={s.label}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.06 }}
-                  className={`bg-white rounded-2xl border-l-4 ${s.color} p-4 shadow-sm`}
+                  whileHover={{ y: -2, boxShadow: '0 6px 20px rgba(0,0,0,0.07)' }}
+                  className={`bg-white rounded-2xl border border-slate-200 border-l-4 ${s.stripe} p-4 shadow-sm transition-shadow`}
                 >
-                  <div className={`w-7 h-7 ${s.bg} rounded-lg flex items-center justify-center mb-3`}>{s.icon}</div>
-                  <p className="text-2xl font-black tabular-nums text-slate-900">{s.value}</p>
+                  <div className={`w-8 h-8 ${s.bg} rounded-xl flex items-center justify-center mb-3 shadow-sm`}>{s.icon}</div>
+                  <p className="text-2xl font-black tabular-nums text-slate-900 leading-none mb-1">{s.value}</p>
                   <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
                 </motion.div>
               ))}

@@ -81,19 +81,18 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
   };
 
   const impactPoints = [
-    { icon: <Globe className="w-4 h-4 text-blue-500" />, text: 'Share what your area needs' },
-    { icon: <Users className="w-4 h-4 text-blue-500" />, text: 'Help build a national opportunity map' },
-    { icon: <Lock className="w-4 h-4 text-blue-500" />, text: 'Fully optional, privacy-conscious' },
+    { icon: <Globe className="w-4 h-4 text-calm-blue" />, text: 'Share what your area needs' },
+    { icon: <Users className="w-4 h-4 text-calm-blue" />, text: 'Help build a national opportunity map' },
+    { icon: <Lock className="w-4 h-4 text-calm-blue" />, text: 'Fully optional, privacy-conscious' },
   ];
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 40%, #f8fafc 100%)' }}
+      className="min-h-screen flex items-center justify-center px-4 py-12 prospect-auth-bg relative overflow-hidden"
     >
       {/* Background blobs */}
-      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 rounded-full bg-blue-400/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-80 h-80 rounded-full bg-indigo-300/10 blur-3xl pointer-events-none" />
+      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 rounded-full bg-prospect-green/10 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-80 h-80 rounded-full bg-prospect-gold/10 blur-3xl pointer-events-none" />
 
       {/* Back button */}
       <button
@@ -112,7 +111,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
       >
         <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-black/8 border border-white/60 overflow-hidden flex">
           {/* Left panel */}
-          <div className="hidden md:flex w-1/2 flex-col items-center justify-center p-10 bg-gradient-to-br from-blue-50 to-indigo-50 border-r border-blue-100 relative overflow-hidden">
+          <div className="hidden md:flex w-1/2 flex-col items-center justify-center p-10 bg-linear-to-br from-blue-50 to-slate-100 border-r border-slate-100 relative overflow-hidden">
             <div className="absolute inset-0 opacity-20">
               {Array.from({ length: 10 }).map((_, row) =>
                 Array.from({ length: 8 }).map((_, col) => (
@@ -125,26 +124,26 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
               )}
             </div>
             <div className="relative z-10 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-blue-200">
+              <div className="w-16 h-16 rounded-2xl bg-slate-900 flex items-center justify-center mx-auto mb-5 shadow-lg">
                 <Globe className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-2xl font-black text-blue-900 mb-2" style={{ letterSpacing: '-0.02em' }}>
+              <h2 className="text-2xl font-black mb-2 text-transparent bg-clip-text bg-linear-to-r from-calm-blue to-calm-dark-blue" style={{ letterSpacing: '-0.02em' }}>
                 Community Impact
               </h2>
-              <p className="text-sm text-blue-700 max-w-xs mb-8">
+              <p className="text-sm text-slate-600 max-w-xs mb-8">
                 Help us map opportunity gaps across South Africa — one community at a time.
               </p>
               <div className="space-y-3 text-left">
                 {impactPoints.map((p, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white/60 rounded-xl px-4 py-3 border border-blue-100">
-                    <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                  <div key={i} className="flex items-center gap-3 bg-white/60 rounded-xl px-4 py-3 border border-slate-100">
+                    <div className="w-7 h-7 rounded-lg bg-calm-blue/20 flex items-center justify-center shrink-0">
                       {p.icon}
                     </div>
-                    <span className="text-sm text-blue-800 font-medium">{p.text}</span>
+                    <span className="text-sm text-slate-700 font-medium">{p.text}</span>
                   </div>
                 ))}
               </div>
-              <p className="mt-8 text-xs text-blue-600 font-medium">
+              <p className="mt-8 text-xs text-slate-500 font-medium">
                 Coming soon · Sign up to be notified
               </p>
             </div>
@@ -154,11 +153,11 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
           <div className="w-full md:w-1/2">
             {/* Brand header */}
             <div className="px-8 pt-8 pb-6 text-center border-b border-gray-100">
-              <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center mx-auto mb-3 shadow-md">
+              <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center mx-auto mb-3 shadow-md">
                 <Globe className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-lg font-black text-gray-900">Community Impact</h1>
-              <p className="text-sm text-blue-700 font-semibold mt-0.5">Map opportunities in your area</p>
+              <p className="text-sm text-slate-500 font-semibold mt-0.5">Map opportunities in your area</p>
             </div>
 
             <div className="px-8 pt-6 pb-8">
@@ -170,7 +169,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                     onClick={() => switchMode(m)}
                     className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                       mode === m
-                        ? 'bg-white text-blue-700 shadow-sm'
+                        ? 'bg-white text-slate-900 shadow-sm'
                         : 'text-gray-500 hover:text-gray-700'
                     }`}
                   >
@@ -186,9 +185,9 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="mb-4 flex items-start gap-2 bg-blue-50 border border-blue-200 text-blue-800 rounded-xl px-4 py-3 text-sm"
+                    className="mb-4 flex items-start gap-2 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm"
                   >
-                    <Check size={16} className="shrink-0 mt-0.5 text-blue-600" />
+                    <Check size={16} className="shrink-0 mt-0.5 text-green-600" />
                     <span>{notice}</span>
                   </motion.div>
                 )}
@@ -234,13 +233,13 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                         type="checkbox"
                         checked={acceptTerms}
                         onChange={(e) => setAcceptTerms(e.target.checked)}
-                        className="w-4 h-4 mt-0.5 rounded border-gray-300 accent-blue-600 shrink-0"
+                        className="w-4 h-4 mt-0.5 rounded border-gray-300 accent-prospect-green shrink-0"
                       />
                       <span className="text-sm text-gray-600">
                         I agree to the{' '}
-                        <a href="#" className="text-blue-700 font-medium hover:underline">Terms of Service</a>
+                        <a href="#" className="text-slate-900 font-semibold hover:underline">Terms of Service</a>
                         {' '}and{' '}
-                        <a href="#" className="text-blue-700 font-medium hover:underline">Privacy Policy</a>
+                        <a href="#" className="text-slate-900 font-semibold hover:underline">Privacy Policy</a>
                       </span>
                     </label>
 
@@ -249,7 +248,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                       disabled={loading}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-70 transition-all hover:bg-blue-700 shadow-md shadow-blue-200"
+                      className="w-full py-3 rounded-xl bg-slate-900 text-white font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-70 transition-all hover:bg-slate-800 shadow-md shadow-slate-900/20"
                     >
                       {loading
                         ? <><Loader2 size={16} className="animate-spin" /> Signing up…</>
@@ -258,7 +257,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
 
                     <p className="text-center text-sm text-gray-500">
                       Already have an account?{' '}
-                      <button type="button" onClick={() => switchMode('login')} className="text-blue-700 font-semibold hover:underline">
+                      <button type="button" onClick={() => switchMode('login')} className="text-slate-900 font-semibold hover:underline">
                         Sign in
                       </button>
                     </p>
@@ -293,7 +292,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                       disabled={loading}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-70 transition-all hover:bg-blue-700 shadow-md shadow-blue-200"
+                      className="w-full py-3 rounded-xl bg-slate-900 text-white font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-70 transition-all hover:bg-slate-800 shadow-md shadow-slate-900/20"
                     >
                       {loading
                         ? <><Loader2 size={16} className="animate-spin" /> Signing in…</>
@@ -302,7 +301,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
 
                     <p className="text-center text-sm text-gray-500">
                       Don't have an account?{' '}
-                      <button type="button" onClick={() => switchMode('signup')} className="text-blue-700 font-semibold hover:underline">
+                      <button type="button" onClick={() => switchMode('signup')} className="text-slate-900 font-semibold hover:underline">
                         Get involved
                       </button>
                     </p>

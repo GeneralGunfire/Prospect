@@ -1,5 +1,5 @@
-import { useState, useEffect, type ReactNode, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { useState, useEffect, type ReactNode, useRef, lazy, Suspense } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
 import { runMigrations } from './utils/migrationScript';
@@ -26,25 +26,26 @@ import {
   Coins,
   Trophy,
 } from 'lucide-react';
-import AuthPage from './pages/AuthPage';
-import DashboardPage from './pages/DashboardPage';
-import Grade10SubjectSelectorPage from './pages/Grade10SubjectSelectorPage';
-import StudyLibraryPage from './pages/StudyLibraryPage';
-import CareersPageNew from './pages/CareersPageNew';
-import BursariesPage from './pages/BursariesPage';
-import BursaryDetailPage from './pages/BursaryDetailPage';
-import DisadvantagedGuide from './pages/DisadvantagedGuide';
-import QuizPage from './pages/QuizPage';
-import MapPage from './pages/MapPage';
-import TVETPage from './pages/TVETPage';
-import TVETCareersPage from './pages/TVETCareersPage';
-import TVETCollegesPage from './pages/TVETCollegesPage';
-import TVETFundingPage from './pages/TVETFundingPage';
-import TVETRequirementsPage from './pages/TVETRequirementsPage';
-import CalendarPageNew from './pages/CalendarPageNew';
-import SchoolAssistPage from './pages/SchoolAssistPage';
-import ImpactAuthPage from './pages/ImpactAuthPage';
-import DemoLearningPage from './pages/DemoLearningPage';
+// Lazy-load all page-level components to enable code splitting
+const AuthPage           = lazy(() => import('./pages/AuthPage'));
+const DashboardPage      = lazy(() => import('./pages/DashboardPage'));
+const Grade10SubjectSelectorPage = lazy(() => import('./pages/Grade10SubjectSelectorPage'));
+const StudyLibraryPage   = lazy(() => import('./pages/StudyLibraryPage'));
+const CareersPageNew     = lazy(() => import('./pages/CareersPageNew'));
+const BursariesPage      = lazy(() => import('./pages/BursariesPage'));
+const BursaryDetailPage  = lazy(() => import('./pages/BursaryDetailPage'));
+const DisadvantagedGuide = lazy(() => import('./pages/DisadvantagedGuide'));
+const QuizPage           = lazy(() => import('./pages/QuizPage'));
+const MapPage            = lazy(() => import('./pages/MapPage'));
+const TVETPage           = lazy(() => import('./pages/TVETPage'));
+const TVETCareersPage    = lazy(() => import('./pages/TVETCareersPage'));
+const TVETCollegesPage   = lazy(() => import('./pages/TVETCollegesPage'));
+const TVETFundingPage    = lazy(() => import('./pages/TVETFundingPage'));
+const TVETRequirementsPage = lazy(() => import('./pages/TVETRequirementsPage'));
+const CalendarPageNew    = lazy(() => import('./pages/CalendarPageNew'));
+const SchoolAssistPage   = lazy(() => import('./pages/SchoolAssistPage'));
+const ImpactAuthPage     = lazy(() => import('./pages/ImpactAuthPage'));
+const DemoLearningPage   = lazy(() => import('./pages/DemoLearningPage'));
 import LoadingScreen from './components/LoadingScreen';
 import { VideoPlayer } from './components/VideoPlayer';
 import type { AppPage } from './lib/withAuth';
@@ -60,70 +61,20 @@ import {
 // --- Components ---
 
 const InteractiveBackground = () => {
-  const { scrollYProgress } = useScroll();
-  
-  // Transform colors based on scroll position
-  const bgColor = useTransform(scrollYProgress, [0, 0.5, 1], ['#ffffff', '#f8fafc', '#f1f5f9']); // Subtle background color shift
-  
-  // Parallax offsets for background elements
-  const blobY1 = useTransform(scrollYProgress, [0, 1], [0, -200]); // Slower parallax for top blobs
-  const blobY2 = useTransform(scrollYProgress, [0, 1], [0, 300]);  // Slower parallax for bottom blobs
-
+  // Static background — no continuous animations to keep scrolling smooth
   return (
-    <motion.div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" style={{ backgroundColor: bgColor }}>
-      {/* Grain Overlay for Texture */}
-      <div className="absolute inset-0 opacity-[0.015] brightness-100 contrast-150" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
-      
-      {/* Refined Dot Grid */}
-      <div className="absolute inset-0 opacity-[0.05]" style={{ 
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-white">
+      {/* Subtle dot grid */}
+      <div className="absolute inset-0 opacity-[0.04]" style={{
         backgroundImage: `radial-gradient(#1e293b 0.5px, transparent 0.5px)`,
-        backgroundSize: '40px 40px' // Slightly larger grid for less density
+        backgroundSize: '40px 40px',
       }} />
-
-    {/* ── Slow-drifting colour blobs pinned to page sections ── */}
-    {/* Optimized background elements: Reduced count and blur radius for better scroll performance */}
-    <motion.div
-      animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
-      transition={{ duration: 35, repeat: Infinity, ease: 'easeInOut' }}
-      className="absolute will-change-transform opacity-20"
-      style={{
-        top: '0%', left: '-5%',
-        width: '50%', height: '40%',
-        background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)',
-        filter: 'blur(50px)',
-        borderRadius: '50%',
-        y: blobY1,
-      }}
-    />
-    <motion.div
-      animate={{ x: [0, -20, 0], y: [0, 25, 0] }}
-      transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
-      className="absolute will-change-transform opacity-15"
-      style={{
-        top: '15%', right: '-10%',
-        width: '45%', height: '35%',
-        background: 'radial-gradient(circle, rgba(79,70,229,0.08) 0%, transparent 70%)',
-        filter: 'blur(60px)',
-        borderRadius: '50%',
-        y: blobY2,
-      }}
-    />
-    <motion.div
-      animate={{ x: [10, -10, 10], y: [0, -15, 0] }}
-      transition={{ duration: 45, repeat: Infinity, ease: 'easeInOut' }}
-      className="absolute will-change-transform opacity-15"
-      style={{
-        bottom: '5%', left: '15%',
-        width: '50%', height: '25%',
-        background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
-        filter: 'blur(55px)',
-        borderRadius: '50%',
-        y: blobY1
-      }}
-    />
-  </motion.div>
-);};
+      {/* Static colour blobs — no animation, pure CSS */}
+      <div className="absolute opacity-[0.07]" style={{ top: '0%', left: '-5%', width: '50%', height: '40%', background: 'radial-gradient(circle, rgba(59,130,246,0.5) 0%, transparent 70%)', filter: 'blur(60px)', borderRadius: '50%' }} />
+      <div className="absolute opacity-[0.05]" style={{ top: '15%', right: '-10%', width: '45%', height: '35%', background: 'radial-gradient(circle, rgba(79,70,229,0.5) 0%, transparent 70%)', filter: 'blur(70px)', borderRadius: '50%' }} />
+    </div>
+  );
+};
 
 const Header = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -1038,6 +989,7 @@ export default function App() {
           {/* Background is shown throughout the site EXCEPT for the login pages */}
           {page !== 'auth' && page !== 'impact-auth' && <InteractiveBackground />}
 
+          <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center"><div className="w-6 h-6 border-2 border-slate-300 border-t-slate-700 rounded-full animate-spin" /></div>}>
           <AnimatePresence mode="wait">
             {page === 'auth' && (
               <PageTransition pageKey="auth">
@@ -1179,6 +1131,7 @@ export default function App() {
               </PageTransition>
             )}
           </AnimatePresence>
+          </Suspense>
         </div>
       )}
     </>

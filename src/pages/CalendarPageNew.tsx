@@ -25,66 +25,97 @@ interface CalendarPageProps {
 
 const ACADEMIC_YEAR = 2026;
 
+// ── Design tokens ─────────────────────────────────────────────────────────────
+// Primary:  indigo-600  (#4F46E5)  — interactive: selected day, active tab, CTA
+// Deadline: red         (50/200/700)
+// School:   blue        (50/200/700) — same family as primary, lighter
+// Holiday:  teal        (50/200/700) — clearly distinct
+// Personal: emerald     (50/200/700) — distinct from primary blue, positive/growth
+// Term:     slate-300   thin top border — neutral "in school" indicator
+// Base:     slate-800 text  •  slate-200 borders  •  slate-50 weekend bg
+
+const CHIP = {
+  deadline: 'bg-red-50     border border-red-200     text-red-700',
+  school:   'bg-blue-50    border border-blue-200    text-blue-700',
+  holiday:  'bg-teal-50    border border-teal-200    text-teal-700',
+  personal: 'bg-emerald-50 border border-emerald-200 text-emerald-700',
+  exam:     'bg-red-50     border border-red-200     text-red-700',
+} as const;
+
+const DOT = {
+  deadline: 'bg-red-500',
+  school:   'bg-blue-500',
+  holiday:  'bg-teal-500',
+  personal: 'bg-emerald-500',
+  exam:     'bg-red-500',
+} as const;
+
+// Map UserCalendarEvent categories to unified chip style
+const EVENT_STYLE: Record<UserCalendarEvent['category'], { chip: string; dot: string; label: string }> = {
+  exam:     { chip: CHIP.exam,     dot: DOT.exam,     label: 'Exam' },
+  deadline: { chip: CHIP.deadline, dot: DOT.deadline, label: 'Deadline' },
+  holiday:  { chip: CHIP.holiday,  dot: DOT.holiday,  label: 'Holiday' },
+  other:    { chip: CHIP.personal, dot: DOT.personal, label: 'Event' },
+};
+
+// Map DEADLINE types to chip style — category drives color, not urgency level
+function deadlineChip(category: string): string {
+  if (category === 'Exams') return CHIP.exam;
+  if (category === 'Funding') return CHIP.holiday;   // teal = money/growth
+  return CHIP.school;                                 // blue = university/TVET
+}
+function deadlineDot(category: string): string {
+  if (category === 'Exams') return DOT.exam;
+  if (category === 'Funding') return DOT.holiday;
+  return DOT.school;
+}
+
+// ── Term data ─────────────────────────────────────────────────────────────────
 const TERMS = [
-  { id: 1, name: 'Term 1', start: '14 Jan', end: '27 Mar', weeks: 11, holidays: '28 Mar – 7 Apr', startMonth: 0, startDay: 14, endMonth: 2, endDay: 27, gradient: 'from-blue-500 to-blue-600', tint: 'bg-blue-500/[0.04]', light: 'bg-blue-50 border-blue-200 text-blue-700', strip: 'bg-blue-500' },
-  { id: 2, name: 'Term 2', start: '8 Apr',  end: '26 Jun', weeks: 12, holidays: '27 Jun – 20 Jul', startMonth: 3, startDay: 8,  endMonth: 5, endDay: 26, gradient: 'from-indigo-500 to-indigo-600', tint: 'bg-indigo-500/[0.04]', light: 'bg-indigo-50 border-indigo-200 text-indigo-700', strip: 'bg-indigo-500' },
-  { id: 3, name: 'Term 3', start: '21 Jul', end: '2 Oct',  weeks: 11, holidays: '3 Oct – 12 Oct',  startMonth: 6, startDay: 21, endMonth: 9, endDay: 2,  gradient: 'from-violet-500 to-violet-600', tint: 'bg-violet-500/[0.04]', light: 'bg-violet-50 border-violet-200 text-violet-700', strip: 'bg-violet-500' },
-  { id: 4, name: 'Term 4', start: '13 Oct', end: '9 Dec',  weeks: 9,  holidays: '10 Dec – Jan 2027', startMonth: 9, startDay: 13, endMonth: 11, endDay: 9, gradient: 'from-emerald-500 to-emerald-600', tint: 'bg-emerald-500/[0.04]', light: 'bg-emerald-50 border-emerald-200 text-emerald-700', strip: 'bg-emerald-500' },
+  { id: 1, name: 'Term 1', start: '14 Jan', end: '27 Mar', weeks: 11, holidays: '28 Mar – 7 Apr', startMonth: 0, startDay: 14, endMonth: 2, endDay: 27 },
+  { id: 2, name: 'Term 2', start: '8 Apr',  end: '26 Jun', weeks: 12, holidays: '27 Jun – 20 Jul', startMonth: 3, startDay: 8,  endMonth: 5, endDay: 26 },
+  { id: 3, name: 'Term 3', start: '21 Jul', end: '2 Oct',  weeks: 11, holidays: '3 Oct – 12 Oct',  startMonth: 6, startDay: 21, endMonth: 9, endDay: 2  },
+  { id: 4, name: 'Term 4', start: '13 Oct', end: '9 Dec',  weeks: 9,  holidays: '10 Dec – Jan 2027', startMonth: 9, startDay: 13, endMonth: 11, endDay: 9 },
 ];
 
+// Timeline gradient for terms tab (decorative only — not repeated on grid)
+const TERM_GRADIENT = ['from-blue-500 to-indigo-500', 'from-indigo-500 to-indigo-600', 'from-indigo-600 to-blue-600', 'from-blue-600 to-indigo-700'];
+
+// ── Deadlines ─────────────────────────────────────────────────────────────────
 interface DeadlineEvent {
-  title: string;
-  shortTitle: string;
-  date: string;
-  isoDate: string;
-  category: string;
-  type: 'danger' | 'warning' | 'info' | 'success';
-  icon: 'university' | 'funding' | 'exam';
+  title: string; shortTitle: string; date: string; isoDate: string;
+  category: string; icon: 'university' | 'funding' | 'exam';
 }
 
 const DEADLINES: DeadlineEvent[] = [
-  { title: 'UCT Applications Open',     shortTitle: 'UCT Apps',    date: '1 Mar',  isoDate: '2026-03-01', category: 'University', type: 'info',    icon: 'university' },
-  { title: 'UP Applications Open',      shortTitle: 'UP Apps',     date: '1 Apr',  isoDate: '2026-04-01', category: 'University', type: 'warning', icon: 'university' },
-  { title: 'UNISA Semester 2 Reg',      shortTitle: 'UNISA Reg',   date: '15 May', isoDate: '2026-05-15', category: 'University', type: 'info',    icon: 'university' },
-  { title: 'Wits Early Applications',   shortTitle: 'Wits Apps',   date: '30 Jun', isoDate: '2026-06-30', category: 'University', type: 'danger',  icon: 'university' },
-  { title: 'Stellenbosch Applications', shortTitle: 'SU Apps',     date: '31 Jul', isoDate: '2026-07-31', category: 'University', type: 'warning', icon: 'university' },
-  { title: 'NSFAS 2027 Applications',   shortTitle: 'NSFAS',       date: '1 Sep',  isoDate: '2026-09-01', category: 'Funding',    type: 'info',    icon: 'funding' },
-  { title: 'UJ Applications Close',     shortTitle: 'UJ Closes',   date: '30 Sep', isoDate: '2026-09-30', category: 'University', type: 'danger',  icon: 'university' },
-  { title: 'NSF Bursary Closes',        shortTitle: 'NSF Bursary', date: '15 Oct', isoDate: '2026-10-15', category: 'Funding',    type: 'warning', icon: 'funding' },
-  { title: 'Matric Finals Begin',       shortTitle: 'Matric',      date: '20 Oct', isoDate: '2026-10-20', category: 'Exams',      type: 'danger',  icon: 'exam' },
-  { title: 'DHET TVET Applications',    shortTitle: 'TVET Apps',   date: '30 Oct', isoDate: '2026-10-30', category: 'TVET',       type: 'info',    icon: 'university' },
-  { title: 'Sasol Bursary Deadline',    shortTitle: 'Sasol',       date: '15 Nov', isoDate: '2026-11-15', category: 'Funding',    type: 'warning', icon: 'funding' },
-  { title: 'Matric Results Released',   shortTitle: 'Results',     date: '6 Jan',  isoDate: '2027-01-06', category: 'Exams',      type: 'success', icon: 'exam' },
+  { title: 'UCT Applications Open',     shortTitle: 'UCT Apps',    date: '1 Mar',  isoDate: '2026-03-01', category: 'University', icon: 'university' },
+  { title: 'UP Applications Open',      shortTitle: 'UP Apps',     date: '1 Apr',  isoDate: '2026-04-01', category: 'University', icon: 'university' },
+  { title: 'UNISA Semester 2 Reg',      shortTitle: 'UNISA Reg',   date: '15 May', isoDate: '2026-05-15', category: 'University', icon: 'university' },
+  { title: 'Wits Early Applications',   shortTitle: 'Wits Apps',   date: '30 Jun', isoDate: '2026-06-30', category: 'University', icon: 'university' },
+  { title: 'Stellenbosch Applications', shortTitle: 'SU Apps',     date: '31 Jul', isoDate: '2026-07-31', category: 'University', icon: 'university' },
+  { title: 'NSFAS 2027 Applications',   shortTitle: 'NSFAS',       date: '1 Sep',  isoDate: '2026-09-01', category: 'Funding',    icon: 'funding'    },
+  { title: 'UJ Applications Close',     shortTitle: 'UJ Closes',   date: '30 Sep', isoDate: '2026-09-30', category: 'University', icon: 'university' },
+  { title: 'NSF Bursary Closes',        shortTitle: 'NSF Bursary', date: '15 Oct', isoDate: '2026-10-15', category: 'Funding',    icon: 'funding'    },
+  { title: 'Matric Finals Begin',       shortTitle: 'Matric',      date: '20 Oct', isoDate: '2026-10-20', category: 'Exams',      icon: 'exam'       },
+  { title: 'DHET TVET Applications',    shortTitle: 'TVET Apps',   date: '30 Oct', isoDate: '2026-10-30', category: 'TVET',       icon: 'university' },
+  { title: 'Sasol Bursary Deadline',    shortTitle: 'Sasol',       date: '15 Nov', isoDate: '2026-11-15', category: 'Funding',    icon: 'funding'    },
+  { title: 'Matric Results Released',   shortTitle: 'Results',     date: '6 Jan',  isoDate: '2027-01-06', category: 'Exams',      icon: 'exam'       },
 ];
 
+// ── Public holidays ────────────────────────────────────────────────────────────
 const PUBLIC_HOLIDAY_MAP: Record<string, string> = {
-  '2026-01-01': "New Year's Day",
-  '2026-03-21': 'Human Rights Day',
-  '2026-04-03': 'Good Friday',
-  '2026-04-06': 'Family Day',
-  '2026-04-27': 'Freedom Day',
-  '2026-05-01': "Workers' Day",
-  '2026-06-16': 'Youth Day',
-  '2026-08-09': "Women's Day",
-  '2026-09-24': 'Heritage Day',
-  '2026-12-16': 'Day of Reconciliation',
-  '2026-12-25': 'Christmas Day',
-  '2026-12-26': 'Day of Goodwill',
+  '2026-01-01': "New Year's Day",    '2026-03-21': 'Human Rights Day',
+  '2026-04-03': 'Good Friday',       '2026-04-06': 'Family Day',
+  '2026-04-27': 'Freedom Day',       '2026-05-01': "Workers' Day",
+  '2026-06-16': 'Youth Day',         '2026-08-09': "Women's Day",
+  '2026-09-24': 'Heritage Day',      '2026-12-16': 'Day of Reconciliation',
+  '2026-12-25': 'Christmas Day',     '2026-12-26': 'Day of Goodwill',
 };
 
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WEEK_DAYS   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
-// Color system — consistent across grid + legend + pills
-const EVENT_COLORS: Record<UserCalendarEvent['category'], { pill: string; dot: string; label: string }> = {
-  exam:     { pill: 'bg-red-100 text-red-700 border border-red-200',        dot: 'bg-red-500',    label: 'Exam' },
-  deadline: { pill: 'bg-amber-100 text-amber-700 border border-amber-200',  dot: 'bg-amber-500',  label: 'Deadline' },
-  holiday:  { pill: 'bg-sky-100 text-sky-700 border border-sky-200',        dot: 'bg-sky-500',    label: 'Holiday' },
-  other:    { pill: 'bg-indigo-100 text-indigo-700 border border-indigo-200', dot: 'bg-indigo-500', label: 'Event' },
-};
-
-// ── helpers ────────────────────────────────────────────────────────────────
-
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function pad(n: number) { return String(n).padStart(2, '0'); }
 function toIso(y: number, m: number, d: number) { return `${y}-${pad(m + 1)}-${pad(d)}`; }
 
@@ -104,14 +135,14 @@ function daysUntil(iso: string) {
 
 function getTermForDate(month: number, day: number) {
   for (const t of TERMS) {
-    const after = month > t.startMonth || (month === t.startMonth && day >= t.startDay);
-    const before = month < t.endMonth  || (month === t.endMonth  && day <= t.endDay);
+    const after  = month > t.startMonth || (month === t.startMonth && day >= t.startDay);
+    const before = month < t.endMonth   || (month === t.endMonth   && day <= t.endDay);
     if (after && before) return t;
   }
   return null;
 }
 
-function daysInMonth(y: number, m: number) { return new Date(y, m + 1, 0).getDate(); }
+function daysInMonth(y: number, m: number)  { return new Date(y, m + 1, 0).getDate(); }
 function firstDayOffset(y: number, m: number) {
   const d = new Date(y, m, 1).getDay();
   return d === 0 ? 6 : d - 1;
@@ -123,8 +154,7 @@ const DeadlineIcon = ({ icon, className = 'w-4 h-4' }: { icon: DeadlineEvent['ic
   return <GraduationCap className={className} />;
 };
 
-// ── main component ─────────────────────────────────────────────────────────
-
+// ── Component ─────────────────────────────────────────────────────────────────
 export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageProps) {
   const [activeTab, setActiveTab]     = useState<'calendar' | 'terms' | 'deadlines'>('calendar');
   const [viewDate, setViewDate]       = useState(new Date(ACADEMIC_YEAR, new Date().getMonth(), 1));
@@ -132,11 +162,10 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   const [userEventsByDate, setUserEventsByDate] = useState<Map<string, UserCalendarEvent[]>>(
     () => buildEventMap(calendarStorage.getEvents())
   );
-  const [newEventName, setNewEventName]         = useState('');
+  const [newEventName,     setNewEventName]     = useState('');
   const [newEventCategory, setNewEventCategory] = useState<UserCalendarEvent['category']>('other');
-  const [savedEvent, setSavedEvent]             = useState(false);
+  const [savedEvent,       setSavedEvent]       = useState(false);
 
-  // Filter toggles
   const [showDeadlines, setShowDeadlines] = useState(true);
   const [showHolidays,  setShowHolidays]  = useState(true);
   const [showPersonal,  setShowPersonal]  = useState(true);
@@ -150,7 +179,6 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   const nextMonth = useCallback(() => setViewDate(new Date(year, month + 1, 1)), [year, month]);
   const goToToday = () => setViewDate(new Date(ACADEMIC_YEAR, new Date().getMonth(), 1));
 
-  // Keyboard navigation
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (activeTab !== 'calendar') return;
@@ -167,39 +195,26 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
     return now.getDate() === day && now.getMonth() === month && now.getFullYear() === year;
   };
 
-  const getDeadlinesForIso = (iso: string) =>
-    showDeadlines ? DEADLINES.filter(d => d.isoDate === iso) : [];
+  const getDeadlinesForIso = (iso: string) => showDeadlines ? DEADLINES.filter(d => d.isoDate === iso) : [];
+  const getHoliday = (iso: string) => showHolidays ? (PUBLIC_HOLIDAY_MAP[iso] ?? null) : null;
 
-  const getHoliday = (iso: string) =>
-    showHolidays ? (PUBLIC_HOLIDAY_MAP[iso] ?? null) : null;
-
-  // Next upcoming deadline
   const nextDeadline = useMemo(() => {
     const today = new Date();
     return DEADLINES.find(d => new Date(d.isoDate) >= today) ?? DEADLINES[DEADLINES.length - 1];
   }, []);
 
-  // Events this week
   const eventsThisWeek = useMemo(() => {
     const today = new Date(); today.setHours(0,0,0,0);
-    const startOfWeek = new Date(today); startOfWeek.setDate(today.getDate() - today.getDay() + 1);
-    const endOfWeek   = new Date(startOfWeek); endOfWeek.setDate(startOfWeek.getDate() + 6);
+    const start = new Date(today); start.setDate(today.getDate() - today.getDay() + 1);
+    const end   = new Date(start); end.setDate(start.getDate() + 6);
     let count = 0;
-    for (const [iso, evts] of userEventsByDate) {
-      const d = new Date(iso);
-      if (d >= startOfWeek && d <= endOfWeek) count += evts.length;
-    }
-    // Also count deadlines this week
-    for (const dl of DEADLINES) {
-      const d = new Date(dl.isoDate);
-      if (d >= startOfWeek && d <= endOfWeek) count++;
-    }
+    for (const [iso, evts] of userEventsByDate) { if (new Date(iso) >= start && new Date(iso) <= end) count += evts.length; }
+    for (const dl of DEADLINES) { if (new Date(dl.isoDate) >= start && new Date(dl.isoDate) <= end) count++; }
     return count;
   }, [userEventsByDate]);
 
   const daysUntilNext = nextDeadline ? daysUntil(nextDeadline.isoDate) : null;
-
-  const currentTerm = getTermForDate(month, 15);
+  const currentTerm   = getTermForDate(month, 15);
 
   const selectedDayLabel = useMemo(() => {
     if (!selectedDay) return '';
@@ -210,88 +225,84 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   const saveEvent = () => {
     if (!newEventName.trim() || !selectedDay) return;
     const evt: UserCalendarEvent = {
-      id: `evt-${Date.now()}`,
-      eventName: newEventName.trim(),
-      eventDate: selectedDay,
-      category: newEventCategory,
-      createdAt: new Date().toISOString(),
+      id: `evt-${Date.now()}`, eventName: newEventName.trim(),
+      eventDate: selectedDay, category: newEventCategory, createdAt: new Date().toISOString(),
     };
     calendarStorage.saveEvent(evt);
-    reloadEvents();
-    setSavedEvent(true);
-    setNewEventName('');
+    reloadEvents(); setSavedEvent(true); setNewEventName('');
     setTimeout(() => setSavedEvent(false), 1500);
   };
 
   const sortedDeadlines = useMemo(() => {
     const today = new Date();
-    const future = DEADLINES.filter(d => new Date(d.isoDate) >= today).sort((a, b) => a.isoDate.localeCompare(b.isoDate));
-    const past   = DEADLINES.filter(d => new Date(d.isoDate) <  today).sort((a, b) => a.isoDate.localeCompare(b.isoDate));
-    return [...future, ...past];
+    return [
+      ...DEADLINES.filter(d => new Date(d.isoDate) >= today).sort((a, b) => a.isoDate.localeCompare(b.isoDate)),
+      ...DEADLINES.filter(d => new Date(d.isoDate) <  today).sort((a, b) => a.isoDate.localeCompare(b.isoDate)),
+    ];
   }, []);
 
   const mockUser = { id: 'user', email: 'student@prospect.co.za', user_metadata: { full_name: 'Prospect Student' } } as any;
 
-  // ── render helpers ─────────────────────────────────────────────────────
-
+  // ── Calendar grid render ──────────────────────────────────────────────────
   const renderCalendar = () => {
     const offset = firstDayOffset(year, month);
     const days   = daysInMonth(year, month);
 
     return (
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* ── Main calendar ── */}
+
+        {/* ── Grid column ── */}
         <div className="flex-1 min-w-0">
+
           {/* Stats bar */}
-          <div className="flex flex-wrap gap-3 mb-5">
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-red-50 border border-red-200 rounded-xl flex-1 min-w-0">
-              <Bell className="w-3.5 h-3.5 text-red-500 shrink-0" />
+          <div className="flex flex-wrap gap-2 mb-5">
+            {/* Next deadline — toned-down red, same structure as chips */}
+            <div className="flex items-center gap-2.5 px-4 py-2.5 bg-red-50 border border-red-200 rounded-xl flex-1 min-w-0">
+              <Bell className="w-3.5 h-3.5 text-red-600 shrink-0" />
               <div className="min-w-0">
                 <p className="text-[9px] font-black uppercase tracking-widest text-red-400">Next Deadline</p>
                 <p className="text-xs font-bold text-red-700 truncate">
                   {nextDeadline?.shortTitle}
-                  {daysUntilNext != null && daysUntilNext > 0 && (
-                    <span className="ml-1.5 font-normal text-red-400">· {daysUntilNext}d away</span>
-                  )}
-                  {daysUntilNext === 0 && <span className="ml-1.5 text-red-500 font-black">· Today!</span>}
+                  {daysUntilNext != null && daysUntilNext > 0 && <span className="ml-1.5 font-normal text-red-400">· {daysUntilNext}d</span>}
+                  {daysUntilNext === 0 && <span className="ml-1.5 font-black text-red-600">· Today!</span>}
                 </p>
               </div>
             </div>
+
             {eventsThisWeek > 0 && (
-              <div className="flex items-center gap-2 px-4 py-2.5 bg-indigo-50 border border-indigo-200 rounded-xl">
-                <CalendarIcon className="w-3.5 h-3.5 text-indigo-500" />
+              <div className="flex items-center gap-2 px-3 py-2.5 bg-indigo-50 border border-indigo-200 rounded-xl">
+                <CalendarIcon className="w-3.5 h-3.5 text-indigo-600" />
                 <p className="text-xs font-bold text-indigo-700">{eventsThisWeek} this week</p>
               </div>
             )}
+
             {currentTerm && (
-              <div className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border ${currentTerm.light} text-xs font-bold`}>
-                <Flag className="w-3 h-3" />
-                {currentTerm.name}
+              <div className="flex items-center gap-1.5 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <Flag className="w-3 h-3 text-slate-500" />
+                <p className="text-xs font-bold text-slate-600">{currentTerm.name}</p>
               </div>
             )}
           </div>
 
-          {/* Month header */}
-          <div className="flex items-center justify-between mb-5">
+          {/* Month + nav */}
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-2xl md:text-3xl font-black text-navy tracking-tight leading-none">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight leading-none">
                 {MONTH_NAMES[month]}
               </h3>
-              <span className="text-sm font-bold text-slate-400">{year}</span>
+              <span className="text-sm font-semibold text-slate-400">{year}</span>
             </div>
             <div className="flex items-center gap-2">
-              <button
-                onClick={goToToday}
-                className="px-3 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl bg-navy/5 hover:bg-navy hover:text-white text-navy transition-all"
-              >
+              <button onClick={goToToday}
+                className="px-3 py-2 text-[10px] font-black uppercase tracking-widest rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 hover:bg-indigo-600 hover:text-white transition-all">
                 Today
               </button>
-              <button onClick={prevMonth} title="Previous month (←)"
-                className="w-9 h-9 rounded-xl border border-slate-200 hover:border-navy hover:bg-navy hover:text-white text-slate-500 flex items-center justify-center transition-all shadow-sm">
+              <button onClick={prevMonth} title="← prev month"
+                className="w-9 h-9 rounded-xl border border-slate-200 text-slate-500 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 flex items-center justify-center transition-all">
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button onClick={nextMonth} title="Next month (→)"
-                className="w-9 h-9 rounded-xl border border-slate-200 hover:border-navy hover:bg-navy hover:text-white text-slate-500 flex items-center justify-center transition-all shadow-sm">
+              <button onClick={nextMonth} title="→ next month"
+                className="w-9 h-9 rounded-xl border border-slate-200 text-slate-500 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 flex items-center justify-center transition-all">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -300,7 +311,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           {/* Grid */}
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             {/* Day headers */}
-            <div className="grid grid-cols-7 border-b border-slate-100">
+            <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {WEEK_DAYS.map((d, i) => (
                 <div key={d} className={`py-3 text-center text-[10px] font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
                   {d}
@@ -308,35 +319,33 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               ))}
             </div>
 
-            {/* Cells */}
             <div className="grid grid-cols-7">
-              {/* Empty offset cells */}
+              {/* Empty offset */}
               {Array.from({ length: offset }).map((_, i) => (
-                <div key={`e-${i}`} className="h-24 md:h-28 bg-slate-50/50 border-b border-r border-slate-100 last:border-r-0" />
+                <div key={`e-${i}`} className="h-24 md:h-28 bg-slate-50/40 border-b border-r border-slate-100" />
               ))}
 
               {/* Day cells */}
               {Array.from({ length: days }).map((_, i) => {
-                const day = i + 1;
-                const iso = toIso(year, month, day);
-                const colIndex = (offset + i) % 7;
-                const isWeekend = colIndex >= 5;
-                const today = isToday(day);
-                const dlList = getDeadlinesForIso(iso);
-                const holiday = getHoliday(iso);
-                const userEvts = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
-                const term = getTermForDate(month, day);
+                const day        = i + 1;
+                const iso        = toIso(year, month, day);
+                const colIndex   = (offset + i) % 7;
+                const isWeekend  = colIndex >= 5;
+                const today      = isToday(day);
+                const dlList     = getDeadlinesForIso(iso);
+                const holiday    = getHoliday(iso);
+                const userEvts   = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
+                const inTerm     = getTermForDate(month, day) !== null;
                 const isSelected = selectedDay === iso;
                 const hasDeadline = dlList.length > 0;
 
-                // Build visible chips: deadlines first, then user events, then holiday
-                type Chip = { key: string; label: string; cls: string };
+                // Build chips: deadlines (highest priority), user events, holiday
+                type Chip = { key: string; label: string; chip: string; dot: string };
                 const chips: Chip[] = [];
-                if (dlList.length > 0) chips.push({ key: 'dl0', label: dlList[0].shortTitle, cls: 'bg-red-100 text-red-700 border-red-200' });
-                if (dlList.length > 1) chips.push({ key: 'dl1', label: dlList[1].shortTitle, cls: 'bg-red-100 text-red-700 border-red-200' });
-                for (const e of userEvts) chips.push({ key: e.id, label: e.eventName, cls: EVENT_COLORS[e.category].pill });
-                if (holiday && chips.length < 2) chips.push({ key: 'hol', label: holiday.split(' ')[0], cls: 'bg-sky-100 text-sky-700 border-sky-200' });
-                const visibleChips = chips.slice(0, 2);
+                for (const dl of dlList) chips.push({ key: dl.isoDate + dl.title, label: dl.shortTitle, chip: deadlineChip(dl.category), dot: deadlineDot(dl.category) });
+                for (const e of userEvts)  chips.push({ key: e.id, label: e.eventName, chip: EVENT_STYLE[e.category].chip, dot: EVENT_STYLE[e.category].dot });
+                if (holiday && chips.length < 2) chips.push({ key: 'hol', label: holiday.split(' ')[0], chip: CHIP.holiday, dot: DOT.holiday });
+                const visible  = chips.slice(0, 2);
                 const overflow = chips.length - 2;
 
                 return (
@@ -344,51 +353,49 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     key={day}
                     data-testid="calendar-day"
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
-                    whileHover={{ backgroundColor: isSelected ? undefined : (hasDeadline ? 'rgba(239,68,68,0.05)' : 'rgba(30,41,59,0.03)') }}
-                    className={`relative min-h-[6rem] md:min-h-[7rem] p-2 text-left border-b border-r border-slate-100 transition-colors
-                      ${isWeekend ? 'bg-slate-50/70' : 'bg-white'}
-                      ${hasDeadline && !isSelected ? 'bg-red-50/50' : ''}
-                      ${holiday && !hasDeadline && !isSelected ? 'bg-sky-50/40' : ''}
-                      ${isSelected ? 'bg-navy/[0.06] ring-2 ring-inset ring-navy z-10' : ''}
-                      ${(offset + i) % 7 === 6 ? 'border-r-0' : ''}
-                    `}
+                    whileHover={{ backgroundColor: isSelected ? undefined : hasDeadline ? 'rgba(239,68,68,0.04)' : 'rgba(79,70,229,0.03)' }}
+                    className={[
+                      'relative min-h-[6rem] md:min-h-[7rem] p-2 text-left border-b border-r border-slate-100 transition-colors',
+                      isWeekend  ? 'bg-slate-50/70' : 'bg-white',
+                      hasDeadline && !isSelected ? 'bg-red-50/40' : '',
+                      holiday && !hasDeadline && !isSelected ? 'bg-teal-50/30' : '',
+                      isSelected ? 'bg-indigo-50 ring-2 ring-inset ring-indigo-500 z-10' : '',
+                      (offset + i) % 7 === 6 ? 'border-r-0' : '',
+                    ].filter(Boolean).join(' ')}
                   >
-                    {/* Term strip at top */}
-                    {term && <div className={`absolute top-0 left-0 right-0 h-[3px] ${term.strip}`} />}
+                    {/* Term indicator: thin neutral top border — no color noise */}
+                    {inTerm && <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-300/60" />}
 
                     {/* Day number */}
-                    <span className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs font-black mb-1.5 transition-all
-                      ${today
-                        ? 'bg-navy text-white shadow-md shadow-navy/30 scale-110'
+                    <span className={[
+                      'inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs font-black mb-1.5 transition-all',
+                      today
+                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-300/50 scale-110'
                         : isSelected
-                          ? 'bg-navy/10 text-navy'
+                          ? 'bg-indigo-100 text-indigo-700'
                           : isWeekend
                             ? 'text-slate-400'
-                            : 'text-slate-700'
-                      }
-                    `}>
+                            : 'text-slate-700',
+                    ].filter(Boolean).join(' ')}>
                       {day}
                     </span>
 
-                    {/* Holiday dot on mobile */}
-                    {holiday && <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-sky-400 md:hidden" />}
-
-                    {/* Chips — visible on md+ */}
-                    <div className="hidden md:flex flex-col gap-0.5 mt-0.5">
-                      {visibleChips.map(c => (
-                        <span key={c.key} className={`text-[9px] font-black px-1.5 py-0.5 rounded-md border truncate leading-tight ${c.cls}`}>
+                    {/* Chips — md+ */}
+                    <div className="hidden md:flex flex-col gap-0.5">
+                      {visible.map(c => (
+                        <span key={c.key} className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate leading-tight ${c.chip}`}>
                           {c.label}
                         </span>
                       ))}
                       {overflow > 0 && (
-                        <span className="text-[9px] font-black text-slate-400 px-1">+{overflow} more</span>
+                        <span className="text-[9px] font-bold text-slate-400 pl-1">+{overflow}</span>
                       )}
                     </div>
 
-                    {/* Dot row — mobile only */}
-                    <div className="flex gap-0.5 mt-1 md:hidden">
+                    {/* Dot row — mobile */}
+                    <div className="flex gap-0.5 mt-0.5 md:hidden">
                       {chips.slice(0, 3).map((c, j) => (
-                        <span key={j} className={`w-1.5 h-1.5 rounded-full ${c.cls.includes('red') ? 'bg-red-500' : c.cls.includes('amber') ? 'bg-amber-400' : c.cls.includes('sky') ? 'bg-sky-400' : 'bg-indigo-400'}`} />
+                        <span key={j} className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
                       ))}
                     </div>
                   </motion.button>
@@ -397,43 +404,42 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
             </div>
           </div>
 
-          {/* Legend */}
-          <div className="mt-4 flex flex-wrap gap-3 px-1">
-            <div className="flex items-center gap-1.5"><div className="w-5 h-5 rounded-md bg-navy" /><span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Today</span></div>
-            <div className="flex items-center gap-1.5"><span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-red-100 text-red-700 border border-red-200">Deadline</span></div>
-            <div className="flex items-center gap-1.5"><span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-sky-100 text-sky-700 border border-sky-200">Holiday</span></div>
-            <div className="flex items-center gap-1.5"><span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 border border-indigo-200">Your Event</span></div>
-            {TERMS.map(t => (
-              <div key={t.id} className="flex items-center gap-1.5">
-                <div className={`w-3 h-2 rounded-sm ${t.strip}`} />
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.name}</span>
-              </div>
-            ))}
-            <span className="text-[10px] text-slate-300 ml-auto hidden md:block">← → to navigate months</span>
+          {/* Legend — chips match exactly */}
+          <div className="mt-4 flex flex-wrap gap-2 px-1">
+            <div className="flex items-center gap-1.5">
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-md bg-indigo-600 text-[8px] font-black text-white">17</span>
+              <span className="text-[10px] font-bold text-slate-500">Today</span>
+            </div>
+            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.deadline}`}>Deadline</span>
+            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.holiday}`}>Holiday</span>
+            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.school}`}>University</span>
+            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.personal}`}>Your Event</span>
+            <div className="flex items-center gap-1.5 ml-1">
+              <div className="w-4 h-[2px] bg-slate-300 rounded" />
+              <span className="text-[10px] font-bold text-slate-400">In term</span>
+            </div>
+            <span className="text-[10px] text-slate-300 ml-auto hidden md:block">← → keys to navigate</span>
           </div>
         </div>
 
-        {/* ── Right side panel ── */}
+        {/* ── Side panel ── */}
         <div className="lg:w-72 shrink-0 space-y-4">
-          {/* Selected day detail */}
+
+          {/* Selected day */}
           <AnimatePresence mode="wait">
             {selectedDay ? (
-              <motion.div
-                key="day-detail"
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 16 }}
-                transition={{ duration: 0.18 }}
-                className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden"
-              >
-                <div className="flex items-center justify-between px-4 py-3 bg-navy text-white">
+              <motion.div key="day-detail" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={{ duration: 0.16 }}
+                className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+                {/* Header — indigo primary, not heavy navy */}
+                <div className="flex items-center justify-between px-4 py-3 bg-indigo-600 text-white">
                   <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-navy-200 opacity-70">Selected</p>
+                    <p className="text-[9px] font-black uppercase tracking-widest opacity-60">Selected</p>
                     <h4 className="text-sm font-black">{selectedDayLabel}</h4>
                     {(() => {
                       const [, m, d] = selectedDay.split('-').map(Number);
                       const t = getTermForDate(m - 1, d);
-                      return t ? <span className="text-[10px] text-white/60">{t.name}</span> : null;
+                      return t ? <span className="text-[10px] text-indigo-200">{t.name}</span> : null;
                     })()}
                   </div>
                   <button onClick={() => setSelectedDay(null)} className="p-1.5 hover:bg-white/10 rounded-lg">
@@ -441,8 +447,8 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   </button>
                 </div>
 
-                <div className="p-4 space-y-3 max-h-[50vh] overflow-y-auto">
-                  {/* Key dates on this day */}
+                <div className="p-4 space-y-3 max-h-[52vh] overflow-y-auto">
+                  {/* Key dates */}
                   {(() => {
                     const dls = getDeadlinesForIso(selectedDay);
                     const hol = getHoliday(selectedDay);
@@ -451,23 +457,20 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                       <div className="space-y-1.5">
                         <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Key Dates</p>
                         {hol && (
-                          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-sky-50 border border-sky-200">
-                            <span className="w-2 h-2 rounded-full bg-sky-400 shrink-0" />
-                            <p className="text-xs font-bold text-sky-700">{hol}</p>
+                          <div className={`flex items-center gap-2 px-3 py-2 rounded-xl ${CHIP.holiday}`}>
+                            <span className={`w-2 h-2 rounded-full shrink-0 ${DOT.holiday}`} />
+                            <p className="text-xs font-bold">{hol}</p>
                           </div>
                         )}
-                        {dls.map((dl, i) => {
-                          const s = { danger: 'bg-red-50 border-red-200 text-red-700', warning: 'bg-amber-50 border-amber-200 text-amber-700', info: 'bg-blue-50 border-blue-200 text-blue-700', success: 'bg-green-50 border-green-200 text-green-700' }[dl.type];
-                          return (
-                            <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-xl border ${s}`}>
-                              <DeadlineIcon icon={dl.icon} className="w-3.5 h-3.5 shrink-0" />
-                              <div>
-                                <p className="text-[9px] font-black uppercase tracking-widest opacity-60">{dl.category}</p>
-                                <p className="text-xs font-bold">{dl.title}</p>
-                              </div>
+                        {dls.map((dl, i) => (
+                          <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-xl ${deadlineChip(dl.category)}`}>
+                            <DeadlineIcon icon={dl.icon} className="w-3.5 h-3.5 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-[9px] font-black uppercase tracking-widest opacity-60">{dl.category}</p>
+                              <p className="text-xs font-bold truncate">{dl.title}</p>
                             </div>
-                          );
-                        })}
+                          </div>
+                        ))}
                       </div>
                     );
                   })()}
@@ -477,8 +480,8 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     <div className="space-y-1.5">
                       <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Your Events</p>
                       {(userEventsByDate.get(selectedDay) ?? []).map(evt => (
-                        <div key={evt.id} className={`flex items-center gap-2 px-3 py-2 rounded-xl border ${EVENT_COLORS[evt.category].pill}`}>
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${EVENT_COLORS[evt.category].dot}`} />
+                        <div key={evt.id} className={`flex items-center gap-2 px-3 py-2 rounded-xl ${EVENT_STYLE[evt.category].chip}`}>
+                          <span className={`w-2 h-2 rounded-full shrink-0 ${EVENT_STYLE[evt.category].dot}`} />
                           <p className="text-xs font-bold flex-1">{evt.eventName}</p>
                           <button onClick={() => { calendarStorage.deleteEvent(evt.id); reloadEvents(); }} className="p-0.5 hover:opacity-60">
                             <Trash2 className="w-3 h-3" />
@@ -488,70 +491,58 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     </div>
                   )}
 
-                  {/* Add event form */}
+                  {/* Add event */}
                   <div className="space-y-2 pt-1 border-t border-slate-100">
                     <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Add Event</p>
                     <input
-                      type="text"
-                      value={newEventName}
-                      onChange={e => setNewEventName(e.target.value)}
+                      type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && saveEvent()}
                       data-testid="event-description"
-                      className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-navy/20 placeholder:text-slate-300"
+                      className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 placeholder:text-slate-300 transition-all"
                       placeholder="e.g. Maths exam..."
                     />
                     <div className="grid grid-cols-4 gap-1">
                       {(['exam','deadline','holiday','other'] as const).map(cat => (
                         <button key={cat} onClick={() => setNewEventCategory(cat)}
-                          className={`py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg border transition-all ${newEventCategory === cat ? EVENT_COLORS[cat].pill : 'bg-slate-50 border-slate-100 text-slate-400 hover:bg-slate-100'}`}>
-                          {EVENT_COLORS[cat].label}
+                          className={`py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all ${newEventCategory === cat ? EVENT_STYLE[cat].chip : 'bg-slate-50 border border-slate-100 text-slate-400 hover:bg-slate-100'}`}>
+                          {EVENT_STYLE[cat].label}
                         </button>
                       ))}
                     </div>
-                    <button
-                      onClick={saveEvent}
-                      disabled={!newEventName.trim()}
-                      data-testid="create-event-btn"
-                      className={`w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-emerald-500 text-white' : 'bg-navy text-white hover:bg-navy/90 disabled:opacity-40 disabled:cursor-not-allowed'}`}
-                    >
+                    <button onClick={saveEvent} disabled={!newEventName.trim()} data-testid="create-event-btn"
+                      className={`w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-teal-500 text-white' : 'bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
                       {savedEvent ? 'Saved ✓' : <><Plus className="w-3.5 h-3.5" /> Add Event</>}
                     </button>
                   </div>
                 </div>
               </motion.div>
             ) : (
-              <motion.div
-                key="day-hint"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="bg-white border border-slate-100 rounded-2xl p-5 text-center"
-              >
+              <motion.div key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="bg-white border border-slate-100 rounded-2xl p-5 text-center">
                 <CalendarIcon className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-                <p className="text-xs font-bold text-slate-400">Click any day to see details or add an event</p>
+                <p className="text-xs font-semibold text-slate-400">Click any day to see details or add an event</p>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Upcoming deadlines panel */}
-          <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-100">
-              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Coming Up</p>
+          {/* Upcoming — light surface, not dark */}
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+            <div className="px-4 py-3 bg-slate-50 border-b border-slate-200">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Coming Up</p>
             </div>
             <div className="divide-y divide-slate-50">
-              {sortedDeadlines.filter(d => daysUntil(d.isoDate) >= 0).slice(0, 5).map((dl, i) => {
+              {sortedDeadlines.filter(d => daysUntil(d.isoDate) >= 0).slice(0, 6).map((dl, i) => {
                 const days = daysUntil(dl.isoDate);
-                const s = { danger: 'text-red-500', warning: 'text-amber-500', info: 'text-blue-500', success: 'text-green-500' }[dl.type];
                 return (
                   <div key={i} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors">
-                    <div className={`w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 ${s}`}>
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${deadlineChip(dl.category)}`}>
                       <DeadlineIcon icon={dl.icon} className="w-3.5 h-3.5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-slate-800 truncate">{dl.shortTitle}</p>
+                      <p className="text-xs font-bold text-slate-700 truncate">{dl.shortTitle}</p>
                       <p className="text-[9px] text-slate-400">{dl.date}</p>
                     </div>
-                    <span className={`text-[10px] font-black ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'text-slate-400'}`}>
+                    <span className={`text-[10px] font-black tabular-nums ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'text-slate-400'}`}>
                       {days === 0 ? 'Today' : `${days}d`}
                     </span>
                   </div>
@@ -564,96 +555,87 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
     );
   };
 
-  // ── render ─────────────────────────────────────────────────────────────
-
+  // ── Page render ───────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       <AppHeader currentPage="calendar" user={mockUser} onNavigate={onNavigate} mode="school" />
 
       <main className="pt-24 pb-20 px-4 md:px-6 max-w-7xl mx-auto">
-        {/* Page header */}
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+
+        {/* Header */}
+        <div className="mb-7 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/5 mb-3">
-              <CalendarIcon className="w-3.5 h-3.5 text-slate-900" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-900">Academic Calendar {ACADEMIC_YEAR}</span>
+              <CalendarIcon className="w-3.5 h-3.5 text-slate-700" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-700">Academic Calendar {ACADEMIC_YEAR}</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">Study Calendar</h1>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-800">Study Calendar</h1>
             <p className="text-sm text-slate-400 mt-1">Track terms, deadlines, and personal events.</p>
           </div>
 
-          {/* Filter toggles */}
+          {/* Filter toggles — same chip style as content */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-1 flex items-center gap-1"><Filter className="w-3 h-3" /> Show:</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1">
+              <Filter className="w-3 h-3" /> Show:
+            </span>
             {[
-              { label: 'Deadlines', active: showDeadlines, toggle: () => setShowDeadlines(s => !s), cls: 'bg-red-100 text-red-700 border-red-200' },
-              { label: 'Holidays',  active: showHolidays,  toggle: () => setShowHolidays(s => !s),  cls: 'bg-sky-100 text-sky-700 border-sky-200' },
-              { label: 'Personal',  active: showPersonal,  toggle: () => setShowPersonal(s => !s),  cls: 'bg-indigo-100 text-indigo-700 border-indigo-200' },
-            ].map(({ label, active, toggle, cls }) => (
-              <button
-                key={label}
-                onClick={toggle}
-                className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${active ? cls : 'bg-slate-100 text-slate-400 border-slate-200 opacity-60'}`}
-              >
-                {active ? '✓' : '○'} {label}
+              { label: 'Deadlines', active: showDeadlines, toggle: () => setShowDeadlines(s => !s), chip: CHIP.deadline },
+              { label: 'Holidays',  active: showHolidays,  toggle: () => setShowHolidays(s => !s),  chip: CHIP.holiday  },
+              { label: 'Personal',  active: showPersonal,  toggle: () => setShowPersonal(s => !s),  chip: CHIP.personal },
+            ].map(({ label, active, toggle, chip }) => (
+              <button key={label} onClick={toggle}
+                className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${active ? chip : 'bg-slate-100 border border-slate-200 text-slate-400'}`}>
+                {active ? '✓ ' : ''}{label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Tab selector */}
-        <div className="flex max-w-xs p-1 bg-white border border-slate-200 rounded-xl shadow-sm mb-8">
+        {/* Tab selector — indigo primary */}
+        <div className="flex w-fit p-1 bg-white border border-slate-200 rounded-xl shadow-sm mb-7">
           {(['calendar','terms','deadlines'] as const).map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-navy text-white shadow-sm' : 'text-slate-400 hover:text-navy'}`}
-            >
+            <button key={tab} onClick={() => setActiveTab(tab)}
+              className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-500 hover:text-indigo-600'}`}>
               {tab}
             </button>
           ))}
         </div>
 
         <AnimatePresence mode="wait">
-          {/* ── CALENDAR ── */}
+          {/* ── Calendar tab ── */}
           {activeTab === 'calendar' && (
-            <motion.div key="cal" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
+            <motion.div key="cal" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
               {renderCalendar()}
             </motion.div>
           )}
 
-          {/* ── TERMS ── */}
+          {/* ── Terms tab ── */}
           {activeTab === 'terms' && (
-            <motion.div key="terms" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} className="space-y-6">
+            <motion.div key="terms" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-5">
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {TERMS.map((term, i) => (
-                  <motion.div
-                    key={term.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                    whileHover={{ y: -4, boxShadow: '0 12px 28px rgba(0,0,0,0.08)' }}
-                    className="bg-white border border-slate-100 rounded-2xl overflow-hidden"
-                  >
-                    <div className={`h-2 bg-linear-to-r ${term.gradient}`} />
+                  <motion.div key={term.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
+                    whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.07)' }}
+                    className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    <div className={`h-1.5 bg-linear-to-r ${TERM_GRADIENT[i]}`} />
                     <div className="p-5">
                       <div className="flex justify-between items-start mb-4">
                         <div>
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Term {term.id}</p>
-                          <h3 className="text-xl font-black text-navy">{term.name}</h3>
+                          <h3 className="text-xl font-black text-slate-800">{term.name}</h3>
                         </div>
-                        <span className="text-[10px] font-black text-slate-300 bg-slate-50 px-2 py-0.5 rounded-lg">{term.weeks}w</span>
+                        <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-lg">{term.weeks}w</span>
                       </div>
-                      <div className="space-y-2.5">
-                        <div className="flex justify-between">
+                      <div className="space-y-2">
+                        <div className="flex justify-between py-2 border-b border-slate-50">
                           <span className="text-[10px] font-bold text-slate-400 uppercase">Start</span>
-                          <span className="text-xs font-bold text-slate-800">{term.start}</span>
+                          <span className="text-xs font-bold text-slate-700">{term.start}</span>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between py-2 border-b border-slate-50">
                           <span className="text-[10px] font-bold text-slate-400 uppercase">End</span>
-                          <span className="text-xs font-bold text-slate-800">{term.end}</span>
+                          <span className="text-xs font-bold text-slate-700">{term.end}</span>
                         </div>
-                        <div className="pt-2 border-t border-slate-50">
+                        <div className="pt-1">
                           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Holidays</p>
                           <p className="text-xs font-semibold text-slate-600">{term.holidays}</p>
                         </div>
@@ -664,11 +646,11 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               </div>
 
               {/* Timeline bar */}
-              <div className="bg-white border border-slate-100 rounded-2xl p-5">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">2026 Academic Year Timeline</p>
+              <div className="bg-white border border-slate-200 rounded-2xl p-5">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">2026 Academic Year Timeline</p>
                 <div className="flex gap-0.5 h-7 rounded-xl overflow-hidden">
-                  {TERMS.map(t => (
-                    <div key={t.id} className={`bg-linear-to-r ${t.gradient} flex items-center justify-center`} style={{ flexGrow: t.weeks }}>
+                  {TERMS.map((t, i) => (
+                    <div key={t.id} className={`bg-linear-to-r ${TERM_GRADIENT[i]} flex items-center justify-center`} style={{ flexGrow: t.weeks }}>
                       <span className="text-[10px] font-black text-white/90 hidden sm:block">{t.name}</span>
                     </div>
                   ))}
@@ -682,38 +664,33 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
             </motion.div>
           )}
 
-          {/* ── DEADLINES ── */}
+          {/* ── Deadlines tab ── */}
           {activeTab === 'deadlines' && (
-            <motion.div key="deadlines" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">All Key Dates for 2026</p>
+            <motion.div key="deadlines" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl space-y-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">All Key Dates · Sorted by Date</p>
               {sortedDeadlines.map((item, i) => {
-                const days = daysUntil(item.isoDate);
+                const days   = daysUntil(item.isoDate);
                 const isPast = days < 0;
-                const typeStyle = {
-                  danger:  { bg: 'bg-red-50',   border: 'border-red-100',   text: 'text-red-700',   badge: 'bg-red-100 text-red-700',   iconBg: 'bg-red-100 text-red-600' },
-                  warning: { bg: 'bg-amber-50',  border: 'border-amber-100', text: 'text-amber-700', badge: 'bg-amber-100 text-amber-700', iconBg: 'bg-amber-100 text-amber-600' },
-                  info:    { bg: 'bg-blue-50',   border: 'border-blue-100',  text: 'text-blue-700',  badge: 'bg-blue-100 text-blue-700',   iconBg: 'bg-blue-100 text-blue-600' },
-                  success: { bg: 'bg-green-50',  border: 'border-green-100', text: 'text-green-700', badge: 'bg-green-100 text-green-700', iconBg: 'bg-green-100 text-green-600' },
-                }[item.type];
+                const chip   = deadlineChip(item.category);
+                const dot    = deadlineDot(item.category);
 
                 return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.03 }}
-                    className={`flex items-center gap-3 p-3.5 rounded-xl border transition-all ${isPast ? 'opacity-40 bg-slate-50 border-slate-100' : `${typeStyle.bg} ${typeStyle.border}`}`}
-                  >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${isPast ? 'bg-slate-100 text-slate-400' : typeStyle.iconBg}`}>
+                  <motion.div key={i} initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }}
+                    className={`flex items-center gap-3 p-3.5 rounded-xl border transition-all ${isPast ? 'opacity-40 bg-slate-50 border-slate-100' : chip}`}>
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${isPast ? 'bg-slate-100 text-slate-400' : `bg-white/60`}`}>
                       <DeadlineIcon icon={item.icon} className="w-3.5 h-3.5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">{item.category}</p>
-                      <h4 className={`text-sm font-bold truncate ${isPast ? 'line-through text-slate-400' : typeStyle.text}`}>{item.title}</h4>
+                      <p className="text-[9px] font-black uppercase tracking-[0.15em] opacity-60">{item.category}</p>
+                      <h4 className={`text-sm font-bold truncate ${isPast ? 'line-through text-slate-400' : ''}`}>{item.title}</h4>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className={`text-[10px] font-black px-2 py-0.5 rounded-lg mb-0.5 ${isPast ? 'bg-slate-100 text-slate-400' : typeStyle.badge}`}>{item.date}</div>
-                      {!isPast && <div className={`text-[10px] font-bold ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'text-slate-400'}`}>{days === 0 ? 'Today!' : `${days}d`}</div>}
+                      <div className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">{item.date}</div>
+                      {!isPast && (
+                        <div className={`text-[10px] font-black ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
+                          {days === 0 ? 'Today!' : `${days}d`}
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 );

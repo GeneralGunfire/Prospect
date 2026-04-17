@@ -132,7 +132,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   { label: 'Explore Careers',  desc: 'Browse 400+ SA career paths',        icon: Briefcase,    page: 'careers' as const,   iconBg: 'bg-blue-600',    bg: 'bg-blue-50   border-blue-100' },
                   { label: 'Find Bursaries',   desc: 'Discover funding opportunities',     icon: Wallet,       page: 'bursaries' as const,  iconBg: 'bg-green-600',   bg: 'bg-green-50  border-green-100' },
                   { label: 'Study Library',    desc: 'Gr 10–12 study materials',           icon: BookOpen,     page: 'library' as const,    iconBg: 'bg-amber-500',   bg: 'bg-amber-50  border-amber-100' },
-                  { label: 'Study Calendar',   desc: 'Track terms & deadlines',            icon: CalendarDays, page: 'calendar' as const,   iconBg: 'bg-violet-600',  bg: 'bg-violet-50 border-violet-100' },
+                  { label: 'Study Calendar',   desc: 'Track terms & deadlines',            icon: CalendarDays, page: 'calendar' as const,   iconBg: 'bg-indigo-600',  bg: 'bg-indigo-50 border-indigo-100' },
                 ].map(({ label, desc, icon: Icon, page, iconBg, bg }) => (
                   <motion.button
                     key={page}

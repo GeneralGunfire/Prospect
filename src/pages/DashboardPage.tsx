@@ -125,7 +125,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* ── 1. TODAY'S FOCUS ─────────────────────────────────────────────── */}
-        <section className="mb-8">
+        <section data-testid="dashboard-today-focus" className="mb-8">
           <SectionLabel dot="bg-orange-400" text="Today's Focus" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
@@ -230,7 +230,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
 
           {/* Study Progress */}
-          <section className="lg:col-span-3">
+          <section data-testid="dashboard-progress" className="lg:col-span-3">
             <SectionLabel dot="bg-blue-500" text="Study Progress" />
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
               {subjectProgress.length > 0 ? (
@@ -300,7 +300,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
           </section>
 
           {/* Mini Calendar / Upcoming Deadlines */}
-          <section className="lg:col-span-2">
+          <section data-testid="dashboard-deadlines" className="lg:col-span-2">
             <SectionLabel dot="bg-red-400" text="Upcoming Deadlines" />
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-full">
               <div className="space-y-2">
@@ -403,7 +403,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
           </section>
 
           {/* Quick Actions */}
-          <section className="lg:col-span-2">
+          <section data-testid="dashboard-quick-actions" className="lg:col-span-2">
             <SectionLabel dot="bg-slate-400" text="Quick Actions" />
             <div className="flex flex-col gap-2">
               {[

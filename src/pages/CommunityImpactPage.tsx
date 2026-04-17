@@ -367,6 +367,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             return (
               <button
                 key={tab}
+                data-testid={`ci-tab-${tab}`}
                 onClick={() => handleTabChange(tab)}
                 className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === tab
@@ -536,6 +537,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     {TYPES.map(t => (
                       <motion.button
                         key={t.value}
+                        data-testid={`ci-type-${t.value}`}
                         onClick={() => handleTypeSelect(t.value)}
                         whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
                         whileTap={{ scale: 0.98 }}
@@ -563,6 +565,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     <button
                       onClick={() => { setAddStep('type'); setFormError(''); setIsDuplicateWarning(false); }}
                       className="text-slate-400 hover:text-slate-700 transition-colors"
+                      data-testid="ci-form-back"
                       aria-label="Back"
                     >
                       ← Back
@@ -601,6 +604,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     {/* Basic */}
                     <FormField label="Name" required>
                       <input
+                        data-testid="ci-form-name"
                         type="text"
                         placeholder={`e.g. Southview ${TYPE_META[selectedType].label}`}
                         value={form.name}
@@ -629,6 +633,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                       <FormField label="Province" required>
                         <div className="relative">
                           <select
+                            data-testid="ci-form-province"
                             value={form.province}
                             onChange={e => setField('province', e.target.value)}
                             className="input-base appearance-none pr-8"
@@ -720,6 +725,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     </AnimatePresence>
 
                     <button
+                      data-testid="ci-submit-btn"
                       onClick={handleSubmit}
                       disabled={isSubmitting}
                       className="w-full py-4 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"

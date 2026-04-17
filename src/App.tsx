@@ -45,7 +45,8 @@ const TVETRequirementsPage = lazy(() => import('./pages/TVETRequirementsPage'));
 const CalendarPageNew    = lazy(() => import('./pages/CalendarPageNew'));
 const SchoolAssistPage   = lazy(() => import('./pages/SchoolAssistPage'));
 const ImpactAuthPage     = lazy(() => import('./pages/ImpactAuthPage'));
-const DemoLearningPage   = lazy(() => import('./pages/DemoLearningPage'));
+const DemoLearningPage       = lazy(() => import('./pages/DemoLearningPage'));
+const CommunityImpactPage    = lazy(() => import('./pages/CommunityImpactPage'));
 import LoadingScreen from './components/LoadingScreen';
 import { VideoPlayer } from './components/VideoPlayer';
 import type { AppPage } from './lib/withAuth';
@@ -1107,6 +1108,12 @@ export default function App() {
             {page === 'demo-learning' && (
               <PageTransition pageKey="demo-learning">
                 <DemoLearningPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'community-impact' && (
+              <PageTransition pageKey="community-impact">
+                <CommunityImpactPage {...careerPageProps} />
               </PageTransition>
             )}
 

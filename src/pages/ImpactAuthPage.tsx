@@ -1,9 +1,12 @@
 import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Eye, EyeOff, Globe, Users, Lock, Check, Loader2 } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, Globe, Users, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { signIn, signUp } from '../lib/auth';
+import type { AppPage } from '../lib/withAuth';
 
 interface Props {
   onNavigateHome: () => void;
+  onNavigate?: (page: AppPage) => void;
 }
 
 type Mode = 'login' | 'signup';
@@ -50,8 +53,8 @@ const PasswordField = ({
   );
 };
 
-export default function ImpactAuthPage({ onNavigateHome }: Props) {
-  const [mode, setMode] = useState<Mode>('signup');
+export default function ImpactAuthPage({ onNavigateHome, onNavigate }: Props) {
+  const [mode, setMode] = useState<Mode>('login');
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -60,19 +63,41 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
   const [acceptTerms, setAcceptTerms] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [notice, setNotice] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setError('');
+
+    if (mode === 'signup') {
+      if (!name.trim()) return setError('Please enter your full name.');
+      if (!email.trim()) return setError('Please enter your email.');
+      if (password.length < 8) return setError('Password must be at least 8 characters.');
+      if (password !== confirmPassword) return setError('Passwords do not match.');
+      if (!acceptTerms) return setError('Please accept the terms to continue.');
+    } else {
+      if (!email.trim()) return setError('Please enter your email.');
+      if (!password) return setError('Please enter your password.');
+    }
+
     setLoading(true);
-    setTimeout(() => {
+    try {
+      if (mode === 'signup') {
+        await signUp(email.trim(), password, name.trim());
+      } else {
+        await signIn(email.trim(), password);
+      }
+      // Navigate to the feature on success
+      if (onNavigate) {
+        onNavigate('community-impact');
+      } else {
+        onNavigateHome();
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
       setLoading(false);
-      setNotice(
-        mode === 'signup'
-          ? 'Thanks for your interest! Community Impact is coming soon.'
-          : 'This feature is not yet available. Check back soon.'
-      );
-    }, 1000);
+    }
   };
 
   const switchMode = (next: Mode) => {
@@ -144,7 +169,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                 ))}
               </div>
               <p className="mt-8 text-xs text-slate-500 font-medium">
-                Coming soon · Sign up to be notified
+                Free to use · No account needed to browse
               </p>
             </div>
           </div>
@@ -178,17 +203,17 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
                 ))}
               </div>
 
-              {/* Notice banner */}
+              {/* Error banner */}
               <AnimatePresence>
-                {notice && (
+                {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    className="mb-4 flex items-start gap-2 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm"
+                    className="mb-4 flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm"
                   >
-                    <Check size={16} className="shrink-0 mt-0.5 text-green-600" />
-                    <span>{notice}</span>
+                    <AlertCircle size={16} className="shrink-0 mt-0.5 text-red-500" />
+                    <span>{error}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -313,7 +338,7 @@ export default function ImpactAuthPage({ onNavigateHome }: Props) {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-6">
-          Community Impact is a future feature · No data is collected yet
+          You can also contribute without signing in — just submit and add your email.
         </p>
       </motion.div>
     </div>

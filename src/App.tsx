@@ -1101,7 +1101,7 @@ export default function App() {
 
             {page === 'impact-auth' && (
               <PageTransition pageKey="impact-auth">
-                <ImpactAuthPage onNavigateHome={() => setPage('home')} />
+                <ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} />
               </PageTransition>
             )}
 

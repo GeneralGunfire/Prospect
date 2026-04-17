@@ -4,7 +4,7 @@ import {
   Menu, X, User, LogOut, LayoutDashboard,
   BrainCircuit, Briefcase, BookOpen, Wallet,
   Map, Calendar, GraduationCap, BookMarked,
-  Target, Heart, Users,
+  Target, Heart,
 } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
@@ -28,10 +28,9 @@ interface NavItem {
 
 // School Assist nav — auth-required pages only
 const SCHOOL_NAV: NavItem[] = [
-  { name: 'Dashboard', page: 'dashboard',        icon: <LayoutDashboard className="w-4 h-4" /> },
-  { name: 'Library',   page: 'library',          icon: <BookOpen className="w-4 h-4" /> },
-  { name: 'Calendar',  page: 'calendar',         icon: <Calendar className="w-4 h-4" /> },
-  { name: 'Impact',    page: 'community-impact', icon: <Users className="w-4 h-4" /> },
+  { name: 'Dashboard', page: 'dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
+  { name: 'Library',   page: 'library',   icon: <BookOpen className="w-4 h-4" /> },
+  { name: 'Calendar',  page: 'calendar',  icon: <Calendar className="w-4 h-4" /> },
 ];
 
 // Career Guide nav — all public career pages, flat

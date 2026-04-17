@@ -7,7 +7,6 @@ import {
   Building2, Handshake,
 } from 'lucide-react';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
-import AppHeader from '../components/AppHeader';
 import {
   fetchSubmissions, createSubmission, checkDuplicate, getUserSubmissions,
   getSubmissionStats, type Submission, type SubmissionType, type SubmissionFilters,
@@ -282,7 +281,36 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <AppHeader currentPage="community-impact" user={user} onNavigate={onNavigate} />
+      {/* Standalone header — separate from school/career nav */}
+      <header className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm">
+        <div className="flex items-center justify-between px-4 md:px-8 max-w-5xl mx-auto h-16">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => onNavigate('home')}
+              className="flex items-center gap-2 group"
+              aria-label="Back to home"
+            >
+              <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white font-bold text-sm group-hover:scale-105 transition-transform">
+                P
+              </div>
+              <span className="text-xs font-black tracking-[0.18em] uppercase hidden sm:block text-slate-900">
+                Prospect
+              </span>
+            </button>
+            <span className="text-slate-200 hidden sm:block">|</span>
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100">
+              <Users className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700">Community Impact</span>
+            </div>
+          </div>
+          <button
+            onClick={() => onNavigate('home')}
+            className="text-xs font-bold text-slate-400 hover:text-slate-700 transition-colors flex items-center gap-1"
+          >
+            ← Back to home
+          </button>
+        </div>
+      </header>
 
       <div className="pt-24 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
 

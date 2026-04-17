@@ -42,16 +42,16 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} mode="career" />
       <TVETSubNav currentPage="colleges" onNavigate={onNavigate} />
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-12 text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1B5E20' }}>
-            Find <span style={{ color: '#64748b' }}>TVET Colleges</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+            Find <span className="text-slate-500">TVET Colleges</span>
           </h1>
-          <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
+          <p className="text-sm leading-relaxed text-slate-600">
             Browse all {tvetColleges.length} public TVET colleges in South Africa. Filter by province or specialization to find the right college for your TVET career.
           </p>
         </div>
@@ -59,20 +59,19 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
         {/* Search & Filters */}
         <div className="mb-12 space-y-6 bg-slate-50 rounded-xl p-6">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#64748b' }} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
             <input
               type="text"
               placeholder="Search college name, city, or specialization..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all"
-              style={{ color: '#1e293b' }}
+              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: '#1B5E20' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3 text-slate-900">
                 Province
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -83,8 +82,8 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                     className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                     style={
                       selectedProvince === prov
-                        ? { backgroundColor: '#1B5E20', color: 'white', borderColor: '#1B5E20' }
-                        : { backgroundColor: 'white', color: '#1B5E20', borderColor: '#e2e8f0' }
+                        ? { backgroundColor: '#1e293b', color: 'white', borderColor: '#1e293b' }
+                        : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }
                     }
                   >
                     {prov}
@@ -94,7 +93,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: '#1B5E20' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3 text-slate-900">
                 Specialization
               </h3>
               <select
@@ -102,9 +101,9 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                 onChange={(e) => setSelectedSpecialization(e.target.value || null)}
                 className="w-full px-4 py-2 rounded-xl text-xs font-bold uppercase border outline-none"
                 style={{
-                  borderColor: selectedSpecialization ? '#1B5E20' : '#e2e8f0',
-                  color: '#1B5E20',
-                  backgroundColor: selectedSpecialization ? '#1B5E20' + '10' : 'white',
+                  borderColor: selectedSpecialization ? '#1e293b' : '#e2e8f0',
+                  color: '#1e293b',
+                  backgroundColor: selectedSpecialization ? '#1e293b' + '10' : 'white',
                 }}
               >
                 <option value="">All Specializations</option>
@@ -120,7 +119,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
 
         {/* Results Info */}
         <div className="mb-8">
-          <p className="text-sm font-bold" style={{ color: '#1B5E20' }}>
+          <p className="text-sm font-bold text-slate-900">
             Showing {filteredColleges.length} college{filteredColleges.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -140,30 +139,30 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                 <div
                   className="h-2"
                   style={{
-                    backgroundColor: '#1B5E20',
+                    backgroundColor: '#1e293b',
                   }}
                 ></div>
 
                 <div className="p-6">
                   {/* College Name */}
-                  <h3 className="text-lg font-bold mb-2" style={{ color: '#1B5E20' }}>
+                  <h3 className="text-lg font-bold mb-2 text-slate-900">
                     {college.name}
                   </h3>
 
                   {/* Location */}
-                  <div className="flex items-center gap-2 mb-4" style={{ color: '#64748b' }}>
-                    <MapPin className="w-4 h-4" style={{ color: '#1B5E20' }} />
+                  <div className="flex items-center gap-2 mb-4 text-slate-500">
+                    <MapPin className="w-4 h-4 text-slate-900" />
                     <span className="text-sm font-medium">{college.city}, {college.province}</span>
                   </div>
 
                   {/* District */}
-                  <p className="text-[11px] uppercase tracking-widest mb-4" style={{ color: '#64748b' }}>
+                  <p className="text-[11px] uppercase tracking-widest mb-4 text-slate-500">
                     District: {college.district}
                   </p>
 
                   {/* Specializations */}
                   <div className="mb-4">
-                    <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
+                    <p className="text-xs font-bold uppercase tracking-widest mb-2 text-slate-900">
                       Specializations
                     </p>
                     <div className="flex flex-wrap gap-1">
@@ -185,7 +184,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
 
                   {/* NSFAS */}
                   <div className="mb-4 pb-4 border-t border-slate-200 pt-4">
-                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1B5E20' }}>
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-900">
                       {college.nsfasAccredited ? '✓ NSFAS Accredited' : 'Limited NSFAS Support'}
                     </p>
                   </div>
@@ -193,14 +192,14 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                   {/* Contact Info */}
                   <div className="space-y-2">
                     {college.phone && (
-                      <div className="flex items-center gap-2 text-[11px]" style={{ color: '#64748b' }}>
-                        <Phone className="w-3 h-3" style={{ color: '#1B5E20' }} />
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                        <Phone className="w-3 h-3 text-slate-900" />
                         <span>{college.phone}</span>
                       </div>
                     )}
                     {college.website && (
-                      <div className="flex items-center gap-2 text-[11px]" style={{ color: '#64748b' }}>
-                        <Globe className="w-3 h-3" style={{ color: '#1B5E20' }} />
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                        <Globe className="w-3 h-3 text-slate-900" />
                         <span>Website available</span>
                       </div>
                     )}
@@ -211,7 +210,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                 <div className="px-6 pb-6">
                   <button
                     className="w-full py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all text-white"
-                    style={{ backgroundColor: '#1B5E20' }}
+                    style={{ backgroundColor: '#1e293b' }}
                   >
                     Learn More
                   </button>
@@ -221,10 +220,10 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
           ) : (
             <div className="col-span-full py-20 text-center">
               <Search className="w-16 h-16 mx-auto mb-6 text-slate-200" />
-              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1B5E20' }}>
+              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight text-slate-900">
                 No Colleges Found
               </h3>
-              <p className="text-sm" style={{ color: '#64748b' }}>
+              <p className="text-sm text-slate-500">
                 Try adjusting your search filters.
               </p>
             </div>
@@ -234,7 +233,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
         {/* Info Section */}
         <div
           className="rounded-xl p-8 mb-12"
-          style={{ backgroundColor: '#1B5E20' }}
+          style={{ backgroundColor: '#1e293b' }}
         >
           <h2 className="text-2xl font-bold text-white mb-4">About South African TVET Colleges</h2>
           <div className="text-white space-y-3 text-sm">

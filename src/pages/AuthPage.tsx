@@ -360,9 +360,9 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
           <div className="w-full md:w-1/2">
           {/* Logo + brand */}
           <div className="px-8 pt-8 pb-6 text-center border-b border-gray-100">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-semibold text-4xl mx-auto mb-3 shadow-lg" style={{ backgroundColor: '#1e293b' }}>P</div>
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-semibold text-4xl mx-auto mb-3 shadow-lg bg-slate-900">P</div>
             <h1 className="text-xl font-bold text-gray-900 tracking-tight">Prospect</h1>
-            <p className="text-sm font-semibold text-[#1B5E20] mt-0.5">Know your path. Own your future.</p>
+            <p className="text-sm font-semibold text-slate-900 mt-0.5">Know your path. Own your future.</p>
           </div>
 
           <div className="px-8 pt-6 pb-8">

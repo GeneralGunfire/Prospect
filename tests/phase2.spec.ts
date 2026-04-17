@@ -6,8 +6,7 @@ const TEST_MODE = '?__test_mode=true';
 test.describe('Phase 2 - Careers Pagination', () => {
   test('Careers page loads 25 careers initially then loads more', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=careers`);
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3500);
 
     // Check initial load (≤25 careers)
     const initialCards = page.locator('[data-career-card]');
@@ -31,61 +30,54 @@ test.describe('Phase 2 - Careers Pagination', () => {
 
   test('Load more button disappears when all careers loaded', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=careers`);
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3500);
 
     const loadMoreBtn = page.locator('[data-load-more-btn]');
 
     // Keep clicking until gone
     let attempts = 0;
-    while (await loadMoreBtn.isVisible() && attempts < 50) {
+    while (await loadMoreBtn.isVisible() && attempts < 30) {
       await loadMoreBtn.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(100);
       attempts++;
     }
 
     // Check "all loaded" message
-    await expect(page.locator('text=Showing all')).toBeVisible();
+    await expect(page.locator('text=Showing all')).toBeVisible({ timeout: 10000 });
   });
 });
 
 test.describe('Phase 2 - Calendar Page', () => {
   test('Calendar page displays calendar grid', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=calendar`);
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3500); // wait for 2600ms loading screen + render
 
-    const calendarDays = page.locator('[data-calendar-day]');
+    // CalendarPageNew uses data-testid="calendar-day"
+    const calendarDays = page.locator('[data-testid="calendar-day"]');
     expect(await calendarDays.count()).toBeGreaterThan(0);
 
-    // Check legend appears
-    await expect(page.locator('text=School Term')).toBeVisible();
-    await expect(page.locator('text=Exam Week')).toBeVisible();
+    // Check terms tab exists
+    await expect(page.locator('button', { hasText: 'terms' })).toBeVisible();
   });
 
   test('Calendar navigation works', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=calendar`);
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3500);
 
-    // Should show current year
-    const yearText = page.locator('h2').filter({ hasText: /\d{4}/ });
-    await expect(yearText).toBeVisible();
+    // Month heading visible
+    const monthHeading = page.locator('h3').filter({ hasText: /January|February|March|April|May|June|July|August|September|October|November|December/ }).first();
+    await expect(monthHeading).toBeVisible();
 
-    const initialText = await yearText.textContent();
-
-    // Click next month
-    const nextBtn = page.locator('button[aria-label="Next month"]');
-    await nextBtn.click();
+    // Click ChevronRight — second nav button in the calendar header area
+    await page.locator('[data-testid="calendar-day"]').first().waitFor({ state: 'visible' });
+    // Find next/prev buttons by their position in the nav div
+    const navButtons = page.locator('button').filter({ hasText: '' }).filter({ has: page.locator('svg') });
+    const rightArrow = navButtons.last();
+    await rightArrow.click();
     await page.waitForTimeout(500);
 
-    // Verify calendar updated (text changed)
-    const updatedText = await yearText.textContent();
-    // Either month or year changed
-    expect(updatedText).toBeDefined();
-
     // Calendar days still showing
-    const days = page.locator('[data-calendar-day]');
+    const days = page.locator('[data-testid="calendar-day"]');
     expect(await days.count()).toBeGreaterThan(0);
   });
 });

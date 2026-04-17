@@ -65,7 +65,6 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
    * Handle city selection from autocomplete
    */
   function handleCitySelect(city: typeof MAJOR_CITIES[0]) {
-    console.log('🎯 City selected from autocomplete:', city);
     setInput(city.name);
     setShowSuggestions(false);
     setSuccess(true);
@@ -78,10 +77,7 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
       city: city.name,
     };
 
-    console.log('📍 Location object created:', location);
-
     setTimeout(() => {
-      console.log('📍 Calling onLocationSelect with:', location);
       onLocationSelect(location);
       setSuccess(false);
     }, 300);

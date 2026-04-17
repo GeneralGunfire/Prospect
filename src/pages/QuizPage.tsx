@@ -102,18 +102,11 @@ function QuizPhase({
 
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} mode="career" />
       <div className="pt-24 pb-16 px-4 flex flex-col items-center">
         <div className="max-w-2xl w-full">
           {/* Header & Progress */}
           <div className="mb-12">
-            <button
-              onClick={() => onNavigate('dashboard')}
-              className="flex items-center gap-2 text-navy hover:text-secondary transition-colors mb-6 font-bold text-xs uppercase tracking-widest"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Back to Dashboard
-            </button>
           <div className="flex justify-between items-end mb-4">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
@@ -141,7 +134,7 @@ function QuizPhase({
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              className="h-full bg-[#3B5A7F]"
+              className="h-full bg-prospect-blue-accent"
             />
           </div>
         </div>
@@ -157,7 +150,7 @@ function QuizPhase({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="min-h-[120px] flex flex-col justify-center"
+              className="min-h-30 flex flex-col justify-center"
             >
               <h2 className="text-xl md:text-2xl font-semibold text-navy leading-tight text-center">
                 {currentQuestion.question}
@@ -166,33 +159,39 @@ function QuizPhase({
           </AnimatePresence>
 
           {/* Likert Scale */}
-          <div className="mt-12 grid grid-cols-5 gap-2 md:gap-4">
-            {likertOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => handleAnswer(option.value)}
-                className={`group flex flex-col items-center gap-3 transition-all ${
-                  currentAnswer === option.value ? 'scale-105' : 'opacity-60 hover:opacity-100'
-                }`}
-              >
-                <div
-                  className={`w-10 h-10 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all ${
-                    currentAnswer === option.value
-                      ? `${option.color} shadow-lg`
-                      : 'bg-slate-50 border border-slate-100'
+          <div className="mt-12 grid grid-cols-5 gap-2 md:gap-3">
+            {likertOptions.map((option) => {
+              const isSelected = currentAnswer === option.value;
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => handleAnswer(option.value)}
+                  className={`group flex flex-col items-center gap-2.5 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-prospect-blue-accent rounded-2xl p-1 ${
+                    isSelected ? 'scale-105' : 'opacity-55 hover:opacity-90 hover:scale-102'
                   }`}
                 >
-                  {currentAnswer === option.value && <CheckCircle2 className="w-6 h-6 text-white" />}
-                </div>
-                <span
-                  className={`text-xs md:text-xs font-bold uppercase tracking-wider text-center leading-tight ${
-                    currentAnswer === option.value ? 'text-navy' : 'text-secondary'
-                  }`}
-                >
-                  {option.label}
-                </span>
-              </button>
-            ))}
+                  <div
+                    className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all duration-150 ${
+                      isSelected
+                        ? `${option.color} shadow-md ring-2 ring-offset-2 ring-current/30`
+                        : 'bg-slate-50 border border-slate-200 group-hover:border-slate-300'
+                    }`}
+                  >
+                    {isSelected
+                      ? <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                      : <span className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-slate-400 transition-colors" />
+                    }
+                  </div>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
+                      isSelected ? 'text-navy' : 'text-slate-400'
+                    }`}
+                  >
+                    {option.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -210,7 +209,7 @@ function QuizPhase({
           {/* Skip Button */}
           <button
             onClick={handleSkip}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-[#3B5A7F] hover:bg-[#3B5A7F]/10 transition-all border border-[#3B5A7F]/30"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-prospect-blue-accent hover:bg-prospect-blue-accent/10 transition-all border border-prospect-blue-accent/30"
           >
             <SkipForward className="w-4 h-4" />
             Skip
@@ -220,7 +219,7 @@ function QuizPhase({
             <button
               onClick={handleFinish}
               disabled={!isComplete}
-              className="bg-[#1E3A5F] text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
+              className="bg-prospect-green text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
             >
               Finish Quiz
             </button>
@@ -238,10 +237,12 @@ function QuizPhase({
         </div>
 
         {/* Info Box */}
-        <div className="mt-12 p-6 bg-navy/5 rounded-2xl flex gap-4 border border-navy/10">
-          <Info className="w-5 h-5 text-navy shrink-0" />
-          <p className="text-xs text-navy/70 leading-relaxed">
-            Be honest! There are no right or wrong answers. This assessment helps identify your natural interests to match you with careers you'll actually enjoy.
+        <div className="mt-10 p-5 bg-slate-50 rounded-2xl flex gap-3 border border-slate-100">
+          <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0">
+            <Info className="w-4 h-4 text-[#3B5A7F]" />
+          </div>
+          <p className="text-xs text-slate-500 leading-relaxed self-center">
+            <span className="font-bold text-slate-700">Be honest!</span> There are no right or wrong answers. This assessment helps identify your natural interests to match you with careers you'll actually enjoy.
           </p>
         </div>
         </div>
@@ -406,18 +407,9 @@ function ResultsPhase({
 
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} mode="career" />
       <div className="pt-24 pb-16 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
-          <button
-            onClick={() => onNavigate('dashboard')}
-            className="flex items-center gap-2 text-navy hover:text-secondary transition-colors mb-8 font-bold text-xs uppercase tracking-widest"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Back to Dashboard
-          </button>
-
         {/* Section 1: Header & RIASEC Profile */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full mb-6">
@@ -652,13 +644,6 @@ function ResultsPhase({
             >
               <Copy className="w-5 h-5" />
               Share Results
-            </button>
-            <button
-              onClick={() => onNavigate('dashboard')}
-              className="border-2 border-navy text-navy hover:bg-navy/5 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all"
-            >
-              <ArrowRight className="w-5 h-5" />
-              Back to Dashboard
             </button>
             <button
               onClick={onRetake}

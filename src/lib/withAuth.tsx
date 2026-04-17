@@ -2,7 +2,7 @@ import { useEffect, useState, type ComponentType } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 
-export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'disadvantaged-guide' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar';
+export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'disadvantaged-guide' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'impact-auth' | 'demo-learning';
 
 export interface AuthedProps {
   user: User;
@@ -14,6 +14,8 @@ interface WrapperProps {
   onNavigateAuth: () => void;
   onSignOut: () => void;
   onNavigate: (page: AppPage) => void;
+  /** When true, unauthenticated users are given a guest session instead of being redirected to auth */
+  guestMode?: boolean;
 }
 
 export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
@@ -68,7 +70,26 @@ export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
       // Normal auth flow
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session?.user) {
-          props.onNavigateAuth();
+          if (props.guestMode) {
+            // Guest mode: allow unauthenticated access with a placeholder user
+            setUser({
+              id: 'guest',
+              email: '',
+              email_confirmed_at: null,
+              phone: null,
+              last_sign_in_at: null,
+              app_metadata: {},
+              user_metadata: { name: 'Guest' },
+              identities: null,
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              is_anonymous: true,
+              aud: 'authenticated',
+              role: 'anon',
+            } as unknown as User);
+          } else {
+            props.onNavigateAuth();
+          }
         } else {
           setUser(session.user);
         }

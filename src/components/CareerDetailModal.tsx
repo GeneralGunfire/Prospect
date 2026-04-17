@@ -238,7 +238,7 @@ export function CareerDetailModal({
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-slate-50 rounded-2xl p-6">
                     <div className="flex items-start gap-3 mb-4">
-                      <TrendingUp className="w-5 h-5 mt-1" style={{ color: '#1B5E20' }} />
+                      <TrendingUp className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
                       <div>
                         <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
                           Demand & Growth
@@ -255,7 +255,7 @@ export function CareerDetailModal({
 
                   <div className="bg-slate-50 rounded-2xl p-6">
                     <div className="flex items-start gap-3 mb-4">
-                      <MapPin className="w-5 h-5 mt-1" style={{ color: '#1B5E20' }} />
+                      <MapPin className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
                       <div>
                         <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
                           Top Locations
@@ -292,7 +292,7 @@ export function CareerDetailModal({
                       <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#64748b' }}>
                         {item.label}
                       </p>
-                      <p className="text-xl font-bold" style={{ color: '#1B5E20' }}>
+                      <p className="text-xl font-bold" style={{ color: '#1e293b' }}>
                         R{(item.value / 1000).toFixed(0)}k
                       </p>
                       <p className="text-xs mt-1" style={{ color: '#64748b' }}>
@@ -353,7 +353,7 @@ export function CareerDetailModal({
                     <div key={i} className="flex items-center gap-4">
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                        style={{ backgroundColor: '#1B5E20' }}
+                        style={{ backgroundColor: '#1e293b' }}
                       >
                         {i + 1}
                       </div>
@@ -416,7 +416,7 @@ export function CareerDetailModal({
                         <button
                           onClick={() => onSelectCareer?.(relatedCareer)}
                           className="text-xs font-bold uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
-                          style={{ color: '#1B5E20' }}
+                          style={{ color: '#1e293b' }}
                         >
                           View <ArrowRight className="w-3 h-3" />
                         </button>

@@ -52,19 +52,19 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <AppHeader currentPage="subject-selector" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="subject-selector" user={user} onNavigate={onNavigate} mode="career" />
 
-      <div className="pt-24 pb-16 px-4 max-w-7xl mx-auto">
+      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ background: 'rgba(30,41,59,0.05)' }}>
-            <BookOpen className="w-4 h-4" style={{ color: '#1e293b' }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>Subject Selection</span>
+            <BookOpen className="w-4 h-4 text-slate-900" />
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Subject Selection</span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold tracking-tight" style={{ color: '#1e293b' }}>
+          <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900">
             Explore Careers by <span className="text-prospect-green">Subject</span>
           </h1>
-          <p className="text-sm mt-2" style={{ color: '#64748b' }}>
+          <p className="text-sm mt-2 text-slate-500">
             Select your Grade 10 subjects to see matching career paths and university requirements
           </p>
         </div>
@@ -73,7 +73,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
           {/* Sidebar - Subject Selection */}
           <div className="lg:col-span-1">
             <div className="sticky top-28 bg-white border border-slate-100 rounded-2xl p-6">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color: '#1e293b' }}>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 text-slate-900">
                 Select Your Subjects
               </h3>
               <div className="space-y-3">
@@ -86,8 +86,8 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                     <div
                       className="w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0"
                       style={{
-                        borderColor: selectedSubjects.includes(subject) ? '#1B5E20' : '#cbd5e1',
-                        backgroundColor: selectedSubjects.includes(subject) ? '#1B5E20' : 'white',
+                        borderColor: selectedSubjects.includes(subject) ? '#1e293b' : '#cbd5e1',
+                        backgroundColor: selectedSubjects.includes(subject) ? '#1e293b' : 'white',
                       }}
                     >
                       {selectedSubjects.includes(subject) && (
@@ -95,8 +95,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                       )}
                     </div>
                     <span
-                      className="text-sm font-medium transition-colors group-hover:text-prospect-green flex-1"
-                      style={{ color: '#1e293b' }}
+                      className="text-sm font-medium transition-colors group-hover:text-prospect-green flex-1 text-slate-900"
                     >
                       {subject}
                     </span>
@@ -104,7 +103,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 ))}
               </div>
               <div className="mt-6 pt-6 border-t border-slate-100">
-                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500">
                   Selected: {selectedSubjects.length}
                 </p>
                 {selectedSubjects.length > 0 && (
@@ -128,10 +127,10 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 className="bg-white border border-dashed border-slate-200 rounded-2xl p-12 text-center"
               >
                 <BookOpen className="w-12 h-12 text-slate-200 mx-auto mb-4" />
-                <h3 className="text-lg font-bold mb-2" style={{ color: '#1e293b' }}>
+                <h3 className="text-lg font-bold mb-2 text-slate-900">
                   No Subjects Selected
                 </h3>
-                <p className="text-sm mb-6" style={{ color: '#64748b' }}>
+                <p className="text-sm mb-6 text-slate-500">
                   Select subjects from the sidebar to discover matching careers and university requirements
                 </p>
                 <div className="flex gap-4 justify-center flex-wrap">
@@ -144,8 +143,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                   </button>
                   <button
                     onClick={() => onNavigate('library')}
-                    className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all"
-                    style={{ color: '#1e293b' }}
+                    className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all text-slate-900"
                   >
                     Study Library
                   </button>
@@ -159,11 +157,11 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                   animate={{ opacity: 1, y: 0 }}
                 >
                   <div className="flex justify-between items-end mb-6">
-                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3" style={{ color: '#1e293b' }}>
-                      <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1B5E20' }} />
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3 text-slate-900">
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1e293b' }} />
                       Matching Careers
                     </h3>
-                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
+                    <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
                       {matchingCareers.length} results
                     </span>
                   </div>
@@ -179,15 +177,15 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                           onClick={() => onNavigate('careers' as any)}
                         >
                           <div className="flex items-start justify-between mb-3">
-                            <h4 className="text-sm font-bold flex-1 group-hover:text-prospect-green transition-colors" style={{ color: '#1e293b' }}>
+                            <h4 className="text-sm font-bold flex-1 group-hover:text-prospect-green transition-colors text-slate-900">
                               {career.name}
                             </h4>
                             <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-prospect-green transition-colors ml-2" />
                           </div>
-                          <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#64748b' }}>
+                          <p className="text-xs font-bold uppercase tracking-widest mb-4 text-slate-500">
                             {career.sector || 'Professional'}
                           </p>
-                          <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>
+                          <p className="text-xs leading-relaxed text-slate-500">
                             {career.description?.substring(0, 100)}...
                           </p>
                         </motion.div>
@@ -195,7 +193,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                     </div>
                   ) : (
                     <div className="bg-slate-50 border border-slate-100 rounded-2xl p-8 text-center">
-                      <p className="text-sm" style={{ color: '#64748b' }}>No matching careers found for your selection</p>
+                      <p className="text-sm text-slate-500">No matching careers found for your selection</p>
                     </div>
                   )}
                 </motion.section>
@@ -206,8 +204,8 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3 mb-6" style={{ color: '#1e293b' }}>
-                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1B5E20' }} />
+                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3 mb-6 text-slate-900">
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1e293b' }} />
                     University Requirements
                   </h3>
                   <div className="space-y-4">
@@ -219,7 +217,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                         transition={{ delay: 0.15 + idx * 0.05 }}
                         className="bg-white border border-slate-100 rounded-2xl p-6"
                       >
-                        <h4 className="text-sm font-bold mb-4" style={{ color: '#1e293b' }}>
+                        <h4 className="text-sm font-bold mb-4 text-slate-900">
                           {item.subject}
                         </h4>
                         {item.requirements.length > 0 ? (
@@ -229,20 +227,20 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                                 key={req.degreeType}
                                 className="bg-slate-50 rounded-xl p-4 border border-slate-100"
                               >
-                                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#1B5E20' }}>
+                                <p className="text-xs font-bold uppercase tracking-widest mb-2 text-slate-900">
                                   {req.degreeType}
                                 </p>
-                                <p className="text-xs mb-2 font-bold" style={{ color: '#1e293b' }}>
+                                <p className="text-xs mb-2 font-bold text-slate-900">
                                   Min Mark: {req.minMark}%
                                 </p>
-                                <p className="text-xs" style={{ color: '#64748b' }}>
+                                <p className="text-xs text-slate-500">
                                   {req.description}
                                 </p>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <p className="text-sm" style={{ color: '#64748b' }}>No specific requirements found</p>
+                          <p className="text-sm text-slate-500">No specific requirements found</p>
                         )}
                       </motion.div>
                     ))}
@@ -257,11 +255,11 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                     transition={{ delay: 0.2 }}
                   >
                     <div className="flex justify-between items-end mb-6">
-                      <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3" style={{ color: '#1e293b' }}>
-                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1B5E20' }} />
+                      <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3 text-slate-900">
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1e293b' }} />
                         TVET Pathways
                       </h3>
-                      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
+                      <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
                         {tvetCareers.length} options
                       </span>
                     </div>
@@ -276,18 +274,18 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                           onClick={() => onNavigate('tvet-careers' as any)}
                         >
                           <div className="flex items-start justify-between mb-3">
-                            <h4 className="text-sm font-bold flex-1 group-hover:text-prospect-green transition-colors" style={{ color: '#1e293b' }}>
+                            <h4 className="text-sm font-bold flex-1 group-hover:text-prospect-green transition-colors text-slate-900">
                               {career.name}
                             </h4>
                             <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-prospect-green transition-colors ml-2" />
                           </div>
-                          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#64748b' }}>
+                          <p className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500">
                             {career.duration} • {career.jobDemand} Demand
                           </p>
-                          <p className="text-xs leading-relaxed mb-4" style={{ color: '#64748b' }}>
+                          <p className="text-xs leading-relaxed mb-4 text-slate-500">
                             {career.description}
                           </p>
-                          <p className="text-xs font-bold" style={{ color: '#1B5E20' }}>
+                          <p className="text-xs font-bold text-slate-900">
                             {career.salaryRange}
                           </p>
                         </motion.div>
@@ -302,21 +300,21 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3 mb-6" style={{ color: '#1e293b' }}>
-                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1B5E20' }} />
+                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-3 mb-6 text-slate-900">
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1e293b' }} />
                     APS Score Guide
                   </h3>
                   <div className="bg-white border border-slate-100 rounded-2xl p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {apsScoreGuide.map((guide, idx) => (
-                        <div key={idx} className="border-l-4 pl-4" style={{ borderColor: '#1B5E20' }}>
-                          <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#1B5E20' }}>
+                        <div key={idx} className="border-l-4 pl-4" style={{ borderColor: '#1e293b' }}>
+                          <p className="text-xs font-bold uppercase tracking-widest mb-1 text-slate-900">
                             {guide.score} Points
                           </p>
-                          <p className="text-sm font-bold mb-2" style={{ color: '#1e293b' }}>
+                          <p className="text-sm font-bold mb-2 text-slate-900">
                             {guide.grade}
                           </p>
-                          <p className="text-xs" style={{ color: '#64748b' }}>
+                          <p className="text-xs text-slate-500">
                             {guide.qualification}
                           </p>
                         </div>
@@ -341,8 +339,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                   </button>
                   <button
                     onClick={() => onNavigate('library')}
-                    className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all hover:bg-slate-50"
-                    style={{ color: '#1e293b' }}
+                    className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all hover:bg-slate-50 text-slate-900"
                   >
                     Study Library
                   </button>

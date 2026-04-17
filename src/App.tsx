@@ -1,12 +1,28 @@
-import { useState, useEffect, type ReactNode } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, type ReactNode, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
+import { runMigrations } from './utils/migrationScript';
+import { syncUserDataOnLogin, startBackgroundSync, stopBackgroundSync } from './services/supabaseSync';
 import { Hero as AnimatedHero } from '../components/ui/animated-hero';
 import { LogoCloud } from '../components/ui/logo-cloud-2';
 import { CategoryList } from '../components/ui/category-list';
 import { NeoMinimalFooter } from '../components/ui/neo-minimal-footer';
-import { GraduationCap, Briefcase, BookOpen, MapPin, Award } from 'lucide-react';
+import {
+  GraduationCap,
+  Briefcase,
+  BookOpen,
+  MapPin,
+  Award,
+  Compass,
+  Target,
+  Rocket,
+  ArrowRight,
+  CalendarDays,
+  Users,
+  Globe,
+  Lock
+} from 'lucide-react';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import Grade10SubjectSelectorPage from './pages/Grade10SubjectSelectorPage';
@@ -22,7 +38,10 @@ import TVETCareersPage from './pages/TVETCareersPage';
 import TVETCollegesPage from './pages/TVETCollegesPage';
 import TVETFundingPage from './pages/TVETFundingPage';
 import TVETRequirementsPage from './pages/TVETRequirementsPage';
-import CalendarPage from './pages/CalendarPage';
+import CalendarPageNew from './pages/CalendarPageNew';
+import SchoolAssistPage from './pages/SchoolAssistPage';
+import ImpactAuthPage from './pages/ImpactAuthPage';
+import DemoLearningPage from './pages/DemoLearningPage';
 import LoadingScreen from './components/LoadingScreen';
 import { VideoPlayer } from './components/VideoPlayer';
 import type { AppPage } from './lib/withAuth';
@@ -30,195 +49,262 @@ import {
   Menu,
   X,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Star,
   Facebook,
   Instagram,
-  Twitter,
-  Quote
+  Twitter
 } from 'lucide-react';
 
 // --- Components ---
 
-const Header = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
+const InteractiveBackground = () => {
+  const { scrollYProgress } = useScroll();
+  
+  // Transform colors based on scroll position
+  const bgColor = useTransform(scrollYProgress, [0, 0.5, 1], ['#ffffff', '#f8fafc', '#f1f5f9']); // Subtle background color shift
+  
+  // Parallax offsets for background elements
+  const blobY1 = useTransform(scrollYProgress, [0, 1], [0, -200]); // Slower parallax for top blobs
+  const blobY2 = useTransform(scrollYProgress, [0, 1], [0, 300]);  // Slower parallax for bottom blobs
+
+  return (
+    <motion.div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" style={{ backgroundColor: bgColor }}>
+      {/* Grain Overlay for Texture */}
+      <div className="absolute inset-0 opacity-[0.015] brightness-100 contrast-150" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+      
+      {/* Refined Dot Grid */}
+      <div className="absolute inset-0 opacity-[0.05]" style={{ 
+        backgroundImage: `radial-gradient(#1e293b 0.5px, transparent 0.5px)`,
+        backgroundSize: '40px 40px' // Slightly larger grid for less density
+      }} />
+
+    {/* ── Slow-drifting colour blobs pinned to page sections ── */}
+    {/* Optimized background elements: Reduced count and blur radius for better scroll performance */}
+    <motion.div
+      animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
+      transition={{ duration: 35, repeat: Infinity, ease: 'easeInOut' }}
+      className="absolute will-change-transform opacity-20"
+      style={{
+        top: '0%', left: '-5%',
+        width: '50%', height: '40%',
+        background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)',
+        filter: 'blur(50px)',
+        borderRadius: '50%',
+        y: blobY1,
+      }}
+    />
+    <motion.div
+      animate={{ x: [0, -20, 0], y: [0, 25, 0] }}
+      transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
+      className="absolute will-change-transform opacity-15"
+      style={{
+        top: '15%', right: '-10%',
+        width: '45%', height: '35%',
+        background: 'radial-gradient(circle, rgba(79,70,229,0.08) 0%, transparent 70%)',
+        filter: 'blur(60px)',
+        borderRadius: '50%',
+        y: blobY2,
+      }}
+    />
+    <motion.div
+      animate={{ x: [10, -10, 10], y: [0, -15, 0] }}
+      transition={{ duration: 45, repeat: Infinity, ease: 'easeInOut' }}
+      className="absolute will-change-transform opacity-15"
+      style={{
+        bottom: '5%', left: '15%',
+        width: '50%', height: '25%',
+        background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)',
+        filter: 'blur(55px)',
+        borderRadius: '50%',
+        y: blobY1
+      }}
+    />
+  </motion.div>
+);};
+
+const Header = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navItems = [
+    { label: 'Career Guide', page: 'quiz' as Page, desc: 'No sign-in required', accent: 'text-blue-600', dot: 'bg-blue-500' },
+    { label: 'School Assist', page: 'auth' as Page, desc: 'Sign in required', accent: 'text-indigo-600', dot: 'bg-indigo-500' },
+    { label: 'Community', page: 'impact-auth' as Page, desc: 'Optional', accent: 'text-emerald-600', dot: 'bg-emerald-500' },
+  ];
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-16 lg:h-20 flex items-center px-4 lg:px-10 backdrop-blur-md ${
-        isScrolled ? 'bg-white/70 shadow-md' : 'calm-header-gradient'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
-        <motion.button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.2 }}
-          className="flex items-center gap-3 group"
-        >
-          <div className="w-9 h-9 lg:w-11 lg:h-11 shrink-0 rounded-xl flex items-center justify-center text-white font-semibold text-xl lg:text-2xl shadow-lg" style={{ backgroundColor: '#1e293b' }}>P</div>
-          <span className={`hidden lg:block font-bold text-lg tracking-tight transition-colors duration-300 ${
-            isScrolled ? 'text-calm-dark-blue' : 'text-white'
-          }`}>
-            Prospect
-          </span>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onNavigateAuth}
-          className="font-bold text-sm lg:text-base px-6 py-2 lg:py-3 rounded-full transition-colors shadow-sm"
-          style={{ backgroundColor: '#1E3A5F', color: 'white' }}
-        >
-          Login
-        </motion.button>
-      </div>
-    </header>
-  );
-};
-
-const Hero = ({ onNavigateAuth }: { onNavigateAuth: () => void }) => {
-  return (
-    <section className="relative h-150 lg:h-200 flex items-center justify-center overflow-hidden pt-16 lg:pt-20">
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/images/students.jpg"
-          alt="Students discovering their career paths"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/20"></div>
-      </div>
-
-      <div className="relative z-10 text-center px-4 max-w-4xl">
-        <h1 className="text-4xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-          Find Your Career. <br /> Know Your Path.
-        </h1>
-        <p
-          className="text-lg lg:text-xl text-white/90 mb-10 max-w-2xl mx-auto"
-        >
-          Discover the right career path based on your strengths, explore top SA careers, and learn exactly how to get there.
-        </p>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex justify-center"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onNavigateAuth}
-            className="px-10 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-all shadow-xl"
-            style={{ backgroundColor: '#1E3A5F', color: 'white' }}
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-[120] transition-all duration-300 ${
+          isScrolled
+            ? 'h-16 bg-white/85 backdrop-blur-md shadow-sm border-b border-slate-200/50'
+            : 'h-20 bg-transparent'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-4 lg:px-10">
+          {/* Logo */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center gap-3 group"
           >
-            Get Started
-          </motion.button>
-        </motion.div>
-      </div>
-    </section>
+            <div className="w-9 h-9 shrink-0 rounded-lg bg-navy flex items-center justify-center font-black text-lg text-white shadow-sm">
+              P
+            </div>
+            <span className="font-black text-sm uppercase text-navy" style={{ letterSpacing: '0.2em' }}>
+              Prospect
+            </span>
+          </button>
+
+          {/* Desktop nav — 3 paths */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => onNavigate(item.page)}
+                className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                  isScrolled
+                    ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${item.dot} opacity-70 group-hover:opacity-100 transition-opacity`} />
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Right CTAs */}
+          <div className="flex items-center gap-2">
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            >
+              <Menu className="w-5 h-5 text-slate-700" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 bg-black/40 z-110 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+              className="fixed top-0 right-0 h-full w-72 bg-white z-120 shadow-2xl flex flex-col"
+            >
+              <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+                <span className="font-black text-sm uppercase text-navy" style={{ letterSpacing: '0.18em' }}>Prospect</span>
+                <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-lg hover:bg-slate-100">
+                  <X className="w-5 h-5 text-slate-600" />
+                </button>
+              </div>
+              <div className="flex flex-col gap-1 p-4 flex-1">
+                {navItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => { setMobileOpen(false); onNavigate(item.page); }}
+                    className="flex items-start gap-3 px-4 py-4 rounded-2xl hover:bg-slate-50 text-left transition-colors"
+                  >
+                    <span className={`w-2 h-2 rounded-full ${item.dot} mt-1.5 shrink-0`} />
+                    <div>
+                      <p className={`text-sm font-black uppercase tracking-wider ${item.accent}`}>{item.label}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">{item.desc}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
-
-const BrandSlogan = () => (
-  <section className="py-12 px-4 bg-white flex flex-col items-center gap-4">
-    <div
-      className="w-20 h-20 rounded-3xl flex items-center justify-center text-white font-semibold text-5xl shadow-xl"
-      style={{ backgroundColor: '#1e293b' }}
-    >P</div>
-    <p
-      className="text-xl font-bold text-[#1E3A5F]"
-    >
-      Know your path. Own your future.
-    </p>
-  </section>
-);
 
 const ValueProps = () => {
   const props = [
     {
-      title: "Career Discovery.",
+      title: "Career Discovery",
       description: "Take our RIASEC quiz and get matched to careers that fit your unique strengths, interests, and personality.",
-      link: "Find Your Path",
-      icon: (
-        <div className="w-14 h-14 rounded-full bg-linear-to-br from-[#75F0F0] to-[#7575F0] flex items-center justify-center mb-6">
-          <svg width="32" height="32" viewBox="0 0 56 56" fill="none" className="text-white">
-            <path d="M28 8C17 8 8 17 8 28s9 20 20 20 20-9 20-20S39 8 28 8zm0 6a14 14 0 0 1 0 28A14 14 0 0 1 28 14zm0 4a10 10 0 1 0 0 20A10 10 0 0 0 28 18zm0 4a6 6 0 1 1 0 12A6 6 0 0 1 28 22z" fill="currentColor" />
-          </svg>
-        </div>
-      )
+      link: "Take the Quiz",
+      gradient: "from-sky-400 to-blue-600",
+      icon: <Compass className="w-6 h-6 text-white" />
     },
     {
-      title: "Career Roadmap.",
+      title: "Career Roadmap",
       description: "Explore universities, TVET colleges, bursaries, and understand SA job demand for hundreds of careers.",
       link: "Explore Careers",
-      icon: (
-        <div className="w-14 h-14 rounded-full bg-linear-to-br from-[#9191FF] to-[#F075C7] flex items-center justify-center mb-6">
-          <svg width="32" height="32" viewBox="0 0 56 56" fill="none" className="text-white">
-            <path d="M10 44V20l18-8 18 8v24l-18 8-18-8zm4-4.5 14 6.2V24.8L14 18.6v20.9zm32 0V18.6l-14 6.2v20.9l14-6.2z" fill="currentColor" />
-          </svg>
-        </div>
-      )
+      gradient: "from-indigo-400 to-blue-700",
+      icon: <Target className="w-6 h-6 text-white" />
     },
     {
-      title: "Learning Library.",
+      title: "Learning Library",
       description: "Access free study content for Grades 10–12 across all major subjects to boost your marks and future options.",
-      link: "Learn Now",
-      icon: (
-        <div className="w-14 h-14 rounded-full bg-linear-to-br from-[#75F094] to-[#75B2F0] flex items-center justify-center mb-6">
-          <svg width="32" height="32" viewBox="0 0 56 56" fill="none" className="text-white">
-            <path d="M10 14h36v4H10zm0 10h36v4H10zm0 10h24v4H10zm28 2l10 8-10 8V36z" fill="currentColor" />
-          </svg>
-        </div>
-      )
+      link: "Start Learning",
+      gradient: "from-blue-400 to-cyan-600",
+      icon: <Rocket className="w-6 h-6 text-white" />
     }
   ];
 
   return (
-    <section className="py-20 px-4 bg-white">
-      <div className="max-w-7xl mx-auto text-center">
-        <motion.h2
+    <section className="py-24 md:py-32 px-4 bg-white/30 border-y border-white/20 backdrop-blur-md content-visibility-auto contain-intrinsic-size-[auto_600px]">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl lg:text-4xl font-bold text-calm-dark-blue mb-16"
+          className="mb-16 text-center lg:text-left"
         >
-          We're here to guide your future.
-        </motion.h2>
-        <div className="grid md:grid-cols-3 gap-12">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-4">What We Offer</p>
+          <h2 className="text-4xl lg:text-6xl font-black text-slate-950 tracking-tighter leading-tight">
+            We're here to guide your future.
+          </h2>
+          <p className="text-slate-500 text-lg mt-6 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
+            From choosing the right subjects in Grade 10 to finding your dream career and securing a bursary, Prospect provides all the tools you need in one unified platform.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6">
           {props.map((prop, index) => (
             <motion.div
               key={prop.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{ y: -10 }}
-              className="flex flex-col items-center group cursor-pointer"
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              whileHover={{ y: -5 }}
+              className="flex flex-col items-start group cursor-pointer bg-white/40 backdrop-blur-md border border-white/60 rounded-[2.5rem] p-10 hover:bg-white/90 hover:shadow-[0_40px_80px_-20px_rgba(15,23,42,0.1)] transition-all duration-500 relative overflow-hidden will-change-transform"
             >
-              {prop.icon}
-              <h3 className="text-2xl font-bold text-gray-800 mb-4 group-hover:text-calm-blue transition-colors">
+              {/* Icon */}
+              <div className={`w-16 h-16 rounded-[1.25rem] bg-linear-to-br ${prop.gradient} flex items-center justify-center mb-8 shadow-xl shadow-blue-500/30 group-hover:scale-110 transition-transform duration-500 will-change-transform`}>
+                {prop.icon}
+              </div>
+
+              <h3 className="text-2xl font-black text-slate-950 mb-4 group-hover:text-blue-600 transition-colors tracking-tight">
                 {prop.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed max-w-xs">
+              <p className="text-slate-500 text-base leading-relaxed mb-10 font-medium opacity-80">
                 {prop.description}
               </p>
-              <motion.span
-                whileHover={{ x: 5 }}
-                className="mt-6 text-gray-800 font-semibold underline underline-offset-4 group-hover:text-calm-blue transition-colors inline-flex items-center gap-2"
-              >
+              <span className="mt-auto text-[11px] font-black uppercase tracking-[0.25em] text-slate-950 group-hover:text-blue-600 transition-colors inline-flex items-center gap-2">
                 {prop.link}
-              </motion.span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-500" />
+              </span>
             </motion.div>
           ))}
         </div>
@@ -227,8 +313,48 @@ const ValueProps = () => {
   );
 };
 
-const Banner = () => {
-  const careers = [
+const HowItWorks = () => {
+  const steps = [
+    { number: '01', title: 'Discover', desc: 'Take the RIASEC quiz to find career paths that match your personality.' },
+    { number: '02', title: 'Explore', desc: 'Deep dive into 400+ South African careers with salary and demand data.' },
+    { number: '03', title: 'Fund', desc: 'Find bursaries and scholarships to pay for your studies at top institutions.' },
+    { number: '04', title: 'Achieve', desc: 'Access study resources and planning tools to ensure your academic success.' },
+  ];
+
+  return (
+    <section className="py-24 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_400px]">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-20">
+          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-4">The Process</p>
+          <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">How Prospect Works</h2>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="relative p-10 rounded-[2.5rem] bg-white/20 border border-white/30 backdrop-blur-sm hover:bg-white/50 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 group will-change-transform"
+            >
+              <span className="text-8xl font-black text-indigo-600/5 absolute top-4 right-8 leading-none select-none group-hover:text-indigo-600/10 transition-colors">
+                {step.number}
+              </span>
+              <h3 className="text-2xl font-black text-slate-950 mb-5 relative">{step.title}</h3>
+              <p className="text-slate-500 text-base leading-relaxed font-medium opacity-80">
+                {step.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const DiscoveryGrid = () => {
+  const items = [
     { image: '/images/engineer.jpg', title: 'Engineering', description: 'Build the future of SA infrastructure' },
     { image: '/images/nurse.jpg', title: 'Healthcare', description: 'Care for communities across the country' },
     { image: '/images/teacher.jpg', title: 'Education', description: 'Shape the next generation of leaders' },
@@ -237,121 +363,52 @@ const Banner = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-calm-bg">
+    <section className="py-36 px-4 bg-white/40 border-t border-slate-200/50 backdrop-blur-sm content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl lg:text-4xl font-bold text-calm-dark-blue text-center mb-12"
+          className="text-center mb-16"
         >
-          Explore Top SA Careers
-        </motion.h2>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-          {careers.map((career, index) => (
+          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4">Career Library</p>
+          <h2 className="text-4xl lg:text-5xl font-black text-slate-950 tracking-tighter">
+            Explore Top SA Careers
+          </h2>
+          <p className="text-slate-500 text-base mt-4 font-medium">
+            Learn about salary ranges, job demand, and entry requirements for South Africa's most popular career paths.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
+          {items.map((item, index) => (
             <motion.div
-              key={career.title}
-              initial={{ opacity: 0, scale: 1.05 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-3/4"
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ y: -6, scale: 1.02 }} // Subtle lift and scale on hover
+              className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-3/4 shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform" // Promote to GPU
             >
               <img
-                src={career.image}
-                alt={career.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                src={item.image}
+                alt={item.title}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform" // Promote to GPU
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
+              {/* Hover tint */}
+              <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/20 transition-colors duration-300" />
               <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="font-bold text-base lg:text-lg leading-tight">{career.title}</h3>
-                <p className="text-white/80 text-xs lg:text-sm mt-1 leading-snug">{career.description}</p>
+                <h3 className="font-black text-sm lg:text-base leading-tight uppercase tracking-wide" style={{ letterSpacing: '0.05em' }}>{item.title}</h3>
+                <p className="text-white/70 text-[10px] mt-1.5 leading-snug hidden sm:block font-medium">{item.description}</p>
               </div>
             </motion.div>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Reviews = () => {
-  const reviews = [
-    {
-      quote: "I found my career path through the quiz and now know exactly what to study. Prospect changed everything for me.",
-      author: "Lerato, Grade 12 — Johannesburg"
-    },
-    {
-      quote: "I never knew what TVET colleges offered until I used Prospect. Now I have a clear plan and I'm applying for bursaries.",
-      author: "Sipho, Matric Graduate — Durban"
-    },
-    {
-      quote: "The study library helped me improve my Maths mark by 15%. I recommend Prospect to every student I know.",
-      author: "Amahle, Grade 11 — Cape Town"
-    }
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const next = () => setActiveIndex((prev) => (prev + 1) % reviews.length);
-  const prev = () => setActiveIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
-
-  return (
-    <section className="py-20 px-4 bg-white">
-      <div className="max-w-7xl mx-auto text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl lg:text-4xl font-bold text-calm-dark-blue mb-12"
-        >
-          Students finding their path.
-        </motion.h2>
-
-        <div className="relative max-w-3xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, x: 50, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -50, scale: 0.95 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="review-gradient p-10 lg:p-16 rounded-3xl text-left text-white shadow-xl relative overflow-hidden"
-            >
-              <Quote className="absolute top-8 left-8 opacity-20 w-16 h-16" />
-              <blockquote className="text-xl lg:text-2xl font-medium mb-6 relative z-10">
-                "{reviews[activeIndex].quote}"
-              </blockquote>
-              <p className="text-white/80 mb-6">{reviews[activeIndex].author}</p>
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} size={20} fill="#F8D22D" className="text-[#F8D22D]" />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="flex justify-center lg:justify-end gap-4 mt-8">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={prev}
-              className="w-12 h-12 rounded-full bg-black/10 flex items-center justify-center hover:bg-black/20 transition-colors"
-            >
-              <ChevronLeft />
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={next}
-              className="w-12 h-12 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/30 transition-colors"
-            >
-              <ChevronRight />
-            </motion.button>
-          </div>
         </div>
       </div>
     </section>
@@ -377,35 +434,48 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 px-4 faq-gradient">
-      <div className="max-w-3xl mx-auto">
-        <motion.h2
+    <section className="py-36 px-4 bg-white/40 border-t border-slate-200/50 backdrop-blur-sm">
+      <div className="max-w-2xl mx-auto">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-3xl lg:text-4xl font-bold text-center text-calm-dark-blue mb-12"
+          className="text-center mb-16"
         >
-          Frequently Asked Questions
-        </motion.h2>
-        <div className="space-y-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">FAQ</p>
+          <h2 className="text-2xl lg:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.015em' }}>
+            Common questions.
+          </h2>
+        </motion.div>
+
+        <div className="divide-y divide-slate-100">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="border-t border-black/10"
+              transition={{ duration: 0.4, delay: index * 0.08 }}
             >
               <button
-                className="w-full py-6 flex items-center justify-between text-left group"
+                className="w-full py-6 flex items-start justify-between text-left gap-6 group"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
-                <span className={`text-lg font-bold transition-colors ${openIndex === index ? 'text-calm-blue' : 'text-gray-800 group-hover:text-calm-blue'}`}>
+                <span className={`text-base font-bold transition-colors leading-snug ${
+                  openIndex === index ? 'text-blue-600' : 'text-slate-800 group-hover:text-blue-600'
+                }`}>
                   {faq.question}
                 </span>
-                <ChevronDown className={`transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`} />
+                <span className={`shrink-0 w-6 h-6 rounded-full border flex items-center justify-center transition-all duration-300 mt-0.5 ${
+                  openIndex === index
+                    ? 'border-blue-600 bg-blue-600/5'
+                    : 'border-slate-200 group-hover:border-slate-300'
+                }`}>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                    openIndex === index ? 'rotate-180 text-blue-600' : 'text-slate-400'
+                  }`} />
+                </span>
               </button>
               <AnimatePresence>
                 {openIndex === index && (
@@ -413,10 +483,10 @@ const FAQ = () => {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    transition={{ duration: 0.28, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <p className="pb-6 text-gray-700 leading-relaxed">
+                    <p className="pb-6 text-slate-600 text-sm leading-relaxed">
                       {faq.answer}
                     </p>
                   </motion.div>
@@ -430,48 +500,79 @@ const FAQ = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
   const sections = [
     {
-      title: "Company",
-      links: ["About", "Careers", "Contact"]
+      title: "Career Guide",
+      links: [
+        { label: "Career Quiz", page: "quiz" },
+        { label: "Explore Careers", page: "careers" },
+        { label: "TVET Pathways", page: "tvet" },
+        { label: "Bursary Finder", page: "bursaries" },
+        { label: "Job Map", page: "map" }
+      ]
     },
     {
-      title: "Guidance",
-      links: ["Career Quiz", "Explore Careers", "TVET Guide", "Bursaries"]
+      title: "School Assist",
+      links: [
+        { label: "Sign In / Register", page: "auth" },
+        { label: "Study Library", page: "auth" },
+        { label: "School Calendar", page: "auth" },
+        { label: "Grade 10 Tools", page: "subject-selector" }
+      ]
     },
     {
-      title: "Learning",
-      links: ["Study Library", "Grade 10", "Grade 11", "Grade 12"]
-    },
-    {
-      title: "Help",
-      links: ["FAQ", "Contact Us", "Terms", "Privacy Policy"]
+      title: "Community",
+      links: [
+        { label: "Get Involved", page: "impact-auth" },
+        { label: "Help Center", page: "home" },
+        { label: "Privacy Policy", page: "home" },
+        { label: "Contact Us", page: "home" }
+      ]
     }
   ];
 
   return (
-    <footer className="bg-calm-footer pt-20 pb-10 px-4 text-white">
+    <footer className="bg-[#0f172a] text-slate-400 py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-semibold text-xl opacity-90" style={{ backgroundColor: '#1e293b' }}>P</div>
-            <span className="text-2xl font-bold tracking-tight">Prospect</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xl shadow-lg">P</div>
+              <span className="text-2xl font-black text-white tracking-tight">Prospect</span>
+            </div>
+            <p className="text-slate-400 text-sm leading-relaxed max-w-sm mb-8">
+              Prospect is South Africa's leading free platform for career discovery and independent learning. We help students navigate their future with data-driven guidance and curriculum-aligned resources.
+            </p>
+            <div className="flex gap-4">
+              {[
+                { icon: <Facebook size={18} />, label: 'Facebook' },
+                { icon: <Instagram size={18} />, label: 'Instagram' },
+                { icon: <Twitter size={18} />, label: 'Twitter' }
+              ].map((social, i) => (
+                <button
+                  key={i}
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </button>
+              ))}
+            </div>
           </div>
-          <p className="text-white/60 text-sm max-w-xs">Free career guidance and learning platform for South African students.</p>
-          <a href="mailto:hello@prospect.co.za" className="text-white/60 hover:text-white transition-colors text-sm mt-2 block">hello@prospect.co.za</a>
-        </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {sections.map((section) => (
             <div key={section.title}>
-              <h4 className="font-bold text-lg mb-6">{section.title}</h4>
-              <ul className="space-y-3">
+              <h4 className="font-bold text-white text-sm uppercase tracking-widest mb-6">{section.title}</h4>
+              <ul className="space-y-4">
                 {section.links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-white/70 hover:text-white transition-colors text-sm lg:text-base">
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    <button
+                      onClick={() => onNavigate(link.page as Page)}
+                      className="text-sm hover:text-blue-600 transition-colors text-left"
+                    >
+                      {link.label}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -479,18 +580,287 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-between pt-8 border-t border-white/10 gap-8">
-          <div className="flex gap-6">
-            <a href="#" className="text-white/70 hover:text-white transition-colors"><Facebook size={20} /></a>
-            <a href="#" className="text-white/70 hover:text-white transition-colors"><Instagram size={20} /></a>
-            <a href="#" className="text-white/70 hover:text-white transition-colors"><Twitter size={20} /></a>
-          </div>
-          <p className="text-white/40 text-sm">
-            © 2026 Prospect. All rights reserved.
+        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p className="text-slate-500 text-xs font-medium">
+            © 2026 Prospect South Africa. All rights reserved.
           </p>
+          <div className="flex items-center gap-6">
+            <button onClick={() => onNavigate('home')} className="text-slate-500 hover:text-white text-xs transition-colors">Accessibility</button>
+            <button onClick={() => onNavigate('home')} className="text-slate-500 hover:text-white text-xs transition-colors">Cookie Settings</button>
+            <button onClick={() => onNavigate('home')} className="text-slate-500 hover:text-white text-xs transition-colors">South Africa (EN)</button>
+          </div>
         </div>
       </div>
     </footer>
+  );
+};
+
+// --- Career Guide Section ---
+
+const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
+  const tools = [
+    {
+      icon: <Compass className="w-5 h-5 text-blue-600" />,
+      title: 'RIASEC Career Quiz',
+      desc: 'Answer 42 questions and get matched to careers that fit your personality and interests.',
+      cta: 'Take the Quiz',
+      page: 'quiz' as Page,
+      accent: 'bg-blue-50 border-blue-100',
+      iconBg: 'bg-blue-50',
+    },
+    {
+      icon: <Briefcase className="w-5 h-5 text-slate-700" />,
+      title: 'Career Browser',
+      desc: 'Browse 200+ SA careers with salary ranges, APS requirements, and university pathways.',
+      cta: 'Explore Careers',
+      page: 'careers' as Page,
+      accent: 'bg-slate-50 border-slate-200',
+      iconBg: 'bg-slate-100',
+    },
+    {
+      icon: <GraduationCap className="w-5 h-5 text-indigo-600" />,
+      title: 'TVET Pathways',
+      desc: 'Discover vocational careers and the 50 public TVET colleges across all SA provinces.',
+      cta: 'Explore TVET',
+      page: 'tvet' as Page,
+      accent: 'bg-indigo-50 border-indigo-100',
+      iconBg: 'bg-indigo-50',
+    },
+    {
+      icon: <Award className="w-5 h-5 text-amber-600" />,
+      title: 'Bursary Finder',
+      desc: '200+ bursaries searchable by career field and province. Includes NSFAS eligibility check.',
+      cta: 'Find Funding',
+      page: 'bursaries' as Page,
+      accent: 'bg-amber-50 border-amber-100',
+      iconBg: 'bg-amber-50',
+    },
+    {
+      icon: <MapPin className="w-5 h-5 text-rose-600" />,
+      title: 'Job Demand Map',
+      desc: 'See which careers are in demand by province and where employers are hiring across SA.',
+      cta: 'View Map',
+      page: 'map' as Page,
+      accent: 'bg-rose-50 border-rose-100',
+      iconBg: 'bg-rose-50',
+    },
+    {
+      icon: <Target className="w-5 h-5 text-emerald-600" />,
+      title: 'APS Calculator',
+      desc: 'Enter your report card marks and see which careers and universities you qualify for.',
+      cta: 'Calculate APS',
+      page: 'quiz' as Page,
+      accent: 'bg-emerald-50 border-emerald-100',
+      iconBg: 'bg-emerald-50',
+    },
+  ];
+
+  return (
+    <section className="py-32 px-4 bg-transparent border-y border-slate-100 content-visibility-auto contain-intrinsic-size-[auto_600px]">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 text-center lg:text-left flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
+        >
+          <div>
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600">No sign-in required</p>
+            </div>
+            <h2 className="text-3xl lg:text-5xl font-bold text-navy tracking-tight">
+              Career Guide
+            </h2>
+            <p className="text-slate-500 text-lg leading-relaxed mt-4 max-w-lg">
+              Discover the right career path, understand how to get there, and find the funding to make it happen — all for free, no account needed.
+            </p>
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => onNavigate('quiz')}
+            className="inline-flex items-center gap-2.5 bg-slate-900 text-white text-xs font-bold uppercase tracking-widest px-7 py-3.5 rounded-xl shadow-lg hover:bg-slate-800 transition-all shrink-0"
+          >
+            Start Career Quiz
+            <ArrowRight className="w-4 h-4" />
+          </motion.button>
+        </motion.div>
+
+        {/* Tool grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tools.map((tool, i) => (
+            <motion.button
+              key={tool.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.07 }}
+              whileHover={{ y: -5 }}
+              onClick={() => onNavigate(tool.page as Page)}
+              className="group flex flex-col items-start text-left p-8 rounded-[16px] bg-white/70 backdrop-blur-sm border border-slate-200/60 shadow-sm hover:bg-white hover:shadow-md transition-all duration-300 relative overflow-hidden"
+            >
+              <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 shrink-0">
+                {/* Simplified Icon Color */}
+                <div className="text-blue-600">{tool.icon}</div>
+              </div>
+              <h3 className="font-bold text-slate-900 text-sm mb-3 group-hover:text-blue-600 transition-all duration-300">
+                {tool.title}
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed flex-1">{tool.desc}</p>
+              <span className="mt-6 text-xs font-semibold uppercase tracking-widest text-slate-400 group-hover:text-blue-600 transition-all duration-300 inline-flex items-center gap-2">
+                {tool.cta}
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-all" />
+              </span>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- School Assist Section ---
+
+const SchoolAssistSection = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
+  const features = [
+    { icon: <CalendarDays className="w-5 h-5 text-indigo-600" />, title: 'School Term Calendar', desc: 'Stay on top of SA school terms, exam dates, and application deadlines.' },
+    { icon: <BookOpen className="w-5 h-5 text-indigo-600" />, title: 'Subject Learning Library', desc: 'Grade 10–12 study content for all major matric subjects, free and curriculum-aligned.' },
+    { icon: <Target className="w-5 h-5 text-indigo-600" />, title: 'Study Planner', desc: 'Build a personal study schedule around your timetable and upcoming tests.' },
+  ];
+
+  return (
+    <section className="py-32 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_500px]">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left — text */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="w-2 h-2 rounded-full bg-indigo-500" />
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">Sign-in required</p>
+            </div>
+            <h2 className="text-3xl lg:text-5xl font-black text-navy mb-6" style={{ letterSpacing: '-0.02em' }}>
+              School Assist
+            </h2>
+            <p className="text-slate-500 text-base leading-relaxed mb-10 max-w-md">
+              A focused study space for SA students. Access your school term calendar, browse the subject learning library for Grades 10–12, and track your progress — all behind a free account.
+            </p>
+            <div className="mb-10 space-y-4">
+               <p className="text-slate-400 text-sm italic">• Personalised dashboard for every student</p>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => onNavigate('auth')}
+              className="inline-flex items-center gap-2.5 bg-indigo-600 text-white text-xs font-black uppercase tracking-widest px-7 py-3.5 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-colors"
+            >
+              Get Started — It's Free
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+          </motion.div>
+
+          {/* Right — feature cards */}
+          <div className="flex flex-col gap-4">
+            {features.map((f, i) => (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, x: 24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="flex items-start gap-4 bg-white/70 backdrop-blur-sm border border-slate-200/60 rounded-2xl p-5 hover:bg-white hover:shadow-md transition-all duration-300"
+              >
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
+                  {f.icon}
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-sm mb-1">{f.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- Community Impact Section ---
+
+const CommunityImpactSection = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
+  const points = [
+    { icon: <Globe className="w-4 h-4 text-emerald-600" />, text: 'Share what your community needs — schools, colleges, jobs, services.' },
+    { icon: <Users className="w-4 h-4 text-emerald-600" />, text: 'Help build a national opportunity map used by students and researchers.' },
+    { icon: <Lock className="w-4 h-4 text-emerald-600" />, text: 'Completely optional and privacy-conscious — you control what you share.' },
+  ];
+
+  return (
+    <section className="py-32 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_500px]">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative rounded-3xl overflow-hidden bg-linear-to-br from-[#0f172a] to-[#1e3a5f] p-10 md:p-16"
+        >
+          {/* Background accent */}
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left — text */}
+            <div>
+              <span className="inline-block text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400 mb-4">
+                Optional Community Contribution
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-black text-white mb-5" style={{ letterSpacing: '-0.02em' }}>
+                Help Map Opportunities in South Africa
+              </h2>
+              <p className="text-slate-400 text-sm leading-relaxed mb-8 max-w-md">
+                You know your community better than any dataset. By sharing what your area needs — whether it's more TVET colleges, apprenticeship programmes, or internet access — you help shape a national map of opportunity gaps that benefits every SA student.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => onNavigate('impact-auth')}
+                className="inline-flex items-center gap-2.5 bg-emerald-500 text-white text-xs font-black uppercase tracking-widest px-7 py-3.5 rounded-xl hover:bg-emerald-400 transition-colors shadow-lg shadow-emerald-900/30"
+              >
+                Get Involved
+                <ArrowRight className="w-4 h-4" />
+              </motion.button>
+            </div>
+
+            {/* Right — bullet points */}
+            <div className="flex flex-col gap-4">
+              {points.map((p, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-xl px-5 py-4"
+                >
+                  <div className="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    {p.icon}
+                  </div>
+                  <p className="text-slate-300 text-sm leading-relaxed">{p.text}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
@@ -513,7 +883,30 @@ const PageTransition = ({ children, pageKey }: { children: ReactNode; pageKey: s
 export default function App() {
   const [page, setPage] = useState<Page>('home');
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isAssetsLoaded, setIsAssetsLoaded] = useState(false);
+
+  // Preload critical images during loading screen
+  useEffect(() => {
+    const images = [
+      '/images/students.jpg', // Hero image
+      '/images/engineer.jpg', '/images/nurse.jpg', '/images/teacher.jpg',
+      '/images/electrician.jpg', '/images/students.jpg'
+    ];
+
+    const loadAssets = Promise.all(images.map(src => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = resolve;
+        img.onerror = resolve; // Continue even if an image fails to load
+      });
+    }));
+
+    // Ensure the loading screen stays visible long enough for its animations to play
+    const minDuration = new Promise(resolve => setTimeout(resolve, 2600));
+
+    Promise.all([loadAssets, minDuration]).then(() => setIsAssetsLoaded(true));
+  }, []);
 
   const navigate = (p: Page) => setPage(p);
 
@@ -522,6 +915,11 @@ export default function App() {
     setUser(null);
     setPage('home');
   };
+
+  // Run localStorage migrations once on mount
+  useEffect(() => {
+    runMigrations();
+  }, []);
 
   // Restore session on mount and listen for auth changes
   useEffect(() => {
@@ -559,6 +957,9 @@ export default function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
+        // Pull School Assist data from Supabase into localStorage
+        syncUserDataOnLogin(session.user.id);
+        startBackgroundSync(session.user.id);
         if (pageParam) {
           setPage(pageParam as Page);
         } else {
@@ -569,165 +970,191 @@ export default function App() {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      if (!session?.user) setPage('home');
+      if (session?.user) {
+        syncUserDataOnLogin(session.user.id);
+        startBackgroundSync(session.user.id);
+      } else {
+        stopBackgroundSync();
+        setPage('home');
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      stopBackgroundSync();
+    };
   }, []);
 
+  // School Assist pages — require sign in (dashboard, library, calendar)
   const protectedPageProps = {
     onNavigateAuth: () => setPage('auth'),
     onSignOut: handleSignOut,
     onNavigate: navigate,
   };
 
+  // Career pages — no sign in required, guest users welcome
+  const careerPageProps = {
+    onNavigateAuth: () => setPage('auth'),
+    onSignOut: handleSignOut,
+    onNavigate: navigate,
+    guestMode: true,
+  };
+
   return (
     <>
       {/* Initial loading screen — shown once on app launch */}
       <AnimatePresence>
-        {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+        {!isAssetsLoaded && <LoadingScreen onComplete={() => {}} />}
       </AnimatePresence>
 
       {/* Page content — hidden under loading screen until complete */}
-      {!loading && (
-        <AnimatePresence mode="wait">
-          {page === 'auth' && (
-            <PageTransition pageKey="auth">
-              <AuthPage
-                onNavigateHome={() => setPage('home')}
-                onAuthSuccess={(u) => { setUser(u); setPage('dashboard'); }}
-              />
-            </PageTransition>
-          )}
+      {isAssetsLoaded && (
+        <div className="relative min-h-screen" style={{ background: '#f8fbff' }}>
+          {/* Background is shown throughout the site EXCEPT for the login pages */}
+          {page !== 'auth' && page !== 'impact-auth' && <InteractiveBackground />}
 
-          {page === 'dashboard' && (
-            <PageTransition pageKey="dashboard">
-              <DashboardPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+          <AnimatePresence mode="wait">
+            {page === 'auth' && (
+              <PageTransition pageKey="auth">
+                <AuthPage
+                  onNavigateHome={() => setPage('home')}
+                  onAuthSuccess={(u) => { setUser(u); setPage('dashboard'); }}
+                />
+              </PageTransition>
+            )}
 
-          {page === 'quiz' && (
-            <PageTransition pageKey="quiz">
-              <QuizPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'dashboard' && (
+              <PageTransition pageKey="dashboard">
+                <DashboardPage {...protectedPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'subject-selector' && (
-            <PageTransition pageKey="subject-selector">
-              <Grade10SubjectSelectorPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {/* ── Career pages — no sign in required ── */}
+            {page === 'quiz' && (
+              <PageTransition pageKey="quiz">
+                <QuizPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'library' && (
-            <PageTransition pageKey="library">
-              <StudyLibraryPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'careers' && (
+              <PageTransition pageKey="careers">
+                <CareersPageNew {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'careers' && (
-            <PageTransition pageKey="careers">
-              <CareersPageNew {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'bursaries' && (
+              <PageTransition pageKey="bursaries">
+                <BursariesPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'bursaries' && (
-            <PageTransition pageKey="bursaries">
-              <BursariesPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'bursary' && (
+              <PageTransition pageKey="bursary">
+                <BursaryDetailPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'bursary' && (
-            <PageTransition pageKey="bursary">
-              <BursaryDetailPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'disadvantaged-guide' && (
+              <PageTransition pageKey="disadvantaged-guide">
+                <DisadvantagedGuide {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'disadvantaged-guide' && (
-            <PageTransition pageKey="disadvantaged-guide">
-              <DisadvantagedGuide {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'map' && (
+              <PageTransition pageKey="map">
+                <MapPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'map' && (
-            <PageTransition pageKey="map">
-              <MapPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'tvet' && (
+              <PageTransition pageKey="tvet">
+                <TVETPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'tvet' && (
-            <PageTransition pageKey="tvet">
-              <TVETPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'tvet-careers' && (
+              <PageTransition pageKey="tvet-careers">
+                <TVETCareersPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'tvet-careers' && (
-            <PageTransition pageKey="tvet-careers">
-              <TVETCareersPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'tvet-colleges' && (
+              <PageTransition pageKey="tvet-colleges">
+                <TVETCollegesPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'tvet-colleges' && (
-            <PageTransition pageKey="tvet-colleges">
-              <TVETCollegesPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'tvet-funding' && (
+              <PageTransition pageKey="tvet-funding">
+                <TVETFundingPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'tvet-funding' && (
-            <PageTransition pageKey="tvet-funding">
-              <TVETFundingPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'tvet-requirements' && (
+              <PageTransition pageKey="tvet-requirements">
+                <TVETRequirementsPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'tvet-requirements' && (
-            <PageTransition pageKey="tvet-requirements">
-              <TVETRequirementsPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {page === 'subject-selector' && (
+              <PageTransition pageKey="subject-selector">
+                <Grade10SubjectSelectorPage {...careerPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'calendar' && (
-            <PageTransition pageKey="calendar">
-              <CalendarPage {...protectedPageProps} />
-            </PageTransition>
-          )}
+            {/* ── School Assist pages — require sign in ── */}
+            {page === 'library' && (
+              <PageTransition pageKey="library">
+                <StudyLibraryPage {...protectedPageProps} />
+              </PageTransition>
+            )}
 
-          {page === 'home' && (
-            <PageTransition pageKey="home">
-              <div className="min-h-screen">
-                <Header onNavigateAuth={() => setPage('auth')} />
-                <main id="main-content">
-                  <AnimatedHero />
-                  <BrandSlogan />
-                  <VideoPlayer
-                    src="/videos/video1.mp4"
-                    title="How Prospect Works"
-                    description="Discover your perfect career in 15 minutes"
-                    startTime={40}
-                    poster="/thumbnails/video1-poster.png"
-                  />
-                  <ValueProps />
-                  <section className="py-16 bg-slate-50">
-                    <CategoryList
-                      title="Explore by Category"
-                      subtitle="Find the right path for your future"
-                      categories={[
-                        { id: 'quiz', title: 'Career Quiz', subtitle: 'Discover careers that match you', icon: <Award className="w-5 h-5" />, onClick: () => setPage('quiz' as any) },
-                        { id: 'careers', title: 'Career Paths', subtitle: 'Browse hundreds of career options', icon: <Briefcase className="w-5 h-5" />, onClick: () => setPage('careers' as any) },
-                        { id: 'tvet', title: 'TVET Programmes', subtitle: 'Vocational and technical training', icon: <GraduationCap className="w-5 h-5" />, onClick: () => setPage('tvet' as any) },
-                        { id: 'library', title: 'Study Library', subtitle: 'Study guides and past papers', icon: <BookOpen className="w-5 h-5" />, onClick: () => setPage('library' as any) },
-                        { id: 'bursaries', title: 'Bursaries & Funding', subtitle: 'Scholarships for SA students', icon: <Award className="w-5 h-5" />, onClick: () => setPage('bursaries' as any) },
-                        { id: 'map', title: 'Job Map', subtitle: 'Explore employers across SA', icon: <MapPin className="w-5 h-5" />, onClick: () => setPage('map' as any) },
-                      ]}
-                    />
-                  </section>
-                  <Banner />
-                  <Reviews />
-                  <FAQ />
-                </main>
-                <NeoMinimalFooter />
-              </div>
-            </PageTransition>
-          )}
-        </AnimatePresence>
+            {page === 'calendar' && (
+              <PageTransition pageKey="calendar">
+                <CalendarPageNew {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'school-assist' && (
+              <PageTransition pageKey="school-assist">
+                <SchoolAssistPage onNavigate={navigate} onNavigateHome={() => setPage('home')} />
+              </PageTransition>
+            )}
+
+            {page === 'impact-auth' && (
+              <PageTransition pageKey="impact-auth">
+                <ImpactAuthPage onNavigateHome={() => setPage('home')} />
+              </PageTransition>
+            )}
+
+            {page === 'demo-learning' && (
+              <PageTransition pageKey="demo-learning">
+                <DemoLearningPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'home' && (
+              <PageTransition pageKey="home">
+                <div className="relative">
+                  <Header onNavigate={setPage} />
+                  <main id="main-content">
+                    <AnimatedHero onNavigate={setPage} />
+                    {/* ── Section 1: Career Guide ── */}
+                    <CareerGuideSection onNavigate={setPage} />
+                    {/* ── Section 1.5: How it Works ── */}
+                    <HowItWorks />
+                    {/* ── Section 2: School Assist ── */}
+                    <SchoolAssistSection onNavigate={setPage} />
+                    {/* ── Section 3: Community ── */}
+                    <CommunityImpactSection onNavigate={setPage} />
+                    <FAQ />
+                  </main>
+                  <Footer onNavigate={setPage} />
+                </div>
+              </PageTransition>
+            )}
+          </AnimatePresence>
+        </div>
       )}
     </>
   );

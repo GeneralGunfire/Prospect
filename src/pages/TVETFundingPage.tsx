@@ -7,16 +7,16 @@ import { TVETSubNav } from '../components/TVETSubNav';
 function TVETFundingPage({ user, onNavigate }: AuthedProps) {
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} mode="career" />
       <TVETSubNav currentPage="funding" onNavigate={onNavigate} />
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-16 text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1B5E20' }}>
-            Funding & <span style={{ color: '#64748b' }}>Support Guide</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+            Funding & <span className="text-slate-500">Support Guide</span>
           </h1>
-          <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
+          <p className="text-sm leading-relaxed text-slate-600">
             TVET is affordable for disadvantaged students. Discover financial aid, bursaries, and apprenticeships that support your training.
           </p>
         </div>
@@ -26,8 +26,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-3xl font-bold mb-8"
-            style={{ color: '#1B5E20' }}
+            className="text-3xl font-bold mb-8 text-slate-900"
           >
             Why TVET is Affordable
           </motion.h2>
@@ -55,10 +54,9 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-slate-50 rounded-xl p-6 hover:shadow-lg transition-shadow border-l-4"
-                style={{ borderColor: '#F9A825' }}
+                className="bg-slate-50 rounded-xl p-6 hover:shadow-lg transition-shadow border-l-4 border-amber-400"
               >
-                <item.icon className="w-10 h-10 mb-4" style={{ color: '#1B5E20' }} />
+                <item.icon className="w-10 h-10 mb-4 text-slate-900" />
                 <h3 className="font-bold text-lg mb-2">{item.title}</h3>
                 <p className="text-sm text-gray-600">{item.description}</p>
               </motion.div>
@@ -71,8 +69,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-3xl font-bold mb-8"
-            style={{ color: '#1B5E20' }}
+            className="text-3xl font-bold mb-8 text-slate-900"
           >
             Funding Options Available
           </motion.h2>
@@ -89,7 +86,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                   '• No interest, no repayment if you graduate',
                   '• Eligibility: Family income < R350k/year',
                 ],
-                color: '#1B5E20',
+                borderCls: 'border-slate-800',
               },
               {
                 title: 'TVET-Specific Bursaries',
@@ -101,7 +98,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                   '• Energy industry bursaries for solar/HVAC',
                   '• Engineering SETA apprenticeship grants',
                 ],
-                color: '#F59E0B',
+                borderCls: 'border-amber-400',
               },
               {
                 title: 'Apprenticeships (Earn While Learning)',
@@ -113,7 +110,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                   '• High employment rate upon completion',
                   '• Opportunities with Eskom, construction firms, auto dealers',
                 ],
-                color: '#10B981',
+                borderCls: 'border-emerald-500',
               },
               {
                 title: 'Company-Sponsored Training',
@@ -125,7 +122,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                   '• Skill needed in company sector',
                   '• Often requires 2-3 year commitment',
                 ],
-                color: '#3B82F6',
+                borderCls: 'border-blue-500',
               },
             ].map((option, idx) => (
               <motion.div
@@ -133,17 +130,16 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white border-2 rounded-xl p-8 hover:shadow-lg transition-shadow"
-                style={{ borderColor: option.color }}
+                className={`bg-white border-2 rounded-xl p-8 hover:shadow-md transition-shadow ${option.borderCls}`}
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <CheckCircle className="w-6 h-6 flex-shrink-0 mt-1" style={{ color: option.color }} />
+                  <CheckCircle className="w-6 h-6 flex-shrink-0 mt-1 text-slate-700" />
                   <div>
                     <h3 className="text-xl font-bold mb-1">{option.title}</h3>
                     <p className="text-gray-600 text-sm mb-4">{option.description}</p>
                     <ul className="space-y-2 text-sm">
                       {option.details.map((detail, didx) => (
-                        <li key={didx} style={{ color: '#475569' }}>
+                        <li key={didx} className="text-slate-600">
                           {detail}
                         </li>
                       ))}
@@ -160,8 +156,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-3xl font-bold mb-8"
-            style={{ color: '#1B5E20' }}
+            className="text-3xl font-bold mb-8 text-slate-900"
           >
             Step-by-Step: How to Get Into TVET
           </motion.h2>
@@ -217,8 +212,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 className="flex gap-6 pb-6 border-b border-slate-200 last:border-0"
               >
                 <div
-                  className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                  style={{ backgroundColor: '#1B5E20' }}
+                  className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg bg-slate-900"
                 >
                   {item.step}
                 </div>
@@ -236,8 +230,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-3xl font-bold mb-8"
-            style={{ color: '#1B5E20' }}
+            className="text-3xl font-bold mb-8 text-slate-900"
           >
             Costs Breakdown: TVET vs University
           </motion.h2>
@@ -247,13 +240,15 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
               {
                 title: 'TVET 2-Year Program',
                 total: 'R0-20,000',
-                color: '#10B981',
+                borderCls: 'border-emerald-500',
+                totalCls: 'text-emerald-600',
                 items: ['Tuition (covered by NSFAS): R0k', 'Living allowance (monthly): R3-4k', 'Books & supplies: R2-3k/year', 'Transport: R500-1k/month'],
               },
               {
                 title: 'University 4-Year Degree',
                 total: 'R120-320,000',
-                color: '#EF4444',
+                borderCls: 'border-red-400',
+                totalCls: 'text-red-500',
                 items: ['Tuition: R30-80k/year', 'Residence (often required): R40-60k/year', 'Books & supplies: R5-8k/year', 'Transport: R500-2k/month'],
               },
             ].map((item, idx) => (
@@ -262,18 +257,17 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white rounded-xl p-8 border-l-4"
-                style={{ borderColor: item.color }}
+                className={`bg-white rounded-xl p-8 border-l-4 ${item.borderCls}`}
               >
                 <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                <p className="text-4xl font-bold mb-8" style={{ color: item.color }}>
+                <p className={`text-4xl font-bold mb-8 ${item.totalCls}`}>
                   {item.total}
                 </p>
                 <ul className="space-y-2 text-sm">
                   {item.items.map((cost, cidx) => (
                     <li key={cidx} className="flex gap-2">
                       <span style={{ color: item.color }}>•</span>
-                      <span style={{ color: '#475569' }}>{cost}</span>
+                      <span className="text-slate-600">{cost}</span>
                     </li>
                   ))}
                 </ul>
@@ -287,15 +281,14 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-3xl font-bold mb-8"
-            style={{ color: '#1B5E20' }}
+            className="text-3xl font-bold mb-8 text-slate-900"
           >
             Special Support for Disadvantaged Students
           </motion.h2>
 
           <div className="bg-blue-50 border-l-4 border-blue-500 rounded-xl p-8 mb-6">
             <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5" style={{ color: '#3B82F6' }} />
+              <AlertCircle className="w-5 h-5 text-blue-500" />
               Important: TVET is Designed for You
             </h3>
             <p className="text-gray-700">
@@ -329,14 +322,14 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 transition={{ delay: idx * 0.1 }}
                 className="bg-slate-50 rounded-xl p-6"
               >
-                <h4 className="font-bold text-lg mb-4" style={{ color: '#1B5E20' }}>
+                <h4 className="font-bold text-lg mb-4 text-slate-900">
                   {item.title}
                 </h4>
                 <ul className="space-y-2 text-sm">
                   {item.items.map((resource, ridx) => (
                     <li key={ridx} className="flex gap-2">
-                      <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#1B5E20' }} />
-                      <span style={{ color: '#475569' }}>{resource}</span>
+                      <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-slate-900" />
+                      <span className="text-slate-600">{resource}</span>
                     </li>
                   ))}
                 </ul>
@@ -350,8 +343,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-3xl font-bold mb-8"
-            style={{ color: '#1B5E20' }}
+            className="text-3xl font-bold mb-8 text-slate-900"
           >
             How Others Funded Their TVET
           </motion.h2>
@@ -376,10 +368,9 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white border-2 rounded-xl p-6"
-                style={{ borderColor: '#F9A825' }}
+                className="bg-white border-2 rounded-xl p-6 border-amber-400"
               >
-                <h4 className="font-bold text-lg mb-2" style={{ color: '#1B5E20' }}>
+                <h4 className="font-bold text-lg mb-2 text-slate-900">
                   {story.name}
                 </h4>
                 <p className="text-sm text-gray-700 italic">"{story.story}"</p>
@@ -389,15 +380,14 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* CTA */}
-        <div className="mt-16 bg-gradient-to-r from-[#1B5E20] to-[#2D7F2E] rounded-xl p-8 text-white text-center">
+        <div className="mt-16 bg-slate-900 rounded-xl p-8 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Apply?</h2>
           <p className="mb-8 text-lg">
             Browse TVET careers, find colleges, and start your application today.
           </p>
           <button
             onClick={() => onNavigate('tvet-careers')}
-            className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all hover:opacity-90"
-            style={{ backgroundColor: '#F9A825', color: '#1B5E20' }}
+            className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all hover:opacity-90 bg-amber-400 text-slate-900"
           >
             Explore TVET Careers
           </button>

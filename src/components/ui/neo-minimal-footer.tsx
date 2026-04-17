@@ -1,73 +1,93 @@
+import { Twitter, Linkedin, Instagram } from 'lucide-react';
+
 export function NeoMinimalFooter() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-slate-900 text-slate-400">
-      <div className="max-w-6xl mx-auto px-4 py-8 md:py-16">
-        {/* Logo and tagline */}
-        <div className="mb-8 md:mb-12">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm md:text-base">P</span>
+    <footer className="bg-[#0f172a] text-slate-400">
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
+
+        {/* Top: brand + links grid */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 pb-10 border-b border-slate-800">
+
+          {/* Brand — takes 2 columns on desktop */}
+          <div className="col-span-2">
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                <span className="text-white font-black text-base">P</span>
+              </div>
+              <span className="text-white font-black tracking-widest uppercase text-sm" style={{ letterSpacing: '0.18em' }}>
+                Prospect
+              </span>
             </div>
-            <h2 className="text-lg md:text-xl font-bold text-white">Prospect</h2>
-          </div>
-          <p className="text-xs md:text-sm text-slate-400">Know your path. Own your future.</p>
-        </div>
-
-        {/* Links Grid - Responsive */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-8 border-t border-slate-800 pt-8">
-          {/* Column 1 - Features */}
-          <div className="col-span-1">
-            <h4 className="font-semibold text-white text-sm md:text-base mb-3 md:mb-4">Features</h4>
-            <ul className="space-y-1 md:space-y-2 text-xs md:text-sm">
-              <li><a href="/quiz" className="text-slate-400 hover:text-white transition-colors">Quiz</a></li>
-              <li><a href="/careers" className="text-slate-400 hover:text-white transition-colors">Careers</a></li>
-              <li><a href="/study-library" className="text-slate-400 hover:text-white transition-colors">Study</a></li>
-            </ul>
-          </div>
-
-          {/* Column 2 - Resources */}
-          <div className="col-span-1">
-            <h4 className="font-semibold text-white text-sm md:text-base mb-3 md:mb-4">Resources</h4>
-            <ul className="space-y-1 md:space-y-2 text-xs md:text-sm">
-              <li><a href="/tvet-path" className="text-slate-400 hover:text-white transition-colors">TVET</a></li>
-              <li><a href="/bursaries" className="text-slate-400 hover:text-white transition-colors">Bursaries</a></li>
-              <li><a href="/job-map" className="text-slate-400 hover:text-white transition-colors">Jobs</a></li>
-            </ul>
-          </div>
-
-          {/* Column 3 - Tools */}
-          <div className="col-span-1">
-            <h4 className="font-semibold text-white text-sm md:text-base mb-3 md:mb-4">Tools</h4>
-            <ul className="space-y-1 md:space-y-2 text-xs md:text-sm">
-              <li><a href="/calendar" className="text-slate-400 hover:text-white transition-colors">Calendar</a></li>
-              <li><a href="/subject-selector" className="text-slate-400 hover:text-white transition-colors">Subjects</a></li>
-              <li><a href="/map" className="text-slate-400 hover:text-white transition-colors">Map</a></li>
-            </ul>
-          </div>
-
-          {/* Column 4 - Legal */}
-          <div className="col-span-1">
-            <h4 className="font-semibold text-white text-sm md:text-base mb-3 md:mb-4">Legal</h4>
-            <ul className="space-y-1 md:space-y-2 text-xs md:text-sm">
-              <li><a href="/privacy" className="text-slate-400 hover:text-white transition-colors">Privacy</a></li>
-              <li><a href="/terms" className="text-slate-400 hover:text-white transition-colors">Terms</a></li>
-              <li><a href="/contact" className="text-slate-400 hover:text-white transition-colors">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Section */}
-        <div className="border-t border-slate-800 pt-6 md:pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <p className="text-xs md:text-sm text-slate-400">
-              &copy; {new Date().getFullYear()} Prospect SA. All rights reserved.
+            <p className="text-xs text-slate-500 leading-relaxed max-w-[18rem]">
+              Helping South African students navigate careers, bursaries, and their future — one smart decision at a time.
             </p>
-            <div className="flex gap-4 md:gap-6">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors text-xs md:text-sm font-medium">Twitter</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors text-xs md:text-sm font-medium">LinkedIn</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors text-xs md:text-sm font-medium">Instagram</a>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-2 mt-5">
+              {[
+                { href: '#', label: 'Twitter',   Icon: Twitter },
+                { href: '#', label: 'LinkedIn',  Icon: Linkedin },
+                { href: '#', label: 'Instagram', Icon: Instagram },
+              ].map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-200"
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                </a>
+              ))}
             </div>
           </div>
+
+          {/* Features */}
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white mb-4">Features</h4>
+            <ul className="space-y-2.5">
+              {['Quiz', 'Careers', 'Study Library', 'TVET Path'].map(l => (
+                <li key={l}>
+                  <a href="#" className="text-xs text-slate-500 hover:text-slate-200 transition-colors duration-150">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white mb-4">Resources</h4>
+            <ul className="space-y-2.5">
+              {['Bursaries', 'Job Map', 'Study Calendar', 'Subject Selector'].map(l => (
+                <li key={l}>
+                  <a href="#" className="text-xs text-slate-500 hover:text-slate-200 transition-colors duration-150">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white mb-4">Legal</h4>
+            <ul className="space-y-2.5">
+              {['Privacy Policy', 'Terms of Use', 'Contact Us'].map(l => (
+                <li key={l}>
+                  <a href="#" className="text-xs text-slate-500 hover:text-slate-200 transition-colors duration-150">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-8">
+          <p className="text-[11px] text-slate-600">
+            &copy; {year} Prospect SA. All rights reserved.
+          </p>
+          <p className="text-[11px] text-slate-700">
+            Built for South African learners
+          </p>
         </div>
       </div>
     </footer>

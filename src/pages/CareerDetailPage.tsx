@@ -17,7 +17,7 @@ export function CareerDetailPage({ careerId, allCareers, user, onNavigate, onBac
   if (!career) {
     return (
       <div className="min-h-screen bg-surface">
-        <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} />
+        <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} mode="career" />
         <div className="pt-32 text-center">
           <p className="text-xl text-slate-600">Career not found</p>
         </div>
@@ -27,7 +27,7 @@ export function CareerDetailPage({ careerId, allCareers, user, onNavigate, onBac
 
   return (
     <div className="min-h-screen bg-surface">
-      <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} mode="career" />
 
       {/* Header */}
       <div className="pt-24 pb-12 px-4 max-w-6xl mx-auto">

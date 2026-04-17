@@ -7,7 +7,7 @@ import { TVETSubNav } from '../components/TVETSubNav';
 function TVETPage({ user, onNavigate }: AuthedProps) {
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} mode="career" />
       <TVETSubNav currentPage="overview" onNavigate={onNavigate} />
 
       {/* Hero Section */}
@@ -49,7 +49,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
           Why TVET Is a Smart Career Choice
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
           {[
             {
               icon: Clock,
@@ -69,7 +69,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
             {
               icon: Users,
               title: 'High Demand Careers',
-              description: 'Electricians, plumbers, welders, mechanics earn R20k-R60k+ monthly. Always in demand.',
+              description: 'Electricians, plumbers, welders, mechanics earn R20k–R60k+ monthly. Always in demand.',
             },
             {
               icon: CheckCircle,
@@ -84,14 +84,18 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
           ].map((item, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-slate-50 rounded-xl p-6 hover:shadow-lg transition-shadow"
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.07, duration: 0.4 }}
+              whileHover={{ y: -3 }}
+              className="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-lg hover:border-slate-200 transition-all duration-200"
             >
-              <item.icon className="w-10 h-10 mb-4" style={{ color: '#3B5A7F' }} />
-              <h3 className="font-bold text-lg mb-2">{item.title}</h3>
-              <p className="text-sm text-gray-600">{item.description}</p>
+              <div className="w-10 h-10 rounded-xl bg-prospect-green flex items-center justify-center mb-5">
+                <item.icon className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="font-black text-sm mb-2 text-slate-900" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
+              <p className="text-xs text-slate-500 leading-relaxed">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -168,13 +172,13 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
             </button>
             <button
               onClick={() => onNavigate('tvet-colleges')}
-              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-[#1E3A5F]"
+              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-prospect-green"
             >
               Find Colleges
             </button>
             <button
               onClick={() => onNavigate('tvet-funding')}
-              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-[#1E3A5F]"
+              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-prospect-green"
             >
               Funding Support
             </button>

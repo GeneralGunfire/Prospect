@@ -126,10 +126,10 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-surface">
-      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} mode="career" />
       <TVETSubNav currentPage="careers" onNavigate={onNavigate} />
 
-      <div className="pt-24 pb-16 px-4 max-w-7xl mx-auto">
+      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-12 text-center max-w-3xl mx-auto">
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"

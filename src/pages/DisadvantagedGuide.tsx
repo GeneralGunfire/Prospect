@@ -15,7 +15,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
       content: (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl" style={{ backgroundColor: 'rgba(22, 163, 74, 0.05)', borderLeft: '4px solid #16a34a' }}>
+            <div className="p-6 rounded-2xl bg-white shadow-sm border border-slate-200 hover:border-slate-400 transition-all">
               <h4 className="font-bold mb-3 flex items-center gap-2" style={{ color: '#1e293b' }}>
                 <FileText className="w-5 h-5" /> Financial Need
               </h4>
@@ -29,7 +29,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
               </ul>
             </div>
 
-            <div className="p-6 rounded-2xl" style={{ backgroundColor: 'rgba(59, 130, 246, 0.05)', borderLeft: '4px solid #3b82f6' }}>
+            <div className="p-6 rounded-2xl bg-white shadow-sm border border-slate-200 hover:border-slate-400 transition-all">
               <h4 className="font-bold mb-3 flex items-center gap-2" style={{ color: '#1e293b' }}>
                 <Heart className="w-5 h-5" /> Personal Story
               </h4>
@@ -43,7 +43,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
               </ul>
             </div>
 
-            <div className="p-6 rounded-2xl" style={{ backgroundColor: 'rgba(168, 85, 247, 0.05)', borderLeft: '4px solid #a855f7' }}>
+            <div className="p-6 rounded-2xl bg-white shadow-sm border border-slate-200 hover:border-slate-400 transition-all">
               <h4 className="font-bold mb-3 flex items-center gap-2" style={{ color: '#1e293b' }}>
                 <CheckCircle2 className="w-5 h-5" /> Academics
               </h4>
@@ -57,7 +57,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
               </ul>
             </div>
 
-            <div className="p-6 rounded-2xl" style={{ backgroundColor: 'rgba(239, 68, 68, 0.05)', borderLeft: '4px solid #ef4444' }}>
+            <div className="p-6 rounded-2xl bg-white shadow-sm border border-slate-200 hover:border-slate-400 transition-all">
               <h4 className="font-bold mb-3 flex items-center gap-2" style={{ color: '#1e293b' }}>
                 <Users className="w-5 h-5" /> Community
               </h4>
@@ -326,10 +326,10 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
             </div>
           </div>
 
-          <div className="bg-yellow-50 border-l-4 border-yellow-500 rounded-r-2xl p-6">
-            <h5 className="font-bold mb-2" style={{ color: '#854d0e' }}>Pro Tip: Spreadsheet</h5>
-            <p style={{ color: '#92400e' }}>Create a spreadsheet tracking:</p>
-            <ul className="mt-2 text-sm space-y-1" style={{ color: '#92400e' }}>
+          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-2xl p-6">
+            <h5 className="font-bold mb-2" style={{ color: '#1e3a8a' }}>Pro Tip: Spreadsheet</h5>
+            <p style={{ color: '#1e40af' }}>Create a spreadsheet tracking:</p>
+            <ul className="mt-2 text-sm space-y-1" style={{ color: '#1e40af' }}>
               <li>• Bursary name | Provider | Deadline | Status | Submitted Date | Interview Date</li>
               <li>• This helps you stay organized and follow up</li>
             </ul>
@@ -396,8 +396,10 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-surface">
-      <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} />
+    <div className="min-h-screen bg-transparent">
+      <div className="relative z-[100]">
+        <AppHeader currentPage="disadvantaged-guide" user={user} onNavigate={onNavigate} mode="career" />
+      </div>
 
       <div className="pt-24 pb-16 px-4 max-w-4xl mx-auto">
         {/* Header */}
@@ -483,8 +485,8 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
               sessionStorage.removeItem('selectedBursaryId');
               onNavigate('bursaries');
             }}
-            className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all"
-            style={{ backgroundColor: '#f59e0b', color: '#1e293b' }}
+            className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-lg"
+            style={{ backgroundColor: '#2563eb', color: '#ffffff' }}
           >
             Browse Bursaries Now
           </button>

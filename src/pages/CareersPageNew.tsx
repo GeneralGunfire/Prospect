@@ -127,49 +127,49 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-surface">
-      <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} mode="career" />
 
-      <div className="pt-24 pb-16 px-4 max-w-7xl mx-auto">
+      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-12 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(30,41,59,0.05)' }}>
-            <Briefcase className="w-4 h-4" style={{ color: '#1e293b' }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1e293b' }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-900/5">
+            <Briefcase className="w-4 h-4 text-slate-900" />
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">
               Career Explorer
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1e293b' }}>
-            Explore <span style={{ color: '#64748b' }}>Your Future</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+            Explore <span className="text-slate-500">Your Future</span>
           </h1>
-          <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
+          <p className="text-sm leading-relaxed text-slate-600">
             Browse {allFilteredCareers.length} careers. Filter by interest, category, or personality type.
           </p>
         </div>
 
         {/* Sticky search + filters */}
-        <div className="mb-12 sticky top-20 z-40 py-4 -mx-4 px-4" style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
+        <div className="mb-12 sticky top-16 z-40 py-4 -mx-4 px-4 bg-white/90 backdrop-blur-xl border-b border-slate-100/80">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="relative grow w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#64748b' }} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search careers, skills, or industries..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all"
-                style={{ color: '#1e293b' }}
+                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
               />
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
               className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
-                isFilterOpen ? 'text-white border-transparent' : 'bg-white border-slate-200 hover:border-slate-400'
+                isFilterOpen
+                  ? 'bg-slate-900 text-white border-transparent'
+                  : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
               }`}
-              style={isFilterOpen ? { backgroundColor: '#1e293b', color: 'white' } : { color: '#1e293b' }}
             >
               <Filter className="w-4 h-4" />
               Filters
               {(selectedCategory || selectedRIASEC || selectedDemand || (salaryRange[0] > 0 || salaryRange[1] < 100000)) && (
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: '#64748b', color: 'white' }}>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold bg-slate-500 text-white">
                   {(selectedCategory ? 1 : 0) + (selectedRIASEC ? 1 : 0) + (selectedDemand ? 1 : 0) + ((salaryRange[0] > 0 || salaryRange[1] < 100000) ? 1 : 0)}
                 </span>
               )}
@@ -187,7 +187,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                 <div className="pt-6 space-y-6 border-t border-slate-100 mt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
                         Career Categories
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -195,12 +195,11 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={cat}
                             onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
-                            style={
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border ${
                               selectedCategory === cat
-                                ? { backgroundColor: '#64748b', color: 'white', borderColor: '#64748b' }
-                                : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }
-                            }
+                                ? 'bg-slate-600 text-white border-slate-600'
+                                : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                            }`}
                           >
                             {cat}
                           </button>
@@ -208,7 +207,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
                         RIASEC Interests
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -216,12 +215,11 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={type}
                             onClick={() => setSelectedRIASEC(selectedRIASEC === type ? null : type)}
-                            className="w-10 h-10 rounded-xl text-xs font-bold flex items-center justify-center transition-all border"
-                            style={
+                            className={`w-10 h-10 rounded-xl text-xs font-bold flex items-center justify-center transition-all border ${
                               selectedRIASEC === type
-                                ? { backgroundColor: '#1e293b', color: 'white', borderColor: '#1e293b' }
-                                : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }
-                            }
+                                ? 'bg-slate-900 text-white border-slate-900'
+                                : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                            }`}
                           >
                             {type}
                           </button>
@@ -232,7 +230,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
                         Job Demand
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -240,16 +238,15 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={level}
                             onClick={() => setSelectedDemand(selectedDemand === level ? null : level)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
-                            style={
+                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border ${
                               selectedDemand === level
-                                ? {
-                                    backgroundColor: level === 'high' ? '#10B981' : level === 'medium' ? '#F59E0B' : '#EF4444',
-                                    color: 'white',
-                                    borderColor: level === 'high' ? '#10B981' : level === 'medium' ? '#F59E0B' : '#EF4444'
-                                  }
-                                : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }
-                            }
+                                ? level === 'high'
+                                  ? 'bg-emerald-500 text-white border-emerald-500'
+                                  : level === 'medium'
+                                    ? 'bg-amber-500 text-white border-amber-500'
+                                    : 'bg-red-500 text-white border-red-500'
+                                : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                            }`}
                           >
                             {level}
                           </button>
@@ -257,7 +254,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>
+                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
                         Entry Salary Range
                       </h4>
                       <div className="space-y-3">
@@ -270,7 +267,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           onChange={(e) => setSalaryRange([salaryRange[0], parseInt(e.target.value)])}
                           className="w-full"
                         />
-                        <p className="text-xs font-bold" style={{ color: '#1e293b' }}>
+                        <p className="text-xs font-bold text-slate-900">
                           R{salaryRange[0].toLocaleString()} - R{salaryRange[1].toLocaleString()}
                         </p>
                       </div>
@@ -278,7 +275,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                   </div>
                 </div>
                 <div className="flex justify-end mt-6">
-                  <button onClick={clearFilters} className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity" style={{ color: '#64748b' }}>
+                  <button onClick={clearFilters} className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity text-slate-500">
                     <X className="w-4 h-4" /> Clear All Filters
                   </button>
                 </div>
@@ -303,16 +300,16 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
             ))
           ) : (
             <div className="col-span-full py-20 text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(30,41,59,0.05)' }}>
+              <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6">
                 <Search className="w-10 h-10 text-slate-200" />
               </div>
-              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1e293b' }}>
+              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight text-slate-900">
                 No Careers Found
               </h3>
-              <p className="text-sm mb-8" style={{ color: '#64748b' }}>
+              <p className="text-sm mb-8 text-slate-500">
                 Try adjusting your search or filters.
               </p>
-              <button onClick={clearFilters} className="text-white px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1e293b' }}>
+              <button onClick={clearFilters} className="text-white bg-slate-900 hover:bg-slate-800 px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all">
                 Clear All Filters
               </button>
             </div>
@@ -327,8 +324,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
               data-load-more-btn
-              className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
-              style={{ backgroundColor: '#1e293b' }}
+              className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-800 flex items-center gap-2 transition-all shadow-sm"
             >
               Load More Careers ({remainingCareers} more)
               <ChevronDown className="w-4 h-4" />
@@ -338,7 +334,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
         {/* All careers loaded */}
         {!hasMoreCareers && allFilteredCareers.length > 0 && (
-          <div className="text-center mb-8 text-sm" style={{ color: '#64748b' }}>
+          <div className="text-center mb-8 text-sm text-slate-400">
             Showing all {allFilteredCareers.length} careers
           </div>
         )}

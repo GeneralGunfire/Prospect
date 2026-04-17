@@ -25,7 +25,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
   if (!bursary) {
     return (
       <div className="min-h-screen bg-surface">
-        <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} />
+        <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
         <div className="pt-24 pb-16 px-4 max-w-7xl mx-auto text-center">
           <h1 className="text-3xl font-bold" style={{ color: '#1e293b' }}>Bursary not found</h1>
           <button
@@ -118,7 +118,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-surface">
-      <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-16 px-4 max-w-4xl mx-auto">
         {/* Back button */}

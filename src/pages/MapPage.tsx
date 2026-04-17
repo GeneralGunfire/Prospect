@@ -84,7 +84,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
 
   return (
     <div className="min-h-screen w-full bg-white">
-      <AppHeader currentPage="map" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="map" user={user} onNavigate={onNavigate} mode="career" />
       <AnimatePresence mode="wait">
         {step === 'location' ? (
           // Step 1: Location Input
@@ -93,36 +93,32 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="min-h-screen flex items-center justify-center px-4 pt-20 prospect-auth-bg"
+            className="min-h-screen flex items-center justify-center px-4 pt-20 bg-slate-50"
           >
             <div className="text-center max-w-lg w-full">
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="flex items-center justify-center gap-4 mb-4"
+                className="mb-8"
               >
-                <MapIcon size={44} style={{ color: '#1E3A5F' }} />
-                <h1 className="text-4xl lg:text-5xl font-bold uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
+                <div className="w-14 h-14 rounded-2xl bg-prospect-green flex items-center justify-center mx-auto mb-6 shadow-md">
+                  <MapIcon size={26} className="text-white" />
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Explore SA</p>
+                <h1 className="text-3xl lg:text-4xl font-black text-navy mb-3" style={{ letterSpacing: '-0.015em' }}>
                   Job Market Map
                 </h1>
+                <p className="text-sm text-secondary leading-relaxed">
+                  Discover careers, colleges, and opportunities near you.
+                </p>
               </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-lg mb-12"
-                style={{ color: '#64748b' }}
-              >
-                Discover careers, colleges, and opportunities near you.
-              </motion.p>
-
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 }}
-                className="bg-white p-8 rounded-2xl shadow-lg border-2 border-slate-100"
+                transition={{ delay: 0.25, ease: 'easeOut' }}
+                className="bg-white p-7 rounded-2xl shadow-sm border border-slate-100"
               >
                 <LocationInput onLocationSelect={handleLocationSelect} />
               </motion.div>
@@ -130,12 +126,11 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-8 p-4 rounded-lg flex items-center gap-3"
-                style={{ backgroundColor: '#f0f4f7', borderLeft: '4px solid #1E3A5F' }}
+                transition={{ delay: 0.45 }}
+                className="mt-5 p-4 rounded-xl flex items-center gap-3 bg-prospect-green/5 border border-prospect-green/10"
               >
-                <MapIcon size={20} style={{ color: '#1E3A5F', flexShrink: 0 }} />
-                <p className="text-sm" style={{ color: '#1E3A5F' }}>
+                <MapPin size={16} className="text-prospect-green shrink-0" />
+                <p className="text-xs text-prospect-green font-medium text-left">
                   Enter your location to see careers, colleges, and job market insights for your area.
                 </p>
               </motion.div>
@@ -151,47 +146,33 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
             className="px-4 pb-8 pt-24"
           >
             <div className="max-w-7xl mx-auto">
-              {/* Back to Dashboard Button */}
-              <div className="mb-6">
-                <motion.button
-                  onClick={() => onNavigate('dashboard')}
-                  whileHover={{ x: -4 }}
-                  className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest transition-colors"
-                  style={{ color: '#1E3A5F' }}
-                >
-                  <ChevronLeft size={16} />
-                  Back to Dashboard
-                </motion.button>
-              </div>
-
-              {/* Header with Back Buttons */}
+              {/* Header */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 pb-4 border-b-2 border-slate-200 flex items-center justify-between"
+                className="mb-6 pb-5 border-b border-slate-100 flex items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-3">
-                  <MapPin size={32} style={{ color: '#1E3A5F' }} />
+                  <div className="w-10 h-10 rounded-xl bg-prospect-green flex items-center justify-center shrink-0">
+                    <MapPin size={18} className="text-white" />
+                  </div>
                   <div>
-                    <h2 className="text-3xl font-bold uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
+                    <h2 className="text-xl font-black text-navy leading-tight" style={{ letterSpacing: '-0.01em' }}>
                       {userLocation?.label || 'Unknown'}
                     </h2>
-                    <p className="text-sm" style={{ color: '#64748b' }}>
-                      Province: <strong>{province || 'Loading...'}</strong>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+                      Province: {province || 'Loading...'}
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <motion.button
-                    onClick={handleBackClick}
-                    whileHover={{ x: -4 }}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold transition"
-                    style={{ backgroundColor: '#1E3A5F' }}
-                  >
-                    <ChevronLeft size={20} />
-                    Change Location
-                  </motion.button>
-                </div>
+                <motion.button
+                  onClick={handleBackClick}
+                  whileHover={{ x: -2 }}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-navy hover:bg-prospect-blue-accent shrink-0"
+                >
+                  <ChevronLeft size={14} />
+                  Change
+                </motion.button>
               </motion.div>
 
               {/* Two-Row Layout: Map on top, Results below */}

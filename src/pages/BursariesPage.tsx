@@ -109,31 +109,29 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-surface">
-      <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} />
+      <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
 
-      <div className="pt-24 pb-16 px-4 max-w-7xl mx-auto">
+      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-12 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(100,116,139,0.1)' }}>
-            <Wallet className="w-4 h-4" style={{ color: '#64748b' }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>Financial Aid</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-100/60">
+            <Wallet className="w-4 h-4 text-slate-500" />
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Financial Aid</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1e293b' }}>
-            Fund Your <span style={{ color: '#64748b' }}>Education</span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+            Fund Your <span className="text-slate-500">Education</span>
           </h1>
-          <p className="text-sm leading-relaxed mb-8" style={{ color: '#475569' }}>
+          <p className="text-sm leading-relaxed mb-8 text-slate-600">
             Browse active bursaries, scholarships, and grants for South African students. Find the perfect bursary for your situation.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <button
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all"
-              style={{ backgroundColor: '#1E3A5F', color: 'white' }}
+              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all bg-prospect-green text-white"
             >
               Browse Bursaries
             </button>
             <button
               onClick={() => onNavigate('disadvantaged-guide')}
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2"
-              style={{ backgroundColor: 'white', color: '#1e293b', border: '1px solid #e2e8f0' }}
+              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2 bg-white text-slate-900 border border-slate-200"
             >
               <BookOpen className="w-4 h-4" /> Student Guide
             </button>
@@ -141,30 +139,30 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Sticky search and filters */}
-            <div className="mb-12 sticky top-20 z-40 py-4 -mx-4 px-4" style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}>
+            <div className="mb-12 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/90 backdrop-blur-xl border-b border-slate-100/80">
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="relative grow w-full">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#64748b' }} />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                   <input
                     type="text"
                     placeholder="Search bursaries, providers, or fields of study..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all"
-                    style={{ color: '#1e293b' }}
+                    className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900"
                   />
                 </div>
                 <button
                   onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border"
-                  style={isFilterOpen
-                    ? { backgroundColor: '#1e293b', color: 'white', borderColor: '#1e293b' }
-                    : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }}
+                  className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
+                    isFilterOpen
+                      ? 'bg-slate-900 text-white border-transparent'
+                      : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                  }`}
                 >
                   <Filter className="w-4 h-4" />
                   Filters
                   {activeFilters > 0 && (
-                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: '#f59e0b', color: '#1e293b' }}>{activeFilters}</span>
+                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold bg-amber-400 text-slate-900">{activeFilters}</span>
                   )}
                 </button>
               </div>
@@ -181,16 +179,17 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Category */}
                         <div>
-                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>Category</h4>
+                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">Category</h4>
                           <div className="flex flex-wrap gap-2">
                             {categories.map(cat => (
                               <button
                                 key={cat}
                                 onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                                className="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border"
-                                style={selectedCategory === cat
-                                  ? { backgroundColor: '#64748b', color: 'white', borderColor: '#64748b' }
-                                  : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }}
+                                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border ${
+                                  selectedCategory === cat
+                                    ? 'bg-slate-600 text-white border-slate-600'
+                                    : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                                }`}
                               >
                                 {cat}
                               </button>
@@ -200,16 +199,17 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
 
                         {/* Field of Study */}
                         <div>
-                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>Field of Study</h4>
+                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">Field of Study</h4>
                           <div className="flex flex-wrap gap-2">
                             {fields.slice(0, 6).map(field => (
                               <button
                                 key={field}
                                 onClick={() => setSelectedField(selectedField === field ? null : field)}
-                                className="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border"
-                                style={selectedField === field
-                                  ? { backgroundColor: '#64748b', color: 'white', borderColor: '#64748b' }
-                                  : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }}
+                                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border ${
+                                  selectedField === field
+                                    ? 'bg-slate-600 text-white border-slate-600'
+                                    : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                                }`}
                               >
                                 {field}
                               </button>
@@ -219,16 +219,17 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
 
                         {/* Income */}
                         <div>
-                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1e293b' }}>Income Level</h4>
+                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">Income Level</h4>
                           <div className="flex flex-wrap gap-2">
                             {incomeRanges.map(range => (
                               <button
                                 key={range.value}
                                 onClick={() => setSelectedIncome(selectedIncome === range.value ? null : range.value)}
-                                className="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border"
-                                style={selectedIncome === range.value
-                                  ? { backgroundColor: '#64748b', color: 'white', borderColor: '#64748b' }
-                                  : { backgroundColor: 'white', color: '#1e293b', borderColor: '#e2e8f0' }}
+                                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border ${
+                                  selectedIncome === range.value
+                                    ? 'bg-slate-600 text-white border-slate-600'
+                                    : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                                }`}
                               >
                                 {range.label}
                               </button>
@@ -238,7 +239,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       </div>
 
                       <div className="flex justify-between items-center mt-6">
-                        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
+                        <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
                           {filteredBursaries.length} bursaries found
                         </span>
                         <button
@@ -247,8 +248,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                             setSelectedField(null);
                             setSelectedIncome(null);
                           }}
-                          className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity"
-                          style={{ color: '#64748b' }}
+                          className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity text-slate-500"
                         >
                           <X className="w-4 h-4" /> Clear All
                         </button>
@@ -272,13 +272,13 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     onClick={() => handleViewDetail(bursary.id)}
                   >
                     <div className="flex flex-col md:flex-row gap-8 items-start">
-                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors" style={{ background: 'rgba(30,41,59,0.05)' }}>
-                        <Wallet className="w-8 h-8" style={{ color: '#1e293b' }} />
+                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors bg-slate-900/5">
+                        <Wallet className="w-8 h-8 text-slate-900" />
                       </div>
 
                       <div className="grow">
                         <div className="flex flex-wrap gap-2 mb-4">
-                          <span className="px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full" style={{ background: 'rgba(30,41,59,0.05)', color: '#1e293b' }}>
+                          <span className="px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full bg-slate-900/5 text-slate-900">
                             {bursary.category}
                           </span>
                           <span className="px-3 py-1 bg-green-50 text-green-600 text-xs font-bold uppercase tracking-widest rounded-full flex items-center gap-1">
@@ -286,21 +286,21 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                           </span>
                           <div className="flex items-center gap-1 ml-auto">
                             {[...Array(5)].map((_, i) => (
-                              <span key={i} className="text-xs" style={{ color: i < Math.floor(bursary.rating) ? '#f59e0b' : '#e5e7eb' }}>★</span>
+                              <span key={i} className={`text-xs ${i < Math.floor(bursary.rating) ? 'text-amber-400' : 'text-slate-200'}`}>★</span>
                             ))}
-                            <span className="text-xs ml-1" style={{ color: '#64748b' }}>({bursary.reviews})</span>
+                            <span className="text-xs ml-1 text-slate-500">({bursary.reviews})</span>
                           </div>
                         </div>
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-slate-500 transition-colors" style={{ color: '#1e293b' }}>{bursary.name}</h3>
-                        <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: '#64748b' }}>Provided by {bursary.provider}</p>
-                        <p className="text-sm leading-relaxed mb-6" style={{ color: '#475569' }}>{bursary.description}</p>
+                        <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-slate-600 transition-colors">{bursary.name}</h3>
+                        <p className="text-xs font-bold uppercase tracking-widest mb-4 text-slate-500">Provided by {bursary.provider}</p>
+                        <p className="text-sm leading-relaxed mb-6 text-slate-600">{bursary.description}</p>
                         <div className="flex flex-wrap gap-4">
-                          <div className="flex items-center gap-2" style={{ color: 'rgba(30,41,59,0.6)' }}>
-                            <CheckCircle2 className="w-4 h-4" style={{ color: '#22c55e' }} />
+                          <div className="flex items-center gap-2 text-slate-500">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                             <span className="text-xs font-bold uppercase tracking-wider">Min marks: {bursary.requirements.minMarks}</span>
                           </div>
-                          <div className="flex items-center gap-2" style={{ color: 'rgba(30,41,59,0.6)' }}>
-                            <CheckCircle2 className="w-4 h-4" style={{ color: '#22c55e' }} />
+                          <div className="flex items-center gap-2 text-slate-500">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                             <span className="text-xs font-bold uppercase tracking-wider">{bursary.studyOptions.fields.slice(0, 2).join(', ')}</span>
                           </div>
                         </div>
@@ -312,8 +312,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                             e.stopPropagation();
                             handleViewDetail(bursary.id);
                           }}
-                          className="grow md:grow-0 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center justify-center gap-2"
-                          style={{ backgroundColor: '#1e293b' }}
+                          className="grow md:grow-0 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-sm"
                         >
                           View Details <ArrowRight className="w-4 h-4" />
                         </button>
@@ -322,10 +321,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                             e.stopPropagation();
                             toggleSave(bursary.id);
                           }}
-                          className="p-4 rounded-xl border transition-all flex items-center justify-center"
-                          style={savedBursaries.includes(bursary.id)
-                            ? { backgroundColor: '#64748b', borderColor: '#64748b', color: 'white' }
-                            : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#1e293b' }}
+                          className={`p-4 rounded-xl border transition-all flex items-center justify-center ${
+                            savedBursaries.includes(bursary.id)
+                              ? 'bg-slate-600 border-slate-600 text-white'
+                              : 'bg-white border-slate-200 text-slate-900 hover:border-slate-400'
+                          }`}
                         >
                           <Bookmark className={`w-4 h-4 ${savedBursaries.includes(bursary.id) ? 'fill-white' : ''}`} />
                         </button>
@@ -335,11 +335,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                 ))
               ) : (
                 <div className="py-20 text-center">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(30,41,59,0.05)' }}>
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-slate-900/5">
                     <Search className="w-10 h-10 text-slate-200" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1e293b' }}>No Bursaries Found</h3>
-                  <p className="text-sm mb-6" style={{ color: '#64748b' }}>Try adjusting your search or filters.</p>
+                  <h3 className="text-xl font-bold mb-2 uppercase tracking-tight text-slate-900">No Bursaries Found</h3>
+                  <p className="text-sm mb-6 text-slate-500">Try adjusting your search or filters.</p>
                   <button
                     onClick={() => {
                       setSearchQuery('');
@@ -347,8 +347,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       setSelectedField(null);
                       setSelectedIncome(null);
                     }}
-                    className="px-6 py-2 rounded-xl font-bold text-xs uppercase tracking-widest"
-                    style={{ backgroundColor: '#1e293b', color: 'white' }}
+                    className="px-6 py-2 rounded-xl font-bold text-xs uppercase tracking-widest bg-slate-900 text-white"
                   >
                     Reset Filters
                   </button>
@@ -357,7 +356,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
             </div>
 
             {/* NSFAS banner */}
-            <div className="mt-20 p-8 md:p-12 rounded-3xl text-white relative overflow-hidden" style={{ backgroundColor: '#1e293b' }}>
+            <div className="mt-20 p-8 md:p-12 rounded-3xl text-white relative overflow-hidden bg-slate-900">
               <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <h2 className="text-3xl font-bold mb-6 uppercase tracking-tight">NSFAS Funding</h2>
@@ -369,15 +368,13 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       href="https://www.nsfas.org.za"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 text-white"
-                      style={{ backgroundColor: '#f59e0b' }}
+                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 text-white bg-amber-400"
                     >
                       Official Website <ExternalLink className="w-4 h-4" />
                     </a>
                     <button
                       onClick={() => onNavigate('disadvantaged-guide')}
-                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2"
-                      style={{ backgroundColor: '#64748b' }}
+                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 bg-slate-500"
                     >
                       <BookOpen className="w-4 h-4" /> Get Help
                     </button>
@@ -385,11 +382,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                 </div>
                 <div className="hidden lg:block">
                   <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-6" style={{ color: '#f59e0b' }}>What NSFAS Covers</h4>
+                    <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 text-amber-500">What NSFAS Covers</h4>
                     <ul className="space-y-4">
                       {['Full Tuition Fees', 'Accommodation & Meals', 'Personal Care Allowance', 'Learning Materials (Books/Laptop)', 'Transport Allowance'].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-sm font-medium">
-                          <CheckCircle2 className="w-5 h-5" style={{ color: '#f59e0b' }} /> {item}
+                          <CheckCircle2 className="w-5 h-5 text-amber-500" /> {item}
                         </li>
                       ))}
                     </ul>

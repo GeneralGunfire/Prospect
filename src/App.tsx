@@ -216,14 +216,14 @@ const ValueProps = () => {
   ];
 
   return (
-    <section className="py-24 md:py-32 px-4 bg-bg-light border-y border-border content-visibility-auto contain-intrinsic-size-[auto_600px]">
+    <section className="py-20 md:py-28 px-4 bg-bg-light border-y border-border content-visibility-auto contain-intrinsic-size-[auto_600px]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center lg:text-left"
+          className="mb-12 text-center lg:text-left"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-4">What We Offer</p>
           <h2 className="text-h2 text-text-primary tracking-tighter leading-tight">
@@ -243,17 +243,17 @@ const ValueProps = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.12 }}
               whileHover={{ y: -5 }}
-              className="flex flex-col items-start group cursor-pointer bg-white/40 backdrop-blur-md border border-white/60 rounded-[2.5rem] p-10 hover:bg-white/90 hover:shadow-[0_40px_80px_-20px_rgba(15,23,42,0.1)] transition-all duration-500 relative overflow-hidden will-change-transform"
+              className="flex flex-col items-start group cursor-pointer bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl p-8 hover:bg-white/90 hover:shadow-[0_40px_80px_-20px_rgba(15,23,42,0.1)] transition-all duration-500 relative overflow-hidden will-change-transform"
             >
               {/* Icon */}
-              <div className={`w-16 h-16 rounded-[1.25rem] bg-linear-to-br ${prop.gradient} flex items-center justify-center mb-8 shadow-xl shadow-blue-500/30 group-hover:scale-110 transition-transform duration-500 will-change-transform`}>
+              <div className={`w-14 h-14 rounded-2xl bg-linear-to-br ${prop.gradient} flex items-center justify-center mb-6 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-500 will-change-transform`}>
                 {prop.icon}
               </div>
 
               <h3 className="text-2xl font-black text-text-primary mb-4 group-hover:text-blue-600 transition-colors tracking-tight">
                 {prop.title}
               </h3>
-              <p className="text-text-secondary text-base leading-relaxed mb-10 font-medium">
+              <p className="text-text-secondary text-base leading-relaxed mb-8 font-medium">
                 {prop.description}
               </p>
               <span className="mt-auto text-[11px] font-black uppercase tracking-[0.25em] text-slate-950 group-hover:text-blue-600 transition-colors inline-flex items-center gap-2">
@@ -293,9 +293,9 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-24 px-4 bg-bg-light/50 content-visibility-auto contain-intrinsic-size-[auto_400px]">
+    <section className="py-20 px-4 bg-bg-light/50 content-visibility-auto contain-intrinsic-size-[auto_400px]">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <p className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-4">The Process</p>
           <h2 className="text-h2 text-text-primary tracking-tighter">How Prospect Works</h2>
         </div>
@@ -308,14 +308,14 @@ const HowItWorks = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -6, scale: 1.02 }}
-              className={`relative p-8 rounded-3xl border ${step.bg} ${step.border} transition-all duration-300 group will-change-transform cursor-default overflow-hidden`}
+              className={`relative p-6 rounded-2xl border ${step.bg} ${step.border} transition-all duration-300 group will-change-transform cursor-default overflow-hidden`}
             >
               {/* Step number watermark */}
               <span className="text-7xl font-black text-slate-900/[0.04] absolute -bottom-2 -right-2 leading-none select-none">
                 {step.number}
               </span>
               {/* Icon */}
-              <div className={`w-14 h-14 ${step.iconBg} rounded-2xl flex items-center justify-center mb-6 text-white shadow-md`}>
+              <div className={`w-12 h-12 ${step.iconBg} rounded-xl flex items-center justify-center mb-5 text-white shadow-sm`}>
                 {step.icon}
               </div>
               {/* Dot accent */}
@@ -340,16 +340,16 @@ const DiscoveryGrid = () => {
   ];
 
   return (
-    <section className="py-28 px-4 bg-bg-light border-t border-border content-visibility-auto contain-intrinsic-size-[auto_500px]">
+    <section className="py-20 px-4 bg-bg-light border-t border-border content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-text-tertiary mb-4">Career Library</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-text-tertiary mb-3">Career Library</p>
           <h2 className="text-h2 text-text-primary tracking-tighter">
             Explore Top SA Careers
           </h2>
@@ -411,14 +411,14 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-28 px-4 bg-white border-t border-border">
+    <section className="py-20 px-4 bg-white border-t border-border">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">FAQ</p>
           <h2 className="text-h3 text-text-primary" style={{ letterSpacing: '-0.015em' }}>
@@ -633,7 +633,7 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
   ];
 
   return (
-    <section className="py-32 px-4 bg-white border-y border-border content-visibility-auto contain-intrinsic-size-[auto_600px]">
+    <section className="py-20 px-4 bg-white border-y border-border content-visibility-auto contain-intrinsic-size-[auto_600px]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -641,7 +641,7 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center lg:text-left flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
+          className="mb-12 text-center lg:text-left flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
         >
           <div>
             <div className="inline-flex items-center gap-2 mb-4">
@@ -709,9 +709,9 @@ const SchoolAssistSection = ({ onNavigate }: { onNavigate: (page: Page) => void 
   ];
 
   return (
-    <section className="py-32 px-4 bg-bg-light content-visibility-auto contain-intrinsic-size-[auto_500px]">
+    <section className="py-20 px-4 bg-bg-light content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left — text */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
@@ -780,7 +780,7 @@ const CommunityImpactSection = ({ onNavigate }: { onNavigate: (page: Page) => vo
   ];
 
   return (
-    <section className="py-32 px-4 bg-white content-visibility-auto contain-intrinsic-size-[auto_500px]">
+    <section className="py-20 px-4 bg-white content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

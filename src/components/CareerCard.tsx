@@ -1,8 +1,7 @@
 import type { Key } from 'react';
-import { ArrowRight, GraduationCap, Wallet } from 'lucide-react';
+import { ArrowRight, GraduationCap, Wallet, TrendingUp } from 'lucide-react';
 import type { Career } from '../data/careers';
 import type { CareerFull } from '../data/careersTypes';
-import { Badge } from '../../components/ui/badge';
 
 interface CareerCardProps {
   key?: Key;
@@ -10,44 +9,32 @@ interface CareerCardProps {
   onCardClick?: () => void;
 }
 
-// RIASEC code → colored badge
+// RIASEC badge colors — using approved semantic palette only
 const RIASEC_COLORS: Record<string, string> = {
-  R: 'bg-red-100 text-red-700',
-  I: 'bg-blue-100 text-blue-700',
-  A: 'bg-purple-100 text-purple-700',
-  S: 'bg-emerald-100 text-emerald-700',
-  E: 'bg-amber-100 text-amber-700',
-  C: 'bg-cyan-100 text-cyan-700',
+  R: '#EF4444', // red-500
+  I: '#3B82F6', // blue-500
+  A: '#A855F7', // purple-500
+  S: '#10B981', // emerald-500
+  E: '#F59E0B', // amber-500
+  C: '#06B6D4', // cyan-500
 };
 
-const DEMAND_BADGE: Record<string, { variant: 'success' | 'warning' | 'error'; label: string }> = {
-  high:   { variant: 'success', label: 'High Demand' },
-  medium: { variant: 'warning', label: 'Med Demand'  },
-  low:    { variant: 'error',   label: 'Low Demand'  },
+const DEMAND_CONFIG: Record<string, { label: string; cls: string }> = {
+  high:   { label: 'High Demand',   cls: 'demand-high' },
+  medium: { label: 'Med Demand',    cls: 'demand-medium' },
+  low:    { label: 'Low Demand',    cls: 'demand-low' },
 };
 
-// Category → left-border accent class
-const CATEGORY_ACCENT: Record<string, string> = {
-  Engineering:  'card-accent-blue',
-  Health:       'card-accent-green',
-  Business:     'card-accent-amber',
-  Technology:   'card-accent-cyan',
-  Education:    'card-accent-purple',
-  Law:          'card-accent-orange',
-  Arts:         'card-accent-purple',
-  Agriculture:  'card-accent-green',
-};
-
-// Category → emoji icon
-const CATEGORY_EMOJI: Record<string, string> = {
-  Engineering:  '⚙️',
-  Health:       '🏥',
-  Business:     '💼',
-  Technology:   '💻',
-  Education:    '📚',
-  Law:          '⚖️',
-  Arts:         '🎨',
-  Agriculture:  '🌿',
+// Category badge — using slate tones only (no new colors)
+const CATEGORY_CONFIG: Record<string, string> = {
+  Engineering:  'bg-blue-50 text-blue-700',
+  Health:       'bg-emerald-50 text-emerald-700',
+  Business:     'bg-amber-50 text-amber-700',
+  Technology:   'bg-slate-100 text-slate-700',
+  Education:    'bg-indigo-50 text-indigo-700',
+  Law:          'bg-rose-50 text-rose-700',
+  Arts:         'bg-purple-50 text-purple-700',
+  Agriculture:  'bg-green-50 text-green-700',
 };
 
 function getRiasecCodes(career: Career | CareerFull): string[] {
@@ -69,7 +56,9 @@ function getSalaryDisplay(career: Career | CareerFull): string {
 }
 
 function getAPSDisplay(career: Career | CareerFull): number {
-  if ('matricRequirements' in career) return (career as CareerFull).matricRequirements.minimumAps;
+  if ('matricRequirements' in career) {
+    return (career as CareerFull).matricRequirements.minimumAps;
+  }
   return (career as Career).aps || 0;
 }
 
@@ -81,71 +70,73 @@ function getDemandLevel(career: Career | CareerFull): string | null {
 }
 
 export function CareerCard({ career, onCardClick }: CareerCardProps) {
-  const riasecCodes  = getRiasecCodes(career);
+  const riasecCodes = getRiasecCodes(career);
   const salaryDisplay = getSalaryDisplay(career);
-  const apsDisplay    = getAPSDisplay(career);
-  const demandLevel   = getDemandLevel(career);
-  const demandCfg     = demandLevel ? DEMAND_BADGE[demandLevel] : null;
-  const accentClass   = CATEGORY_ACCENT[career.category] ?? 'card-accent-navy';
-  const emoji         = CATEGORY_EMOJI[career.category] ?? '🎯';
+  const apsDisplay = getAPSDisplay(career);
+  const demandLevel = getDemandLevel(career);
+  const demandCfg = demandLevel ? DEMAND_CONFIG[demandLevel] : null;
+  const categoryClass = CATEGORY_CONFIG[career.category] ?? 'bg-slate-100 text-slate-600';
 
   return (
     <div
       onClick={onCardClick}
       data-testid="career-card"
-      className={`group bg-white border border-border rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-150 flex flex-col h-full cursor-pointer overflow-hidden ${accentClass}`}
+      className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-full cursor-pointer"
     >
-      <div className="p-5 flex flex-col flex-1">
-        {/* Icon + RIASEC codes */}
-        <div className="flex items-start justify-between mb-4">
-          <span className="text-3xl" role="img" aria-hidden="true">{emoji}</span>
-          <div className="flex gap-1 shrink-0">
-            {riasecCodes.map((code) => (
-              <span
-                key={code}
-                title={`RIASEC: ${code}`}
-                className={`w-6 h-6 text-xs font-bold flex items-center justify-center rounded-md ${RIASEC_COLORS[code] ?? 'bg-slate-100 text-slate-600'}`}
-              >
-                {code}
-              </span>
-            ))}
+      {/* Top row: category badge + RIASEC chips */}
+      <div className="flex justify-between items-start mb-4">
+        <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full leading-none ${categoryClass}`}>
+          {career.category}
+        </span>
+        <div className="flex gap-1 shrink-0">
+          {riasecCodes.map((code) => (
+            <span
+              key={code}
+              title={code}
+              className="w-5 h-5 text-white text-[10px] font-bold flex items-center justify-center rounded-md"
+              style={{ backgroundColor: RIASEC_COLORS[code] ?? '#64748b' }}
+            >
+              {code}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Title */}
+      <h3 className="text-sm font-bold text-slate-900 mb-2 group-hover:text-prospect-blue-accent transition-colors leading-snug">
+        {career.title}
+      </h3>
+
+      {/* Description */}
+      <p className="text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2 flex-1">
+        {career.description}
+      </p>
+
+      {/* Meta row */}
+      <div className="mt-auto space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+              <Wallet className="w-3.5 h-3.5 text-slate-400" />
+              {salaryDisplay}
+            </span>
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+              <GraduationCap className="w-3.5 h-3.5 text-slate-400" />
+              APS {apsDisplay}+
+            </span>
           </div>
+          {demandCfg && (
+            <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${demandCfg.cls}`}>
+              {demandCfg.label}
+            </span>
+          )}
         </div>
 
-        {/* Title */}
-        <h3 className="text-sm font-semibold text-text-primary mb-1.5 group-hover:text-[#1E3A5F] transition-colors leading-snug">
-          {career.title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-xs text-text-secondary leading-relaxed mb-4 line-clamp-2 flex-1">
-          {career.description}
-        </p>
-
-        {/* Meta row */}
-        <div className="mt-auto space-y-3">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600">
-                <Wallet className="w-3.5 h-3.5" />
-                {salaryDisplay}
-              </span>
-              <span className="flex items-center gap-1 text-xs text-text-secondary">
-                <GraduationCap className="w-3.5 h-3.5" />
-                APS {apsDisplay}+
-              </span>
-            </div>
-            {demandCfg && (
-              <Badge variant={demandCfg.variant} size="sm">{demandCfg.label}</Badge>
-            )}
-          </div>
-
-          <div className="pt-3 border-t border-border flex items-center justify-between">
-            <span className="text-xs text-text-tertiary group-hover:text-[#1E3A5F] transition-colors font-medium">
-              View Details
-            </span>
-            <ArrowRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#1E3A5F] group-hover:translate-x-0.5 transition-all duration-150" />
-          </div>
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest group-hover:text-prospect-blue-accent transition-colors">
+            View Details
+          </span>
+          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-prospect-blue-accent group-hover:translate-x-0.5 transition-all duration-200" />
         </div>
       </div>
     </div>

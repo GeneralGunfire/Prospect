@@ -26,20 +26,19 @@ interface SubjectIconConfig {
   bg: string;
   iconColor: string;
   labelColor: string;
-  accent: string;       // card-accent-* CSS class
 }
 
 const SUBJECT_ICON_CONFIG: Record<string, SubjectIconConfig> = {
-  'maths':             { Icon: Calculator,  bg: 'bg-blue-50',    iconColor: 'text-blue-600',    labelColor: 'text-blue-500',   accent: 'card-accent-blue' },
-  'phys-sci':          { Icon: Atom,        bg: 'bg-indigo-50',  iconColor: 'text-indigo-600',  labelColor: 'text-indigo-500', accent: 'card-accent-purple' },
-  'life-sci':          { Icon: FlaskConical,bg: 'bg-emerald-50', iconColor: 'text-emerald-600', labelColor: 'text-emerald-500',accent: 'card-accent-green' },
-  'accounting':        { Icon: Calculator,  bg: 'bg-amber-50',   iconColor: 'text-amber-600',   labelColor: 'text-amber-500',  accent: 'card-accent-amber' },
-  'business-studies':  { Icon: Briefcase,   bg: 'bg-orange-50',  iconColor: 'text-orange-600',  labelColor: 'text-orange-500', accent: 'card-accent-orange' },
-  'economics':         { Icon: TrendingUp,  bg: 'bg-teal-50',    iconColor: 'text-teal-600',    labelColor: 'text-teal-500',   accent: 'card-accent-teal' },
-  'cat':               { Icon: Monitor,     bg: 'bg-sky-50',     iconColor: 'text-sky-600',     labelColor: 'text-sky-500',    accent: 'card-accent-cyan' },
-  'egd':               { Icon: Pencil,      bg: 'bg-violet-50',  iconColor: 'text-violet-600',  labelColor: 'text-violet-500', accent: 'card-accent-purple' },
-  'english-hl':        { Icon: Languages,   bg: 'bg-rose-50',    iconColor: 'text-rose-600',    labelColor: 'text-rose-500',   accent: 'card-accent-orange' },
-  'default':           { Icon: BookOpen,    bg: 'bg-slate-100',  iconColor: 'text-slate-600',   labelColor: 'text-slate-400',  accent: 'card-accent-navy' },
+  'maths':             { Icon: Calculator,  bg: 'bg-blue-100',    iconColor: 'text-blue-700',    labelColor: 'text-blue-500' },
+  'phys-sci':          { Icon: Atom,        bg: 'bg-indigo-100',  iconColor: 'text-indigo-700',  labelColor: 'text-indigo-500' },
+  'life-sci':          { Icon: FlaskConical,bg: 'bg-emerald-100', iconColor: 'text-emerald-700', labelColor: 'text-emerald-500' },
+  'accounting':        { Icon: Calculator,  bg: 'bg-amber-100',   iconColor: 'text-amber-700',   labelColor: 'text-amber-500' },
+  'business-studies':  { Icon: Briefcase,   bg: 'bg-orange-100',  iconColor: 'text-orange-700',  labelColor: 'text-orange-500' },
+  'economics':         { Icon: TrendingUp,  bg: 'bg-teal-100',    iconColor: 'text-teal-700',    labelColor: 'text-teal-500' },
+  'cat':               { Icon: Monitor,     bg: 'bg-sky-100',     iconColor: 'text-sky-700',     labelColor: 'text-sky-500' },
+  'egd':               { Icon: Pencil,      bg: 'bg-violet-100',  iconColor: 'text-violet-700',  labelColor: 'text-violet-500' },
+  'english-hl':        { Icon: Languages,   bg: 'bg-rose-100',    iconColor: 'text-rose-700',    labelColor: 'text-rose-500' },
+  'default':           { Icon: BookOpen,    bg: 'bg-slate-100',   iconColor: 'text-slate-600',   labelColor: 'text-slate-400' },
 };
 
 // Mapping of subject IDs to topic arrays for Grade 10 Term 1
@@ -107,81 +106,85 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
 
       <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="mb-10 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 bg-[#1E3A5F]/8">
-            <Library className="w-3.5 h-3.5 text-[#1E3A5F]" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#1E3A5F]">Study Library</span>
+        <div className="mb-12 text-center max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-900/5">
+            <Library className="w-4 h-4 text-slate-900" />
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Digital Study Library</span>
           </div>
-          <h1 className="text-h2 text-text-primary mb-3">
-            Master Your Subjects
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+            Master Your <span className="text-slate-500">Subjects</span>
           </h1>
-          <p className="text-base text-text-secondary leading-relaxed max-w-xl">
-            High-quality CAPS-aligned study materials and practice questions for Grades 10–12.
+          <p className="text-sm md:text-base leading-relaxed text-slate-600">
+            Access high-quality study materials and practice questions for all South African CAPS subjects.
           </p>
         </div>
 
         <AnimatePresence mode="wait">
           {step === 'subject' && (
             <motion.div key="subject" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-              <div className="max-w-xl mb-8 relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+              <div className="max-w-2xl mx-auto mb-16 relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search subjects…"
+                  placeholder="Search for a subject (e.g. Mathematics, History)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input-base pl-10"
+                  className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {filteredSubjects.map((subject) => {
                   const hasContent = subjectsWithContent.has(subject.id);
-                  const cfg = SUBJECT_ICON_CONFIG[subject.id] ?? SUBJECT_ICON_CONFIG['default'];
+                  const iconConfig = SUBJECT_ICON_CONFIG[subject.id] ?? SUBJECT_ICON_CONFIG['default'];
                   return (
                     <div key={subject.id} className="relative group">
                       <button
                         onClick={() => {
                           if (hasContent) {
-                            if (subject.id === 'maths') { onNavigate('demo-learning'); return; }
+                            // Mathematics navigates to the demo Algebra learning path
+                            if (subject.id === 'maths') {
+                              onNavigate('demo-learning');
+                              return;
+                            }
                             setSelectedSubject(subject.id);
                             setStep('grade');
                           }
                         }}
                         disabled={!hasContent}
-                        className={`w-full bg-white border border-border rounded-xl shadow-sm transition-all duration-200 flex flex-col text-left overflow-hidden ${
+                        className={`w-full bg-white border border-slate-100 rounded-2xl p-6 shadow-sm transition-all duration-200 flex flex-col text-left ${
                           hasContent
-                            ? `hover:shadow-md hover:-translate-y-0.5 cursor-pointer ${cfg.accent}`
+                            ? 'hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 cursor-pointer'
                             : 'opacity-50 cursor-not-allowed'
                         }`}
                       >
-                        <div className="p-5">
-                          {/* Icon */}
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 transition-transform duration-200 ${
-                            hasContent ? `${cfg.bg} group-hover:scale-105` : 'bg-slate-100'
-                          }`}>
-                            <cfg.Icon className={`w-5 h-5 ${hasContent ? cfg.iconColor : 'text-slate-400'}`} />
-                          </div>
+                        {/* Color-coded icon container */}
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 transition-all duration-200 ${
+                          hasContent
+                            ? `${iconConfig.bg} group-hover:scale-105`
+                            : 'bg-slate-100'
+                        }`}>
+                          <iconConfig.Icon className={`w-5 h-5 ${hasContent ? iconConfig.iconColor : 'text-slate-400'}`} />
+                        </div>
 
-                          <h3 className="text-sm font-semibold mb-0.5 leading-snug text-text-primary">{subject.name}</h3>
-                          <p className={`text-xs mb-4 ${hasContent ? cfg.labelColor : 'text-text-tertiary'}`}>
-                            {subject.category}
-                          </p>
+                        <h3 className="text-sm font-bold mb-1 leading-snug text-slate-900">{subject.name}</h3>
+                        <p className={`text-[10px] font-bold uppercase tracking-widest mb-5 ${hasContent ? iconConfig.labelColor : 'text-slate-400'}`}>
+                          {subject.category}
+                        </p>
 
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1.5 text-xs text-text-tertiary">
-                              <Play className="w-3 h-3" />
-                              {hasContent ? '12 Lessons' : 'Coming Soon'}
-                            </div>
-                            <ArrowRight className={`w-3.5 h-3.5 transition-all duration-200 ${
-                              hasContent ? `text-text-tertiary group-hover:${cfg.iconColor} group-hover:translate-x-0.5` : 'text-text-tertiary opacity-30'
-                            }`} />
+                        <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+                          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            <Play className="w-3 h-3" />
+                            {hasContent ? '12 Lessons' : 'Coming Soon'}
                           </div>
+                          <ArrowRight className={`w-3.5 h-3.5 transition-all duration-200 ${
+                            hasContent ? `text-slate-300 group-hover:${iconConfig.iconColor} group-hover:translate-x-0.5` : 'text-slate-200'
+                          }`} />
                         </div>
                       </button>
 
                       {!hasContent && (
-                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-md text-xs font-semibold bg-amber-100 text-amber-700">
+                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-800">
                           Soon
                         </div>
                       )}

@@ -332,11 +332,11 @@ const HowItWorks = () => {
 
 const DiscoveryGrid = () => {
   const items = [
-    { image: '/images/engineer.jpg', title: 'Engineering', description: 'Build the future of SA infrastructure' },
-    { image: '/images/nurse.jpg', title: 'Healthcare', description: 'Care for communities across the country' },
-    { image: '/images/teacher.jpg', title: 'Education', description: 'Shape the next generation of leaders' },
-    { image: '/images/electrician.jpg', title: 'Trades & Technical', description: 'High-demand skills SA needs now' },
-    { image: '/images/students.jpg', title: 'Keep Learning', description: 'Your journey starts with the right knowledge' },
+    { webp: '/images/engineer.webp', jpg: '/images/engineer.jpg', title: 'Engineering', description: 'Build the future of SA infrastructure' },
+    { webp: '/images/nurse.webp', jpg: '/images/nurse.jpg', title: 'Healthcare', description: 'Care for communities across the country' },
+    { webp: '/images/teacher.webp', jpg: '/images/teacher.jpg', title: 'Education', description: 'Shape the next generation of leaders' },
+    { webp: '/images/electrician.webp', jpg: '/images/electrician.jpg', title: 'Trades & Technical', description: 'High-demand skills SA needs now' },
+    { webp: '/images/students.webp', jpg: '/images/students.jpg', title: 'Keep Learning', description: 'Your journey starts with the right knowledge' },
   ];
 
   return (
@@ -369,13 +369,19 @@ const DiscoveryGrid = () => {
               whileHover={{ y: -6, scale: 1.02 }} // Subtle lift and scale on hover
               className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-3/4 shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform" // Promote to GPU
             >
-              <img
-                src={item.image}
-                alt={item.title}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform" // Promote to GPU
-              />
+              <picture>
+                <source srcSet={item.webp} type="image/webp" />
+                <img
+                  src={item.jpg}
+                  alt={item.title}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : 'low'}
+                  decoding="async"
+                  width={400}
+                  height={533}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform"
+                />
+              </picture>
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
               {/* Hover tint */}
@@ -865,9 +871,8 @@ export default function App() {
   // Preload critical images during loading screen
   useEffect(() => {
     const images = [
-      '/images/students.jpg', // Hero image
-      '/images/engineer.jpg', '/images/nurse.jpg', '/images/teacher.jpg',
-      '/images/electrician.jpg', '/images/students.jpg'
+      '/images/engineer.webp', '/images/nurse.webp', '/images/teacher.webp',
+      '/images/electrician.webp', '/images/students.webp',
     ];
 
     const loadAssets = Promise.all(images.map(src => {

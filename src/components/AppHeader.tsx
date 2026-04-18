@@ -258,7 +258,7 @@ export default function AppHeader({
                 </div>
               )}
 
-              {/* Nav links — flat, no sections */}
+              {/* Nav links — 56px tap targets */}
               <div className="flex-1 overflow-y-auto p-3">
                 {NAV.map(item => {
                   const isActive = currentPage === item.page;
@@ -266,15 +266,17 @@ export default function AppHeader({
                     <button
                       key={item.page}
                       onClick={() => { setIsDrawerOpen(false); onNavigate(item.page); }}
-                      className={`w-full flex items-center gap-3 text-xs font-semibold py-3 px-3 rounded-xl text-left transition-all uppercase tracking-wider mb-0.5 ${
+                      className={`w-full flex items-center gap-3 text-sm font-medium px-4 rounded-xl text-left transition-all mb-0.5 min-h-14 ${
                         isActive
-                          ? 'bg-prospect-blue-accent/8 text-prospect-blue-accent'
+                          ? 'bg-[#1E3A5F]/8 text-[#1E3A5F]'
                           : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                       }`}
                     >
-                      <span className={isActive ? 'text-prospect-blue-accent' : 'text-slate-400'}>{item.icon}</span>
+                      <span className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-[#1E3A5F] text-white' : 'bg-slate-100 text-slate-500'}`}>
+                        {item.icon}
+                      </span>
                       {item.name}
-                      {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-prospect-blue-accent shrink-0" />}
+                      {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#1E3A5F] shrink-0" />}
                     </button>
                   );
                 })}
@@ -285,7 +287,7 @@ export default function AppHeader({
                 {!isGuest && (
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 text-xs font-semibold text-red-500 hover:bg-red-50 rounded-xl px-3 py-3 transition-colors uppercase tracking-wider"
+                    className="w-full flex items-center gap-3 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl px-4 transition-colors min-h-14"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout

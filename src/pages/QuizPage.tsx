@@ -101,150 +101,147 @@ function QuizPhase({
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-bg-light">
       <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} mode="career" />
+
+      {/* Sticky progress bar at very top */}
+      <div className="fixed top-0 left-0 right-0 z-[130] h-1 bg-slate-200">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.3 }}
+          className="h-full bg-[#1E3A5F]"
+        />
+      </div>
+
       <div className="pt-24 pb-16 px-4 flex flex-col items-center">
-        <div className="max-w-2xl w-full">
-          {/* Header & Progress */}
-          <div className="mb-12">
-          <div className="flex justify-between items-end mb-4">
+        <div className="max-w-xl w-full">
+
+          {/* Counter + skip panel trigger */}
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
-              <p className="text-secondary text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
+              <p className="text-xs font-semibold text-text-secondary uppercase tracking-widest mb-0.5">RIASEC Assessment</p>
+              <p className="text-sm text-text-secondary">
+                Question <span className="font-bold text-text-primary">{currentQuestionIndex + 1}</span>
+                <span className="text-text-tertiary"> / {quizQuestions.length}</span>
+              </p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               {hasSkipped && (
                 <motion.button
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   onClick={() => setIsPanelOpen(true)}
-                  className="bg-secondary text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-amber-50 border border-amber-200 text-amber-700 rounded-lg text-xs font-semibold min-h-11"
                 >
-                  <SkipForward className="w-3 h-3" />
-                  Skipped ({skippedQuestions.length})
+                  <SkipForward className="w-3.5 h-3.5" />
+                  {skippedQuestions.length} skipped
                 </motion.button>
               )}
-              <div className="text-right">
-                <span className="text-navy font-bold text-lg">{currentQuestionIndex + 1}</span>
-                <span className="text-secondary text-xs font-medium"> / {quizQuestions.length}</span>
-              </div>
             </div>
           </div>
-          <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+
+          {/* Progress bar (in-content, thicker) */}
+          <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden mb-8">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              className="h-full bg-prospect-blue-accent"
+              transition={{ duration: 0.3 }}
+              className="h-full bg-[#1E3A5F] rounded-full"
             />
           </div>
-        </div>
 
-        {/* Question Card */}
-        <div className="relative mb-8">
-
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 md:p-12 shadow-sm relative overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentQuestion.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-              className="min-h-30 flex flex-col justify-center"
-            >
-              <h2 className="text-xl md:text-2xl font-semibold text-navy leading-tight text-center">
-                {currentQuestion.question}
-              </h2>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Likert Scale */}
-          <div className="mt-12 grid grid-cols-5 gap-2 md:gap-3">
-            {likertOptions.map((option) => {
-              const isSelected = currentAnswer === option.value;
-              return (
-                <button
-                  key={option.value}
-                  onClick={() => handleAnswer(option.value)}
-                  className={`group flex flex-col items-center gap-2.5 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-prospect-blue-accent rounded-2xl p-1 ${
-                    isSelected ? 'scale-105' : 'opacity-55 hover:opacity-90 hover:scale-102'
-                  }`}
+          {/* Question Card */}
+          <div className="bg-white border border-border rounded-2xl shadow-sm overflow-hidden mb-6">
+            <div className="p-8 md:p-10 border-b border-border">
+              <AnimatePresence mode="wait">
+                <motion.h2
+                  key={currentQuestion.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-xl md:text-2xl font-semibold text-text-primary leading-snug text-center"
                 >
-                  <div
-                    className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all duration-150 ${
+                  {currentQuestion.question}
+                </motion.h2>
+              </AnimatePresence>
+            </div>
+
+            {/* Stacked answer buttons */}
+            <div className="divide-y divide-border">
+              {likertOptions.map((option) => {
+                const isSelected = currentAnswer === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    onClick={() => handleAnswer(option.value)}
+                    className={`w-full flex items-center justify-between px-6 py-4 text-left transition-all duration-150 min-h-14 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500 ${
                       isSelected
-                        ? `${option.color} shadow-md ring-2 ring-offset-2 ring-current/30`
-                        : 'bg-slate-50 border border-slate-200 group-hover:border-slate-300'
+                        ? 'bg-[#1E3A5F] text-white'
+                        : 'hover:bg-slate-50 text-text-primary'
                     }`}
                   >
-                    {isSelected
-                      ? <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                      : <span className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-slate-400 transition-colors" />
-                    }
-                  </div>
-                  <span
-                    className={`text-[10px] font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
-                      isSelected ? 'text-navy' : 'text-slate-400'
-                    }`}
-                  >
-                    {option.label}
-                  </span>
-                </button>
-              );
-            })}
+                    <span className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-text-primary'}`}>
+                      {option.label}
+                    </span>
+                    <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                      isSelected
+                        ? 'border-white bg-white/20'
+                        : 'border-border'
+                    }`}>
+                      {isSelected && <CheckCircle2 className="w-4 h-4 text-white" />}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Navigation */}
-        <div className="flex justify-between items-center gap-4">
-          <button
-            onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
-            disabled={currentQuestionIndex === 0}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </button>
-
-          {/* Skip Button */}
-          <button
-            onClick={handleSkip}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-prospect-blue-accent hover:bg-prospect-blue-accent/10 transition-all border border-prospect-blue-accent/30"
-          >
-            <SkipForward className="w-4 h-4" />
-            Skip
-          </button>
-
-          {isLast ? (
+          {/* Navigation */}
+          <div className="flex items-center justify-between gap-3">
             <button
-              onClick={handleFinish}
-              disabled={!isComplete}
-              className="bg-prospect-green text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
+              onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
+              disabled={currentQuestionIndex === 0}
+              className="flex items-center gap-2 px-4 py-3 rounded-lg font-semibold text-xs uppercase tracking-wider text-text-primary hover:bg-white hover:shadow-sm border border-transparent hover:border-border disabled:opacity-30 disabled:cursor-not-allowed transition-all min-h-11"
             >
-              Finish Quiz
+              <ChevronLeft className="w-4 h-4" /> Back
             </button>
-          ) : (
-            <button
-              onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-              disabled={!currentAnswer}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            >
-              Next
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          )}
-        </div>
-        </div>
 
-        {/* Info Box */}
-        <div className="mt-10 p-5 bg-slate-50 rounded-2xl flex gap-3 border border-slate-100">
-          <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0">
-            <Info className="w-4 h-4 text-[#3B5A7F]" />
+            <button
+              onClick={handleSkip}
+              className="flex items-center gap-1.5 px-4 py-3 rounded-lg font-semibold text-xs uppercase tracking-wider text-text-secondary hover:text-text-primary hover:bg-white hover:border-border border border-transparent transition-all min-h-11"
+            >
+              <SkipForward className="w-3.5 h-3.5" /> Skip
+            </button>
+
+            {isLast ? (
+              <button
+                onClick={handleFinish}
+                disabled={!isComplete}
+                className="flex items-center gap-2 px-6 py-3 bg-[#1E3A5F] text-white rounded-lg font-semibold text-xs uppercase tracking-wider hover:bg-prospect-green-dark active:scale-[0.98] disabled:opacity-50 transition-all min-h-11"
+              >
+                Finish Quiz <CheckCircle2 className="w-4 h-4" />
+              </button>
+            ) : (
+              <button
+                onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+                disabled={!currentAnswer}
+                className="flex items-center gap-2 px-4 py-3 rounded-lg font-semibold text-xs uppercase tracking-wider text-text-primary hover:bg-white hover:shadow-sm border border-transparent hover:border-border disabled:opacity-30 disabled:cursor-not-allowed transition-all min-h-11"
+              >
+                Next <ChevronRight className="w-4 h-4" />
+              </button>
+            )}
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed self-center">
-            <span className="font-bold text-slate-700">Be honest!</span> There are no right or wrong answers. This assessment helps identify your natural interests to match you with careers you'll actually enjoy.
-          </p>
-        </div>
+
+          {/* Info note */}
+          <div className="mt-8 p-4 bg-white border border-border rounded-xl flex gap-3">
+            <Info className="w-4 h-4 text-text-tertiary shrink-0 mt-0.5" />
+            <p className="text-xs text-text-secondary leading-relaxed">
+              <span className="font-semibold text-text-primary">Be honest!</span> There are no right or wrong answers. This assessment identifies your natural interests to match you with careers you'll actually enjoy.
+            </p>
+          </div>
+
         </div>
       </div>
 

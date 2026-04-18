@@ -216,7 +216,7 @@ const ValueProps = () => {
   ];
 
   return (
-    <section className="py-24 md:py-32 px-4 bg-white/30 border-y border-white/20 backdrop-blur-md content-visibility-auto contain-intrinsic-size-[auto_600px]">
+    <section className="py-24 md:py-32 px-4 bg-bg-light border-y border-border content-visibility-auto contain-intrinsic-size-[auto_600px]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -226,10 +226,10 @@ const ValueProps = () => {
           className="mb-16 text-center lg:text-left"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-4">What We Offer</p>
-          <h2 className="text-4xl lg:text-6xl font-black text-slate-950 tracking-tighter leading-tight">
+          <h2 className="text-h2 text-text-primary tracking-tighter leading-tight">
             We're here to guide your future.
           </h2>
-          <p className="text-slate-500 text-lg mt-6 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
+          <p className="text-text-secondary text-lg mt-6 max-w-2xl mx-auto lg:mx-0 font-medium leading-relaxed">
             From choosing the right subjects in Grade 10 to finding your dream career and securing a bursary, Prospect provides all the tools you need in one unified platform.
           </p>
         </motion.div>
@@ -250,10 +250,10 @@ const ValueProps = () => {
                 {prop.icon}
               </div>
 
-              <h3 className="text-2xl font-black text-slate-950 mb-4 group-hover:text-blue-600 transition-colors tracking-tight">
+              <h3 className="text-2xl font-black text-text-primary mb-4 group-hover:text-blue-600 transition-colors tracking-tight">
                 {prop.title}
               </h3>
-              <p className="text-slate-500 text-base leading-relaxed mb-10 font-medium opacity-80">
+              <p className="text-text-secondary text-base leading-relaxed mb-10 font-medium">
                 {prop.description}
               </p>
               <span className="mt-auto text-[11px] font-black uppercase tracking-[0.25em] text-slate-950 group-hover:text-blue-600 transition-colors inline-flex items-center gap-2">
@@ -293,11 +293,11 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-24 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_400px]">
+    <section className="py-24 px-4 bg-bg-light/50 content-visibility-auto contain-intrinsic-size-[auto_400px]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <p className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-4">The Process</p>
-          <h2 className="text-4xl lg:text-6xl font-black text-slate-900 tracking-tighter">How Prospect Works</h2>
+          <h2 className="text-h2 text-text-primary tracking-tighter">How Prospect Works</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, i) => (
@@ -320,8 +320,8 @@ const HowItWorks = () => {
               </div>
               {/* Dot accent */}
               <div className={`w-1.5 h-1.5 rounded-full ${step.dot} mb-3`} />
-              <h3 className="text-xl font-black text-slate-900 mb-3">{step.title}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">{step.desc}</p>
+              <h3 className="text-xl font-black text-text-primary mb-3">{step.title}</h3>
+              <p className="text-sm text-text-secondary leading-relaxed">{step.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -340,7 +340,7 @@ const DiscoveryGrid = () => {
   ];
 
   return (
-    <section className="py-36 px-4 bg-white/40 border-t border-slate-200/50 backdrop-blur-sm content-visibility-auto contain-intrinsic-size-[auto_500px]">
+    <section className="py-28 px-4 bg-bg-light border-t border-border content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -349,11 +349,11 @@ const DiscoveryGrid = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 mb-4">Career Library</p>
-          <h2 className="text-4xl lg:text-5xl font-black text-slate-950 tracking-tighter">
+          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-text-tertiary mb-4">Career Library</p>
+          <h2 className="text-h2 text-text-primary tracking-tighter">
             Explore Top SA Careers
           </h2>
-          <p className="text-slate-500 text-base mt-4 font-medium">
+          <p className="text-text-secondary text-base mt-4 font-medium">
             Learn about salary ranges, job demand, and entry requirements for South Africa's most popular career paths.
           </p>
         </motion.div>
@@ -411,7 +411,7 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-36 px-4 bg-white/40 border-t border-slate-200/50 backdrop-blur-sm">
+    <section className="py-28 px-4 bg-white border-t border-border">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -421,7 +421,7 @@ const FAQ = () => {
           className="text-center mb-16"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">FAQ</p>
-          <h2 className="text-2xl lg:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.015em' }}>
+          <h2 className="text-h3 text-text-primary" style={{ letterSpacing: '-0.015em' }}>
             Common questions.
           </h2>
         </motion.div>
@@ -440,7 +440,7 @@ const FAQ = () => {
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
                 <span className={`text-base font-bold transition-colors leading-snug ${
-                  openIndex === index ? 'text-blue-600' : 'text-slate-800 group-hover:text-blue-600'
+                  openIndex === index ? 'text-blue-600' : 'text-text-primary group-hover:text-blue-600'
                 }`}>
                   {faq.question}
                 </span>
@@ -463,7 +463,7 @@ const FAQ = () => {
                     transition={{ duration: 0.28, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <p className="pb-6 text-slate-600 text-sm leading-relaxed">
+                    <p className="pb-6 text-text-secondary text-sm leading-relaxed">
                       {faq.answer}
                     </p>
                   </motion.div>
@@ -633,7 +633,7 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
   ];
 
   return (
-    <section className="py-32 px-4 bg-transparent border-y border-slate-100 content-visibility-auto contain-intrinsic-size-[auto_600px]">
+    <section className="py-32 px-4 bg-white border-y border-border content-visibility-auto contain-intrinsic-size-[auto_600px]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -648,10 +648,10 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
               <span className="w-2 h-2 rounded-full bg-blue-500" />
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-600">No sign-in required</p>
             </div>
-            <h2 className="text-3xl lg:text-5xl font-bold text-navy tracking-tight">
+            <h2 className="text-h2 text-navy tracking-tight">
               Career Guide
             </h2>
-            <p className="text-slate-500 text-lg leading-relaxed mt-4 max-w-lg">
+            <p className="text-text-secondary text-lg leading-relaxed mt-4 max-w-lg">
               Discover the right career path, understand how to get there, and find the funding to make it happen — all for free, no account needed.
             </p>
           </div>
@@ -683,10 +683,10 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
                 {/* Simplified Icon Color */}
                 <div className="text-blue-600">{tool.icon}</div>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-3 group-hover:text-blue-600 transition-all duration-300">
+              <h3 className="font-bold text-text-primary text-sm mb-3 group-hover:text-blue-600 transition-all duration-300">
                 {tool.title}
               </h3>
-              <p className="text-slate-500 text-sm leading-relaxed flex-1">{tool.desc}</p>
+              <p className="text-text-secondary text-sm leading-relaxed flex-1">{tool.desc}</p>
               <span className="mt-6 text-xs font-semibold uppercase tracking-widest text-slate-400 group-hover:text-blue-600 transition-all duration-300 inline-flex items-center gap-2">
                 {tool.cta}
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-all" />
@@ -709,7 +709,7 @@ const SchoolAssistSection = ({ onNavigate }: { onNavigate: (page: Page) => void 
   ];
 
   return (
-    <section className="py-32 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_500px]">
+    <section className="py-32 px-4 bg-bg-light content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left — text */}
@@ -723,10 +723,10 @@ const SchoolAssistSection = ({ onNavigate }: { onNavigate: (page: Page) => void 
               <span className="w-2 h-2 rounded-full bg-indigo-500" />
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">Sign-in required</p>
             </div>
-            <h2 className="text-3xl lg:text-5xl font-black text-navy mb-6" style={{ letterSpacing: '-0.02em' }}>
+            <h2 className="text-h2 text-navy mb-6" style={{ letterSpacing: '-0.02em' }}>
               School Assist
             </h2>
-            <p className="text-slate-500 text-base leading-relaxed mb-10 max-w-md">
+            <p className="text-text-secondary text-base leading-relaxed mb-10 max-w-md">
               A focused study space for SA students. Access your school term calendar, browse the subject learning library for Grades 10–12, and track your progress — all behind a free account.
             </p>
             <div className="mb-10 space-y-4">
@@ -758,8 +758,8 @@ const SchoolAssistSection = ({ onNavigate }: { onNavigate: (page: Page) => void 
                   {f.icon}
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1">{f.title}</h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{f.desc}</p>
+                  <h3 className="font-bold text-text-primary text-sm mb-1">{f.title}</h3>
+                  <p className="text-text-secondary text-sm leading-relaxed">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -780,7 +780,7 @@ const CommunityImpactSection = ({ onNavigate }: { onNavigate: (page: Page) => vo
   ];
 
   return (
-    <section className="py-32 px-4 bg-transparent content-visibility-auto contain-intrinsic-size-[auto_500px]">
+    <section className="py-32 px-4 bg-white content-visibility-auto contain-intrinsic-size-[auto_500px]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -986,7 +986,7 @@ export default function App() {
 
       {/* Page content — hidden under loading screen until complete */}
       {isAssetsLoaded && (
-        <div className="relative min-h-screen" style={{ background: '#f8fbff' }}>
+        <div className="relative min-h-screen bg-white">
           {/* Background is shown throughout the site EXCEPT for the login pages */}
           {page !== 'auth' && page !== 'impact-auth' && <InteractiveBackground />}
 
@@ -1127,9 +1127,11 @@ export default function App() {
                     <CareerGuideSection onNavigate={setPage} />
                     {/* ── Section 1.5: How it Works ── */}
                     <HowItWorks />
-                    {/* ── Section 2: School Assist ── */}
+                    {/* ── Section 2: Career Image Grid ── */}
+                    <DiscoveryGrid />
+                    {/* ── Section 3: School Assist ── */}
                     <SchoolAssistSection onNavigate={setPage} />
-                    {/* ── Section 3: Community ── */}
+                    {/* ── Section 4: Community ── */}
                     <CommunityImpactSection onNavigate={setPage} />
                     <FAQ />
                   </main>

@@ -14,7 +14,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       <div
         className="pt-24 pb-32 px-4"
         style={{
-          background: 'linear-gradient(135deg, #1E3A5F 0%, #2b4d7a 100%)',
+          background: 'linear-gradient(160deg, #1a3a6b 0%, #1E3A5F 45%, #0f2644 100%)',
         }}
       >
         <div className="max-w-5xl mx-auto text-center text-white">
@@ -154,7 +154,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       <div
         className="py-20 px-4"
         style={{
-          background: 'linear-gradient(135deg, #1E3A5F 0%, #2b4d7a 100%)',
+          background: 'linear-gradient(160deg, #1a3a6b 0%, #1E3A5F 45%, #0f2644 100%)',
         }}
       >
         <div className="max-w-4xl mx-auto text-center text-white">

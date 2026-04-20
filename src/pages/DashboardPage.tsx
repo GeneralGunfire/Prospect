@@ -1,14 +1,21 @@
 import { useState, useEffect, useMemo } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   BookOpen, CalendarDays, ArrowRight,
-  Flame, Clock, Target, Play, ChevronRight,
-  AlertTriangle, CheckCircle2, TrendingUp,
+  Clock, Target, Play, ChevronRight,
+  TrendingUp, Briefcase, Wallet,
+  MessageSquare, Trash2, ChevronDown, ChevronUp,
+  X, Star, GraduationCap,
 } from 'lucide-react';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
 import AppHeader from '../components/AppHeader';
 import { studyProgressStorage, learningPathStorage } from '../services/storageService';
 import { algebraLearningPath } from '../data/demoLearningPath';
+import { getUserQuestions, deleteQuestion, type UnansweredQuestion } from '../services/unansweredQuestionService';
+import { getUserBookmarks, removeBookmark, type BookmarkState } from '../services/bookmarkService';
+import { getAPSMarks, getQuizResults } from '../services/dashboardService';
+import { careers } from '../data/careers';
+import { bursaries } from '../data/bursaries';
 
 // ── Deadlines (mirrors CalendarPageNew) ───────────────────────────────────────
 const DEADLINES = [
@@ -38,24 +45,26 @@ function urgencyStyle(days: number) {
   return { bar: 'bg-blue-400', pill: 'bg-blue-50 border-blue-200 text-blue-700', label: `${months}mo` };
 }
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 function DashboardPage({ user, onNavigate }: AuthedProps) {
   const firstName = user.user_metadata?.full_name?.split(' ')[0] ?? 'Student';
 
-  // ── Data ────────────────────────────────────────────────────────────────────
+  // ── Study progress ───────────────────────────────────────────────────────────
   const [subjectProgress, setSubjectProgress] = useState<
     { subject: string; completed: number; total: number; lastTopic: string | null }[]
   >([]);
 
   useEffect(() => {
-    // Algebra learning path progress
     const algebraPath = learningPathStorage.getPathProgress('grade10-algebra');
     if (algebraPath) {
       const statuses = Object.values(algebraPath.topicStatuses);
       const mastered = statuses.filter(s => s.status === 'mastered').length;
       const total = algebraLearningPath.totalTopics;
-      // Find last touched topic
       const lastTouched = statuses
         .filter(s => s.lastActivity)
         .sort((a, b) => (b.lastActivity ?? '').localeCompare(a.lastActivity ?? ''))[0];
@@ -65,7 +74,6 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
         : null;
       setSubjectProgress([{ subject: 'Mathematics (Algebra)', completed: mastered, total, lastTopic }]);
     } else {
-      // Raw study progress grouped by subject
       const all = studyProgressStorage.getAllProgress();
       const bySubject: Record<string, { completed: number; total: number; lastTopic: string | null }> = {};
       Object.values(all).forEach(p => {
@@ -104,8 +112,78 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
     return algebraLearningPath.topics.find(t => !done.has(t.id)) ?? null;
   }, [algebraPath]);
 
+  // ── Stats bar data ───────────────────────────────────────────────────────────
+  const [apsScore, setApsScore] = useState<number | null>(null);
+  const [riasecType, setRiasecType] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user.id === 'guest') return;
+    getAPSMarks(user.id).then(data => {
+      if (data?.calculated_aps) setApsScore(data.calculated_aps);
+    });
+    getQuizResults(user.id).then(data => {
+      if (data?.top_codes?.length) setRiasecType(data.top_codes.slice(0, 2).join(''));
+    });
+  }, [user.id]);
+
+  // ── Bookmarks ────────────────────────────────────────────────────────────────
+  const [bookmarks, setBookmarks] = useState<BookmarkState>({ careers: [], bursaries: [] });
+
+  useEffect(() => {
+    getUserBookmarks(user.id).then(setBookmarks);
+  }, [user.id]);
+
+  const savedCareers = useMemo(
+    () => bookmarks.careers.map(id => careers.find(c => c.id === id)).filter(Boolean) as typeof careers,
+    [bookmarks.careers]
+  );
+
+  const savedBursaries = useMemo(
+    () => bookmarks.bursaries.map(id => bursaries.find(b => b.id === id)).filter(Boolean) as typeof bursaries,
+    [bookmarks.bursaries]
+  );
+
+  async function handleRemoveCareer(id: string) {
+    await removeBookmark(user.id, 'career', id);
+    setBookmarks(prev => ({ ...prev, careers: prev.careers.filter(c => c !== id) }));
+  }
+
+  async function handleRemoveBursary(id: string) {
+    await removeBookmark(user.id, 'bursary', id);
+    setBookmarks(prev => ({ ...prev, bursaries: prev.bursaries.filter(b => b !== id) }));
+  }
+
+  // ── My Questions ────────────────────────────────────────────────────────────
+  const [questions, setQuestions] = useState<UnansweredQuestion[]>([]);
+  const [questionsLoaded, setQuestionsLoaded] = useState(false);
+  const [expandedAnswers, setExpandedAnswers] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (user.id === 'guest') { setQuestionsLoaded(true); return; }
+    getUserQuestions(user.id).then(q => {
+      setQuestions(q);
+      setQuestionsLoaded(true);
+    });
+  }, [user.id]);
+
+  async function handleDeleteQuestion(id: string) {
+    const ok = await deleteQuestion(id, user.id);
+    if (ok) setQuestions(prev => prev.filter(q => q.id !== id));
+  }
+
+  function toggleAnswer(id: string) {
+    setExpandedAnswers(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
   // ── Today date label ────────────────────────────────────────────────────────
   const todayLabel = new Date().toLocaleDateString('en-ZA', { weekday: 'long', month: 'long', day: 'numeric' });
+
+  const totalBookmarks = savedCareers.length + savedBursaries.length;
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
@@ -122,6 +200,52 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
               Good {getGreeting()}, <span className="text-prospect-blue-accent">{firstName}</span>
             </h1>
           </div>
+        </div>
+
+        {/* ── Stats Bar ─────────────────────────────────────────────────────── */}
+        <div className="grid grid-cols-3 gap-3 mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03 }}
+            className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex items-center gap-3"
+          >
+            <div className="w-9 h-9 bg-amber-50 border border-amber-100 rounded-xl flex items-center justify-center shrink-0">
+              <GraduationCap className="w-4 h-4 text-amber-600" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 leading-none mb-0.5">APS Score</p>
+              <p className="text-lg font-black text-slate-900 leading-none">
+                {apsScore !== null ? apsScore : <span className="text-slate-300 text-sm font-bold">—</span>}
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}
+            className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex items-center gap-3"
+          >
+            <div className="w-9 h-9 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-center shrink-0">
+              <Star className="w-4 h-4 text-indigo-600" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 leading-none mb-0.5">Quiz Type</p>
+              <p className="text-lg font-black text-slate-900 leading-none">
+                {riasecType ?? <span className="text-slate-300 text-sm font-bold">—</span>}
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.09 }}
+            className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex items-center gap-3"
+          >
+            <div className="w-9 h-9 bg-rose-50 border border-rose-100 rounded-xl flex items-center justify-center shrink-0">
+              <Wallet className="w-4 h-4 text-rose-500" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 leading-none mb-0.5">Saved</p>
+              <p className="text-lg font-black text-slate-900 leading-none">{totalBookmarks}</p>
+            </div>
+          </motion.div>
         </div>
 
         {/* ── 1. TODAY'S FOCUS ─────────────────────────────────────────────── */}
@@ -337,7 +461,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* ── 3 + 5. CONTINUE LEARNING + QUICK ACTIONS ──────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
 
           {/* Continue Learning */}
           <section className="lg:col-span-3">
@@ -407,9 +531,9 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             <SectionLabel dot="bg-slate-400" text="Quick Actions" />
             <div className="flex flex-col gap-2">
               {[
-                { label: 'Start Study Session', desc: 'Jump into learning',          icon: <Play className="w-4 h-4" />,         page: 'library' as const,   bg: 'bg-slate-900 text-white hover:bg-slate-800',          arrow: 'text-white/50' },
-                { label: 'View Full Calendar',  desc: 'All terms & deadlines',       icon: <CalendarDays className="w-4 h-4" />, page: 'calendar' as const,  bg: 'bg-white border border-slate-200 text-slate-900 hover:bg-slate-50', arrow: 'text-slate-300' },
-                { label: 'Go to Library',       desc: 'All subjects & topics',       icon: <BookOpen className="w-4 h-4" />,     page: 'library' as const,   bg: 'bg-white border border-slate-200 text-slate-900 hover:bg-slate-50', arrow: 'text-slate-300' },
+                { label: 'Start Study Session', desc: 'Jump into learning',          icon: <Play className="w-4 h-4" />,         page: 'library' as const,       bg: 'bg-slate-900 text-white hover:bg-slate-800',          arrow: 'text-white/50' },
+                { label: 'View Full Calendar',  desc: 'All terms & deadlines',       icon: <CalendarDays className="w-4 h-4" />, page: 'calendar' as const,      bg: 'bg-white border border-slate-200 text-slate-900 hover:bg-slate-50', arrow: 'text-slate-300' },
+                { label: 'Ask a Question',      desc: 'Get help with school work',   icon: <MessageSquare className="w-4 h-4" />, page: 'school-assist' as const, bg: 'bg-white border border-slate-200 text-slate-900 hover:bg-slate-50', arrow: 'text-slate-300' },
               ].map(({ label, desc, icon, page, bg, arrow }, i) => (
                 <motion.button
                   key={label}
@@ -432,6 +556,204 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
 
         </div>
 
+        {/* ── MY QUESTIONS ─────────────────────────────────────────────────── */}
+        {questionsLoaded && questions.length > 0 && (
+          <section className="mb-8">
+            <SectionLabel dot="bg-indigo-500" text="My Questions" />
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm divide-y divide-slate-100">
+              {questions.map((q, i) => (
+                <motion.div
+                  key={q.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="p-4"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <QuestionStatusBadge status={q.status} />
+                        {q.subject && (
+                          <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                            {q.subject}
+                          </span>
+                        )}
+                        {q.grade && (
+                          <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                            Gr {q.grade}
+                          </span>
+                        )}
+                        <span className="text-[10px] text-slate-400">{formatDate(q.created_at)}</span>
+                      </div>
+                      <p className="text-sm font-semibold text-slate-800 leading-snug">{q.question}</p>
+
+                      {/* Answered: show answer preview */}
+                      {q.status === 'answered' && q.answer_text && (
+                        <>
+                          <AnimatePresence>
+                            {expandedAnswers.has(q.id) && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden"
+                              >
+                                <p className="text-xs text-slate-600 leading-relaxed mt-2 bg-emerald-50 border border-emerald-100 rounded-xl p-3">
+                                  {q.answer_text}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                          <button
+                            onClick={() => toggleAnswer(q.id)}
+                            className="mt-1.5 flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-emerald-600 hover:text-emerald-800 transition-colors"
+                          >
+                            {expandedAnswers.has(q.id) ? (
+                              <><ChevronUp className="w-3 h-3" /> Hide Answer</>
+                            ) : (
+                              <><ChevronDown className="w-3 h-3" /> View Answer</>
+                            )}
+                          </button>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Delete button for pending questions */}
+                    {q.status === 'pending' && (
+                      <button
+                        onClick={() => handleDeleteQuestion(q.id)}
+                        className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"
+                        title="Delete question"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Footer CTA */}
+              <div className="px-4 py-3 flex items-center justify-between">
+                <p className="text-[10px] text-slate-400">{questions.length} question{questions.length !== 1 ? 's' : ''} submitted</p>
+                <button
+                  onClick={() => onNavigate('school-assist')}
+                  className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors"
+                >
+                  Ask a Question <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── SAVED CAREERS ─────────────────────────────────────────────────── */}
+        <section className="mb-8">
+          <SectionLabel dot="bg-blue-400" text="Saved Careers" />
+          {savedCareers.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {savedCareers.map((career, i) => (
+                <motion.div
+                  key={career.id}
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex items-center gap-3"
+                >
+                  <div className="w-9 h-9 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center shrink-0">
+                    <Briefcase className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-black text-slate-900 truncate">{career.title}</p>
+                    <p className="text-[10px] text-slate-400">{career.category}</p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => onNavigate('careers')}
+                      className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors px-2 py-1"
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => handleRemoveCareer(career.id)}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"
+                      title="Remove bookmark"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-center">
+              <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Briefcase className="w-5 h-5 text-slate-300" />
+              </div>
+              <p className="text-sm font-black text-slate-700 mb-1">No saved careers yet</p>
+              <p className="text-xs text-slate-400 mb-3">Bookmark careers you're interested in.</p>
+              <button
+                onClick={() => onNavigate('careers')}
+                className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1 mx-auto"
+              >
+                Browse Careers <ChevronRight className="w-3 h-3" />
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* ── SAVED BURSARIES ───────────────────────────────────────────────── */}
+        <section className="mb-8">
+          <SectionLabel dot="bg-emerald-400" text="Saved Bursaries" />
+          {savedBursaries.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {savedBursaries.map((bursary, i) => (
+                <motion.div
+                  key={bursary.id}
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex items-center gap-3"
+                >
+                  <div className="w-9 h-9 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center justify-center shrink-0">
+                    <Wallet className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-black text-slate-900 truncate">{bursary.name}</p>
+                    <p className="text-[10px] text-slate-400">{bursary.provider}</p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => onNavigate('bursaries')}
+                      className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors px-2 py-1"
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => handleRemoveBursary(bursary.id)}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"
+                      title="Remove bookmark"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-center">
+              <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Wallet className="w-5 h-5 text-slate-300" />
+              </div>
+              <p className="text-sm font-black text-slate-700 mb-1">No saved bursaries yet</p>
+              <p className="text-xs text-slate-400 mb-3">Bookmark bursaries you want to apply for.</p>
+              <button
+                onClick={() => onNavigate('bursaries')}
+                className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1 mx-auto"
+              >
+                Browse Bursaries <ChevronRight className="w-3 h-3" />
+              </button>
+            </div>
+          )}
+        </section>
+
       </div>
     </div>
   );
@@ -452,6 +774,28 @@ function SectionLabel({ dot, text }: { dot: string; text: string }) {
       <span className={`w-1.5 h-1.5 rounded-full ${dot}`} />
       {text}
     </h2>
+  );
+}
+
+function QuestionStatusBadge({ status }: { status: UnansweredQuestion['status'] }) {
+  if (status === 'pending') {
+    return (
+      <span className="text-[10px] font-black uppercase tracking-widest bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full">
+        Pending
+      </span>
+    );
+  }
+  if (status === 'answered') {
+    return (
+      <span className="text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full">
+        Answered
+      </span>
+    );
+  }
+  return (
+    <span className="text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-full">
+      Resolved
+    </span>
   );
 }
 

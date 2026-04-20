@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode, useRef, lazy, Suspense } from 'rea
 import { motion, AnimatePresence } from 'motion/react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase';
+import { restoreSessionFromStorage } from './lib/auth';
 import { runMigrations } from './utils/migrationScript';
 import { syncUserDataOnLogin, startBackgroundSync, stopBackgroundSync } from './services/supabaseSync';
 import { Hero as AnimatedHero } from '../components/ui/animated-hero';
@@ -47,6 +48,10 @@ const SchoolAssistPage   = lazy(() => import('./pages/SchoolAssistPage'));
 const ImpactAuthPage     = lazy(() => import('./pages/ImpactAuthPage'));
 const DemoLearningPage       = lazy(() => import('./pages/DemoLearningPage'));
 const CommunityImpactPage    = lazy(() => import('./pages/CommunityImpactPage'));
+const PotholeMapPage         = lazy(() => import('./pages/PotholeMapPage'));
+const FlagPotholePage        = lazy(() => import('./pages/FlagPotholePage'));
+const MyContributionsPage    = lazy(() => import('./pages/MyContributionsPage'));
+const WaterDashboardPage     = lazy(() => import('./pages/WaterDashboardPage'));
 import LoadingScreen from './components/LoadingScreen';
 import { VideoPlayer } from './components/VideoPlayer';
 import type { AppPage } from './lib/withAuth';
@@ -90,7 +95,7 @@ const Header = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
   const navItems = [
     { label: 'Career Guide', page: 'quiz' as Page, desc: 'No sign-in required', accent: 'text-blue-600', dot: 'bg-blue-500' },
     { label: 'School Assist', page: 'auth' as Page, desc: 'Sign in required', accent: 'text-indigo-600', dot: 'bg-indigo-500' },
-    { label: 'Community', page: 'impact-auth' as Page, desc: 'Optional', accent: 'text-emerald-600', dot: 'bg-emerald-500' },
+    { label: 'Community', page: 'impact-auth' as Page, desc: 'Impact · Potholes · Water', accent: 'text-emerald-600', dot: 'bg-emerald-500' },
   ];
 
   return (
@@ -507,10 +512,10 @@ const Footer = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
     {
       title: "Community",
       links: [
-        { label: "Get Involved", page: "impact-auth" },
-        { label: "Help Center", page: "home" },
-        { label: "Privacy Policy", page: "home" },
-        { label: "Contact Us", page: "home" }
+        { label: "Community Impact", page: "impact-auth" },
+        { label: "Pothole Map", page: "impact-auth" },
+        { label: "Water Dashboard", page: "impact-auth" },
+        { label: "Get Involved", page: "impact-auth" }
       ]
     }
   ];
@@ -936,16 +941,30 @@ export default function App() {
       return;
     }
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
-        // Pull School Assist data from Supabase into localStorage
         syncUserDataOnLogin(session.user.id);
         startBackgroundSync(session.user.id);
         if (pageParam) {
           setPage(pageParam as Page);
         } else {
           setPage('dashboard');
+        }
+      } else {
+        // No active Supabase session — try restoring from localStorage
+        const restored = await restoreSessionFromStorage();
+        if (restored?.user) {
+          // setSession above re-authenticates the client; onAuthStateChange fires and sets user
+          // But set user here too in case the event doesn't fire synchronously
+          setUser(restored.user as any);
+          syncUserDataOnLogin(restored.user.id);
+          startBackgroundSync(restored.user.id);
+          if (pageParam) {
+            setPage(pageParam as Page);
+          } else {
+            setPage('dashboard');
+          }
         }
       }
     });
@@ -1119,6 +1138,30 @@ export default function App() {
             {page === 'community-impact' && (
               <PageTransition pageKey="community-impact">
                 <CommunityImpactPage {...careerPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'pothole-map' && (
+              <PageTransition pageKey="pothole-map">
+                <PotholeMapPage {...careerPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'flag-pothole' && (
+              <PageTransition pageKey="flag-pothole">
+                <FlagPotholePage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'my-pothole-contributions' && (
+              <PageTransition pageKey="my-pothole-contributions">
+                <MyContributionsPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'water-dashboard' && (
+              <PageTransition pageKey="water-dashboard">
+                <WaterDashboardPage {...protectedPageProps} />
               </PageTransition>
             )}
 

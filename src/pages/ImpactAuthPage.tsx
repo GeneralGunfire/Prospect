@@ -102,13 +102,13 @@ export default function ImpactAuthPage({ onNavigateHome, onNavigate }: Props) {
 
   const switchMode = (next: Mode) => {
     setMode(next);
-    setNotice('');
+    setError('');
   };
 
   const impactPoints = [
-    { icon: <Globe className="w-4 h-4 text-calm-blue" />, text: 'Share what your area needs' },
-    { icon: <Users className="w-4 h-4 text-calm-blue" />, text: 'Help build a national opportunity map' },
-    { icon: <Lock className="w-4 h-4 text-calm-blue" />, text: 'Fully optional, privacy-conscious' },
+    { icon: <Globe className="w-4 h-4 text-calm-blue" />, text: 'Community Impact — map opportunity gaps' },
+    { icon: <Users className="w-4 h-4 text-calm-blue" />, text: 'Pothole Map — report & track road issues' },
+    { icon: <Lock className="w-4 h-4 text-calm-blue" />, text: 'Water Dashboard — monitor dam & water levels' },
   ];
 
   return (
@@ -153,10 +153,10 @@ export default function ImpactAuthPage({ onNavigateHome, onNavigate }: Props) {
                 <Globe className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-2xl font-black mb-2 text-transparent bg-clip-text bg-linear-to-r from-calm-blue to-calm-dark-blue" style={{ letterSpacing: '-0.02em' }}>
-                Community Impact
+                Community Hub
               </h2>
               <p className="text-sm text-slate-600 max-w-xs mb-8">
-                Help us map opportunity gaps across South Africa — one community at a time.
+                Report potholes, track water levels, and map opportunity gaps across South Africa.
               </p>
               <div className="space-y-3 text-left">
                 {impactPoints.map((p, i) => (
@@ -181,8 +181,8 @@ export default function ImpactAuthPage({ onNavigateHome, onNavigate }: Props) {
               <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center mx-auto mb-3 shadow-md">
                 <Globe className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-lg font-black text-gray-900">Community Impact</h1>
-              <p className="text-sm text-slate-500 font-semibold mt-0.5">Map opportunities in your area</p>
+              <h1 className="text-lg font-black text-gray-900">Community Hub</h1>
+              <p className="text-sm text-slate-500 font-semibold mt-0.5">Impact · Potholes · Water</p>
             </div>
 
             <div className="px-8 pt-6 pb-8">

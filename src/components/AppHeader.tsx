@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Menu, X, User, LogOut, LayoutDashboard,
   BrainCircuit, Briefcase, BookOpen, Wallet,
   Map, Calendar, GraduationCap, BookMarked,
-  Target, Heart,
+  Target, Heart, Globe, Construction, Droplets,
+  Search, BookText, HelpCircle, ArrowRight, Loader2,
 } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import type { AppPage } from '../lib/withAuth';
+import { searchTopics, searchQuestion, type TopicResult, type QuestionResult } from '../services/schoolAssistService';
 
 interface AppHeaderProps {
   currentPage: AppPage;
   user: SupabaseUser;
   onNavigate: (page: AppPage) => void;
-  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/TVET/Bursaries/Map/etc. Defaults to 'school'. */
-  mode?: 'school' | 'career';
+  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Potholes/Water. Defaults to 'school'. */
+  mode?: 'school' | 'career' | 'community';
   /** Called when Sign In is clicked (guest users in career mode) */
   onNavigateAuth?: () => void;
 }
@@ -31,6 +33,13 @@ const SCHOOL_NAV: NavItem[] = [
   { name: 'Dashboard', page: 'dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
   { name: 'Library',   page: 'library',   icon: <BookOpen className="w-4 h-4" /> },
   { name: 'Calendar',  page: 'calendar',  icon: <Calendar className="w-4 h-4" /> },
+];
+
+// Community nav — shown on all community pages
+const COMMUNITY_NAV: NavItem[] = [
+  { name: 'Community Impact', page: 'community-impact', icon: <Globe className="w-4 h-4" /> },
+  { name: 'Pothole Map',      page: 'pothole-map',      icon: <Construction className="w-4 h-4" /> },
+  { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-4 h-4" /> },
 ];
 
 // Career Guide nav — all public career pages, flat
@@ -52,11 +61,51 @@ export default function AppHeader({
   onNavigateAuth,
 }: AppHeaderProps) {
   const isGuest = user?.id === 'guest' || user?.is_anonymous === true;
-  const NAV = mode === 'career' ? CAREER_NAV : SCHOOL_NAV;
+  const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : SCHOOL_NAV;
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  // Search overlay (school mode only)
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchMode, setSearchMode] = useState<'topic' | 'question'>('topic');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [topicResults, setTopicResults] = useState<TopicResult[]>([]);
+  const [questionResults, setQuestionResults] = useState<QuestionResult[]>([]);
+  const [searched, setSearched] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 80);
+    else { setSearchQuery(''); setTopicResults([]); setQuestionResults([]); setSearched(false); }
+  }, [searchOpen]);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); setSearchOpen(v => !v); }
+      if (e.key === 'Escape') setSearchOpen(false);
+    };
+    window.addEventListener('keydown', down);
+    return () => window.removeEventListener('keydown', down);
+  }, []);
+
+  const runSearch = async () => {
+    if (!searchQuery.trim()) return;
+    setSearchLoading(true);
+    setSearched(true);
+    if (searchMode === 'topic') {
+      const r = await searchTopics(searchQuery);
+      setTopicResults(r);
+      setQuestionResults([]);
+    } else {
+      const r = await searchQuestion(searchQuery);
+      setQuestionResults(r);
+      setTopicResults([]);
+    }
+    setSearchLoading(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -138,6 +187,19 @@ export default function AppHeader({
           <nav className="hidden md:flex items-center gap-1 mx-6">
             {NAV.map(item => <NavLink key={item.page} item={item} />)}
           </nav>
+
+          {/* Search button — school mode only */}
+          {mode === 'school' && (
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all text-slate-400 hover:text-slate-600 mr-3"
+              aria-label="Search (Ctrl+K)"
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span className="text-[10px] font-semibold tracking-widest uppercase">Search</span>
+              <kbd className="hidden lg:inline text-[9px] bg-white border border-slate-200 rounded px-1 py-0.5 text-slate-400 font-mono">⌘K</kbd>
+            </button>
+          )}
 
           {/* Right: user menu or Sign In (Sign In only shown in school mode) */}
           <div className="relative">
@@ -258,6 +320,19 @@ export default function AppHeader({
                 </div>
               )}
 
+              {/* Search button — school mode */}
+              {mode === 'school' && (
+                <div className="px-3 pt-3 pb-1">
+                  <button
+                    onClick={() => { setIsDrawerOpen(false); setSearchOpen(true); }}
+                    className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 hover:bg-slate-100 transition-colors"
+                  >
+                    <Search className="w-4 h-4" />
+                    <span className="text-xs font-semibold uppercase tracking-widest">Search topics & questions</span>
+                  </button>
+                </div>
+              )}
+
               {/* Nav links — flat, no sections */}
               <div className="flex-1 overflow-y-auto p-3">
                 {NAV.map(item => {
@@ -291,6 +366,126 @@ export default function AppHeader({
                     Logout
                   </button>
                 )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Search overlay — school mode only */}
+      <AnimatePresence>
+        {searchOpen && mode === 'school' && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setSearchOpen(false)}
+              className="fixed inset-0 bg-black/50 z-[200] backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -16, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.97 }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
+              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-[210] px-4"
+            >
+              <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
+                {/* Mode toggle */}
+                <div className="flex gap-1 p-3 border-b border-slate-100">
+                  <button
+                    onClick={() => { setSearchMode('topic'); setSearched(false); }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${searchMode === 'topic' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+                  >
+                    <BookText className="w-3 h-3" /> Topics
+                  </button>
+                  <button
+                    onClick={() => { setSearchMode('question'); setSearched(false); }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${searchMode === 'question' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+                  >
+                    <HelpCircle className="w-3 h-3" /> Questions
+                  </button>
+                  <button onClick={() => setSearchOpen(false)} className="ml-auto p-1.5 hover:bg-slate-100 rounded-lg transition-colors">
+                    <X className="w-3.5 h-3.5 text-slate-400" />
+                  </button>
+                </div>
+
+                {/* Input */}
+                <div className="flex items-center gap-3 px-4 py-3">
+                  <Search className="w-4 h-4 text-slate-400 shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && runSearch()}
+                    placeholder={searchMode === 'topic' ? 'Search a topic… e.g. Quadratic equations' : 'Ask a question… e.g. How do I solve x²+5x+6=0?'}
+                    className="flex-1 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none"
+                  />
+                  <button
+                    onClick={runSearch}
+                    disabled={!searchQuery.trim() || searchLoading}
+                    className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-[10px] font-black uppercase tracking-widest disabled:opacity-40 hover:bg-slate-700 transition-all flex items-center gap-1.5"
+                  >
+                    {searchLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ArrowRight className="w-3 h-3" />}
+                    Go
+                  </button>
+                </div>
+
+                {/* Results */}
+                {searched && !searchLoading && (
+                  <div className="border-t border-slate-100 max-h-80 overflow-y-auto">
+                    {searchMode === 'topic' && topicResults.length === 0 && (
+                      <p className="text-center text-xs text-slate-400 py-8">No topics found for "{searchQuery}"</p>
+                    )}
+                    {searchMode === 'topic' && topicResults.map(t => (
+                      <button
+                        key={t.id}
+                        onClick={() => { setSearchOpen(false); onNavigate('library'); }}
+                        className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0"
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-black text-slate-800">{t.title}</span>
+                          <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">Gr {t.grade}</span>
+                          <span className="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full font-semibold">{t.subject}</span>
+                        </div>
+                        <p className="text-xs text-slate-500 line-clamp-2">{t.snippet}</p>
+                      </button>
+                    ))}
+                    {searchMode === 'question' && questionResults.length === 0 && (
+                      <div className="px-4 py-6 text-center">
+                        <p className="text-xs text-slate-400 mb-3">No answers found for "{searchQuery}"</p>
+                        <button
+                          onClick={() => { setSearchOpen(false); onNavigate('school-assist' as AppPage); }}
+                          className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-700"
+                        >
+                          Submit your question on School Assist →
+                        </button>
+                      </div>
+                    )}
+                    {searchMode === 'question' && questionResults.map(r => (
+                      <button
+                        key={r.id}
+                        onClick={() => { setSearchOpen(false); onNavigate('library'); }}
+                        className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0"
+                      >
+                        <p className="text-xs font-black text-slate-800 mb-1">{r.question ?? r.title}</p>
+                        <p className="text-xs text-slate-500 line-clamp-2">{r.answer ?? r.snippet}</p>
+                        {r.subject && <span className="text-[9px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full font-semibold mt-1 inline-block">{r.subject}</span>}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                <div className="px-4 py-2 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[9px] text-slate-400 uppercase tracking-widest">Press Enter to search · Esc to close</span>
+                  <button
+                    onClick={() => { setSearchOpen(false); onNavigate('school-assist' as AppPage); }}
+                    className="text-[9px] text-indigo-500 font-semibold hover:text-indigo-700 uppercase tracking-widest"
+                  >
+                    Full School Assist →
+                  </button>
+                </div>
               </div>
             </motion.div>
           </>

@@ -1,8 +1,9 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabase';
+import { getCurrentUserFromStorage } from './auth';
 
-export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'disadvantaged-guide' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'impact-auth' | 'demo-learning' | 'community-impact';
+export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'disadvantaged-guide' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'impact-auth' | 'demo-learning' | 'community-impact' | 'pothole-map' | 'flag-pothole' | 'my-pothole-contributions' | 'water-dashboard';
 
 export interface AuthedProps {
   user: User;
@@ -67,9 +68,18 @@ export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
         }
       }
 
-      // Normal auth flow
+      // Normal auth flow — check localStorage first for a fast synchronous result
+      const storedUser = getCurrentUserFromStorage();
+
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session?.user) {
+          if (storedUser) {
+            // localStorage has a user — session restore is in progress via App.tsx
+            // Use stored user to avoid flickering to login
+            setUser(storedUser as unknown as User);
+            setChecking(false);
+            return;
+          }
           if (props.guestMode) {
             // Guest mode: allow unauthenticated access with a placeholder user
             setUser({

@@ -11,6 +11,13 @@ export const CACHE_KEYS = {
   STUDY_PROGRESS:     'prospect_study_progress_v2',
   CALENDAR_EVENTS:    'prospect_calendar_events_v2',
   LEARNING_PATHS:     'prospect_learning_paths_v2',
+
+  // Session persistence
+  AUTH_SESSION:       'prospect_auth_session_v2',
+  AUTH_ACCESS_TOKEN:  'prospect_auth_access_token_v2',
+  AUTH_REFRESH_TOKEN: 'prospect_auth_refresh_token_v2',
+  AUTH_USER:          'prospect_auth_user_v2',
+  AUTH_LAST_LOGIN:    'prospect_auth_last_login_v2',
 } as const
 
 export type CacheKey = typeof CACHE_KEYS[keyof typeof CACHE_KEYS]

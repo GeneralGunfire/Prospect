@@ -1,46 +1,171 @@
-import { motion } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft,
-  CalendarDays,
+  Search,
   BookOpen,
-  Target,
-  Clock,
-  CheckCircle2,
+  HelpCircle,
   ChevronRight,
+  Loader2,
+  X,
+  CheckCircle2,
+  SendHorizonal,
 } from 'lucide-react';
 import type { AppPage } from '../lib/withAuth';
+import { supabase } from '../lib/supabase';
+import { searchTopics, searchQuestion, type TopicResult, type QuestionResult } from '../services/schoolAssistService';
+import { submitQuestion } from '../services/unansweredQuestionService';
+
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 interface Props {
   onNavigate: (page: AppPage) => void;
   onNavigateHome: () => void;
 }
 
-const TERMS = [
-  { term: 'Term 1', dates: '15 Jan – 27 Mar', status: 'past' },
-  { term: 'Term 2', dates: '7 Apr – 19 Jun', status: 'current' },
-  { term: 'Term 3', dates: '15 Jul – 25 Sep', status: 'upcoming' },
-  { term: 'Term 4', dates: '6 Oct – 4 Dec', status: 'upcoming' },
-];
+type SearchMode = 'topic' | 'question';
 
 const SUBJECTS = [
-  { name: 'Mathematics', grades: ['Gr 10', 'Gr 11', 'Gr 12'], color: 'bg-blue-50 text-blue-700 border-blue-200' },
-  { name: 'Physical Sciences', grades: ['Gr 10', 'Gr 11', 'Gr 12'], color: 'bg-purple-50 text-purple-700 border-purple-200' },
-  { name: 'Life Sciences', grades: ['Gr 10', 'Gr 11', 'Gr 12'], color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  { name: 'English Home Language', grades: ['Gr 10', 'Gr 11', 'Gr 12'], color: 'bg-amber-50 text-amber-700 border-amber-200' },
-  { name: 'Accounting', grades: ['Gr 10', 'Gr 11', 'Gr 12'], color: 'bg-rose-50 text-rose-700 border-rose-200' },
-  { name: 'Geography', grades: ['Gr 10', 'Gr 11', 'Gr 12'], color: 'bg-sky-50 text-sky-700 border-sky-200' },
-];
+  'Mathematics',
+  'Physical Sciences',
+  'Life Sciences',
+  'English',
+  'Accounting',
+  'Geography',
+  'Business Studies',
+  'Economics',
+  'History',
+  'Other',
+] as const;
 
-const PLAN_ITEMS = [
-  { subject: 'Mathematics — Algebra', time: '08:00 – 09:30', done: true },
-  { subject: 'Physical Sciences — Waves', time: '10:00 – 11:00', done: true },
-  { subject: 'Life Sciences — Genetics', time: '13:00 – 14:30', done: false },
-  { subject: 'English — Essay Practice', time: '15:00 – 16:00', done: false },
-];
+const GRADES = [10, 11, 12] as const;
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) {
+  // Auth state
+  const [userId, setUserId] = useState<string | null>(null);
+
+  // Check auth once on mount
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUserId(session?.user?.id ?? null);
+    });
+  }, []);
+
+  // Search state
+  const [searchMode, setSearchMode] = useState<SearchMode>('topic');
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [topicResults, setTopicResults] = useState<TopicResult[]>([]);
+  const [questionResults, setQuestionResults] = useState<QuestionResult[]>([]);
+
+  // Submit form state
+  const [showSubmitForm, setShowSubmitForm] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [formSubject, setFormSubject] = useState('');
+  const [formGrade, setFormGrade] = useState<number | ''>('');
+  const [formDetails, setFormDetails] = useState('');
+
+  // Expanded answers state (for qa results)
+  const [expandedAnswers, setExpandedAnswers] = useState<Set<string>>(new Set());
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const hasResults =
+    searchMode === 'topic'
+      ? topicResults.length > 0
+      : questionResults.length > 0;
+
+  // ── Handlers ─────────────────────────────────────────────────────────────────
+
+  async function handleSearch() {
+    const q = query.trim();
+    if (!q) return;
+
+    setLoading(true);
+    setSearched(false);
+    setShowSubmitForm(false);
+    setSubmitSuccess(false);
+    setTopicResults([]);
+    setQuestionResults([]);
+
+    try {
+      if (searchMode === 'topic') {
+        const results = await searchTopics(q);
+        setTopicResults(results);
+      } else {
+        const results = await searchQuestion(q);
+        setQuestionResults(results);
+      }
+    } catch (err) {
+      console.error('Search error:', err);
+    } finally {
+      setLoading(false);
+      setSearched(true);
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') handleSearch();
+  }
+
+  function handleModeChange(mode: SearchMode) {
+    setSearchMode(mode);
+    setSearched(false);
+    setTopicResults([]);
+    setQuestionResults([]);
+    setShowSubmitForm(false);
+    setSubmitSuccess(false);
+    inputRef.current?.focus();
+  }
+
+  function toggleAnswer(id: string) {
+    setExpandedAnswers((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  async function handleSubmitQuestion(e: React.FormEvent) {
+    e.preventDefault();
+    if (!userId) return;
+
+    const q = query.trim();
+    if (!q) return;
+
+    setSubmitLoading(true);
+    try {
+      const result = await submitQuestion({
+        userId,
+        question: q,
+        subject: formSubject || undefined,
+        grade: formGrade !== '' ? Number(formGrade) : undefined,
+        details: formDetails.trim() || undefined,
+      });
+
+      if (result) {
+        setSubmitSuccess(true);
+        setShowSubmitForm(false);
+        setFormSubject('');
+        setFormGrade('');
+        setFormDetails('');
+      }
+    } catch (err) {
+      console.error('Error submitting question:', err);
+    } finally {
+      setSubmitLoading(false);
+    }
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────────
+
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen bg-bg-light">
       {/* Top bar */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/60 px-4 py-3 flex items-center justify-between">
         <button
@@ -54,192 +179,483 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-xs">S</div>
           <span className="font-black text-sm text-[#1e293b] uppercase tracking-wider">School Assist</span>
         </div>
-        <div className="w-24" /> {/* spacer for centering */}
+        <div className="w-24" />
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-10">
+      <main className="max-w-3xl mx-auto px-4 py-10">
+
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-10"
+          className="mb-8 text-center"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-2">Your Study Companion</p>
           <h1 className="text-3xl lg:text-4xl font-black text-[#1e293b]" style={{ letterSpacing: '-0.02em' }}>
-            School Assist Dashboard
+            School Assist
           </h1>
-          <p className="text-slate-500 mt-2 text-sm">
-            Track your school calendar, access subject content, and manage your study plan — all in one place.
+          <p className="text-slate-500 mt-2 text-sm max-w-md mx-auto">
+            Search study topics or ask a question — get answers from our library and submit anything we haven't covered yet.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* ── Column 1: School Calendar ── */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="bg-white rounded-3xl border border-slate-200/60 p-6 shadow-sm"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-9 h-9 rounded-xl bg-indigo-50 flex items-center justify-center">
-                <CalendarDays className="w-5 h-5 text-indigo-600" />
-              </div>
-              <h2 className="font-black text-slate-900 text-sm uppercase tracking-wide">School Calendar</h2>
-            </div>
+        {/* Search section */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 mb-6"
+        >
+          {/* Mode toggle */}
+          <div className="flex gap-2 mb-5 p-1 bg-slate-100 rounded-xl w-fit mx-auto">
+            <button
+              onClick={() => handleModeChange('topic')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200 ${
+                searchMode === 'topic'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              Search Topic
+            </button>
+            <button
+              onClick={() => handleModeChange('question')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200 ${
+                searchMode === 'question'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              Ask a Question
+            </button>
+          </div>
 
-            <p className="text-xs text-slate-400 uppercase font-bold tracking-widest mb-4">2025 School Year</p>
-            <div className="space-y-3">
-              {TERMS.map((t) => (
-                <div
-                  key={t.term}
-                  className={`flex items-center justify-between rounded-xl px-4 py-3 border text-sm ${
-                    t.status === 'current'
-                      ? 'bg-indigo-600 text-white border-indigo-600'
-                      : t.status === 'past'
-                      ? 'bg-slate-50 text-slate-400 border-slate-200'
-                      : 'bg-white text-slate-700 border-slate-200'
-                  }`}
+          {/* Search input */}
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                ref={inputRef}
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={
+                  searchMode === 'topic'
+                    ? 'e.g. Algebraic Expressions, Waves, Photosynthesis…'
+                    : 'e.g. How do I solve quadratic equations?'
+                }
+                className="w-full h-11 pl-9 pr-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+              />
+            </div>
+            <button
+              onClick={handleSearch}
+              disabled={loading || !query.trim()}
+              className="flex items-center gap-2 px-5 h-11 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+              Search
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Results */}
+        <AnimatePresence mode="wait">
+          {loading && (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex items-center justify-center py-16 gap-3 text-slate-400"
+            >
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span className="text-sm font-medium">Searching…</span>
+            </motion.div>
+          )}
+
+          {!loading && searched && (
+            <motion.div
+              key="results"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Submit success banner */}
+              {submitSuccess && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mb-5 flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-2xl px-5 py-4"
                 >
-                  <span className="font-bold">{t.term}</span>
-                  <span className={`text-xs ${t.status === 'current' ? 'text-indigo-200' : 'text-slate-400'}`}>
-                    {t.dates}
-                  </span>
-                  {t.status === 'current' && (
-                    <span className="text-[10px] font-black uppercase tracking-widest bg-white/20 px-2 py-0.5 rounded-full">
-                      Now
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 pt-5 border-t border-slate-100">
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-3">Upcoming</p>
-              {[
-                { label: 'Mid-year exams start', date: 'Jun 2' },
-                { label: 'NSFAS applications open', date: 'Jul 1' },
-                { label: 'UCT applications close', date: 'Jul 31' },
-              ].map((e) => (
-                <div key={e.label} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-slate-600">{e.label}</span>
-                  <span className="text-xs font-bold text-indigo-600">{e.date}</span>
-                </div>
-              ))}
-            </div>
-          </motion.section>
-
-          {/* ── Column 2: Study Library ── */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className="bg-white rounded-3xl border border-slate-200/60 p-6 shadow-sm"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-              </div>
-              <h2 className="font-black text-slate-900 text-sm uppercase tracking-wide">Subject Library</h2>
-            </div>
-
-            <p className="text-xs text-slate-400 uppercase font-bold tracking-widest mb-4">Browse by Subject</p>
-            <div className="flex flex-col gap-3">
-              {SUBJECTS.map((s) => (
-                <button
-                  key={s.name}
-                  onClick={() => onNavigate('library')}
-                  className="flex items-center justify-between group rounded-xl border px-4 py-3 text-sm hover:shadow-sm transition-all duration-200 text-left"
-                >
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                   <div>
-                    <p className="font-semibold text-slate-800 group-hover:text-indigo-600 transition-colors">
-                      {s.name}
-                    </p>
-                    <div className="flex gap-1 mt-1">
-                      {s.grades.map((g) => (
-                        <span key={g} className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md border ${s.color}`}>
-                          {g}
-                        </span>
+                    <p className="text-sm font-black text-emerald-800">Question submitted!</p>
+                    <p className="text-xs text-emerald-600">We'll get back to you. Check your dashboard for updates.</p>
+                  </div>
+                  <button
+                    onClick={() => setSubmitSuccess(false)}
+                    className="ml-auto text-emerald-400 hover:text-emerald-600 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </motion.div>
+              )}
+
+              {/* Topic results */}
+              {searchMode === 'topic' && (
+                <>
+                  {topicResults.length > 0 ? (
+                    <div className="space-y-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+                        {topicResults.length} topic{topicResults.length !== 1 ? 's' : ''} found
+                      </p>
+                      {topicResults.map((topic, i) => (
+                        <motion.div
+                          key={topic.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.06 }}
+                          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5"
+                        >
+                          <div className="flex items-start justify-between gap-3 mb-2">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">
+                                  {topic.subject}
+                                </span>
+                                <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                  Gr {topic.grade}
+                                </span>
+                              </div>
+                              <h3 className="text-sm font-black text-slate-900">{topic.title}</h3>
+                            </div>
+                          </div>
+                          <p className="text-xs text-slate-500 leading-relaxed mb-3">{topic.snippet}</p>
+                          <button
+                            onClick={() => onNavigate('library')}
+                            className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors"
+                          >
+                            View Full Lesson <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </motion.div>
                       ))}
                     </div>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-400 transition-colors shrink-0" />
-                </button>
-              ))}
-            </div>
+                  ) : (
+                    <NoResultsCard
+                      searchMode={searchMode}
+                      query={query}
+                      userId={userId}
+                      showSubmitForm={showSubmitForm}
+                      setShowSubmitForm={setShowSubmitForm}
+                      onNavigate={onNavigate}
+                    />
+                  )}
+                </>
+              )}
 
-            <button
-              onClick={() => onNavigate('library')}
-              className="mt-5 w-full text-xs font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors py-2 flex items-center justify-center gap-1"
-            >
-              View full library <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </motion.section>
+              {/* Question results */}
+              {searchMode === 'question' && (
+                <>
+                  {questionResults.length > 0 ? (
+                    <div className="space-y-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+                        {questionResults.length} result{questionResults.length !== 1 ? 's' : ''} found
+                      </p>
+                      {questionResults.map((result, i) => (
+                        <motion.div
+                          key={result.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.06 }}
+                          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5"
+                        >
+                          {result.type === 'qa' ? (
+                            <>
+                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                {result.subject && (
+                                  <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">
+                                    {result.subject}
+                                  </span>
+                                )}
+                                {result.grade && (
+                                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                    Gr {result.grade}
+                                  </span>
+                                )}
+                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                                  Answered
+                                </span>
+                              </div>
+                              <p className="text-sm font-black text-slate-900 mb-2">{result.question}</p>
+                              {result.answer && (
+                                <>
+                                  <AnimatePresence>
+                                    {expandedAnswers.has(result.id) && (
+                                      <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="overflow-hidden"
+                                      >
+                                        <p className="text-xs text-slate-600 leading-relaxed mb-3 bg-slate-50 rounded-xl p-3">
+                                          {result.answer}
+                                        </p>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                  <button
+                                    onClick={() => toggleAnswer(result.id)}
+                                    className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1"
+                                  >
+                                    {expandedAnswers.has(result.id) ? 'Hide Answer' : 'View Answer'}
+                                    <ChevronRight
+                                      className={`w-3.5 h-3.5 transition-transform ${expandedAnswers.has(result.id) ? 'rotate-90' : ''}`}
+                                    />
+                                  </button>
+                                </>
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                {result.subject && (
+                                  <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
+                                    {result.subject}
+                                  </span>
+                                )}
+                                {result.grade && (
+                                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                    Gr {result.grade}
+                                  </span>
+                                )}
+                                <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                                  Topic
+                                </span>
+                              </div>
+                              <p className="text-sm font-black text-slate-900 mb-1">{result.title}</p>
+                              {result.snippet && (
+                                <p className="text-xs text-slate-500 leading-relaxed mb-3">{result.snippet}</p>
+                              )}
+                              <button
+                                onClick={() => onNavigate('library')}
+                                className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors"
+                              >
+                                View Full Lesson <ChevronRight className="w-3.5 h-3.5" />
+                              </button>
+                            </>
+                          )}
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                    <NoResultsCard
+                      searchMode={searchMode}
+                      query={query}
+                      userId={userId}
+                      showSubmitForm={showSubmitForm}
+                      setShowSubmitForm={setShowSubmitForm}
+                      onNavigate={onNavigate}
+                    />
+                  )}
+                </>
+              )}
 
-          {/* ── Column 3: Study Planner ── */}
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="bg-white rounded-3xl border border-slate-200/60 p-6 shadow-sm flex flex-col"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
-                <Target className="w-5 h-5 text-emerald-600" />
-              </div>
-              <h2 className="font-black text-slate-900 text-sm uppercase tracking-wide">Study Planner</h2>
-            </div>
+              {/* Submit question form */}
+              <AnimatePresence>
+                {showSubmitForm && (
+                  <motion.div
+                    key="submit-form"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-4 bg-white rounded-3xl border border-indigo-100 shadow-sm p-6"
+                  >
+                    <div className="flex items-center justify-between mb-5">
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-0.5">Submit Your Question</p>
+                        <p className="text-xs text-slate-500">We'll research and add an answer to our library.</p>
+                      </div>
+                      <button
+                        onClick={() => setShowSubmitForm(false)}
+                        className="text-slate-400 hover:text-slate-600 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
 
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-xs text-slate-400 uppercase font-bold tracking-widest">Today's Plan</p>
-              <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
-                2 / 4 done
-              </span>
-            </div>
+                    {!userId ? (
+                      <div className="text-center py-4">
+                        <p className="text-sm text-slate-600 mb-3">Sign in to submit questions.</p>
+                        <button
+                          onClick={() => onNavigate('auth')}
+                          className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-colors"
+                        >
+                          Sign In
+                        </button>
+                      </div>
+                    ) : (
+                      <form onSubmit={handleSubmitQuestion} className="space-y-4">
+                        {/* Question (pre-filled) */}
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                            Your Question <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            value={query}
+                            onChange={(e) => {}}
+                            readOnly
+                            rows={2}
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 bg-slate-50 resize-none focus:outline-none"
+                          />
+                        </div>
 
-            <div className="flex flex-col gap-3 flex-1">
-              {PLAN_ITEMS.map((item) => (
-                <div
-                  key={item.subject}
-                  className={`flex items-start gap-3 rounded-xl border px-4 py-3 transition-colors ${
-                    item.done
-                      ? 'bg-slate-50 border-slate-100 opacity-60'
-                      : 'bg-white border-slate-200'
-                  }`}
-                >
-                  <CheckCircle2
-                    className={`w-5 h-5 mt-0.5 shrink-0 ${item.done ? 'text-emerald-500' : 'text-slate-200'}`}
-                  />
-                  <div>
-                    <p className={`text-sm font-semibold ${item.done ? 'line-through text-slate-400' : 'text-slate-800'}`}>
-                      {item.subject}
-                    </p>
-                    <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                      <Clock className="w-3 h-3" />
-                      {item.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                        {/* Subject + Grade row */}
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 mb-1.5">Subject</label>
+                            <select
+                              value={formSubject}
+                              onChange={(e) => setFormSubject(e.target.value)}
+                              className="w-full h-11 border border-slate-200 rounded-xl px-3 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                            >
+                              <option value="">Select subject</option>
+                              {SUBJECTS.map((s) => (
+                                <option key={s} value={s}>{s}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-xs font-bold text-slate-700 mb-1.5">Grade</label>
+                            <select
+                              value={formGrade}
+                              onChange={(e) => setFormGrade(e.target.value === '' ? '' : Number(e.target.value))}
+                              className="w-full h-11 border border-slate-200 rounded-xl px-3 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                            >
+                              <option value="">Select grade</option>
+                              {GRADES.map((g) => (
+                                <option key={g} value={g}>Grade {g}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
 
-            {/* Placeholder CTA */}
-            <div className="mt-6 rounded-2xl bg-indigo-50 border border-indigo-100 px-5 py-4 text-center">
-              <p className="text-xs font-bold text-indigo-700 mb-1">Custom Study Plans</p>
-              <p className="text-xs text-indigo-500 mb-3">
-                Personalised schedules coming soon. Sign in to be notified.
-              </p>
-              <button
-                onClick={() => onNavigate('auth')}
-                className="text-xs font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors"
-              >
-                Sign In →
-              </button>
-            </div>
-          </motion.section>
-        </div>
+                        {/* Details */}
+                        <div>
+                          <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                            Additional Details <span className="text-slate-400 font-normal">(optional)</span>
+                          </label>
+                          <textarea
+                            value={formDetails}
+                            onChange={(e) => setFormDetails(e.target.value)}
+                            rows={3}
+                            placeholder="Add any extra context that would help us answer better…"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                          />
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-3 pt-1">
+                          <button
+                            type="submit"
+                            disabled={submitLoading}
+                            className="flex items-center gap-2 px-5 h-11 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                          >
+                            {submitLoading ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <SendHorizonal className="w-4 h-4" />
+                            )}
+                            Submit Question
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setShowSubmitForm(false)}
+                            className="px-5 h-11 border border-slate-200 text-slate-600 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </main>
     </div>
+  );
+}
+
+// ── No Results Card ───────────────────────────────────────────────────────────
+
+function NoResultsCard({
+  searchMode,
+  query,
+  userId,
+  showSubmitForm,
+  setShowSubmitForm,
+  onNavigate,
+}: {
+  searchMode: SearchMode;
+  query: string;
+  userId: string | null;
+  showSubmitForm: boolean;
+  setShowSubmitForm: (v: boolean) => void;
+  onNavigate: (page: AppPage) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-8 text-center"
+    >
+      <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <HelpCircle className="w-6 h-6 text-slate-400" />
+      </div>
+      <p className="text-sm font-black text-slate-800 mb-1">No answers found</p>
+      <p className="text-xs text-slate-500 mb-5 max-w-xs mx-auto">
+        We couldn't find anything matching "{query}".{' '}
+        {searchMode === 'question'
+          ? "Submit your question and we'll research it for you."
+          : 'Try searching in a different way or browse the full library.'}
+      </p>
+      <div className="flex items-center justify-center gap-3 flex-wrap">
+        {searchMode === 'question' && !showSubmitForm && (
+          <button
+            onClick={() => setShowSubmitForm(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all"
+          >
+            <SendHorizonal className="w-3.5 h-3.5" />
+            Submit Your Question
+          </button>
+        )}
+        <button
+          onClick={() => onNavigate('library')}
+          className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 text-slate-700 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all"
+        >
+          Browse Library <ChevronRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
+      {!userId && searchMode === 'question' && (
+        <p className="text-xs text-slate-400 mt-4">
+          <button
+            onClick={() => onNavigate('auth')}
+            className="text-indigo-600 hover:underline font-semibold"
+          >
+            Sign in
+          </button>{' '}
+          to submit questions and track your answers.
+        </p>
+      )}
+    </motion.div>
   );
 }

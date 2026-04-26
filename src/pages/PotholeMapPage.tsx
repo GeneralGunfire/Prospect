@@ -141,20 +141,34 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
   );
 
   // ── Pothole list item ─────────────────────────────────────────────────────────
-  const PotholeItem = ({ p }: { p: Pothole }) => (
-    <button
-      onClick={() => openDetail(p)}
-      className="w-full text-left px-4 py-3.5 hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0"
-    >
-      <p className="font-bold text-sm text-slate-800 truncate">{p.street_name ?? p.address}</p>
-      <p className="text-xs text-slate-400 mt-0.5 truncate">{p.municipality ? `${p.municipality}, ` : ''}{p.province}</p>
-      <div className="flex items-center gap-2 mt-2 flex-wrap">
-        <SeverityBadge severity={p.severity} />
-        <StatusBadge pothole={p} />
-        <span className="text-[10px] text-slate-400">{p.flag_count} flag{p.flag_count !== 1 ? 's' : ''}</span>
-      </div>
-    </button>
-  );
+  const PotholeItem = ({ p }: { p: Pothole }) => {
+    const isPriority = p.flag_count >= 3;
+    return (
+      <button
+        onClick={() => openDetail(p)}
+        className={`w-full text-left px-4 py-3.5 transition-colors border-b border-slate-100 last:border-0 ${
+          isPriority ? 'bg-red-50 hover:bg-red-100 border-l-4 border-l-red-500' : 'hover:bg-slate-50'
+        }`}
+      >
+        {isPriority && (
+          <span className="inline-flex items-center gap-1 text-[10px] font-black text-red-700 uppercase tracking-wider mb-1">
+            <AlertTriangle className="w-3 h-3" /> Priority Report
+          </span>
+        )}
+        <p className={`text-sm truncate ${isPriority ? 'font-black text-red-900' : 'font-bold text-slate-800'}`}>
+          {p.street_name ?? p.address}
+        </p>
+        <p className="text-xs text-slate-400 mt-0.5 truncate">{p.municipality ? `${p.municipality}, ` : ''}{p.province}</p>
+        <div className="flex items-center gap-2 mt-2 flex-wrap">
+          <SeverityBadge severity={p.severity} />
+          <StatusBadge pothole={p} />
+          <span className={`text-[10px] font-semibold ${isPriority ? 'text-red-600' : 'text-slate-400'}`}>
+            {p.flag_count} flag{p.flag_count !== 1 ? 's' : ''}
+          </span>
+        </div>
+      </button>
+    );
+  };
 
   return (
     <div className="flex flex-col bg-slate-50" style={{ height: '100dvh' }}>
@@ -323,7 +337,9 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
                 </div>
               ) : (
                 <div>
-                  {potholes.map((p) => <PotholeItem key={p.id} p={p} />)}
+                  {[...potholes]
+                    .sort((a, b) => (b.flag_count >= 3 ? 1 : 0) - (a.flag_count >= 3 ? 1 : 0))
+                    .map((p) => <PotholeItem key={p.id} p={p} />)}
                 </div>
               )}
             </div>
@@ -383,6 +399,16 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
               </div>
 
               <div className="flex-1 overflow-y-auto p-5 space-y-5">
+                {selected.flag_count >= 3 && (
+                  <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-2xl px-4 py-3">
+                    <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
+                    <div>
+                      <p className="text-sm font-black text-red-800 uppercase tracking-wide">Priority Report</p>
+                      <p className="text-xs text-red-600">{selected.flag_count} flags — escalated for urgent attention</p>
+                    </div>
+                  </div>
+                )}
+
                 {selected.image_url && (
                   <img src={selected.image_url} alt="Pothole" className="w-full h-48 object-cover rounded-2xl border border-slate-200" />
                 )}

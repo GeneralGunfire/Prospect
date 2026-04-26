@@ -6,6 +6,7 @@ import {
   Map, Calendar, GraduationCap, BookMarked,
   Target, Heart, Globe, Construction, Droplets,
   Search, BookText, HelpCircle, ArrowRight, Loader2,
+  Newspaper, Calculator, MapPin, Building2, MessageCircle,
 } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
@@ -16,8 +17,8 @@ interface AppHeaderProps {
   currentPage: AppPage;
   user: SupabaseUser;
   onNavigate: (page: AppPage) => void;
-  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Potholes/Water. Defaults to 'school'. */
-  mode?: 'school' | 'career' | 'community';
+  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Potholes/Water. 'news' = News/Tax/Cost/Civics. Defaults to 'school'. */
+  mode?: 'school' | 'career' | 'community' | 'news';
   /** Called when Sign In is clicked (guest users in career mode) */
   onNavigateAuth?: () => void;
 }
@@ -30,9 +31,10 @@ interface NavItem {
 
 // School Assist nav — auth-required pages only
 const SCHOOL_NAV: NavItem[] = [
-  { name: 'Dashboard', page: 'dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
-  { name: 'Library',   page: 'library',   icon: <BookOpen className="w-4 h-4" /> },
-  { name: 'Calendar',  page: 'calendar',  icon: <Calendar className="w-4 h-4" /> },
+  { name: 'Dashboard', page: 'dashboard',         icon: <LayoutDashboard className="w-4 h-4" /> },
+  { name: 'Library',   page: 'library',           icon: <BookOpen className="w-4 h-4" /> },
+  { name: 'Calendar',  page: 'calendar',          icon: <Calendar className="w-4 h-4" /> },
+  { name: 'Chat',      page: 'school-assist-chat', icon: <MessageCircle className="w-4 h-4" /> },
 ];
 
 // Community nav — shown on all community pages
@@ -61,7 +63,15 @@ export default function AppHeader({
   onNavigateAuth,
 }: AppHeaderProps) {
   const isGuest = user?.id === 'guest' || user?.is_anonymous === true;
-  const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : SCHOOL_NAV;
+  // News & Info nav — SA news, tax, cost-of-living, civics
+  const NEWS_NAV: NavItem[] = [
+    { name: 'SA News',      page: 'news',            icon: <Newspaper className="w-4 h-4" /> },
+    { name: 'Tax & Budget', page: 'tax-budget',      icon: <Calculator className="w-4 h-4" /> },
+    { name: 'Cost of Living', page: 'cost-of-living', icon: <MapPin className="w-4 h-4" /> },
+    { name: 'Civics',       page: 'civics',          icon: <Building2 className="w-4 h-4" /> },
+  ];
+
+  const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : mode === 'news' ? NEWS_NAV : SCHOOL_NAV;
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

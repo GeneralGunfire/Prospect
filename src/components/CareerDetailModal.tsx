@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ArrowRight, Bookmark, BarChart3, Briefcase, GraduationCap, MapPin, TrendingUp, AlertCircle } from 'lucide-react';
+import { X, ArrowRight, Bookmark, Briefcase, GraduationCap, MapPin, TrendingUp, AlertCircle, CheckCircle2, Info } from 'lucide-react';
 import type { CareerFull } from '../data/careersTypes';
 
 interface CareerDetailModalProps {
@@ -178,9 +178,15 @@ export function CareerDetailModal({
                       )}
                       <div>
                         <p className="font-bold" style={{ color: '#1e293b' }}>Minimum APS Score:</p>
-                        <p style={{ color: '#64748b' }}>{career.matricRequirements.minimumAps}</p>
+                        <p style={{ color: '#64748b' }}>{career.matricRequirements.minimumAps}+</p>
                       </div>
                     </div>
+                    {career.apsNote && (
+                      <div className="mt-3 pt-3 border-t border-slate-200 flex gap-2">
+                        <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#94a3b8' }} />
+                        <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{career.apsNote}</p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="bg-slate-50 rounded-2xl p-6">
@@ -279,28 +285,36 @@ export function CareerDetailModal({
 
               {/* Salary */}
               <section>
-                <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-lg font-bold mb-1 uppercase tracking-wide" style={{ color: '#1e293b' }}>
                   Salary Progression
                 </h3>
+                <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Gross (before tax) monthly estimates</p>
                 <div className="grid grid-cols-3 gap-4">
                   {[
-                    { label: 'Entry Level', value: career.salary.entryLevel },
-                    { label: 'Mid-Career', value: career.salary.midLevel },
-                    { label: 'Senior', value: career.salary.senior },
+                    { label: 'Entry Level', sub: '0–2 yrs', value: career.salary.entryLevel },
+                    { label: 'Mid-Career', sub: '3–6 yrs', value: career.salary.midLevel },
+                    { label: 'Senior', sub: '7+ yrs', value: career.salary.senior },
                   ].map((item, i) => (
                     <div key={i} className="bg-gradient-to-br from-prospect-green/10 to-prospect-gold/10 rounded-2xl p-4 text-center">
-                      <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#64748b' }}>
+                      <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
                         {item.label}
                       </p>
+                      <p className="text-xs mb-2" style={{ color: '#94a3b8' }}>{item.sub}</p>
                       <p className="text-xl font-bold" style={{ color: '#1e293b' }}>
                         R{(item.value / 1000).toFixed(0)}k
                       </p>
                       <p className="text-xs mt-1" style={{ color: '#64748b' }}>
-                        per month
+                        /month
                       </p>
                     </div>
                   ))}
                 </div>
+                {career.salaryNote && (
+                  <div className="mt-3 flex gap-2 bg-slate-50 rounded-xl p-3">
+                    <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#94a3b8' }} />
+                    <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{career.salaryNote}</p>
+                  </div>
+                )}
               </section>
 
               {/* Skills */}
@@ -369,6 +383,33 @@ export function CareerDetailModal({
                   ))}
                 </div>
               </section>
+
+              {/* Action Plan */}
+              {career.actionPlan && career.actionPlan.length > 0 && (
+                <section>
+                  <h3 className="text-lg font-bold mb-1 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                    What To Do This Year
+                  </h3>
+                  <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Grade-by-grade steps to get here</p>
+                  <div className="space-y-3">
+                    {career.actionPlan.map((step, i) => (
+                      <div key={i} className="border border-slate-100 rounded-2xl overflow-hidden">
+                        <div className="px-4 py-2 font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1e293b', color: '#fff' }}>
+                          {step.grade}
+                        </div>
+                        <ul className="p-4 space-y-2">
+                          {step.actions.map((action, j) => (
+                            <li key={j} className="flex gap-2 text-sm" style={{ color: '#475569' }}>
+                              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-prospect-green" />
+                              {action}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               {/* CTAs */}
               <section className="border-t border-slate-100 pt-8">

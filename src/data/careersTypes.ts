@@ -56,4 +56,10 @@ export interface CareerFull {
   skills: string[];
   commonMisconceptions: string[];
   keywords: string[];
+  actionPlan?: {
+    grade: string;
+    actions: string[];
+  }[];
+  salaryNote?: string;
+  apsNote?: string;
 }

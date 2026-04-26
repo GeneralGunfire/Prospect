@@ -10,11 +10,15 @@ import {
   X,
   CheckCircle2,
   SendHorizonal,
+  MessageCircle,
+  Calculator,
 } from 'lucide-react';
 import type { AppPage } from '../lib/withAuth';
 import { supabase } from '../lib/supabase';
+import type { User } from '@supabase/supabase-js';
 import { searchTopics, searchQuestion, type TopicResult, type QuestionResult } from '../services/schoolAssistService';
 import { submitQuestion } from '../services/unansweredQuestionService';
+import AppHeader from '../components/AppHeader';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -45,11 +49,13 @@ const GRADES = [10, 11, 12] as const;
 export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) {
   // Auth state
   const [userId, setUserId] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // Check auth once on mount
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUserId(session?.user?.id ?? null);
+      setUser(session?.user ?? null);
     });
   }, []);
 
@@ -166,8 +172,12 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
 
   return (
     <div className="min-h-screen bg-bg-light">
-      {/* Top bar */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/60 px-4 py-3 flex items-center justify-between">
+      {user && (
+        <AppHeader currentPage="school-assist" user={user} onNavigate={onNavigate} mode="school" />
+      )}
+      {/* fallback slim bar when user not yet loaded */}
+      {!user && (
+        <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/60 px-4 py-3 flex items-center justify-between">
         <button
           onClick={onNavigateHome}
           className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium"
@@ -179,10 +189,17 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-xs">S</div>
           <span className="font-black text-sm text-[#1e293b] uppercase tracking-wider">School Assist</span>
         </div>
-        <div className="w-24" />
+        <button
+          onClick={() => onNavigate('school-assist-chat')}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
+        >
+          <MessageCircle className="w-3.5 h-3.5" />
+          Chat
+        </button>
       </header>
+      )}
 
-      <main className="max-w-3xl mx-auto px-4 py-10">
+      <main className="max-w-3xl mx-auto px-4 py-10" style={{ paddingTop: user ? '5.5rem' : undefined }}>
 
         {/* Hero */}
         <motion.div
@@ -198,6 +215,35 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           <p className="text-slate-500 mt-2 text-sm max-w-md mx-auto">
             Search study topics or ask a question — get answers from our library and submit anything we haven't covered yet.
           </p>
+        </motion.div>
+
+        {/* Quick tools */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.05 }}
+          className="grid grid-cols-2 gap-3 mb-6"
+        >
+          <button
+            onClick={() => onNavigate('school-assist-chat')}
+            className="flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl p-4 text-left transition-colors"
+          >
+            <MessageCircle className="w-5 h-5 shrink-0" />
+            <div>
+              <p className="text-xs font-black uppercase tracking-wider">Guidance Chat</p>
+              <p className="text-[10px] text-indigo-200 mt-0.5">APS, subjects, bursaries & more</p>
+            </div>
+          </button>
+          <button
+            onClick={() => onNavigate('aps-calculator')}
+            className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-4 text-left transition-colors"
+          >
+            <Calculator className="w-5 h-5 shrink-0" />
+            <div>
+              <p className="text-xs font-black uppercase tracking-wider">APS Calculator</p>
+              <p className="text-[10px] text-blue-200 mt-0.5">See which programmes you qualify for</p>
+            </div>
+          </button>
         </motion.div>
 
         {/* Search section */}

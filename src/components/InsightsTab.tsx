@@ -1,4 +1,6 @@
 import { motion } from 'motion/react';
+import { Briefcase, Building2, Banknote, TrendingUp, Wallet, BarChart2, GraduationCap, Lightbulb } from 'lucide-react';
+import type { ReactNode } from 'react';
 import {
   getIndustryBreakdown,
   getTopEmployersByProvince,
@@ -25,13 +27,13 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
   const bursaries = getBursariesByProvince(province);
   const costOfLiving = city ? getCostOfLivingByCity(city) : null;
 
-  const StatCard = ({ icon, label, value }: { icon: string; label: string; value: string }) => (
+  const StatCard = ({ icon, label, value }: { icon: ReactNode; label: string; value: string }) => (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="bg-white rounded-2xl p-5 shadow-sm border-2 border-slate-100 hover:border-prospect-green hover:shadow-md transition"
     >
-      <div className="text-2xl mb-2">{icon}</div>
+      <div className="mb-2 text-slate-500">{icon}</div>
       <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">{label}</p>
       <p className="text-xl font-bold text-slate-900 mt-1">{value}</p>
     </motion.div>
@@ -41,12 +43,15 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
     <div className="space-y-8">
       {/* Job Market Summary */}
       <section>
-        <h3 className="text-lg font-bold text-slate-900 mb-4">📊 Job Market</h3>
+        <div className="flex items-center gap-2 mb-4">
+          <BarChart2 className="w-5 h-5 text-slate-600" />
+          <h3 className="text-lg font-bold text-slate-900">Job Market</h3>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard icon="💼" label="Careers" value={`${careerCount}+`} />
-          <StatCard icon="🏫" label="Colleges" value={`${collegeCount}`} />
-          <StatCard icon="💰" label="Avg Salary" value={`R${(avgSalary / 1000).toFixed(0)}k`} />
-          <StatCard icon="🔥" label="Hot Roles" value={`${topDemandCareers.length}+`} />
+          <StatCard icon={<Briefcase className="w-6 h-6" />} label="Careers" value={`${careerCount}+`} />
+          <StatCard icon={<Building2 className="w-6 h-6" />} label="Colleges" value={`${collegeCount}`} />
+          <StatCard icon={<Banknote className="w-6 h-6" />} label="Avg Salary" value={`R${(avgSalary / 1000).toFixed(0)}k`} />
+          <StatCard icon={<TrendingUp className="w-6 h-6" />} label="Hot Roles" value={`${topDemandCareers.length}+`} />
         </div>
 
         {/* Top Demand Careers */}
@@ -66,13 +71,13 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                 >
                   <span className="text-sm font-medium text-slate-900">{career.title}</span>
                   <span
-                    className="text-xs font-bold px-2 py-1 rounded"
+                    className="text-xs font-bold px-2 py-1 rounded flex items-center gap-1"
                     style={{
                       backgroundColor: '#EF4444',
                       color: 'white',
                     }}
                   >
-                    🔥 High
+                    <TrendingUp className="w-3 h-3" /> High
                   </span>
                 </div>
               ))}
@@ -84,7 +89,10 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
       {/* Cost of Living */}
       {costOfLiving && (
         <section>
-          <h3 className="text-lg font-bold text-slate-900 mb-4">💰 Cost of Living in {city}</h3>
+          <div className="flex items-center gap-2 mb-4">
+          <Wallet className="w-5 h-5 text-slate-600" />
+          <h3 className="text-lg font-bold text-slate-900">Cost of Living in {city}</h3>
+        </div>
           <div className="space-y-3">
             {[
               { label: 'Housing', value: costOfLiving.rent, max: 10000 },
@@ -137,7 +145,10 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
       {/* Industry Breakdown */}
       {industryBreakdown && (
         <section>
-          <h3 className="text-lg font-bold text-slate-900 mb-4">📈 Industry Breakdown</h3>
+          <div className="flex items-center gap-2 mb-4">
+          <BarChart2 className="w-5 h-5 text-slate-600" />
+          <h3 className="text-lg font-bold text-slate-900">Industry Breakdown</h3>
+        </div>
           <div className="space-y-3">
             {industryBreakdown.industries.map((industry) => (
               <motion.div
@@ -166,17 +177,23 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
 
       {/* Education Landscape */}
       <section>
-        <h3 className="text-lg font-bold text-slate-900 mb-4">🎓 Education Landscape</h3>
+        <div className="flex items-center gap-2 mb-4">
+          <GraduationCap className="w-5 h-5 text-slate-600" />
+          <h3 className="text-lg font-bold text-slate-900">Education Landscape</h3>
+        </div>
         <div className="grid grid-cols-2 gap-4">
-          <StatCard icon="🏫" label="Universities" value={collegeCount.toString()} />
-          <StatCard icon="💡" label="Bursaries" value={`${bursaries.length}`} />
+          <StatCard icon={<Building2 className="w-6 h-6" />} label="Universities" value={collegeCount.toString()} />
+          <StatCard icon={<Lightbulb className="w-6 h-6" />} label="Bursaries" value={`${bursaries.length}`} />
         </div>
       </section>
 
       {/* Top Employers */}
       {topEmployers.length > 0 && (
         <section>
-          <h3 className="text-lg font-bold text-slate-900 mb-4">🏢 Top Employers</h3>
+          <div className="flex items-center gap-2 mb-4">
+          <Building2 className="w-5 h-5 text-slate-600" />
+          <h3 className="text-lg font-bold text-slate-900">Top Employers</h3>
+        </div>
           <div className="space-y-3">
             {topEmployers.slice(0, 5).map((employer) => (
               <motion.div

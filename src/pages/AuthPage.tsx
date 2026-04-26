@@ -325,38 +325,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
       >
         {/* Card — split layout */}
         <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-black/10 border border-white/60 overflow-hidden flex">
-          {/* Left panel — visual (uses SignInCard's layout concept) */}
-          <div className="hidden md:flex w-1/2 flex-col items-center justify-center p-10 bg-linear-to-br from-blue-50 to-slate-100 border-r border-slate-100 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-30">
-              {/* Dot grid background */}
-              {Array.from({ length: 12 }).map((_, row) =>
-                Array.from({ length: 10 }).map((_, col) => (
-                  <div
-                    key={`${row}-${col}`}
-                    className="absolute w-1 h-1 rounded-full bg-calm-blue"
-                    style={{ top: `${row * 9 + 2}%`, left: `${col * 10 + 2}%`, opacity: Math.random() * 0.6 + 0.2 }}
-                  />
-                ))
-              )}
-            </div>
-            <div className="relative z-10 text-center">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-3xl mx-auto mb-4 shadow-lg bg-calm-blue">P</div>
-              <h2 className="text-3xl font-bold mb-2 text-transparent bg-clip-text bg-linear-to-r from-calm-blue to-calm-dark-blue">Prospect SA</h2>
-              <p className="text-sm text-slate-600 max-w-xs">Your free career guidance platform for South African students</p>
-              <div className="mt-6 space-y-3 text-left">
-                {['Career assessments & quiz', 'Browse 200+ career paths', 'Bursaries & funding info', 'Study resources & calendar'].map(f => (
-                  <div key={f} className="flex items-center gap-2 text-sm text-slate-600">
-                    <div className="w-5 h-5 rounded-full bg-calm-blue/20 flex items-center justify-center shrink-0">
-                      <Check size={11} className="text-calm-blue" />
-                    </div>
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right panel — form */}
+          {/* Left panel — form */}
           <div className="w-full md:w-1/2">
           {/* Logo + brand */}
           <div className="px-8 pt-8 pb-6 text-center border-b border-gray-100">
@@ -664,7 +633,57 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
               )}
             </AnimatePresence>
           </div>
-          </div>{/* end right panel */}
+          </div>{/* end left (form) panel */}
+
+          {/* Right panel — dark testimonial */}
+          <div className="hidden md:flex w-1/2 flex-col items-center justify-center p-10 bg-[#0f172a] relative overflow-hidden">
+            {/* Subtle wave lines */}
+            <div className="absolute inset-0 opacity-10">
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute inset-x-0 h-px bg-white"
+                  style={{ top: `${10 + i * 12}%`, transform: `rotate(${i % 2 === 0 ? '-2' : '2'}deg)` }}
+                />
+              ))}
+            </div>
+            <div className="relative z-10 max-w-xs">
+              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-8">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+              </div>
+              <blockquote className="text-white text-xl font-semibold leading-relaxed mb-8">
+                "Prospect matched me to Engineering and helped me find a Sasol bursary. I'm now studying at Wits — completely free."
+              </blockquote>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                  TN
+                </div>
+                <div>
+                  <p className="text-white font-semibold text-sm">Thabo Nkosi</p>
+                  <p className="text-slate-400 text-xs">Engineering Student, Wits University</p>
+                </div>
+              </div>
+              <div className="mt-10 space-y-3">
+                {[
+                  'Career quiz & assessments',
+                  'Browse 200+ SA careers',
+                  'Bursaries & NSFAS info',
+                  'Free study resources',
+                  'School term calendar',
+                  'Grade 10–12 study library',
+                ].map(f => (
+                  <div key={f} className="flex items-center gap-2.5 text-sm text-slate-400">
+                    <div className="w-4 h-4 rounded-full bg-indigo-600/30 flex items-center justify-center shrink-0">
+                      <Check size={10} className="text-indigo-400" />
+                    </div>
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>{/* end split card */}
 
         {/* Footer note */}

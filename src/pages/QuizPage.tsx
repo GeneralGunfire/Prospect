@@ -45,7 +45,7 @@ function QuizPhase({
   const currentAnswer = answers.find((a) => a.questionId === currentQuestion.id)?.value;
   const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
   const isLast = currentQuestionIndex === quizQuestions.length - 1;
-  const isComplete = answers.length === quizQuestions.length;
+  const isComplete = answers.length + skippedQuestions.length >= quizQuestions.length;
   const hasSkipped = skippedQuestions.length > 0;
 
   const skippedQuestionDetails = skippedQuestions

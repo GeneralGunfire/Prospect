@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { LayoutGrid, TrendingUp, Banknote, Wrench, Search } from 'lucide-react';
 import { CareerCard } from './CareerCard';
 import { getCareersByProvince, getHighDemandCareers } from '../services/mapService';
 import type { CareerFull } from '../data/careersTypes';
@@ -45,16 +46,16 @@ export default function CareersTab({ province, searchQuery, onCareerSelect }: Ca
   const hasMore = visibleCareers.length < filteredCareers.length;
 
   const filters = [
-    { id: 'all', label: 'All', icon: '🎯' },
-    { id: 'high', label: 'High Demand', icon: '🔥' },
-    { id: 'salary', label: 'Good Salary', icon: '💰' },
-    { id: 'tvet', label: 'TVET Available', icon: '🔧' },
+    { id: 'all', label: 'All', icon: <LayoutGrid className="w-3.5 h-3.5" /> },
+    { id: 'high', label: 'High Demand', icon: <TrendingUp className="w-3.5 h-3.5" /> },
+    { id: 'salary', label: 'Good Salary', icon: <Banknote className="w-3.5 h-3.5" /> },
+    { id: 'tvet', label: 'TVET Available', icon: <Wrench className="w-3.5 h-3.5" /> },
   ] as const;
 
   if (filteredCareers.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-3xl mb-4">🔍</p>
+        <Search className="w-10 h-10 text-slate-300 mb-4" />
         <p className="text-lg font-semibold text-slate-900">No careers found</p>
         <p className="text-sm text-slate-600 mt-2">Try adjusting your search or filters</p>
       </div>
@@ -88,7 +89,7 @@ export default function CareersTab({ province, searchQuery, onCareerSelect }: Ca
                 : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
             }`}
           >
-            {filter.icon} {filter.label}
+            <span className="flex items-center gap-1.5">{filter.icon} {filter.label}</span>
           </motion.button>
         ))}
       </div>

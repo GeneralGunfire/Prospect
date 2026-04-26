@@ -6,6 +6,27 @@ import type { CareerFull } from './careersTypes';
 
 // Import the verified careers we created
 import { careerDatabase } from './careersFullAudited';
+import { engineeringCareers } from './batches/batch_engineering';
+import { healthcareCareers } from './batches/batch_healthcare';
+import { tradesCareers } from './batches/batch_trades';
+import { businessCareers } from './batches/batch_business';
+import { digitalCareers } from './batches/batch_digital';
+import { educationCreativeCareers } from './batches/batch_education_creative';
+import { publicServicesCareers } from './batches/batch_public_services';
+import { healthcare2Careers } from './batches/batch_healthcare2';
+import { business2Careers } from './batches/batch_business2';
+import { trades2Careers } from './batches/batch_trades2';
+import { digital2Careers } from './batches/batch_digital2';
+import { healthcare3Careers } from './batches/batch_healthcare3';
+import { business3Careers } from './batches/batch_business3';
+import { creative2Careers } from './batches/batch_creative2';
+import { publicServices2Careers } from './batches/batch_public_services2';
+import { agriculture2Careers } from './batches/batch_agriculture2';
+import { engineering2Careers } from './batches/batch_engineering2';
+import { legalFinanceCareers } from './batches/batch_legal_finance';
+import { education2Careers } from './batches/batch_education2';
+import { mediaCommsCareers } from './batches/batch_media_comms';
+import { trades3Careers } from './batches/batch_trades3';
 
 // Create template function for remaining careers (360+)
 function createCareer(
@@ -551,10 +572,70 @@ const templateBasedCareers: CareerFull[] = [
 ];
 
 // Combine all career databases
-export const allCareersComplete: CareerFull[] = [
+// IDs covered by real-data batches (removes them from template list)
+const realDataIds = new Set([
+  ...careerDatabase.map(c => c.id),
+  ...engineeringCareers.map(c => c.id),
+  ...healthcareCareers.map(c => c.id),
+  ...tradesCareers.map(c => c.id),
+  ...businessCareers.map(c => c.id),
+  ...digitalCareers.map(c => c.id),
+  ...educationCreativeCareers.map(c => c.id),
+  ...publicServicesCareers.map(c => c.id),
+  ...healthcare2Careers.map(c => c.id),
+  ...business2Careers.map(c => c.id),
+  ...trades2Careers.map(c => c.id),
+  ...digital2Careers.map(c => c.id),
+  ...healthcare3Careers.map(c => c.id),
+  ...business3Careers.map(c => c.id),
+  ...creative2Careers.map(c => c.id),
+  ...publicServices2Careers.map(c => c.id),
+  ...agriculture2Careers.map(c => c.id),
+  ...engineering2Careers.map(c => c.id),
+  ...legalFinanceCareers.map(c => c.id),
+  ...education2Careers.map(c => c.id),
+  ...mediaCommsCareers.map(c => c.id),
+  ...trades3Careers.map(c => c.id),
+]);
+
+const templateFiltered = templateBasedCareers.filter(c => !realDataIds.has(c.id));
+
+const rawCareers: CareerFull[] = [
+  // New detailed batches first — these win over old thin entries
+  ...engineeringCareers,
+  ...healthcareCareers,
+  ...tradesCareers,
+  ...businessCareers,
+  ...digitalCareers,
+  ...educationCreativeCareers,
+  ...publicServicesCareers,
+  ...healthcare2Careers,
+  ...business2Careers,
+  ...trades2Careers,
+  ...digital2Careers,
+  ...healthcare3Careers,
+  ...business3Careers,
+  ...creative2Careers,
+  ...publicServices2Careers,
+  ...agriculture2Careers,
+  ...engineering2Careers,
+  ...legalFinanceCareers,
+  ...education2Careers,
+  ...mediaCommsCareers,
+  ...trades3Careers,
+  // Audited careers second (DevOps + original 15 digital) — deduped below
   ...careerDatabase,
-  ...templateBasedCareers,
+  // Template fallbacks last
+  ...templateFiltered,
 ];
+
+// Deduplicate: first occurrence of any ID wins
+const seenIds = new Set<string>();
+export const allCareersComplete: CareerFull[] = rawCareers.filter(c => {
+  if (seenIds.has(c.id)) return false;
+  seenIds.add(c.id);
+  return true;
+});
 
 export const totalCareersAvailable = allCareersComplete.length;
 

@@ -1,87 +1,43 @@
-import { PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Logo = {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
+type Tool = {
+  name: string;
+  abbr: string;
+  color: string;
+  bg: string;
 };
 
 type LogoCloudProps = React.ComponentProps<"div">;
 
-const institutions = [
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/0/03/UCT_logo.svg/200px-UCT_logo.svg.png", alt: "University of Cape Town" },
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/7/77/Wits_logo.svg/200px-Wits_logo.svg.png", alt: "University of the Witwatersrand" },
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/University_of_South_Africa_logo.svg/200px-University_of_South_Africa_logo.svg.png", alt: "UNISA" },
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/Stellenbosch_University_logo.svg/200px-Stellenbosch_University_logo.svg.png", alt: "Stellenbosch University" },
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/University_of_Pretoria_logo.svg/200px-University_of_Pretoria_logo.svg.png", alt: "University of Pretoria" },
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/DUT_logo.svg/200px-DUT_logo.svg.png", alt: "Durban University of Technology" },
-  { src: "https://upload.wikimedia.org/wikipedia/en/thumb/a/ab/University_of_Johannesburg_logo.svg/200px-University_of_Johannesburg_logo.svg.png", alt: "University of Johannesburg" },
-  { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/TVET_Colleges_South_Africa.svg/200px-TVET_Colleges_South_Africa.svg.png", alt: "TVET Colleges SA" },
+const tools: Tool[] = [
+  { name: "Claude Code", abbr: "CC", color: "text-[#D97706]", bg: "bg-amber-50" },
+  { name: "Google Gemini", abbr: "G", color: "text-[#4285F4]", bg: "bg-blue-50" },
+  { name: "Google AI Studio", abbr: "AI", color: "text-[#34A853]", bg: "bg-green-50" },
+  { name: "Supabase", abbr: "SB", color: "text-[#3ECF8E]", bg: "bg-emerald-50" },
+  { name: "Vite", abbr: "V", color: "text-[#646CFF]", bg: "bg-indigo-50" },
+  { name: "React", abbr: "R", color: "text-[#61DAFB]", bg: "bg-cyan-50" },
+  { name: "Tailwind CSS", abbr: "TW", color: "text-[#06B6D4]", bg: "bg-sky-50" },
+  { name: "TypeScript", abbr: "TS", color: "text-[#3178C6]", bg: "bg-blue-50" },
 ];
 
 export function LogoCloud({ className, ...props }: LogoCloudProps) {
   return (
-    <div
-      className={cn("relative grid grid-cols-2 border-x md:grid-cols-4", className)}
-      {...props}
-      data-logo-cloud
-    >
-      <div className="-translate-x-1/2 -top-px pointer-events-none absolute left-1/2 w-screen border-t" />
-
-      {institutions.map((inst, i) => {
-        const isLast = i === institutions.length - 1;
-        const hasRightPlus = i % 2 === 0 && i < institutions.length - 1;
-        return (
-          <LogoCard
-            key={inst.alt}
-            className={cn(
-              "relative",
-              i % 2 === 0 && "border-r",
-              i < institutions.length - 2 && "border-b",
-              i % 4 === 1 && "md:border-r",
-              i % 4 === 2 && "md:border-r",
-              i < 4 && "md:border-b",
-            )}
-            logo={inst}
-          >
-            {hasRightPlus && (
-              <PlusIcon
-                className="-right-[12.5px] -bottom-[12.5px] absolute z-10 size-6 text-slate-300"
-                strokeWidth={1}
-              />
-            )}
-          </LogoCard>
-        );
-      })}
-
-      <div className="-translate-x-1/2 -bottom-px pointer-events-none absolute left-1/2 w-screen border-b" />
-    </div>
-  );
-}
-
-type LogoCardProps = React.ComponentProps<"div"> & {
-  logo: Logo;
-};
-
-function LogoCard({ logo, className, children, ...props }: LogoCardProps) {
-  return (
-    <div
-      className={cn("flex items-center justify-center bg-white px-4 py-8 md:p-8", className)}
-      {...props}
-    >
-      <div className="flex flex-col items-center gap-2">
-        <div className="w-10 h-10 rounded-full bg-[#176293]/10 flex items-center justify-center">
-          <span className="text-[#176293] font-bold text-sm">
-            {logo.alt.split(" ").map(w => w[0]).slice(0, 2).join("")}
-          </span>
+    <div className={cn("bg-white py-12 border-y border-slate-100", className)} {...props} data-logo-cloud>
+      <div className="max-w-7xl mx-auto px-4">
+        <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-slate-400 mb-8">
+          Built with industry-leading tools
+        </p>
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
+          {tools.map((tool) => (
+            <div key={tool.name} className="flex flex-col items-center gap-2">
+              <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm border border-slate-100", tool.bg)}>
+                <span className={cn("text-sm font-black", tool.color)}>{tool.abbr}</span>
+              </div>
+              <span className="text-[10px] font-medium text-slate-500 text-center leading-tight hidden sm:block">{tool.name}</span>
+            </div>
+          ))}
         </div>
-        <span className="text-xs font-medium text-slate-600 text-center max-w-[100px] leading-tight">
-          {logo.alt}
-        </span>
       </div>
-      {children}
     </div>
   );
 }

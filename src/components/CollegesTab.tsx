@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, ExternalLink } from 'lucide-react';
+import { MapPin, ExternalLink, Building2 } from 'lucide-react';
 import { getUniversitiesByProvince, getTVETCollegesByProvince } from '../services/mapService';
 
 interface CollegesTabProps {
@@ -35,7 +35,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
   if (universities.length === 0 && tvetColleges.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-3xl mb-4">🏫</p>
+        <Building2 className="w-10 h-10 text-slate-300 mb-4" />
         <p className="text-lg font-semibold text-slate-900">No colleges found</p>
         <p className="text-sm text-slate-600 mt-2">This province has limited educational institutions</p>
       </div>

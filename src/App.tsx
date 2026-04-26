@@ -23,9 +23,6 @@ import {
   Users,
   Globe,
   Lock,
-  Brain,
-  Coins,
-  Trophy,
 } from 'lucide-react';
 // Lazy-load all page-level components to enable code splitting
 const AuthPage           = lazy(() => import('./pages/AuthPage'));
@@ -52,6 +49,13 @@ const PotholeMapPage         = lazy(() => import('./pages/PotholeMapPage'));
 const FlagPotholePage        = lazy(() => import('./pages/FlagPotholePage'));
 const MyContributionsPage    = lazy(() => import('./pages/MyContributionsPage'));
 const WaterDashboardPage     = lazy(() => import('./pages/WaterDashboardPage'));
+const APSCalculatorPage      = lazy(() => import('./pages/APSCalculatorPage'));
+const SchoolAssistChatPage   = lazy(() => import('./pages/SchoolAssistChatPage'));
+const NewsPage               = lazy(() => import('./pages/NewsPage'));
+const TaxBudgetPage          = lazy(() => import('./pages/TaxBudgetPage'));
+const CostOfLivingPage       = lazy(() => import('./pages/CostOfLivingPage'));
+const CivicsPage             = lazy(() => import('./pages/CivicsPage'));
+const NewsAuthPage           = lazy(() => import('./pages/NewsAuthPage'));
 import LoadingScreen from './components/LoadingScreen';
 import { VideoPlayer } from './components/VideoPlayer';
 import type { AppPage } from './lib/withAuth';
@@ -96,6 +100,7 @@ const Header = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
     { label: 'Career Guide', page: 'quiz' as Page, desc: 'No sign-in required', accent: 'text-blue-600', dot: 'bg-blue-500' },
     { label: 'School Assist', page: 'auth' as Page, desc: 'Sign in required', accent: 'text-indigo-600', dot: 'bg-indigo-500' },
     { label: 'Community', page: 'impact-auth' as Page, desc: 'Impact · Potholes · Water', accent: 'text-emerald-600', dot: 'bg-emerald-500' },
+    { label: 'News & Info', page: 'news-auth' as Page, desc: 'News · Tax · Civics · Costs', accent: 'text-amber-600', dot: 'bg-amber-500' },
   ];
 
   return (
@@ -276,59 +281,149 @@ const ValueProps = () => {
 const HowItWorks = () => {
   const steps = [
     {
-      number: '01', title: 'Discover', icon: <Brain className="w-7 h-7" />,
-      desc: 'Take the RIASEC quiz to find career paths that match your personality.',
-      bg: 'bg-blue-50', border: 'border-blue-100', iconBg: 'bg-blue-600', dot: 'bg-blue-400',
+      number: 1,
+      title: 'Take the Career Quiz',
+      desc: 'Answer our RIASEC quiz questions about your interests and strengths to discover which career paths suit your personality best.',
     },
     {
-      number: '02', title: 'Explore', icon: <Compass className="w-7 h-7" />,
-      desc: 'Deep dive into 400+ South African careers with salary and demand data.',
-      bg: 'bg-indigo-50', border: 'border-indigo-100', iconBg: 'bg-indigo-600', dot: 'bg-indigo-400',
+      number: 2,
+      title: 'Explore Your Options',
+      desc: 'Browse 400+ South African careers with salary data, job demand by province, university requirements, and TVET pathways.',
     },
     {
-      number: '03', title: 'Fund', icon: <Coins className="w-7 h-7" />,
-      desc: 'Find bursaries and scholarships to pay for your studies at top institutions.',
-      bg: 'bg-emerald-50', border: 'border-emerald-100', iconBg: 'bg-emerald-600', dot: 'bg-emerald-400',
-    },
-    {
-      number: '04', title: 'Achieve', icon: <Trophy className="w-7 h-7" />,
-      desc: 'Access study resources and planning tools to ensure your academic success.',
-      bg: 'bg-amber-50', border: 'border-amber-100', iconBg: 'bg-amber-500', dot: 'bg-amber-400',
+      number: 3,
+      title: 'Secure Your Future',
+      desc: 'Find bursaries and scholarships that match your field, then use our study resources to achieve the marks you need.',
     },
   ];
 
   return (
-    <section className="py-20 px-4 bg-bg-light/50 content-visibility-auto contain-intrinsic-size-[auto_400px]">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-4">The Process</p>
-          <h2 className="text-h2 text-text-primary tracking-tighter">How Prospect Works</h2>
+    <section className="py-10 bg-white sm:py-16 lg:py-24 content-visibility-auto contain-intrinsic-size-[auto_400px]">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">How does it work?</h2>
+          <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600">
+            From discovering your ideal career to securing funding and acing your exams — Prospect guides you every step of the way.
+          </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className={`relative p-6 rounded-2xl border ${step.bg} ${step.border} transition-all duration-300 group will-change-transform cursor-default overflow-hidden`}
-            >
-              {/* Step number watermark */}
-              <span className="text-7xl font-black text-slate-900/[0.04] absolute -bottom-2 -right-2 leading-none select-none">
-                {step.number}
-              </span>
-              {/* Icon */}
-              <div className={`w-12 h-12 ${step.iconBg} rounded-xl flex items-center justify-center mb-5 text-white shadow-sm`}>
-                {step.icon}
-              </div>
-              {/* Dot accent */}
-              <div className={`w-1.5 h-1.5 rounded-full ${step.dot} mb-3`} />
-              <h3 className="text-xl font-black text-text-primary mb-3">{step.title}</h3>
-              <p className="text-sm text-text-secondary leading-relaxed">{step.desc}</p>
-            </motion.div>
-          ))}
+
+        <div className="relative mt-12 lg:mt-20">
+          <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
+            <img
+              className="w-full"
+              src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </div>
+
+          <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
+            {steps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.12 }}
+              >
+                <div className="flex items-center justify-center w-16 h-16 mx-auto bg-white border-2 border-gray-200 rounded-full shadow">
+                  <span className="text-xl font-semibold text-gray-700">{step.number}</span>
+                </div>
+                <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">{step.title}</h3>
+                <p className="mt-4 text-base text-gray-600">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const StarIcon = () => (
+  <svg className="w-5 h-5 text-[#FDB241]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+  </svg>
+);
+
+const Testimonials = () => {
+  const reviews = [
+    {
+      quote: "I had no idea what to study after matric. Prospect's quiz matched me to Industrial Engineering — I'm now in my second year at Wits and absolutely loving it.",
+      name: 'Thabo Nkosi',
+      role: 'Engineering Student, Wits University',
+      avatar: 'TN',
+      avatarBg: 'bg-blue-600',
+    },
+    {
+      quote: "The bursary finder helped me secure funding through Sasol. Without Prospect I wouldn't have known where to look. It's completely changed my trajectory.",
+      name: 'Ayanda Dlamini',
+      role: 'Chemical Engineering, UCT',
+      avatar: 'AD',
+      avatarBg: 'bg-emerald-600',
+    },
+    {
+      quote: "The study library for Physical Sciences saved my matric year. The explanations are clear and the practice questions actually match what came out in the exams.",
+      name: 'Lerato Mokoena',
+      role: 'Grade 12 Student, Soweto',
+      avatar: 'LM',
+      avatarBg: 'bg-indigo-600',
+    },
+  ];
+
+  return (
+    <section className="py-12 bg-gray-50 sm:py-16 lg:py-20 content-visibility-auto contain-intrinsic-size-[auto_500px]">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center">
+          <div className="text-center">
+            <p className="text-lg font-medium text-gray-600">South African students share their experience</p>
+            <h2 className="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl">What our students say</h2>
+          </div>
+
+          <div className="mt-8 text-center md:mt-16 md:order-3">
+            <a href="#" className="pb-2 text-base font-bold leading-7 text-gray-900 transition-all duration-200 border-b-2 border-gray-900 hover:border-gray-600 hover:text-gray-600 focus:outline-none">
+              Read more student stories
+            </a>
+          </div>
+
+          <div className="relative mt-10 md:mt-24 md:order-2">
+            <div className="absolute -inset-x-1 inset-y-16 md:-inset-x-2 md:-inset-y-6">
+              <div className="w-full h-full max-w-5xl mx-auto rounded-3xl opacity-30 blur-lg filter" style={{ background: 'linear-gradient(90deg, #44ff9a -0.55%, #44b0ff 22.86%, #8b44ff 48.36%, #ff6644 73.33%, #ebff70 99.34%)' }} />
+            </div>
+
+            <div className="relative grid max-w-lg grid-cols-1 gap-6 mx-auto md:max-w-none lg:gap-10 md:grid-cols-3">
+              {reviews.map((review, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex flex-col overflow-hidden shadow-xl"
+                >
+                  <div className="flex flex-col justify-between flex-1 p-6 bg-white lg:py-8 lg:px-7">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-0.5">
+                        {[...Array(5)].map((_, j) => <StarIcon key={j} />)}
+                      </div>
+                      <blockquote className="flex-1 mt-8">
+                        <p className="text-lg leading-relaxed text-gray-900">"{review.quote}"</p>
+                      </blockquote>
+                    </div>
+                    <div className="flex items-center mt-8">
+                      <div className={`flex-shrink-0 w-11 h-11 rounded-full ${review.avatarBg} flex items-center justify-center text-white font-bold text-sm`}>
+                        {review.avatar}
+                      </div>
+                      <div className="ml-4">
+                        <p className="text-base font-bold text-gray-900">{review.name}</p>
+                        <p className="mt-0.5 text-sm text-gray-600">{review.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1123,6 +1218,18 @@ export default function App() {
               </PageTransition>
             )}
 
+            {page === 'school-assist-chat' && (
+              <PageTransition pageKey="school-assist-chat">
+                <SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} />
+              </PageTransition>
+            )}
+
+            {page === 'aps-calculator' && (
+              <PageTransition pageKey="aps-calculator">
+                <APSCalculatorPage onNavigate={navigate} onNavigateHome={() => setPage('home')} />
+              </PageTransition>
+            )}
+
             {page === 'impact-auth' && (
               <PageTransition pageKey="impact-auth">
                 <ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} />
@@ -1165,12 +1272,46 @@ export default function App() {
               </PageTransition>
             )}
 
+            {page === 'news' && (
+              <PageTransition pageKey="news">
+                <NewsPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'tax-budget' && (
+              <PageTransition pageKey="tax-budget">
+                <TaxBudgetPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'cost-of-living' && (
+              <PageTransition pageKey="cost-of-living">
+                <CostOfLivingPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'civics' && (
+              <PageTransition pageKey="civics">
+                <CivicsPage {...protectedPageProps} />
+              </PageTransition>
+            )}
+
+            {page === 'news-auth' && (
+              <PageTransition pageKey="news-auth">
+                <NewsAuthPage
+                  onNavigateHome={() => setPage('home')}
+                  onNavigate={navigate}
+                />
+              </PageTransition>
+            )}
+
             {page === 'home' && (
               <PageTransition pageKey="home">
                 <div className="relative">
                   <Header onNavigate={setPage} />
                   <main id="main-content">
                     <AnimatedHero onNavigate={setPage} />
+                    <LogoCloud />
                     {/* ── Section 1: Career Guide ── */}
                     <CareerGuideSection onNavigate={setPage} />
                     {/* ── Section 1.5: How it Works ── */}
@@ -1181,6 +1322,8 @@ export default function App() {
                     <SchoolAssistSection onNavigate={setPage} />
                     {/* ── Section 4: Community ── */}
                     <CommunityImpactSection onNavigate={setPage} />
+                    {/* ── Section 5: Testimonials ── */}
+                    <Testimonials />
                     <FAQ />
                   </main>
                   <Footer onNavigate={setPage} />

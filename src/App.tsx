@@ -64,7 +64,6 @@ const NewsPage           = lazy(() => import('./pages/NewsPage'));
 const TaxBudgetPage      = lazy(() => import('./pages/TaxBudgetPage'));
 const CostOfLivingPage   = lazy(() => import('./pages/CostOfLivingPage'));
 const CivicsPage         = lazy(() => import('./pages/CivicsPage'));
-const NewsAuthPage       = lazy(() => import('./pages/NewsAuthPage'));
 import LoadingScreen from './components/LoadingScreen';
 import type { AppPage } from './lib/withAuth';
 
@@ -74,31 +73,7 @@ type Page = AppPage;
 
 const EXPAND_SCROLL_THRESHOLD = 80;
 
-const containerVariants = {
-  expanded: {
-    y: 0, opacity: 1, width: 'auto',
-    transition: { y: { type: 'spring', damping: 18, stiffness: 250 }, opacity: { duration: 0.3 }, type: 'spring', damping: 20, stiffness: 300, staggerChildren: 0.07, delayChildren: 0.2 },
-  },
-  collapsed: {
-    y: 0, opacity: 1, width: '3rem',
-    transition: { type: 'spring', damping: 20, stiffness: 300, when: 'afterChildren', staggerChildren: 0.05, staggerDirection: -1 },
-  },
-};
-
-const logoVariants = {
-  expanded: { opacity: 1, x: 0, rotate: 0, transition: { type: 'spring', damping: 15 } },
-  collapsed: { opacity: 0, x: -25, rotate: -180, transition: { duration: 0.3 } },
-};
-
-const itemVariants = {
-  expanded: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', damping: 15 } },
-  collapsed: { opacity: 0, x: -20, scale: 0.95, transition: { duration: 0.2 } },
-};
-
-const collapsedIconVariants = {
-  expanded: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } },
-  collapsed: { opacity: 1, scale: 1, transition: { type: 'spring', damping: 15, stiffness: 300, delay: 0.15 } },
-};
+// No variant objects — animations driven inline per element
 
 const AnimatedNav = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
   const [isExpanded, setExpanded] = useState(true);
@@ -111,7 +86,7 @@ const AnimatedNav = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
     { name: 'Career Guide', page: 'quiz' as Page },
     { name: 'School Assist', page: 'auth' as Page },
     { name: 'Community', page: 'impact-auth' as Page },
-    { name: 'News & Info', page: 'news-auth' as Page },
+    { name: 'News & Info', page: 'news' as Page },
   ];
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -134,33 +109,43 @@ const AnimatedNav = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[120]">
         <motion.nav
           initial={{ y: -80, opacity: 0 }}
-          animate={isExpanded ? 'expanded' : 'collapsed'}
-          variants={containerVariants}
-          whileHover={!isExpanded ? { scale: 1.1 } : {}}
+          animate={{ y: 0, opacity: 1, width: isExpanded ? 'auto' : '3rem' }}
+          transition={{ y: { duration: 0.4, ease: 'easeOut' }, opacity: { duration: 0.3 }, width: { type: 'spring', damping: 28, stiffness: 260 } }}
+          whileHover={!isExpanded ? { scale: 1.08 } : {}}
           whileTap={!isExpanded ? { scale: 0.95 } : {}}
           onClick={handleNavClick}
           className={`flex items-center overflow-hidden rounded-full border border-slate-200 bg-white/80 shadow-lg backdrop-blur-sm h-12 ${!isExpanded ? 'cursor-pointer justify-center' : ''}`}
         >
-          <motion.div variants={logoVariants} className="flex-shrink-0 flex items-center font-black pl-4 pr-2 gap-2">
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className="shrink-0 flex items-center font-black pl-4 pr-2 gap-2"
+          >
             <div className="w-6 h-6 rounded bg-slate-900 flex items-center justify-center text-white font-black text-xs">P</div>
             <span className="text-xs font-black uppercase tracking-widest text-slate-900 hidden sm:block">Prospect</span>
           </motion.div>
 
-          <motion.div className={`flex items-center gap-1 sm:gap-3 pr-4 ${!isExpanded ? 'pointer-events-none' : ''}`}>
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className={`flex items-center gap-1 sm:gap-3 pr-4 ${!isExpanded ? 'pointer-events-none' : ''}`}
+          >
             {navItems.map((item) => (
-              <motion.button
+              <button
                 key={item.name}
-                variants={itemVariants}
                 onClick={(e) => { e.stopPropagation(); onNavigate(item.page); }}
-                className="text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors px-2 py-1 rounded-lg hover:bg-slate-100"
+                className="text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors px-2 py-1 rounded-lg hover:bg-slate-100 whitespace-nowrap"
               >
                 {item.name}
-              </motion.button>
+              </button>
             ))}
           </motion.div>
 
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <motion.div variants={collapsedIconVariants} animate={isExpanded ? 'expanded' : 'collapsed'}>
+            <motion.div
+              animate={{ opacity: isExpanded ? 0 : 1 }}
+              transition={{ duration: 0.18 }}
+            >
               <Menu className="h-5 w-5 text-slate-700" />
             </motion.div>
           </div>
@@ -345,7 +330,7 @@ const FeaturesSection = ({ onNavigate }: { onNavigate: (page: Page) => void }) =
       title: "News & Info",
       description: "Stay informed with curated news, tax & budget explainers, cost-of-living tools, and civics content every SA citizen should know.",
       cta: "Read More",
-      page: 'news-auth' as Page,
+      page: 'news' as Page,
     },
   ];
 
@@ -832,11 +817,10 @@ export default function App() {
               {page === 'flag-pothole' && <PageTransition pageKey="flag-pothole"><FlagPotholePage {...protectedPageProps} /></PageTransition>}
               {page === 'my-pothole-contributions' && <PageTransition pageKey="my-pothole-contributions"><MyContributionsPage {...protectedPageProps} /></PageTransition>}
               {page === 'water-dashboard' && <PageTransition pageKey="water-dashboard"><WaterDashboardPage {...protectedPageProps} /></PageTransition>}
-              {page === 'news' && <PageTransition pageKey="news"><NewsPage {...protectedPageProps} /></PageTransition>}
-              {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage {...protectedPageProps} /></PageTransition>}
-              {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage {...protectedPageProps} /></PageTransition>}
-              {page === 'civics' && <PageTransition pageKey="civics"><CivicsPage {...protectedPageProps} /></PageTransition>}
-              {page === 'news-auth' && <PageTransition pageKey="news-auth"><NewsAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
+              {page === 'news' && <PageTransition pageKey="news"><NewsPage {...careerPageProps} /></PageTransition>}
+              {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage {...careerPageProps} /></PageTransition>}
+              {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage {...careerPageProps} /></PageTransition>}
+              {page === 'civics' && <PageTransition pageKey="civics"><CivicsPage {...careerPageProps} /></PageTransition>}
 
               {page === 'home' && (
                 <PageTransition pageKey="home">

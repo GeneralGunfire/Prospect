@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   SendHorizonal,
   MessageCircle,
-  Calculator,
 } from 'lucide-react';
 import type { AppPage } from '../lib/withAuth';
 import { supabase } from '../lib/supabase';
@@ -222,26 +221,16 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05 }}
-          className="grid grid-cols-2 gap-3 mb-6"
+          className="mb-6"
         >
           <button
             onClick={() => onNavigate('school-assist-chat')}
-            className="flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl p-4 text-left transition-colors"
+            className="w-full flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl p-4 text-left transition-colors"
           >
             <MessageCircle className="w-5 h-5 shrink-0" />
             <div>
               <p className="text-xs font-black uppercase tracking-wider">Guidance Chat</p>
-              <p className="text-[10px] text-indigo-200 mt-0.5">APS, subjects, bursaries & more</p>
-            </div>
-          </button>
-          <button
-            onClick={() => onNavigate('aps-calculator')}
-            className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-4 text-left transition-colors"
-          >
-            <Calculator className="w-5 h-5 shrink-0" />
-            <div>
-              <p className="text-xs font-black uppercase tracking-wider">APS Calculator</p>
-              <p className="text-[10px] text-blue-200 mt-0.5">See which programmes you qualify for</p>
+              <p className="text-[10px] text-indigo-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
             </div>
           </button>
         </motion.div>

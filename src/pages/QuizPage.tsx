@@ -88,10 +88,11 @@ function QuizPhase({
   };
 
   const handleFinish = () => {
-    if (isComplete && hasSkipped) {
+    if (answers.length === 0) return;
+    if (hasSkipped) {
       setShowSkipReminder(true);
-    } else if (isComplete) {
-      onComplete(answers, 0);
+    } else {
+      onComplete(answers, skippedQuestions.length);
     }
   };
 
@@ -218,7 +219,7 @@ function QuizPhase({
           {isLast ? (
             <button
               onClick={handleFinish}
-              disabled={!isComplete}
+              disabled={answers.length === 0}
               className="bg-prospect-green text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
             >
               Finish Quiz

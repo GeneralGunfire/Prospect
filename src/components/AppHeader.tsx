@@ -51,7 +51,6 @@ const CAREER_NAV: NavItem[] = [
   { name: 'TVET',       page: 'tvet',                icon: <GraduationCap className="w-4 h-4" /> },
   { name: 'Bursaries',  page: 'bursaries',           icon: <Wallet className="w-4 h-4" /> },
   { name: 'Job Map',    page: 'map',                 icon: <Map className="w-4 h-4" /> },
-  { name: 'APS Calc',   page: 'subject-selector',    icon: <Target className="w-4 h-4" /> },
   { name: 'Guide',      page: 'disadvantaged-guide', icon: <Heart className="w-4 h-4" /> },
 ];
 

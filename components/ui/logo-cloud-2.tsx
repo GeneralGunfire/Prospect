@@ -1,43 +1,98 @@
+import { PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Tool = {
-  name: string;
-  abbr: string;
-  color: string;
-  bg: string;
+type Logo = {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
 };
 
 type LogoCloudProps = React.ComponentProps<"div">;
 
-const tools: Tool[] = [
-  { name: "Claude Code", abbr: "CC", color: "text-[#D97706]", bg: "bg-amber-50" },
-  { name: "Google Gemini", abbr: "G", color: "text-[#4285F4]", bg: "bg-blue-50" },
-  { name: "Google AI Studio", abbr: "AI", color: "text-[#34A853]", bg: "bg-green-50" },
-  { name: "Supabase", abbr: "SB", color: "text-[#3ECF8E]", bg: "bg-emerald-50" },
-  { name: "Vite", abbr: "V", color: "text-[#646CFF]", bg: "bg-indigo-50" },
-  { name: "React", abbr: "R", color: "text-[#61DAFB]", bg: "bg-cyan-50" },
-  { name: "Tailwind CSS", abbr: "TW", color: "text-[#06B6D4]", bg: "bg-sky-50" },
-  { name: "TypeScript", abbr: "TS", color: "text-[#3178C6]", bg: "bg-blue-50" },
-];
-
 export function LogoCloud({ className, ...props }: LogoCloudProps) {
   return (
-    <div className={cn("bg-white py-12 border-y border-slate-100", className)} {...props} data-logo-cloud>
-      <div className="max-w-7xl mx-auto px-4">
-        <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-slate-400 mb-8">
-          Built with industry-leading tools
-        </p>
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
-          {tools.map((tool) => (
-            <div key={tool.name} className="flex flex-col items-center gap-2">
-              <div className={cn("w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm border border-slate-100", tool.bg)}>
-                <span className={cn("text-sm font-black", tool.color)}>{tool.abbr}</span>
-              </div>
-              <span className="text-[10px] font-medium text-slate-500 text-center leading-tight hidden sm:block">{tool.name}</span>
-            </div>
-          ))}
-        </div>
+    <div className={cn("py-10 bg-white border-y border-slate-100", className)} {...props}>
+      <p className="text-center text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-8">
+        Built with industry-leading tools
+      </p>
+      <div
+        className="relative grid grid-cols-2 border-x border-slate-200 md:grid-cols-4 max-w-5xl mx-auto"
+      >
+        <div className="-translate-x-1/2 -top-px pointer-events-none absolute left-1/2 w-screen border-t border-slate-200" />
+
+        <LogoCard
+          className="relative border-r border-b border-slate-200"
+          logo={{ src: "https://svgl.app/library/nvidia-wordmark-light.svg", alt: "Nvidia" }}
+        >
+          <PlusIcon className="-right-[12.5px] -bottom-[12.5px] absolute z-10 size-6 text-slate-300" strokeWidth={1} />
+        </LogoCard>
+
+        <LogoCard
+          className="border-b border-slate-200 md:border-r md:border-slate-200"
+          logo={{ src: "https://svgl.app/library/supabase_wordmark_light.svg", alt: "Supabase" }}
+        />
+
+        <LogoCard
+          className="relative border-r border-b border-slate-200 bg-slate-50"
+          logo={{ src: "https://svgl.app/library/github_wordmark_light.svg", alt: "GitHub" }}
+        >
+          <PlusIcon className="-right-[12.5px] -bottom-[12.5px] absolute z-10 size-6 text-slate-300" strokeWidth={1} />
+          <PlusIcon className="-bottom-[12.5px] -left-[12.5px] absolute z-10 hidden size-6 text-slate-300 md:block" strokeWidth={1} />
+        </LogoCard>
+
+        <LogoCard
+          className="border-b border-slate-200 bg-slate-50 md:bg-white"
+          logo={{ src: "https://svgl.app/library/openai_wordmark_light.svg", alt: "OpenAI" }}
+        />
+
+        <LogoCard
+          className="relative border-r border-b border-slate-200 md:border-b-0"
+          logo={{ src: "https://svgl.app/library/turso-wordmark-light.svg", alt: "Turso" }}
+        >
+          <PlusIcon className="-right-[12.5px] -bottom-[12.5px] md:-left-[12.5px] absolute z-10 size-6 text-slate-300 md:hidden" strokeWidth={1} />
+        </LogoCard>
+
+        <LogoCard
+          className="border-b border-slate-200 md:border-r md:border-b-0 md:bg-slate-50"
+          logo={{ src: "https://svgl.app/library/clerk-wordmark-light.svg", alt: "Clerk" }}
+        />
+
+        <LogoCard
+          className="border-r border-slate-200"
+          logo={{ src: "https://svgl.app/library/claude-ai-wordmark-icon_light.svg", alt: "Claude AI" }}
+        />
+
+        <LogoCard
+          className="bg-slate-50"
+          logo={{ src: "https://svgl.app/library/vercel_wordmark.svg", alt: "Vercel" }}
+        />
+
+        <div className="-translate-x-1/2 -bottom-px pointer-events-none absolute left-1/2 w-screen border-b border-slate-200" />
       </div>
+    </div>
+  );
+}
+
+type LogoCardProps = React.ComponentProps<"div"> & {
+  logo: Logo;
+};
+
+function LogoCard({ logo, className, children, ...props }: LogoCardProps) {
+  return (
+    <div
+      className={cn("flex items-center justify-center bg-white px-4 py-8 md:p-8", className)}
+      {...props}
+    >
+      <img
+        alt={logo.alt}
+        className="pointer-events-none h-4 select-none md:h-5"
+        height={logo.height || "auto"}
+        src={logo.src}
+        width={logo.width || "auto"}
+        style={{ filter: "brightness(0) saturate(100%) invert(20%) sepia(10%) saturate(500%) hue-rotate(180deg) brightness(90%)" }}
+      />
+      {children}
     </div>
   );
 }

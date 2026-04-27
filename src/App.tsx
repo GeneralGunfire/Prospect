@@ -777,7 +777,7 @@ export default function App() {
     return () => { subscription.unsubscribe(); stopBackgroundSync(); };
   }, []);
 
-  const protectedPageProps = { onNavigateAuth: () => setPage('auth'), onSignOut: handleSignOut, onNavigate: navigate };
+  const protectedPageProps = { onNavigateAuth: () => setPage('home'), onSignOut: handleSignOut, onNavigate: navigate };
   const careerPageProps = { onNavigateAuth: () => setPage('auth'), onSignOut: handleSignOut, onNavigate: navigate, guestMode: true };
 
   return (

@@ -30,14 +30,14 @@ interface SubjectIconConfig {
 
 const SUBJECT_ICON_CONFIG: Record<string, SubjectIconConfig> = {
   'maths':             { Icon: Calculator,  bg: 'bg-blue-100',    iconColor: 'text-blue-700',    labelColor: 'text-blue-500' },
-  'phys-sci':          { Icon: Atom,        bg: 'bg-indigo-100',  iconColor: 'text-indigo-700',  labelColor: 'text-indigo-500' },
-  'life-sci':          { Icon: FlaskConical,bg: 'bg-emerald-100', iconColor: 'text-emerald-700', labelColor: 'text-emerald-500' },
+  'phys-sci':          { Icon: Atom,        bg: 'bg-blue-100',  iconColor: 'text-blue-700',  labelColor: 'text-blue-500' },
+  'life-sci':          { Icon: FlaskConical,bg: 'bg-blue-100', iconColor: 'text-blue-700', labelColor: 'text-blue-500' },
   'accounting':        { Icon: Calculator,  bg: 'bg-amber-100',   iconColor: 'text-amber-700',   labelColor: 'text-amber-500' },
-  'business-studies':  { Icon: Briefcase,   bg: 'bg-orange-100',  iconColor: 'text-orange-700',  labelColor: 'text-orange-500' },
-  'economics':         { Icon: TrendingUp,  bg: 'bg-teal-100',    iconColor: 'text-teal-700',    labelColor: 'text-teal-500' },
+  'business-studies':  { Icon: Briefcase,   bg: 'bg-slate-100',  iconColor: 'text-slate-700',  labelColor: 'text-slate-500' },
+  'economics':         { Icon: TrendingUp,  bg: 'bg-slate-100',    iconColor: 'text-slate-600',    labelColor: 'text-slate-500' },
   'cat':               { Icon: Monitor,     bg: 'bg-sky-100',     iconColor: 'text-sky-700',     labelColor: 'text-sky-500' },
-  'egd':               { Icon: Pencil,      bg: 'bg-violet-100',  iconColor: 'text-violet-700',  labelColor: 'text-violet-500' },
-  'english-hl':        { Icon: Languages,   bg: 'bg-rose-100',    iconColor: 'text-rose-700',    labelColor: 'text-rose-500' },
+  'egd':               { Icon: Pencil,      bg: 'bg-blue-100',  iconColor: 'text-blue-700',  labelColor: 'text-blue-500' },
+  'english-hl':        { Icon: Languages,   bg: 'bg-red-100',    iconColor: 'text-red-700',    labelColor: 'text-red-500' },
   'default':           { Icon: BookOpen,    bg: 'bg-slate-100',   iconColor: 'text-slate-600',   labelColor: 'text-slate-400' },
 };
 

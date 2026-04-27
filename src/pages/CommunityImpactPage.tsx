@@ -22,8 +22,8 @@ const SA_PROVINCES = [
 
 const TYPES: { value: SubmissionType; label: string; icon: React.ReactNode; color: string; bg: string; desc: string }[] = [
   { value: 'school',  label: 'School',         icon: <GraduationCap className="w-6 h-6" />, color: 'text-blue-600',    bg: 'bg-blue-50 border-blue-200',   desc: 'Primary, secondary or special needs' },
-  { value: 'college', label: 'College',         icon: <BookOpen className="w-6 h-6" />,      color: 'text-indigo-600',  bg: 'bg-indigo-50 border-indigo-200', desc: 'TVET, community or private college' },
-  { value: 'job',     label: 'Job / Learnership', icon: <Briefcase className="w-6 h-6" />,  color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200', desc: 'Apprenticeship, internship or opening' },
+  { value: 'college', label: 'College',         icon: <BookOpen className="w-6 h-6" />,      color: 'text-blue-600',  bg: 'bg-blue-50 border-blue-200', desc: 'TVET, community or private college' },
+  { value: 'job',     label: 'Job / Learnership', icon: <Briefcase className="w-6 h-6" />,  color: 'text-blue-500', bg: 'bg-blue-50 border-blue-200', desc: 'Apprenticeship, internship or opening' },
   { value: 'service', label: 'Support Service', icon: <Heart className="w-6 h-6" />,         color: 'text-red-500',     bg: 'bg-red-50 border-red-200',     desc: 'Youth, health, food, skills or legal' },
 ];
 
@@ -36,8 +36,8 @@ const CATEGORIES: Record<SubmissionType, string[]> = {
 
 const TYPE_META: Record<SubmissionType, { icon: React.ReactNode; color: string; bg: string; label: string }> = {
   school:  { icon: <GraduationCap className="w-4 h-4" />, color: 'text-blue-600',    bg: 'bg-blue-50 border-blue-100',     label: 'School' },
-  college: { icon: <BookOpen className="w-4 h-4" />,      color: 'text-indigo-600',  bg: 'bg-indigo-50 border-indigo-100', label: 'College' },
-  job:     { icon: <Briefcase className="w-4 h-4" />,     color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-100', label: 'Job' },
+  college: { icon: <BookOpen className="w-4 h-4" />,      color: 'text-blue-600',  bg: 'bg-blue-50 border-blue-100', label: 'College' },
+  job:     { icon: <Briefcase className="w-4 h-4" />,     color: 'text-blue-500', bg: 'bg-blue-50 border-blue-100', label: 'Job' },
   service: { icon: <Heart className="w-4 h-4" />,         color: 'text-red-500',     bg: 'bg-red-50 border-red-100',       label: 'Service' },
 };
 
@@ -66,8 +66,8 @@ const EMPTY_FORM: FormState = {
 
 function StatusBadge({ status }: { status: 'unverified' | 'verified' | 'pending' | 'approved' | 'rejected' }) {
   const map = {
-    verified:   { label: 'Verified',   icon: <CheckCircle2 className="w-3 h-3" />, cls: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-    approved:   { label: 'Approved',   icon: <CheckCircle2 className="w-3 h-3" />, cls: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
+    verified:   { label: 'Verified',   icon: <CheckCircle2 className="w-3 h-3" />, cls: 'text-blue-700 bg-blue-50 border-blue-200' },
+    approved:   { label: 'Approved',   icon: <CheckCircle2 className="w-3 h-3" />, cls: 'text-blue-700 bg-blue-50 border-blue-200' },
     unverified: { label: 'Unverified', icon: <Clock className="w-3 h-3" />,        cls: 'text-amber-700  bg-amber-50  border-amber-200' },
     pending:    { label: 'Pending',    icon: <Clock className="w-3 h-3" />,        cls: 'text-amber-700  bg-amber-50  border-amber-200' },
     rejected:   { label: 'Rejected',  icon: <AlertCircle className="w-3 h-3" />,   cls: 'text-red-700    bg-red-50    border-red-200' },
@@ -94,8 +94,8 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
         {/* Left accent bar */}
         <div className={`w-1 shrink-0 ${
           item.submission_type === 'school'  ? 'bg-blue-500' :
-          item.submission_type === 'college' ? 'bg-indigo-500' :
-          item.submission_type === 'job'     ? 'bg-emerald-500' :
+          item.submission_type === 'college' ? 'bg-blue-500' :
+          item.submission_type === 'job'     ? 'bg-blue-500' :
           'bg-red-400'
         }`} />
 
@@ -109,7 +109,7 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
             {/* Content */}
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-3 mb-1.5">
-                <h3 className="text-sm font-black text-slate-900 leading-snug group-hover:text-indigo-700 transition-colors">
+                <h3 className="text-sm font-black text-slate-900 leading-snug group-hover:text-blue-700 transition-colors">
                   {item.name}
                 </h3>
                 <StatusBadge status={item.verification_status} />
@@ -141,7 +141,7 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
                   href={item.website_url.startsWith('http') ? item.website_url : `https://${item.website_url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[10px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-[10px] font-bold text-blue-600 hover:text-blue-800 transition-colors"
                 >
                   <Globe className="w-3 h-3" />
                   Visit website
@@ -383,8 +383,8 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
               {[
                 { label: 'Total',    value: stats.total,   iconBg: 'bg-slate-900',    iconRing: 'ring-slate-200', icon: <Building2 className="w-4 h-4 text-white" /> },
                 { label: 'Schools',  value: stats.school,  iconBg: 'bg-blue-600',     iconRing: 'ring-blue-100',  icon: <GraduationCap className="w-4 h-4 text-white" /> },
-                { label: 'Colleges', value: stats.college, iconBg: 'bg-indigo-600',   iconRing: 'ring-indigo-100',icon: <BookOpen className="w-4 h-4 text-white" /> },
-                { label: 'Jobs',     value: stats.job,     iconBg: 'bg-emerald-600',  iconRing: 'ring-emerald-100',icon: <Briefcase className="w-4 h-4 text-white" /> },
+                { label: 'Colleges', value: stats.college, iconBg: 'bg-blue-600',   iconRing: 'ring-blue-100',icon: <BookOpen className="w-4 h-4 text-white" /> },
+                { label: 'Jobs',     value: stats.job,     iconBg: 'bg-blue-500',  iconRing: 'ring-blue-100',icon: <Briefcase className="w-4 h-4 text-white" /> },
                 { label: 'Services', value: stats.service, iconBg: 'bg-red-500',      iconRing: 'ring-red-100',   icon: <Heart className="w-4 h-4 text-white" /> },
               ].map((s, i) => (
                 <motion.div
@@ -414,7 +414,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   placeholder="Search by name or city…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                  className="w-full pl-9 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
@@ -445,7 +445,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 <select
                   value={filterProvince}
                   onChange={e => setFilterProvince(e.target.value)}
-                  className="appearance-none pl-3 pr-8 py-2.5 text-xs font-bold bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all cursor-pointer"
+                  className="appearance-none pl-3 pr-8 py-2.5 text-xs font-bold bg-white border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all cursor-pointer"
                 >
                   <option value="all">All Provinces</option>
                   {SA_PROVINCES.map(p => <option key={p} value={p}>{p}</option>)}
@@ -723,8 +723,8 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-8"
                 >
-                  <div className="w-16 h-16 bg-emerald-50 border-2 border-emerald-200 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                    <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                  <div className="w-16 h-16 bg-blue-50 border-2 border-blue-200 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                    <CheckCircle2 className="w-8 h-8 text-blue-500" />
                   </div>
                   <h2 className="text-2xl font-black text-slate-900 mb-2">Your contribution is live</h2>
                   <p className="text-sm text-slate-500 mb-2 max-w-sm mx-auto">

@@ -41,7 +41,7 @@ import {
 
 export const ExponentBlocksVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Understanding Exponents</h3>
       <div className="space-y-6">
         <div>
@@ -58,7 +58,7 @@ export const ExponentBlocksVisualization: React.FC = () => {
           <p className="text-sm text-slate-700 font-semibold mb-3">2⁶ = 2 × 2 × 2 × 2 × 2 × 2 = 64</p>
           <div className="flex justify-center gap-2 flex-wrap max-w-xs mx-auto">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+              <div key={i} className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                 2
               </div>
             ))}
@@ -72,7 +72,7 @@ export const ExponentBlocksVisualization: React.FC = () => {
 
 export const AlgebraTilesVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-green-50 to-slate-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Expanding (x + 2)(x + 3) with Algebra Tiles</h3>
       <div className="mb-6">
         <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-6">
@@ -100,11 +100,11 @@ export const AlgebraTilesVisualization: React.FC = () => {
 
 export const FactoringTilesVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-slate-50 to-red-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Factorization: Reverse the Process</h3>
       <p className="text-sm text-slate-700 mb-6">x² + 5x + 6 can be arranged as a rectangle:</p>
       <div className="max-w-sm mx-auto mb-6">
-        <div className="bg-white border-4 border-orange-500 rounded-lg p-4">
+        <div className="bg-white border-4 border-slate-500 rounded-lg p-4">
           <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: 'repeat(2, 1fr)' }}>
             <div className="bg-blue-400 rounded text-white font-bold text-sm h-12 flex items-center justify-center">x²</div>
             <div className="bg-green-400 rounded text-white font-bold text-sm h-12 flex items-center justify-center">x</div>
@@ -122,13 +122,13 @@ export const FactoringTilesVisualization: React.FC = () => {
 
 export const SequenceBlocksVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Arithmetic Sequence Pattern</h3>
       <p className="text-sm text-slate-700 mb-6">Sequence: 2, 5, 8, 11, 14, ... (d = 3)</p>
       <div className="flex justify-center gap-2 mb-6 flex-wrap">
         {[2, 5, 8, 11, 14].map((num, i) => (
           <div key={i} className="text-center">
-            <div className="bg-indigo-500 text-white rounded-lg p-4 w-12 h-12 flex items-center justify-center font-bold">
+            <div className="bg-blue-500 text-white rounded-lg p-4 w-12 h-12 flex items-center justify-center font-bold">
               {num}
             </div>
             <p className="text-xs text-slate-600 mt-1">T{i + 1}</p>
@@ -145,7 +145,7 @@ export const SequenceBlocksVisualization: React.FC = () => {
 
 export const LinearFunctionVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-red-50 to-slate-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Linear Function Graph</h3>
       <div className="bg-white border border-slate-200 rounded-lg p-6 max-w-sm mx-auto">
         <svg viewBox="0 0 200 200" className="w-full" style={{ maxWidth: '300px' }}>
@@ -181,7 +181,7 @@ export const LinearFunctionVisualization: React.FC = () => {
 
 export const QuadraticFunctionVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Quadratic Function - Parabola</h3>
       <div className="bg-white border border-slate-200 rounded-lg p-6 max-w-sm mx-auto">
         <svg viewBox="0 0 200 200" className="w-full" style={{ maxWidth: '300px' }}>
@@ -218,7 +218,7 @@ export const QuadraticFunctionVisualization: React.FC = () => {
 
 export const InequalityNumberLineVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 text-center">
+    <div className="bg-gradient-to-br from-yellow-50 to-slate-50 rounded-2xl p-8 text-center">
       <h3 className="text-lg font-bold text-slate-900 mb-6">Inequality on a Number Line</h3>
       <div className="space-y-6">
         <div>
@@ -277,7 +277,7 @@ export const InequalityNumberLineVisualization: React.FC = () => {
 
 export const ModellingStepsVisualization: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-8">
+    <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl p-8">
       <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">The Mathematical Modelling Process</h3>
       <div className="space-y-4 max-w-2xl mx-auto">
         {[
@@ -289,14 +289,14 @@ export const ModellingStepsVisualization: React.FC = () => {
           { num: 6, title: 'Check', desc: 'Does the answer make sense?' }
         ].map((step) => (
           <div key={step.num} className="flex gap-4 items-start">
-            <div className="w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold flex-shrink-0">
               {step.num}
             </div>
             <div className="flex-1">
               <p className="font-bold text-slate-900">{step.title}</p>
               <p className="text-sm text-slate-600">{step.desc}</p>
             </div>
-            {step.num < 6 && <div className="w-0.5 h-12 bg-purple-200 -ml-5 -mr-5" />}
+            {step.num < 6 && <div className="w-0.5 h-12 bg-blue-200 -ml-5 -mr-5" />}
           </div>
         ))}
       </div>

@@ -103,8 +103,8 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
 
   const TIER_COLORS: Record<string, string> = {
     minimal: 'bg-blue-50 border-blue-200 text-blue-900',
-    moderate: 'bg-indigo-50 border-indigo-200 text-indigo-900',
-    comfortable: 'bg-purple-50 border-purple-200 text-purple-900',
+    moderate: 'bg-blue-50 border-blue-200 text-blue-900',
+    comfortable: 'bg-blue-50 border-blue-200 text-slate-900',
   };
 
   return (
@@ -175,18 +175,18 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                   color="bg-blue-50 border border-blue-200 text-blue-900"
                 />
                 <MetricCard
-                  icon={<Fuel className="w-3.5 h-3.5 text-indigo-600" />}
+                  icon={<Fuel className="w-3.5 h-3.5 text-blue-600" />}
                   label="Petrol 93"
                   value={fmt2(pd.petrol_93)}
                   sub="per liter"
-                  color="bg-indigo-50 border border-indigo-200 text-indigo-900"
+                  color="bg-blue-50 border border-blue-200 text-blue-900"
                 />
                 <MetricCard
-                  icon={<Fuel className="w-3.5 h-3.5 text-emerald-600" />}
+                  icon={<Fuel className="w-3.5 h-3.5 text-blue-500" />}
                   label="Diesel"
                   value={fmt2(pd.diesel)}
                   sub="per liter"
-                  color="bg-emerald-50 border border-emerald-200 text-emerald-900"
+                  color="bg-blue-50 border border-blue-200 text-slate-900"
                 />
               </div>
             </motion.section>
@@ -225,16 +225,16 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                     <p className="text-xs text-slate-500 font-medium">Rate per kL</p>
                     <p className="font-black text-2xl text-slate-900">{fmt2(pd.water_per_kl)}</p>
                   </div>
-                  <Droplets className="w-8 h-8 text-cyan-400" />
+                  <Droplets className="w-8 h-8 text-blue-400" />
                 </div>
                 <div className="grid grid-cols-3 gap-2">
                   {Object.entries(pd.water_monthly_estimate).map(([tier, val]) => (
-                    <div key={tier} className="text-center p-2.5 bg-cyan-50 rounded-xl border border-cyan-100">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-cyan-700 mb-0.5">
+                    <div key={tier} className="text-center p-2.5 bg-blue-50 rounded-xl border border-blue-100">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 mb-0.5">
                         {tier.charAt(0).toUpperCase() + tier.slice(1)}
                       </p>
                       <p className="font-black text-slate-900">{fmt(val.cost)}</p>
-                      <p className="text-[10px] text-cyan-600">{val.kl} kL/mo</p>
+                      <p className="text-[10px] text-blue-600">{val.kl} kL/mo</p>
                     </div>
                   ))}
                 </div>

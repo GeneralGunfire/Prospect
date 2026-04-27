@@ -66,7 +66,7 @@ export const ThreeDToTwoDVisualization: React.FC = () => {
   }));
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">3D to Orthographic Projection</h3>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -119,7 +119,7 @@ export const ThreeDToTwoDVisualization: React.FC = () => {
                 max="180"
                 value={rotationY}
                 onChange={(e) => setRotationY(Number(e.target.value))}
-                className="w-full h-2 bg-cyan-200 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
               />
             </div>
           </div>
@@ -143,7 +143,7 @@ export const ThreeDToTwoDVisualization: React.FC = () => {
 
           {/* FRONT VIEW */}
           <motion.div
-            className="bg-white border-2 border-orange-300 rounded-lg p-3"
+            className="bg-white border-2 border-slate-300 rounded-lg p-3"
             whileHover={{ scale: 1.05 }}
           >
             <p className="text-xs font-bold text-slate-600 text-center mb-2">FRONT VIEW</p>
@@ -156,7 +156,7 @@ export const ThreeDToTwoDVisualization: React.FC = () => {
 
           {/* SIDE VIEW */}
           <motion.div
-            className="bg-white border-2 border-purple-300 rounded-lg p-3"
+            className="bg-white border-2 border-blue-300 rounded-lg p-3"
             whileHover={{ scale: 1.05 }}
           >
             <p className="text-xs font-bold text-slate-600 text-center mb-2">SIDE VIEW</p>
@@ -202,10 +202,10 @@ export const PerpendiculerConstructionVisualization: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-4 p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl">
+    <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Perpendicular Line Construction</h3>
 
-      <div className="bg-white border-2 border-purple-300 rounded-lg p-6">
+      <div className="bg-white border-2 border-blue-300 rounded-lg p-6">
         <svg viewBox="0 0 400 300" className="w-full border border-slate-200 rounded bg-white">
           {/* Original line */}
           <line x1="50" y1="150" x2="350" y2="150" stroke="#1e293b" strokeWidth="3" />
@@ -260,7 +260,7 @@ export const PerpendiculerConstructionVisualization: React.FC = () => {
       </div>
 
       <motion.div
-        className="bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-300 p-4 rounded-lg text-sm text-slate-800"
+        className="bg-gradient-to-r from-blue-100 to-slate-100 border-2 border-blue-300 p-4 rounded-lg text-sm text-slate-800"
         key={step}
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -272,7 +272,7 @@ export const PerpendiculerConstructionVisualization: React.FC = () => {
       <div className="flex gap-2 justify-center">
         <button
           onClick={() => setStep(Math.max(0, step - 1))}
-          className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold transition"
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition"
         >
           ← Previous
         </button>
@@ -283,7 +283,7 @@ export const PerpendiculerConstructionVisualization: React.FC = () => {
               key={i}
               onClick={() => setStep(i)}
               className={`w-3 h-3 rounded-full transition ${
-                i === step ? 'bg-purple-600 w-8' : 'bg-purple-300'
+                i === step ? 'bg-blue-600 w-8' : 'bg-blue-300'
               }`}
             />
           ))}
@@ -291,7 +291,7 @@ export const PerpendiculerConstructionVisualization: React.FC = () => {
 
         <button
           onClick={() => setStep(Math.min(steps.length - 1, step + 1))}
-          className="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold transition"
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition"
         >
           Next →
         </button>

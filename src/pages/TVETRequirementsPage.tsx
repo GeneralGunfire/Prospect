@@ -126,7 +126,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
                   <ul className="space-y-1">
                     {reqs.required.map((subj) => (
                       <li key={subj} className="flex gap-2 text-sm">
-                        <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-500" />
+                        <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-500" />
                         <span className="text-slate-600">{subj}</span>
                       </li>
                     ))}

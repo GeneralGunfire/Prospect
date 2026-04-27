@@ -48,7 +48,7 @@ export const DichotomousKeyVisualization: React.FC = () => {
   const isComplete = step >= questions.length;
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Interactive Dichotomous Key</h3>
 
       {/* Decision Tree Path */}
@@ -147,7 +147,7 @@ export const ClassificationTreeVisualization: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Classification Tree</h3>
 
       {/* Tree Visualization */}
@@ -233,7 +233,7 @@ export const ClassificationTreeVisualization: React.FC = () => {
       {/* Classification Display */}
       {selectedOrganism && (
         <motion.div
-          className="bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-300 rounded-lg p-4"
+          className="bg-gradient-to-r from-blue-100 to-slate-100 border-2 border-blue-300 rounded-lg p-4"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -255,10 +255,10 @@ export const ClassificationTreeVisualization: React.FC = () => {
 // Biodiversity Pyramid
 export const BiodiversityPyramidVisualization: React.FC = () => {
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-teal-50 to-green-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-green-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Three Levels of Biodiversity</h3>
 
-      <div className="bg-white border-2 border-teal-300 rounded-lg p-6">
+      <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
         <svg viewBox="0 0 500 380" className="w-full">
           {/* Ecosystem Diversity (Base) */}
           <motion.rect
@@ -321,9 +321,9 @@ export const BiodiversityPyramidVisualization: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-cyan-100 border-2 border-cyan-400 rounded-lg p-4 text-center"
+          className="bg-blue-100 border-2 border-blue-400 rounded-lg p-4 text-center"
         >
-          <p className="font-bold text-cyan-700 mb-2">GENETIC</p>
+          <p className="font-bold text-blue-700 mb-2">GENETIC</p>
           <p className="text-xs text-slate-700">Differences in traits within same species</p>
         </motion.div>
         <motion.div
@@ -339,9 +339,9 @@ export const BiodiversityPyramidVisualization: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="bg-emerald-100 border-2 border-emerald-400 rounded-lg p-4 text-center"
+          className="bg-blue-100 border-2 border-blue-400 rounded-lg p-4 text-center"
         >
-          <p className="font-bold text-emerald-700 mb-2">ECOSYSTEM</p>
+          <p className="font-bold text-blue-700 mb-2">ECOSYSTEM</p>
           <p className="text-xs text-slate-700">Different types of habitats on Earth</p>
         </motion.div>
       </div>

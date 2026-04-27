@@ -17,7 +17,7 @@ interface TopicViewerProps {
 
 const stepConfig = [
   { id: 'concept' as ContentStep, label: 'Concept', icon: Lightbulb, color: 'bg-blue-100 text-blue-700' },
-  { id: 'examples' as ContentStep, label: 'Examples', icon: CheckSquare, color: 'bg-purple-100 text-purple-700' },
+  { id: 'examples' as ContentStep, label: 'Examples', icon: CheckSquare, color: 'bg-blue-100 text-blue-700' },
   { id: 'practice' as ContentStep, label: 'Practice', icon: BookOpen, color: 'bg-green-100 text-green-700' },
   { id: 'quiz' as ContentStep, label: 'Quiz', icon: Award, color: 'bg-yellow-100 text-yellow-700' },
   { id: 'exam' as ContentStep, label: 'Exam', icon: BookMarked, color: 'bg-red-100 text-red-700' }

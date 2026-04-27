@@ -239,7 +239,7 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
           >
             <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
               Discover Your Perfect 
-              <span className="block mt-2 bg-gradient-to-r from-blue-400 to-cyan-400 text-transparent bg-clip-text">
+              <span className="block mt-2 bg-gradient-to-r from-blue-400 to-blue-400 text-transparent bg-clip-text">
                 Calling
               </span>
             </h1>
@@ -291,7 +291,7 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
           >
             {[
               { value: '400+', label: 'SA Careers', color: 'bg-blue-50 border-blue-100' },
-              { value: '100%', label: 'Free Forever', color: 'bg-emerald-50 border-emerald-100' },
+              { value: '100%', label: 'Free Forever', color: 'bg-blue-50 border-blue-100' },
               { value: 'Gr 10–12', label: 'All Grades', color: 'bg-amber-50 border-amber-100' },
             ].map(({ value, label, color }) => (
               <div key={label} className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border ${color}`}>
@@ -300,7 +300,7 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
               </div>
             ))}
             <div className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-100">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Now</span>
             </div>
           </motion.div>

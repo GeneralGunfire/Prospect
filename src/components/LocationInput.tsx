@@ -197,7 +197,7 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
                       <div className="font-semibold text-gray-900">{city.name}</div>
                       <div className="text-sm text-gray-600">{city.province}</div>
                     </div>
-                    {city.hotspot && <span className="text-xs font-bold text-orange-600">HOT</span>}
+                    {city.hotspot && <span className="text-xs font-bold text-slate-500">HOT</span>}
                   </motion.button>
                 ))}
               </motion.div>

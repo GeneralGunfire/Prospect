@@ -126,11 +126,11 @@ const SECTIONS: CivicSection[] = [
 
 const COLOR_MAP: Record<string, { bg: string; border: string; icon: string; badge: string; step: string }> = {
   blue:   { bg: 'bg-blue-50',   border: 'border-blue-200',   icon: 'bg-blue-600',   badge: 'bg-blue-100 text-blue-700',   step: 'bg-blue-600 text-white' },
-  indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', icon: 'bg-indigo-600', badge: 'bg-indigo-100 text-indigo-700', step: 'bg-indigo-600 text-white' },
-  emerald:{ bg: 'bg-emerald-50',border: 'border-emerald-200',icon: 'bg-emerald-600',badge: 'bg-emerald-100 text-emerald-700',step: 'bg-emerald-600 text-white' },
+  indigo: { bg: 'bg-blue-50', border: 'border-blue-200', icon: 'bg-blue-600', badge: 'bg-blue-100 text-blue-700', step: 'bg-blue-600 text-white' },
+  emerald:{ bg: 'bg-blue-50',border: 'border-blue-200',icon: 'bg-blue-500',badge: 'bg-blue-100 text-blue-700',step: 'bg-blue-500 text-white' },
   amber:  { bg: 'bg-amber-50',  border: 'border-amber-200',  icon: 'bg-amber-600',  badge: 'bg-amber-100 text-amber-700',  step: 'bg-amber-600 text-white' },
-  rose:   { bg: 'bg-rose-50',   border: 'border-rose-200',   icon: 'bg-rose-600',   badge: 'bg-rose-100 text-rose-700',    step: 'bg-rose-600 text-white' },
-  violet: { bg: 'bg-violet-50', border: 'border-violet-200', icon: 'bg-violet-600', badge: 'bg-violet-100 text-violet-700', step: 'bg-violet-600 text-white' },
+  rose:   { bg: 'bg-red-50',   border: 'border-red-200',   icon: 'bg-red-600',   badge: 'bg-red-100 text-red-700',    step: 'bg-red-600 text-white' },
+  violet: { bg: 'bg-blue-50', border: 'border-blue-200', icon: 'bg-blue-600', badge: 'bg-blue-100 text-blue-700', step: 'bg-blue-600 text-white' },
 };
 
 function CivicCard({ section }: { section: CivicSection }) {

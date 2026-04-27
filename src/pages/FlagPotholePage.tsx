@@ -10,7 +10,7 @@ import { createPothole, uploadPotholeImage, type PotholeSeverity } from '../serv
 import { SA_PROVINCES, getCities, getSuburbs } from '../data/saLocations';
 
 const SEVERITY_META = {
-  low:    { label: 'Low',    desc: 'Minor surface crack',    color: 'border-emerald-400 bg-emerald-50 text-emerald-700', ring: 'ring-emerald-400' },
+  low:    { label: 'Low',    desc: 'Minor surface crack',    color: 'border-blue-400 bg-blue-50 text-blue-700', ring: 'ring-blue-400' },
   medium: { label: 'Medium', desc: 'Noticeable depression',  color: 'border-amber-400 bg-amber-50 text-amber-700',       ring: 'ring-amber-400' },
   high:   { label: 'High',   desc: 'Large / dangerous hole', color: 'border-red-400 bg-red-50 text-red-700',             ring: 'ring-red-400' },
 } as const;
@@ -153,8 +153,8 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
           animate={{ scale: 1, opacity: 1 }}
           className="bg-white rounded-3xl p-10 text-center shadow-xl max-w-sm w-full"
         >
-          <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle2 className="w-8 h-8 text-blue-500" />
           </div>
           <h2 className="text-xl font-black text-navy mb-2">Report Submitted!</h2>
           <p className="text-slate-500 text-sm">

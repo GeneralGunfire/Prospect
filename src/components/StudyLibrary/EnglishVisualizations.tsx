@@ -15,7 +15,7 @@ export const SentenceDiagrammerVisualization: React.FC = () => {
   const words = inputSentence.trim().split(' ');
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-yellow-50 to-slate-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Sentence Structure Analyzer</h3>
 
       {/* Input */}
@@ -128,7 +128,7 @@ export const EssayStructureVisualization: React.FC = () => {
   const conclusionWords = Math.round(totalWords * 0.15);
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Essay Structure</h3>
 
       {/* Word count input */}
@@ -141,12 +141,12 @@ export const EssayStructureVisualization: React.FC = () => {
           step="100"
           value={totalWords}
           onChange={(e) => setTotalWords(Number(e.target.value))}
-          className="w-full h-2 bg-purple-300 rounded-lg cursor-pointer"
+          className="w-full h-2 bg-blue-300 rounded-lg cursor-pointer"
         />
       </div>
 
       {/* Essay Structure Visualization */}
-      <div className="bg-white border-2 border-purple-300 rounded-lg p-6">
+      <div className="bg-white border-2 border-blue-300 rounded-lg p-6">
         <div className="space-y-4">
           {/* Foundation (Intro) */}
           <motion.div
@@ -194,7 +194,7 @@ export const EssayStructureVisualization: React.FC = () => {
             initial={{ scaleY: 0, opacity: 0 }}
             animate={{ scaleY: 1, opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="bg-orange-100 border-2 border-orange-400 rounded-lg p-4"
+            className="bg-slate-100 border-2 border-slate-400 rounded-lg p-4"
             style={{ transformOrigin: 'top' }}
           >
             <div className="flex justify-between items-center">
@@ -202,7 +202,7 @@ export const EssayStructureVisualization: React.FC = () => {
                 <p className="text-sm font-bold text-slate-900">CONCLUSION</p>
                 <p className="text-xs text-slate-600">Restate Thesis + Summary + Final Thought</p>
               </div>
-              <p className="text-xl font-bold text-orange-700">{conclusionWords} words</p>
+              <p className="text-xl font-bold text-slate-700">{conclusionWords} words</p>
             </div>
           </motion.div>
         </div>
@@ -220,8 +220,8 @@ export const EssayStructureVisualization: React.FC = () => {
           <p className="text-xs text-slate-600 mt-1">{Math.round((bodyWords / totalWords) * 100)}%</p>
           <p className="text-xs text-slate-600">{bodyWords} words</p>
         </div>
-        <div className="bg-orange-50 border border-orange-300 rounded p-3 text-center">
-          <p className="font-bold text-orange-700">CONCLUSION</p>
+        <div className="bg-slate-50 border border-slate-300 rounded p-3 text-center">
+          <p className="font-bold text-slate-700">CONCLUSION</p>
           <p className="text-xs text-slate-600 mt-1">{Math.round((conclusionWords / totalWords) * 100)}%</p>
           <p className="text-xs text-slate-600">{conclusionWords} words</p>
         </div>
@@ -272,7 +272,7 @@ export const LiteraryDevicesVisualization: React.FC = () => {
   const current = devices[selectedDevice as keyof typeof devices];
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-red-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Literary Devices</h3>
 
       {/* Device Selector */}
@@ -332,11 +332,11 @@ export const LiteraryDevicesVisualization: React.FC = () => {
         <div className="bg-red-50 border border-red-200 rounded p-2 text-center">
           <span className="font-bold text-red-700">Metaphor</span><br />Direct
         </div>
-        <div className="bg-orange-50 border border-orange-200 rounded p-2 text-center">
-          <span className="font-bold text-orange-700">Simile</span><br />Like/As
+        <div className="bg-slate-50 border border-slate-200 rounded p-2 text-center">
+          <span className="font-bold text-slate-700">Simile</span><br />Like/As
         </div>
-        <div className="bg-purple-50 border border-purple-200 rounded p-2 text-center">
-          <span className="font-bold text-purple-700">Personification</span><br />Human traits
+        <div className="bg-blue-50 border border-blue-200 rounded p-2 text-center">
+          <span className="font-bold text-blue-700">Personification</span><br />Human traits
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded p-2 text-center">
           <span className="font-bold text-blue-700">Imagery</span><br />Senses

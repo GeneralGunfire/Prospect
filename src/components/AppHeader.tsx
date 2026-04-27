@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react';
 import {
   Menu, X, User, LogOut, LayoutDashboard,
   BrainCircuit, Briefcase, BookOpen, Wallet,
@@ -29,30 +29,29 @@ interface NavItem {
   icon: React.ReactNode;
 }
 
-// School Assist nav — auth-required pages only
 const SCHOOL_NAV: NavItem[] = [
-  { name: 'Dashboard', page: 'dashboard',         icon: <LayoutDashboard className="w-4 h-4" /> },
-  { name: 'Library',   page: 'library',           icon: <BookOpen className="w-4 h-4" /> },
-  { name: 'Calendar',  page: 'calendar',          icon: <Calendar className="w-4 h-4" /> },
-  { name: 'Chat',      page: 'school-assist-chat', icon: <MessageCircle className="w-4 h-4" /> },
+  { name: 'Dashboard', page: 'dashboard',         icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
+  { name: 'Library',   page: 'library',           icon: <BookOpen className="w-3.5 h-3.5" /> },
+  { name: 'Calendar',  page: 'calendar',          icon: <Calendar className="w-3.5 h-3.5" /> },
+  { name: 'Chat',      page: 'school-assist-chat', icon: <MessageCircle className="w-3.5 h-3.5" /> },
 ];
 
-// Community nav — shown on all community pages
 const COMMUNITY_NAV: NavItem[] = [
-  { name: 'Community Impact', page: 'community-impact', icon: <Globe className="w-4 h-4" /> },
-  { name: 'Pothole Map',      page: 'pothole-map',      icon: <Construction className="w-4 h-4" /> },
-  { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-4 h-4" /> },
+  { name: 'Community Impact', page: 'community-impact', icon: <Globe className="w-3.5 h-3.5" /> },
+  { name: 'Pothole Map',      page: 'pothole-map',      icon: <Construction className="w-3.5 h-3.5" /> },
+  { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-3.5 h-3.5" /> },
 ];
 
-// Career Guide nav — all public career pages, flat
 const CAREER_NAV: NavItem[] = [
-  { name: 'Quiz',       page: 'quiz',               icon: <BrainCircuit className="w-4 h-4" /> },
-  { name: 'Careers',    page: 'careers',             icon: <Briefcase className="w-4 h-4" /> },
-  { name: 'TVET',       page: 'tvet',                icon: <GraduationCap className="w-4 h-4" /> },
-  { name: 'Bursaries',  page: 'bursaries',           icon: <Wallet className="w-4 h-4" /> },
-  { name: 'Job Map',    page: 'map',                 icon: <Map className="w-4 h-4" /> },
-  { name: 'Guide',      page: 'disadvantaged-guide', icon: <Heart className="w-4 h-4" /> },
+  { name: 'Quiz',       page: 'quiz',               icon: <BrainCircuit className="w-3.5 h-3.5" /> },
+  { name: 'Careers',    page: 'careers',             icon: <Briefcase className="w-3.5 h-3.5" /> },
+  { name: 'TVET',       page: 'tvet',                icon: <GraduationCap className="w-3.5 h-3.5" /> },
+  { name: 'Bursaries',  page: 'bursaries',           icon: <Wallet className="w-3.5 h-3.5" /> },
+  { name: 'Job Map',    page: 'map',                 icon: <Map className="w-3.5 h-3.5" /> },
+  { name: 'Guide',      page: 'disadvantaged-guide', icon: <Heart className="w-3.5 h-3.5" /> },
 ];
+
+const EXPAND_SCROLL_THRESHOLD = 80;
 
 export default function AppHeader({
   currentPage,
@@ -62,19 +61,34 @@ export default function AppHeader({
   onNavigateAuth,
 }: AppHeaderProps) {
   const isGuest = user?.id === 'guest' || user?.is_anonymous === true;
-  // News & Info nav — SA news, tax, cost-of-living, civics
+
   const NEWS_NAV: NavItem[] = [
-    { name: 'SA News',      page: 'news',            icon: <Newspaper className="w-4 h-4" /> },
-    { name: 'Tax & Budget', page: 'tax-budget',      icon: <Calculator className="w-4 h-4" /> },
-    { name: 'Cost of Living', page: 'cost-of-living', icon: <MapPin className="w-4 h-4" /> },
-    { name: 'Civics',       page: 'civics',          icon: <Building2 className="w-4 h-4" /> },
+    { name: 'SA News',      page: 'news',            icon: <Newspaper className="w-3.5 h-3.5" /> },
+    { name: 'Tax & Budget', page: 'tax-budget',      icon: <Calculator className="w-3.5 h-3.5" /> },
+    { name: 'Cost of Living', page: 'cost-of-living', icon: <MapPin className="w-3.5 h-3.5" /> },
+    { name: 'Civics',       page: 'civics',          icon: <Building2 className="w-3.5 h-3.5" /> },
   ];
 
   const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : mode === 'news' ? NEWS_NAV : SCHOOL_NAV;
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const { scrollY } = useScroll();
+  const lastScrollY = useRef(0);
+  const scrollPositionOnCollapse = useRef(0);
+
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    const previous = lastScrollY.current;
+    if (isExpanded && latest > previous && latest > 150) {
+      setExpanded(false);
+      scrollPositionOnCollapse.current = latest;
+    } else if (!isExpanded && latest < previous && (scrollPositionOnCollapse.current - latest > EXPAND_SCROLL_THRESHOLD)) {
+      setExpanded(true);
+    }
+    lastScrollY.current = latest;
+  });
 
   // Search overlay (school mode only)
   const [searchOpen, setSearchOpen] = useState(false);
@@ -117,12 +131,6 @@ export default function AppHeader({
   };
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
     document.body.style.overflow = isDrawerOpen ? 'hidden' : 'unset';
     return () => { document.body.style.overflow = 'unset'; };
   }, [isDrawerOpen]);
@@ -134,104 +142,124 @@ export default function AppHeader({
     onNavigate('home' as AppPage);
   };
 
-  const handleLogoClick = () => {
-    onNavigate('home' as AppPage);
-  };
+  const handleLogoClick = () => onNavigate('home' as AppPage);
 
   const firstName = user.user_metadata?.full_name?.split(' ')[0] ?? 'Student';
   const email = user.email ?? '';
 
-  const NavLink = ({ item }: { item: NavItem }) => {
-    const isActive = currentPage === item.page;
-    return (
-      <button
-        onClick={() => onNavigate(item.page)}
-        title={item.name}
-        className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg font-bold text-[10px] uppercase tracking-widest transition-all duration-150 group/nav ${
-          isActive
-            ? 'text-prospect-blue-accent bg-prospect-blue-accent/10'
-            : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
-        }`}
-      >
-        <span className={`shrink-0 transition-colors ${isActive ? 'text-prospect-blue-accent' : 'text-slate-400 group-hover/nav:text-slate-600'}`}>
-          {item.icon}
-        </span>
-        <span className="hidden lg:inline whitespace-nowrap">{item.name}</span>
-        {isActive && (
-          <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-prospect-blue-accent" />
-        )}
-      </button>
-    );
+  const handlePillClick = (e: React.MouseEvent) => {
+    if (!isExpanded) { e.preventDefault(); setExpanded(true); }
   };
 
   return (
     <>
-      <header className="fixed top-0 w-full z-100 transition-all duration-300 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm">
-        <div className="flex justify-between items-center px-4 md:px-8 w-full max-w-7xl mx-auto h-16">
-
-          {/* Left: hamburger + logo */}
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => setIsDrawerOpen(true)}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors md:hidden"
-              aria-label="Open menu"
-            >
-              <Menu className="w-5 h-5 text-slate-700" />
+      {/* Floating pill nav */}
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-120">
+        <motion.nav
+          initial={{ y: -80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1, width: isExpanded ? 'auto' : '3rem' }}
+          transition={{
+            y: { duration: 0.4, ease: 'easeOut' },
+            opacity: { duration: 0.3 },
+            width: { type: 'spring', damping: 28, stiffness: 260 },
+          }}
+          whileHover={!isExpanded ? { scale: 1.08 } : {}}
+          whileTap={!isExpanded ? { scale: 0.95 } : {}}
+          onClick={handlePillClick}
+          className={`flex items-center overflow-hidden rounded-full border border-slate-200 bg-white/80 shadow-lg backdrop-blur-sm h-12 ${!isExpanded ? 'cursor-pointer justify-center' : ''}`}
+        >
+          {/* Logo */}
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className="shrink-0 flex items-center pl-4 pr-2 gap-2"
+          >
+            <button onClick={(e) => { e.stopPropagation(); handleLogoClick(); }} className="flex items-center gap-2 group">
+              <div className="w-6 h-6 rounded bg-slate-900 flex items-center justify-center text-white font-black text-xs group-hover:scale-105 transition-transform">P</div>
+              <span className="text-xs font-black uppercase tracking-widest text-slate-900 hidden sm:block">Prospect</span>
             </button>
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className="w-px h-5 bg-slate-200 shrink-0"
+          />
+
+          {/* Nav items */}
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className={`flex items-center gap-0.5 px-2 ${!isExpanded ? 'pointer-events-none' : ''}`}
+          >
+            {/* Mobile: hamburger to open drawer */}
             <button
-              onClick={handleLogoClick}
-              className="flex items-center gap-2.5 group"
-              aria-label="Go to home"
+              onClick={(e) => { e.stopPropagation(); setIsDrawerOpen(true); }}
+              className="md:hidden p-2 rounded-full hover:bg-slate-100 transition-colors text-slate-600"
             >
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm bg-slate-900 shadow-sm transition-all duration-200 group-hover:scale-105">
-                P
-              </div>
-              <span className="text-xs font-black tracking-[0.18em] uppercase hidden sm:block text-slate-900">
-                Prospect
-              </span>
+              <Menu className="w-4 h-4" />
             </button>
-          </div>
 
-          {/* Center: nav — icon+label at lg+, icon-only at md */}
-          <nav className="hidden md:flex items-center gap-1 mx-6">
-            {NAV.map(item => <NavLink key={item.page} item={item} />)}
-          </nav>
-
-          {/* Search button — school mode only */}
-          {mode === 'school' && (
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all text-slate-400 hover:text-slate-600 mr-3"
-              aria-label="Search (Ctrl+K)"
-            >
-              <Search className="w-3.5 h-3.5" />
-              <span className="text-[10px] font-semibold tracking-widest uppercase">Search</span>
-              <kbd className="hidden lg:inline text-[9px] bg-white border border-slate-200 rounded px-1 py-0.5 text-slate-400 font-mono">⌘K</kbd>
-            </button>
-          )}
-
-          {/* Right: user menu or Sign In (Sign In only shown in school mode) */}
-          <div className="relative">
-            {!isGuest && (
-              <>
+            {/* Desktop nav items */}
+            {NAV.map((item) => {
+              const isActive = currentPage === item.page;
+              return (
                 <button
-                  onClick={() => setIsUserMenuOpen(v => !v)}
-                  className="flex items-center gap-2 group p-0.5 rounded-full transition-all"
+                  key={item.page}
+                  onClick={(e) => { e.stopPropagation(); onNavigate(item.page); }}
+                  className={`hidden md:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap ${
+                    isActive
+                      ? 'bg-slate-900 text-white'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`}
+                >
+                  <span className={isActive ? 'text-white' : 'text-slate-400'}>{item.icon}</span>
+                  {item.name}
+                </button>
+              );
+            })}
+          </motion.div>
+
+          {/* Right actions: search + user */}
+          <motion.div
+            animate={{ opacity: isExpanded ? 1 : 0 }}
+            transition={{ duration: 0.18 }}
+            className={`flex items-center gap-1 pr-2 ${!isExpanded ? 'pointer-events-none' : ''}`}
+          >
+            {mode === 'school' && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setSearchOpen(true); }}
+                className="p-2 rounded-full hover:bg-slate-100 transition-colors text-slate-500 hover:text-slate-700"
+                aria-label="Search (Ctrl+K)"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+            )}
+
+            {!isGuest && (
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(v => !v); }}
+                  className="w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center ring-2 ring-transparent hover:ring-slate-300 transition-all"
                   aria-label="User menu"
                 >
-                  <div className="w-8 h-8 bg-slate-900 text-white rounded-full flex items-center justify-center ring-2 ring-transparent group-hover:ring-slate-200 transition-all">
-                    <User className="w-4 h-4" />
-                  </div>
+                  <User className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleLogout(); }}
+                  className="p-2 rounded-full hover:bg-red-50 transition-colors text-slate-400 hover:text-red-500"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="w-4 h-4" />
                 </button>
 
                 <AnimatePresence>
                   {isUserMenuOpen && (
                     <>
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setIsUserMenuOpen(false)}
+                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                        onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(false); }}
                         className="fixed inset-0 z-30"
                       />
                       <motion.div
@@ -239,12 +267,10 @@ export default function AppHeader({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.15, ease: 'easeOut' }}
-                        className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-110 overflow-hidden"
+                        className="absolute right-0 top-10 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-130 overflow-hidden"
                       >
                         <div className="p-4 border-b border-slate-50">
-                          <p className="text-xs font-black uppercase tracking-wider text-slate-800">
-                            {firstName}
-                          </p>
+                          <p className="text-xs font-black uppercase tracking-wider text-slate-800">{firstName}</p>
                           <p className="text-xs truncate mt-0.5 text-slate-500">{email}</p>
                         </div>
                         <div className="p-2">
@@ -262,59 +288,56 @@ export default function AppHeader({
                             className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors text-left"
                           >
                             <LogOut className="w-4 h-4" />
-                            Logout
+                            Sign Out
                           </button>
                         </div>
                       </motion.div>
                     </>
                   )}
                 </AnimatePresence>
-              </>
+              </div>
             )}
-          </div>
-        </div>
-      </header>
+          </motion.div>
 
+          {/* Collapsed state: menu icon */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <motion.div
+              animate={{ opacity: isExpanded ? 0 : 1 }}
+              transition={{ duration: 0.18 }}
+            >
+              <Menu className="h-5 w-5 text-slate-700" />
+            </motion.div>
+          </div>
+        </motion.nav>
+      </div>
+
+      {/* Mobile drawer */}
       <AnimatePresence>
         {isDrawerOpen && (
           <>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsDrawerOpen(false)}
-              className="fixed inset-0 bg-black/40 z-30 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/40 z-110 backdrop-blur-sm"
               aria-hidden="true"
             />
             <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
+              initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-              className="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-2xl flex flex-col"
+              className="fixed inset-y-0 left-0 z-120 w-72 bg-white shadow-2xl flex flex-col"
               role="navigation"
             >
-              {/* Drawer header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                    P
-                  </div>
-                  <span className="text-sm font-black tracking-[0.18em] uppercase text-slate-900">
-                    Prospect
-                  </span>
+                  <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-sm">P</div>
+                  <span className="text-sm font-black tracking-[0.18em] uppercase text-slate-900">Prospect</span>
                 </div>
-                <button
-                  onClick={() => setIsDrawerOpen(false)}
-                  className="p-2 hover:bg-slate-50 rounded-full transition-colors"
-                  aria-label="Close menu"
-                >
+                <button onClick={() => setIsDrawerOpen(false)} className="p-2 hover:bg-slate-50 rounded-full transition-colors" aria-label="Close menu">
                   <X className="w-5 h-5 text-slate-700" />
                 </button>
               </div>
 
-              {/* User info */}
               {!isGuest && (
                 <div className="px-5 py-4 bg-slate-50/60 border-b border-slate-100">
                   <div className="flex items-center gap-3">
@@ -329,7 +352,6 @@ export default function AppHeader({
                 </div>
               )}
 
-              {/* Search button — school mode */}
               {mode === 'school' && (
                 <div className="px-3 pt-3 pb-1">
                   <button
@@ -342,7 +364,6 @@ export default function AppHeader({
                 </div>
               )}
 
-              {/* Nav links — flat, no sections */}
               <div className="flex-1 overflow-y-auto p-3">
                 {NAV.map(item => {
                   const isActive = currentPage === item.page;
@@ -352,19 +373,18 @@ export default function AppHeader({
                       onClick={() => { setIsDrawerOpen(false); onNavigate(item.page); }}
                       className={`w-full flex items-center gap-3 text-xs font-semibold py-3 px-3 rounded-xl text-left transition-all uppercase tracking-wider mb-0.5 ${
                         isActive
-                          ? 'bg-prospect-blue-accent/8 text-prospect-blue-accent'
+                          ? 'bg-slate-900 text-white'
                           : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                       }`}
                     >
-                      <span className={isActive ? 'text-prospect-blue-accent' : 'text-slate-400'}>{item.icon}</span>
+                      <span className={isActive ? 'text-white' : 'text-slate-400'}>{item.icon}</span>
                       {item.name}
-                      {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-prospect-blue-accent shrink-0" />}
+                      {isActive && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-white shrink-0" />}
                     </button>
                   );
                 })}
               </div>
 
-              {/* Bottom actions */}
               <div className="p-3 border-t border-slate-100 flex flex-col gap-1">
                 {!isGuest && (
                   <button
@@ -386,22 +406,19 @@ export default function AppHeader({
         {searchOpen && mode === 'school' && (
           <>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
               onClick={() => setSearchOpen(false)}
-              className="fixed inset-0 bg-black/50 z-[200] backdrop-blur-sm"
+              className="fixed inset-0 bg-black/50 z-200 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: -16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -16, scale: 0.97 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-[210] px-4"
+              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-210 px-4"
             >
               <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
-                {/* Mode toggle */}
                 <div className="flex gap-1 p-3 border-b border-slate-100">
                   <button
                     onClick={() => { setSearchMode('topic'); setSearched(false); }}
@@ -420,7 +437,6 @@ export default function AppHeader({
                   </button>
                 </div>
 
-                {/* Input */}
                 <div className="flex items-center gap-3 px-4 py-3">
                   <Search className="w-4 h-4 text-slate-400 shrink-0" />
                   <input
@@ -441,7 +457,6 @@ export default function AppHeader({
                   </button>
                 </div>
 
-                {/* Results */}
                 {searched && !searchLoading && (
                   <div className="border-t border-slate-100 max-h-80 overflow-y-auto">
                     {searchMode === 'topic' && topicResults.length === 0 && (
@@ -466,7 +481,7 @@ export default function AppHeader({
                         <p className="text-xs text-slate-400 mb-3">No answers found for "{searchQuery}"</p>
                         <button
                           onClick={() => { setSearchOpen(false); onNavigate('school-assist' as AppPage); }}
-                          className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-700"
+                          className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-700"
                         >
                           Submit your question on School Assist →
                         </button>
@@ -490,7 +505,7 @@ export default function AppHeader({
                   <span className="text-[9px] text-slate-400 uppercase tracking-widest">Press Enter to search · Esc to close</span>
                   <button
                     onClick={() => { setSearchOpen(false); onNavigate('school-assist' as AppPage); }}
-                    className="text-[9px] text-indigo-500 font-semibold hover:text-indigo-700 uppercase tracking-widest"
+                    className="text-[9px] text-blue-500 font-semibold hover:text-blue-700 uppercase tracking-widest"
                   >
                     Full School Assist →
                   </button>

@@ -1,5 +1,3 @@
-import { supabase } from '../lib/supabase';
-
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface WaterAlert {
@@ -140,77 +138,24 @@ function filterByProvince<T extends { province: string }>(items: T[], province: 
 
 // ── Service functions ──────────────────────────────────────────────────────────
 
-export async function getWaterDataByProvince(province: string): Promise<WaterProvinceData> {
+let _cachedWaterJson: { fetched_at: string; dams: any[]; alerts: any[] } | null = null;
+
+async function loadWaterJson() {
+  if (_cachedWaterJson) return _cachedWaterJson;
   try {
-    const { data, error } = await supabase
-      .from('water_data')
-      .select('*')
-      .eq('province', province)
-      .eq('status', 'active')
-      .order('updated_at', { ascending: false });
-
-    if (error || !data || data.length === 0) {
-      return {
-        alerts: filterByProvince(SEED_ALERTS, province),
-        damLevels: filterByProvince(SEED_DAMS, province),
-        maintenance: filterByProvince(SEED_MAINTENANCE, province),
-        lastFetched: null,
-      };
-    }
-
-    const alerts: WaterAlert[] = data
-      .filter(r => r.data_type === 'alert')
-      .map(r => ({
-        id: r.id,
-        province: r.province,
-        municipality: r.municipality,
-        title: r.title,
-        description: r.description,
-        urgency: r.urgency as WaterAlert['urgency'],
-        affectedAreas: tryParseJSON(r.affected_areas, []),
-        recommendation: r.recommendation ?? '',
-        startDate: new Date(r.start_date),
-        endDate: r.end_date ? new Date(r.end_date) : undefined,
-        status: r.status as WaterAlert['status'],
-        sourceUrl: r.source_url ?? '',
-        fetchedAt: new Date(r.fetched_at),
-      }));
-
-    const damLevels: DamLevel[] = data
-      .filter(r => r.data_type === 'dam_level')
-      .map(r => ({
-        id: r.id,
-        province: r.province,
-        damName: r.dam_name ?? r.title,
-        levelPercent: r.dam_level_percent ?? 0,
-        trend: (r.dam_level_trend ?? 'stable') as DamLevel['trend'],
-        lastUpdated: new Date(r.updated_at),
-        sourceUrl: r.source_url,
-      }));
-
-    const maintenance: MaintenanceSchedule[] = data
-      .filter(r => r.data_type === 'maintenance')
-      .map(r => ({
-        id: r.id,
-        province: r.province,
-        title: r.title,
-        startDate: new Date(r.start_date),
-        endDate: new Date(r.end_date),
-        affectedAreas: tryParseJSON(r.affected_areas, []),
-        expectedImpact: tryParseJSON(r.description, [r.description]),
-        sourceUrl: r.source_url ?? '',
-      }));
-
-    const lastFetched = data[0]?.fetched_at ? new Date(data[0].fetched_at) : null;
-
-    // Fall back to seed data per section if Supabase returned nothing for that type
-    return {
-      alerts: alerts.length > 0 ? alerts : filterByProvince(SEED_ALERTS, province),
-      damLevels: damLevels.length > 0 ? damLevels : filterByProvince(SEED_DAMS, province),
-      maintenance: maintenance.length > 0 ? maintenance : filterByProvince(SEED_MAINTENANCE, province),
-      lastFetched,
-    };
+    const res = await fetch('/data/water/latest.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    _cachedWaterJson = await res.json();
+    return _cachedWaterJson!;
   } catch {
+    return null;
+  }
+}
+
+export async function getWaterDataByProvince(province: string): Promise<WaterProvinceData> {
+  const json = await loadWaterJson();
+
+  if (!json) {
     return {
       alerts: filterByProvince(SEED_ALERTS, province),
       damLevels: filterByProvince(SEED_DAMS, province),
@@ -218,13 +163,44 @@ export async function getWaterDataByProvince(province: string): Promise<WaterPro
       lastFetched: null,
     };
   }
+
+  const damLevels: DamLevel[] = (json.dams ?? [])
+    .filter((d: any) => d.province === province)
+    .map((d: any) => ({
+      id: d.id,
+      province: d.province,
+      damName: d.damName,
+      levelPercent: d.levelPercent,
+      trend: d.trend as DamLevel['trend'],
+      lastUpdated: new Date(d.lastUpdated),
+      sourceUrl: d.sourceUrl,
+    }));
+
+  const alerts: WaterAlert[] = (json.alerts ?? [])
+    .filter((a: any) => a.province === province)
+    .map((a: any) => ({
+      id: a.id,
+      province: a.province,
+      municipality: a.municipality,
+      title: a.title,
+      description: a.description,
+      urgency: a.urgency as WaterAlert['urgency'],
+      affectedAreas: a.affectedAreas ?? [],
+      recommendation: a.recommendation ?? '',
+      startDate: new Date(a.startDate),
+      status: 'active' as const,
+      sourceUrl: a.sourceUrl ?? '',
+      fetchedAt: new Date(a.fetchedAt),
+    }));
+
+  return {
+    alerts: alerts.length > 0 ? alerts : filterByProvince(SEED_ALERTS, province),
+    damLevels: damLevels.length > 0 ? damLevels : filterByProvince(SEED_DAMS, province),
+    maintenance: filterByProvince(SEED_MAINTENANCE, province),
+    lastFetched: new Date(json.fetched_at),
+  };
 }
 
-function tryParseJSON<T>(value: unknown, fallback: T): T {
-  if (Array.isArray(value)) return value as unknown as T;
-  if (typeof value !== 'string') return fallback;
-  try { return JSON.parse(value); } catch { return fallback; }
-}
 
 export function getLastFetchLabel(lastFetched: Date | null): string {
   if (!lastFetched) return 'Using demo data';

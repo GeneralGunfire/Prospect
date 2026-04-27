@@ -20,7 +20,7 @@ interface QuizAnswer {
 
 const likertOptions = [
   { label: 'Strongly Dislike', value: 1, color: 'bg-red-500' },
-  { label: 'Dislike', value: 2, color: 'bg-orange-400' },
+  { label: 'Dislike', value: 2, color: 'bg-slate-400' },
   { label: 'Neutral', value: 3, color: 'bg-slate-300' },
   { label: 'Like', value: 4, color: 'bg-green-400' },
   { label: 'Strongly Like', value: 5, color: 'bg-green-600' },

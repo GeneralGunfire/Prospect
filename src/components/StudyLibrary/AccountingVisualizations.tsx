@@ -23,7 +23,7 @@ export const TAccountAnimatorVisualization: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">T-Account Animator</h3>
 
       {/* T-Account Display */}
@@ -134,7 +134,7 @@ export const BalanceScaleVisualization: React.FC = () => {
   const isBalanced = assets === (equity + liabilities);
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Accounting Equation Balance</h3>
 
       {/* Balance Scale SVG */}
@@ -279,7 +279,7 @@ export const BalanceScaleVisualization: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-rose-100 border-2 border-rose-400 rounded-lg p-4"
+          className="bg-red-100 border-2 border-red-400 rounded-lg p-4"
         >
           <label className="text-xs font-bold text-slate-700 block mb-2">Liabilities (R)</label>
           <input
@@ -290,7 +290,7 @@ export const BalanceScaleVisualization: React.FC = () => {
             onChange={(e) => setLiabilities(Number(e.target.value))}
             className="w-full cursor-pointer"
           />
-          <p className="text-center font-bold text-rose-700 mt-3 text-lg">R{liabilities}</p>
+          <p className="text-center font-bold text-red-700 mt-3 text-lg">R{liabilities}</p>
         </motion.div>
       </div>
 
@@ -312,7 +312,7 @@ export const JournalEntryFlowVisualization: React.FC = () => {
   const [step, setStep] = useState(0);
 
   return (
-    <div className="space-y-4 p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl">
+    <div className="space-y-4 p-6 bg-gradient-to-br from-amber-50 to-slate-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Journal Entry Flow</h3>
 
       <div className="space-y-4">

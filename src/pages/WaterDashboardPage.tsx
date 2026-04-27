@@ -19,7 +19,7 @@ const PROVINCE_STORAGE_KEY = 'water_dashboard_province';
 
 const URGENCY_CONFIG = {
   critical: { label: 'Critical', bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200', bar: 'bg-red-500', dot: 'bg-red-500' },
-  high:     { label: 'High',     bg: 'bg-orange-100', text: 'text-orange-700', border: 'border-orange-200', bar: 'bg-orange-500', dot: 'bg-orange-500' },
+  high:     { label: 'High',     bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200', bar: 'bg-slate-500', dot: 'bg-slate-500' },
   medium:   { label: 'Medium',   bg: 'bg-amber-100', text: 'text-amber-700', border: 'border-amber-200', bar: 'bg-amber-500', dot: 'bg-amber-400' },
   low:      { label: 'Low',      bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-200', bar: 'bg-green-500', dot: 'bg-green-500' },
 };
@@ -27,7 +27,7 @@ const URGENCY_CONFIG = {
 const TREND_CONFIG = {
   rising:  { icon: <TrendingUp className="w-4 h-4" />,   label: 'Rising',  color: 'text-green-600' },
   stable:  { icon: <Minus className="w-4 h-4" />,        label: 'Stable',  color: 'text-blue-600' },
-  falling: { icon: <TrendingDown className="w-4 h-4" />, label: 'Falling', color: 'text-orange-600' },
+  falling: { icon: <TrendingDown className="w-4 h-4" />, label: 'Falling', color: 'text-slate-500' },
 };
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
@@ -125,7 +125,7 @@ function DamCard({ dam }: { dam: DamLevel }) {
   const barColor = isCritical
     ? 'bg-red-500'
     : level < 40
-    ? 'bg-orange-500'
+    ? 'bg-slate-500'
     : level < 60
     ? 'bg-amber-500'
     : 'bg-blue-500';

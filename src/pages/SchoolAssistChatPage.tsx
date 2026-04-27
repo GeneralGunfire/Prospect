@@ -1,26 +1,24 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  Send,
   ArrowLeft,
   RefreshCw,
   Sparkles,
   BookOpen,
-  Calculator,
   GraduationCap,
   Banknote,
   Lightbulb,
-  ChevronRight,
-  Paperclip,
-  ArrowUp,
   MessageCircle,
+  ArrowUp,
+  Mic,
+  Paperclip,
+  Calculator,
+  ChevronRight,
 } from 'lucide-react';
 import type { AppPage } from '../lib/withAuth';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import AppHeader from '../components/AppHeader';
-
-// ── Types ──────────────────────────────────────────────────────────────────────
 
 interface Props {
   onNavigate: (page: AppPage) => void;
@@ -34,11 +32,8 @@ interface Message {
   timestamp: Date;
 }
 
-// ── Auto-resize hook ───────────────────────────────────────────────────────────
-
 function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; maxHeight?: number }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
   const adjustHeight = useCallback(
     (reset?: boolean) => {
       const textarea = textareaRef.current;
@@ -50,11 +45,9 @@ function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; ma
     },
     [minHeight, maxHeight]
   );
-
   useEffect(() => {
     if (textareaRef.current) textareaRef.current.style.height = `${minHeight}px`;
   }, [minHeight]);
-
   return { textareaRef, adjustHeight };
 }
 
@@ -193,28 +186,7 @@ Consistency beats cramming. 1 hour daily outperforms 6 hours before the exam.`,
 Gap year alternative: A structured gap year with work + NSFAS application can be smarter than failing first year.`,
   },
   {
-    keywords: ['drop', 'failing', 'bad', 'struggle', 'difficult', 'hard', 'weak', 'change subject'],
-    answer: `Before you drop a subject, work through this decision tree:
-
-**Ask yourself:**
-1. Is this subject required for the career I want? If YES — do NOT drop it. Get help instead.
-2. Have I actually tried? 2 weeks of effort is not enough. Give it 4–6 weeks with a new approach.
-3. Am I struggling with the content, or with how I'm studying it?
-
-**When to keep the subject:**
-• It's needed for your career path
-• You're within passing range and haven't tried tutoring
-• You're struggling because of personal issues, not ability
-
-**When dropping makes sense:**
-• It's genuinely not required for your chosen career
-• You've tried consistently and results aren't improving
-• Keeping it is damaging your overall aggregate
-
-Before deciding, speak to your school's guidance counsellor — they can explain the implications for your application.`,
-  },
-  {
-    keywords: ['career', 'unsure', 'confused', 'what', 'direction', 'path', 'choice', 'decide', 'not sure'],
+    keywords: ['career', 'unsure', 'confused', 'direction', 'path', 'choice', 'decide', 'not sure'],
     answer: `Not knowing what you want to do is completely normal — most adults don't either.
 
 **A structured way to find direction:**
@@ -236,7 +208,7 @@ Step 3 — Focus on the path, not the destination:
 Reminder: Career uncertainty means you're thinking seriously — that's a good sign.`,
   },
   {
-    keywords: ['university', 'application', 'apply', 'deadline', 'admission', 'cau', 'central application'],
+    keywords: ['university', 'application', 'apply', 'deadline', 'cau', 'central application'],
     answer: `Applying to South African universities — key steps:
 
 **The Central Applications Office (CAO):**
@@ -300,29 +272,70 @@ function findAnswer(question: string): string {
   return FALLBACK_ANSWER;
 }
 
-// ── Topic chips ────────────────────────────────────────────────────────────────
-
-const TOPIC_CHIPS = [
-  { icon: BookOpen,      label: 'Choosing subjects',  q: 'How do I choose my matric subjects?' },
-  { icon: GraduationCap, label: 'APS & university',   q: 'What APS score do I need for university?' },
-  { icon: Banknote,      label: 'NSFAS funding',       q: 'How do I apply for NSFAS?' },
-  { icon: Calculator,    label: 'TVET colleges',       q: 'What is TVET and is it a good option?' },
-  { icon: Lightbulb,     label: 'Study tips',          q: 'How can I improve my grades?' },
-  { icon: ChevronRight,  label: 'Career direction',    q: "I'm not sure what career to choose" },
-  { icon: MessageCircle, label: 'Career Quiz',         q: 'How does the career quiz work?' },
-  { icon: Send,          label: 'Applications',        q: 'How do I apply to university?' },
-];
-
-// ── Message renderer ───────────────────────────────────────────────────────────
-
 function renderText(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-black">{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
     }
     return <span key={i}>{part}</span>;
   });
+}
+
+// ── Topic chips ────────────────────────────────────────────────────────────────
+
+const TOPIC_CHIPS = [
+  { icon: BookOpen,      label: 'Subjects',     q: 'How do I choose my matric subjects?' },
+  { icon: Calculator,    label: 'APS Score',    q: 'How is my APS score calculated?' },
+  { icon: Banknote,      label: 'Funding',      q: 'How do I apply for NSFAS?' },
+  { icon: GraduationCap, label: 'University',   q: 'How do I apply to university?' },
+  { icon: Lightbulb,     label: 'Study Tips',   q: 'How can I improve my grades?' },
+  { icon: MessageCircle, label: 'Career Quiz',  q: 'How does the career quiz work?' },
+];
+
+// ── Category cards (hero bottom) ──────────────────────────────────────────────
+
+const CATEGORY_CARDS = [
+  { icon: GraduationCap, label: 'Subjects & APS',   q: 'Help me choose my matric subjects and understand APS scores' },
+  { icon: Banknote,      label: 'Funding',           q: 'Tell me about NSFAS and bursaries' },
+  { icon: ChevronRight,  label: 'Career Guidance',   q: "I'm not sure what career to choose, help me decide" },
+];
+
+// ── Typing dots ────────────────────────────────────────────────────────────────
+
+function TypingDots() {
+  return (
+    <div className="flex items-center gap-1">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="w-1.5 h-1.5 rounded-full bg-blue-400"
+          animate={{ scale: [0.85, 1.2, 0.85], opacity: [0.4, 1, 0.4] }}
+          transition={{ repeat: Infinity, duration: 1.2, delay: i * 0.18, ease: 'easeInOut' }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ── Prospect logo mark ────────────────────────────────────────────────────────
+
+function ProspectMark({ size = 64 }: { size?: number }) {
+  return (
+    <div
+      className="rounded-full flex items-center justify-center shrink-0"
+      style={{
+        width: size, height: size,
+        background: 'conic-gradient(from 180deg at 50% 50%, #3b82f6 0deg, #60a5fa 90deg, #93c5fd 180deg, #3b82f6 360deg)',
+        boxShadow: '0 8px 32px rgba(59,130,246,0.25)',
+      }}
+    >
+      <div
+        className="rounded-full bg-white"
+        style={{ width: size * 0.42, height: size * 0.42 }}
+      />
+    </div>
+  );
 }
 
 // ── Component ──────────────────────────────────────────────────────────────────
@@ -340,7 +353,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const { textareaRef, adjustHeight } = useAutoResizeTextarea({ minHeight: 48, maxHeight: 160 });
+  const { textareaRef, adjustHeight } = useAutoResizeTextarea({ minHeight: 52, maxHeight: 180 });
 
   const hasChatStarted = messages.length > 0;
 
@@ -350,75 +363,89 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
 
   function sendMessage(text: string) {
     if (!text.trim()) return;
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      text: text.trim(),
-      timestamp: new Date(),
-    };
+    const userMsg: Message = { id: Date.now().toString(), role: 'user', text: text.trim(), timestamp: new Date() };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
     adjustHeight(true);
     setIsTyping(true);
-
     setTimeout(() => {
-      const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'bot',
-        text: findAnswer(text),
-        timestamp: new Date(),
-      };
+      const botMsg: Message = { id: (Date.now() + 1).toString(), role: 'bot', text: findAnswer(text), timestamp: new Date() };
       setMessages((prev) => [...prev, botMsg]);
       setIsTyping(false);
     }, 700 + Math.random() * 400);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(input);
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
   }
 
-  function handleReset() {
-    setMessages([]);
-    setInput('');
-    adjustHeight(true);
-  }
+  function handleReset() { setMessages([]); setInput(''); adjustHeight(true); }
 
-  // ── Input box (shared between hero and bottom bar) ──────────────────────────
+  // ── Input box ─────────────────────────────────────────────────────────────
 
   const InputBox = ({ compact = false }: { compact?: boolean }) => (
-    <div className={`relative bg-white rounded-2xl border border-slate-200 shadow-sm ${compact ? '' : 'shadow-lg'}`}>
-      <textarea
-        ref={compact ? undefined : textareaRef}
-        value={input}
-        onChange={(e) => {
-          setInput(e.target.value);
-          if (!compact) adjustHeight();
-        }}
-        onKeyDown={handleKeyDown}
-        placeholder="Ask about subjects, APS, bursaries, careers…"
-        rows={1}
-        className="w-full px-4 pt-3.5 pb-2 resize-none border-none bg-transparent text-slate-800 text-sm focus:outline-none placeholder:text-slate-400"
-        style={{ minHeight: compact ? '48px' : '56px', maxHeight: '160px', overflow: 'hidden' }}
-      />
-      <div className="flex items-center justify-between px-3 pb-2.5">
-        <button
-          type="button"
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
-          tabIndex={-1}
-        >
-          <Paperclip className="w-4 h-4" />
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm focus-within:border-blue-300 focus-within:shadow-md transition-all">
+      {/* Textarea */}
+      <div className="px-4 pt-4 pb-1">
+        <textarea
+          ref={compact ? undefined : textareaRef}
+          value={input}
+          onChange={(e) => { setInput(e.target.value); if (!compact) adjustHeight(); }}
+          onKeyDown={handleKeyDown}
+          placeholder="Ask me anything..."
+          rows={1}
+          className="w-full resize-none bg-transparent border-none text-slate-800 text-sm focus:outline-none placeholder:text-slate-400 leading-relaxed"
+          style={{ minHeight: compact ? '44px' : '56px', maxHeight: '180px', overflow: 'hidden' }}
+        />
+      </div>
+
+      {/* Pill chips row */}
+      {!compact && (
+        <div className="flex items-center gap-1.5 px-3 pb-2 pt-1">
+          {TOPIC_CHIPS.slice(0, 3).map(({ icon: Icon, label, q }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => sendMessage(q)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50 text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium"
+            >
+              <Icon className="w-3 h-3" />
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Toolbar */}
+      <div className={`flex items-center justify-between px-3 border-t border-slate-100 ${compact ? 'py-2' : 'py-2.5'}`}>
+        <button type="button" className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-blue-500 transition-colors py-1">
+          <Paperclip className="w-3.5 h-3.5" />
+          <span>Upload Files</span>
         </button>
-        <button
-          type="button"
-          onClick={() => sendMessage(input)}
-          disabled={!input.trim() || isTyping}
-          className="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-700 text-white flex items-center justify-center transition-all disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 shadow-sm"
-        >
-          <ArrowUp className="w-4 h-4" />
-        </button>
+
+        <div className="flex items-center gap-2">
+          <button type="button" className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all">
+            <Mic className="w-4 h-4" />
+          </button>
+          <motion.button
+            type="button"
+            onClick={() => sendMessage(input)}
+            disabled={!input.trim() || isTyping}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={[
+              'w-8 h-8 rounded-full flex items-center justify-center transition-all',
+              input.trim() && !isTyping
+                ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed',
+            ].join(' ')}
+          >
+            {isTyping
+              ? <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              : <ArrowUp className="w-4 h-4" />
+            }
+          </motion.button>
+        </div>
       </div>
     </div>
   );
@@ -430,77 +457,92 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
       {user ? (
         <AppHeader currentPage="school-assist-chat" user={user} onNavigate={onNavigate} mode="school" />
       ) : (
-        <header className="shrink-0 bg-white/90 backdrop-blur-md border-b border-slate-100 px-4 py-3 flex items-center justify-between z-10">
+        <header className="shrink-0 bg-white border-b border-slate-100 px-4 py-3 flex items-center justify-between z-10">
           <button
             onClick={onNavigateHome}
             className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Prospect
+            <ArrowLeft className="w-4 h-4" /> Back
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-xs">S</div>
-            <span className="font-black text-sm text-slate-900 uppercase tracking-wider">School Assist</span>
+            <ProspectMark size={28} />
+            <span className="font-bold text-sm text-slate-900">School Assist</span>
           </div>
           <button
             onClick={handleReset}
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-700 p-2 rounded-xl hover:bg-slate-100 transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition-colors"
           >
-            <RefreshCw className="w-3.5 h-3.5" /> Clear
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Clear</span>
           </button>
         </header>
       )}
 
-      {/* ── Hero state (no chat yet) ── */}
+      {/* ── Hero (no chat yet) ── */}
       <AnimatePresence>
         {!hasChatStarted && (
           <motion.div
             key="hero"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className={`flex flex-col items-center justify-center flex-1 px-4 ${user ? 'pt-16' : ''}`}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.25 }}
+            className={`flex flex-col items-center justify-center flex-1 px-4 pb-8 ${user ? 'pt-20' : ''}`}
           >
-            {/* Title */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-10"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center mx-auto mb-5 shadow-lg">
-                <Sparkles className="w-7 h-7 text-white" />
-              </div>
-              <h1 className="text-4xl font-bold text-slate-900 tracking-tight">
-                School Assist
-              </h1>
-              <p className="mt-2.5 text-base text-slate-500 max-w-sm mx-auto leading-relaxed">
-                Your free SA career & study guide — just start typing below.
-              </p>
-            </motion.div>
+            <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-8">
 
-            {/* Input box */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="w-full max-w-2xl"
-            >
-              <InputBox />
+              {/* Logo + heading */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex flex-col items-center gap-4 text-center"
+              >
+                <ProspectMark size={72} />
+                <div>
+                  <h1 className="text-3xl font-bold text-slate-900">
+                    Ready to{' '}
+                    <span className="text-blue-600">assist you</span>
+                  </h1>
+                  <p className="mt-2 text-sm text-slate-400">
+                    Ask me anything or try one of the suggestions below
+                  </p>
+                </div>
+              </motion.div>
 
-              {/* Quick action chips */}
-              <div className="flex items-center justify-center flex-wrap gap-2.5 mt-5">
-                {TOPIC_CHIPS.map(({ icon: Icon, label, q }) => (
-                  <button
+              {/* Input */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="w-full"
+              >
+                <InputBox />
+              </motion.div>
+
+              {/* Category cards */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="grid grid-cols-3 gap-3 w-full"
+              >
+                {CATEGORY_CARDS.map(({ icon: Icon, label, q }, i) => (
+                  <motion.button
                     key={label}
                     onClick={() => sendMessage(q)}
-                    className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300 transition-all text-xs font-medium shadow-sm"
+                    whileHover={{ y: -2, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                    whileTap={{ scale: 0.97 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 + i * 0.06 }}
+                    className="flex flex-col items-center gap-2.5 py-5 px-3 rounded-2xl border border-slate-200 bg-white text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all"
                   >
-                    <Icon className="w-3.5 h-3.5 text-slate-400" />
-                    {label}
-                  </button>
+                    <Icon className="w-5 h-5" />
+                    <span className="text-xs font-medium leading-tight text-center">{label}</span>
+                  </motion.button>
                 ))}
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -514,7 +556,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
             animate={{ opacity: 1 }}
             className={`flex-1 overflow-y-auto px-4 py-5 ${user ? 'pt-24' : 'pt-5'}`}
           >
-            <div className="max-w-2xl mx-auto space-y-5">
+            <div className="max-w-xl mx-auto space-y-5">
               <AnimatePresence initial={false}>
                 {messages.map((msg) => (
                   <motion.div
@@ -522,21 +564,21 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    className={`flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                    className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
                   >
                     {msg.role === 'bot' ? (
-                      <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                        <Sparkles className="w-3.5 h-3.5 text-white" />
+                      <div className="shrink-0 mt-0.5">
+                        <ProspectMark size={32} />
                       </div>
                     ) : (
-                      <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="text-[10px] font-black text-slate-500">You</span>
+                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-[10px] font-bold text-slate-500">You</span>
                       </div>
                     )}
-                    <div className={`flex flex-col gap-1 max-w-[78%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+                    <div className={`flex flex-col gap-1 max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                       <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
                         msg.role === 'user'
-                          ? 'bg-indigo-600 text-white rounded-tr-sm shadow-sm'
+                          ? 'bg-blue-600 text-white rounded-tr-sm'
                           : 'bg-slate-50 text-slate-800 border border-slate-100 rounded-tl-sm'
                       }`}>
                         {msg.role === 'bot' ? renderText(msg.text) : msg.text}
@@ -554,20 +596,14 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="flex gap-2.5 items-end"
+                    className="flex gap-3 items-end"
                   >
-                    <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center shrink-0 shadow-sm">
-                      <Sparkles className="w-3.5 h-3.5 text-white" />
+                    <div className="shrink-0">
+                      <ProspectMark size={32} />
                     </div>
-                    <div className="bg-slate-50 border border-slate-100 px-4 py-3.5 rounded-2xl rounded-tl-sm flex items-center gap-1.5">
-                      {[0, 1, 2].map((i) => (
-                        <motion.span
-                          key={i}
-                          className="w-2 h-2 rounded-full bg-indigo-300"
-                          animate={{ scale: [1, 1.5, 1], opacity: [0.4, 1, 0.4] }}
-                          transition={{ repeat: Infinity, duration: 1, delay: i * 0.25 }}
-                        />
-                      ))}
+                    <div className="bg-slate-50 border border-slate-100 px-4 py-3.5 rounded-2xl rounded-tl-sm flex items-center gap-2">
+                      <span className="text-xs text-slate-500">Thinking</span>
+                      <TypingDots />
                     </div>
                   </motion.div>
                 )}
@@ -578,7 +614,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
         )}
       </AnimatePresence>
 
-      {/* ── Bottom input bar (chat mode only) ── */}
+      {/* ── Bottom bar (chat mode) ── */}
       <AnimatePresence>
         {hasChatStarted && (
           <motion.div
@@ -589,15 +625,14 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
             transition={{ duration: 0.2 }}
             className="shrink-0 bg-white border-t border-slate-100 px-4 py-3"
           >
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-xl mx-auto">
               <InputBox compact />
-              {/* Chip row below input */}
-              <div className="flex items-center gap-2 mt-2.5 overflow-x-auto pb-1 scrollbar-hide">
-                {TOPIC_CHIPS.slice(0, 5).map(({ icon: Icon, label, q }) => (
+              <div className="flex items-center gap-2 mt-2 overflow-x-auto pb-0.5 scrollbar-hide">
+                {TOPIC_CHIPS.map(({ icon: Icon, label, q }) => (
                   <button
                     key={label}
                     onClick={() => sendMessage(q)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-500 hover:text-slate-800 hover:border-slate-300 transition-all text-xs font-medium shrink-0 whitespace-nowrap"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium shrink-0 whitespace-nowrap"
                   >
                     <Icon className="w-3 h-3" />
                     {label}

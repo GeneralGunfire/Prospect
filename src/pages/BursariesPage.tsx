@@ -296,11 +296,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                         <p className="text-sm leading-relaxed mb-6 text-slate-600">{bursary.description}</p>
                         <div className="flex flex-wrap gap-4">
                           <div className="flex items-center gap-2 text-slate-500">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            <CheckCircle2 className="w-4 h-4 text-blue-500" />
                             <span className="text-xs font-bold uppercase tracking-wider">Min marks: {bursary.requirements.minMarks}</span>
                           </div>
                           <div className="flex items-center gap-2 text-slate-500">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            <CheckCircle2 className="w-4 h-4 text-blue-500" />
                             <span className="text-xs font-bold uppercase tracking-wider">{bursary.studyOptions.fields.slice(0, 2).join(', ')}</span>
                           </div>
                         </div>

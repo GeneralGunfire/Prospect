@@ -185,12 +185,12 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           Back to Prospect
         </button>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-xs">S</div>
+          <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-xs">S</div>
           <span className="font-black text-sm text-[#1e293b] uppercase tracking-wider">School Assist</span>
         </div>
         <button
           onClick={() => onNavigate('school-assist-chat')}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
         >
           <MessageCircle className="w-3.5 h-3.5" />
           Chat
@@ -207,7 +207,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           transition={{ duration: 0.5 }}
           className="mb-8 text-center"
         >
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 mb-2">Your Study Companion</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Your Study Companion</p>
           <h1 className="text-3xl lg:text-4xl font-black text-[#1e293b]" style={{ letterSpacing: '-0.02em' }}>
             School Assist
           </h1>
@@ -225,12 +225,12 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
         >
           <button
             onClick={() => onNavigate('school-assist-chat')}
-            className="w-full flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl p-4 text-left transition-colors"
+            className="w-full flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-4 text-left transition-colors"
           >
             <MessageCircle className="w-5 h-5 shrink-0" />
             <div>
               <p className="text-xs font-black uppercase tracking-wider">Guidance Chat</p>
-              <p className="text-[10px] text-indigo-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
+              <p className="text-[10px] text-blue-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
             </div>
           </button>
         </motion.div>
@@ -248,7 +248,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
               onClick={() => handleModeChange('topic')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200 ${
                 searchMode === 'topic'
-                  ? 'bg-white text-indigo-600 shadow-sm'
+                  ? 'bg-white text-blue-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -259,7 +259,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
               onClick={() => handleModeChange('question')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200 ${
                 searchMode === 'question'
-                  ? 'bg-white text-indigo-600 shadow-sm'
+                  ? 'bg-white text-blue-600 shadow-sm'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -283,13 +283,13 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                     ? 'e.g. Algebraic Expressions, Waves, Photosynthesis…'
                     : 'e.g. How do I solve quadratic equations?'
                 }
-                className="w-full h-11 pl-9 pr-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                className="w-full h-11 pl-9 pr-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
               />
             </div>
             <button
               onClick={handleSearch}
               disabled={loading || !query.trim()}
-              className="flex items-center gap-2 px-5 h-11 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-2 px-5 h-11 bg-blue-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
               Search
@@ -325,16 +325,16 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-5 flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-2xl px-5 py-4"
+                  className="mb-5 flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-2xl px-5 py-4"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-blue-500 shrink-0" />
                   <div>
-                    <p className="text-sm font-black text-emerald-800">Question submitted!</p>
-                    <p className="text-xs text-emerald-600">We'll get back to you. Check your dashboard for updates.</p>
+                    <p className="text-sm font-black text-blue-800">Question submitted!</p>
+                    <p className="text-xs text-blue-500">We'll get back to you. Check your dashboard for updates.</p>
                   </div>
                   <button
                     onClick={() => setSubmitSuccess(false)}
-                    className="ml-auto text-emerald-400 hover:text-emerald-600 transition-colors"
+                    className="ml-auto text-blue-400 hover:text-blue-500 transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -360,7 +360,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">
+                                <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
                                   {topic.subject}
                                 </span>
                                 <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
@@ -373,7 +373,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           <p className="text-xs text-slate-500 leading-relaxed mb-3">{topic.snippet}</p>
                           <button
                             onClick={() => onNavigate('library')}
-                            className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors"
+                            className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
                           >
                             View Full Lesson <ChevronRight className="w-3.5 h-3.5" />
                           </button>
@@ -413,7 +413,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                             <>
                               <div className="flex items-center gap-2 mb-2 flex-wrap">
                                 {result.subject && (
-                                  <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full">
+                                  <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
                                     {result.subject}
                                   </span>
                                 )}
@@ -422,7 +422,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                     Gr {result.grade}
                                   </span>
                                 )}
-                                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                                <span className="text-[10px] font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">
                                   Answered
                                 </span>
                               </div>
@@ -445,7 +445,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                   </AnimatePresence>
                                   <button
                                     onClick={() => toggleAnswer(result.id)}
-                                    className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1"
+                                    className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1"
                                   >
                                     {expandedAnswers.has(result.id) ? 'Hide Answer' : 'View Answer'}
                                     <ChevronRight
@@ -478,7 +478,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                               )}
                               <button
                                 onClick={() => onNavigate('library')}
-                                className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors"
+                                className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
                               >
                                 View Full Lesson <ChevronRight className="w-3.5 h-3.5" />
                               </button>
@@ -509,11 +509,11 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="mt-4 bg-white rounded-3xl border border-indigo-100 shadow-sm p-6"
+                    className="mt-4 bg-white rounded-3xl border border-blue-100 shadow-sm p-6"
                   >
                     <div className="flex items-center justify-between mb-5">
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-0.5">Submit Your Question</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-0.5">Submit Your Question</p>
                         <p className="text-xs text-slate-500">We'll research and add an answer to our library.</p>
                       </div>
                       <button
@@ -529,7 +529,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                         <p className="text-sm text-slate-600 mb-3">Sign in to submit questions.</p>
                         <button
                           onClick={() => onNavigate('auth')}
-                          className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-colors"
+                          className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-colors"
                         >
                           Sign In
                         </button>
@@ -557,7 +557,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                             <select
                               value={formSubject}
                               onChange={(e) => setFormSubject(e.target.value)}
-                              className="w-full h-11 border border-slate-200 rounded-xl px-3 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                              className="w-full h-11 border border-slate-200 rounded-xl px-3 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
                             >
                               <option value="">Select subject</option>
                               {SUBJECTS.map((s) => (
@@ -570,7 +570,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                             <select
                               value={formGrade}
                               onChange={(e) => setFormGrade(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full h-11 border border-slate-200 rounded-xl px-3 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                              className="w-full h-11 border border-slate-200 rounded-xl px-3 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
                             >
                               <option value="">Select grade</option>
                               {GRADES.map((g) => (
@@ -590,7 +590,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                             onChange={(e) => setFormDetails(e.target.value)}
                             rows={3}
                             placeholder="Add any extra context that would help us answer better…"
-                            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 transition-all"
+                            className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
                           />
                         </div>
 
@@ -599,7 +599,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           <button
                             type="submit"
                             disabled={submitLoading}
-                            className="flex items-center gap-2 px-5 h-11 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            className="flex items-center gap-2 px-5 h-11 bg-blue-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                           >
                             {submitLoading ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -667,7 +667,7 @@ function NoResultsCard({
         {searchMode === 'question' && !showSubmitForm && (
           <button
             onClick={() => setShowSubmitForm(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-blue-700 transition-all"
           >
             <SendHorizonal className="w-3.5 h-3.5" />
             Submit Your Question
@@ -684,7 +684,7 @@ function NoResultsCard({
         <p className="text-xs text-slate-400 mt-4">
           <button
             onClick={() => onNavigate('auth')}
-            className="text-indigo-600 hover:underline font-semibold"
+            className="text-blue-600 hover:underline font-semibold"
           >
             Sign in
           </button>{' '}

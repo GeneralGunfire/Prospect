@@ -33,13 +33,13 @@ const ICONS = {
 };
 
 function SeverityBadge({ severity }: { severity: Pothole['severity'] }) {
-  const cls = { low: 'bg-emerald-50 text-emerald-700 border-emerald-200', medium: 'bg-amber-50 text-amber-700 border-amber-200', high: 'bg-red-50 text-red-700 border-red-200' }[severity];
+  const cls = { low: 'bg-blue-50 text-blue-700 border-blue-200', medium: 'bg-amber-50 text-amber-700 border-amber-200', high: 'bg-red-50 text-red-700 border-red-200' }[severity];
   return <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${cls}`}>{severity[0].toUpperCase() + severity.slice(1)}</span>;
 }
 
 function StatusBadge({ pothole }: { pothole: Pothole }) {
   if (pothole.status === 'fixed')
-    return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><CheckCircle2 className="w-3 h-3" />Fixed</span>;
+    return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200"><CheckCircle2 className="w-3 h-3" />Fixed</span>;
   if (pothole.needs_fixing)
     return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200"><AlertTriangle className="w-3 h-3" />Needs Fixing</span>;
   return <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><Flag className="w-3 h-3" />Reported</span>;
@@ -440,7 +440,7 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
                 {selected.status !== 'fixed' && (
                   <div>
                     {flagMsg ? (
-                      <p className="text-sm font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">{flagMsg}</p>
+                      <p className="text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">{flagMsg}</p>
                     ) : alreadyFlagged ? (
                       <p className="text-sm text-slate-500 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3">You've already flagged this pothole.</p>
                     ) : (
@@ -462,18 +462,18 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
                     {!fixConfirm ? (
                       <button
                         onClick={() => setFixConfirm(true)}
-                        className="w-full h-11 border-2 border-emerald-400 text-emerald-700 font-bold text-sm rounded-2xl hover:bg-emerald-50 transition-colors flex items-center justify-center gap-2"
+                        className="w-full h-11 border-2 border-blue-400 text-blue-700 font-bold text-sm rounded-2xl hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
                       >
                         <CheckCircle2 className="w-4 h-4" /> Mark as Fixed
                       </button>
                     ) : (
-                      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
-                        <p className="text-sm font-semibold text-emerald-800 mb-3">Confirm this pothole has been fixed?</p>
+                      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                        <p className="text-sm font-semibold text-blue-800 mb-3">Confirm this pothole has been fixed?</p>
                         <div className="flex gap-2">
                           <button
                             onClick={handleMarkFixed}
                             disabled={fixing}
-                            className="flex-1 h-10 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+                            className="flex-1 h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
                           >
                             {fixing ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Confirm Fixed'}
                           </button>

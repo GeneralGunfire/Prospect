@@ -241,7 +241,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                             className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border ${
                               selectedDemand === level
                                 ? level === 'high'
-                                  ? 'bg-emerald-500 text-white border-emerald-500'
+                                  ? 'bg-blue-500 text-white border-blue-500'
                                   : level === 'medium'
                                     ? 'bg-amber-500 text-white border-amber-500'
                                     : 'bg-red-500 text-white border-red-500'

@@ -110,7 +110,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                   '• High employment rate upon completion',
                   '• Opportunities with Eskom, construction firms, auto dealers',
                 ],
-                borderCls: 'border-emerald-500',
+                borderCls: 'border-blue-500',
               },
               {
                 title: 'Company-Sponsored Training',
@@ -240,8 +240,8 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
               {
                 title: 'TVET 2-Year Program',
                 total: 'R0-20,000',
-                borderCls: 'border-emerald-500',
-                totalCls: 'text-emerald-600',
+                borderCls: 'border-blue-500',
+                totalCls: 'text-blue-500',
                 items: ['Tuition (covered by NSFAS): R0k', 'Living allowance (monthly): R3-4k', 'Books & supplies: R2-3k/year', 'Transport: R500-1k/month'],
               },
               {

@@ -13,10 +13,10 @@ interface CareerCardProps {
 const RIASEC_COLORS: Record<string, string> = {
   R: '#EF4444', // red-500
   I: '#3B82F6', // blue-500
-  A: '#A855F7', // purple-500
-  S: '#10B981', // emerald-500
+  A: '#A855F7', // blue-500
+  S: '#10B981', // blue-500
   E: '#F59E0B', // amber-500
-  C: '#06B6D4', // cyan-500
+  C: '#06B6D4', // blue-500
 };
 
 const DEMAND_CONFIG: Record<string, { label: string; cls: string }> = {
@@ -28,12 +28,12 @@ const DEMAND_CONFIG: Record<string, { label: string; cls: string }> = {
 // Category badge — using slate tones only (no new colors)
 const CATEGORY_CONFIG: Record<string, string> = {
   Engineering:  'bg-blue-50 text-blue-700',
-  Health:       'bg-emerald-50 text-emerald-700',
+  Health:       'bg-blue-50 text-blue-700',
   Business:     'bg-amber-50 text-amber-700',
   Technology:   'bg-slate-100 text-slate-700',
-  Education:    'bg-indigo-50 text-indigo-700',
-  Law:          'bg-rose-50 text-rose-700',
-  Arts:         'bg-purple-50 text-purple-700',
+  Education:    'bg-blue-50 text-blue-700',
+  Law:          'bg-red-50 text-red-700',
+  Arts:         'bg-blue-50 text-blue-700',
   Agriculture:  'bg-green-50 text-green-700',
 };
 

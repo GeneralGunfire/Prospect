@@ -69,9 +69,9 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_COLORS: Record<string, string> = {
   university: 'bg-blue-100 text-blue-700',
-  digital: 'bg-purple-100 text-purple-700',
-  creative: 'bg-pink-100 text-pink-700',
-  trade: 'bg-orange-100 text-orange-700',
+  digital: 'bg-blue-100 text-blue-700',
+  creative: 'bg-slate-100 text-slate-600',
+  trade: 'bg-slate-100 text-slate-700',
   agriculture: 'bg-lime-100 text-lime-700',
 };
 
@@ -99,9 +99,9 @@ function calculateAPS(subjects: SubjectMark[]): number {
 function getInterpretation(aps: number): { label: string; color: string; desc: string } {
   if (aps >= 36) return { label: 'Excellent', color: 'text-green-700', desc: 'You qualify for top university programmes including Medicine, Engineering, and Law.' };
   if (aps >= 30) return { label: 'Strong', color: 'text-blue-700', desc: 'Most university degree programmes are within reach.' };
-  if (aps >= 24) return { label: 'Good', color: 'text-indigo-700', desc: 'Many university and college programmes are accessible to you.' };
+  if (aps >= 24) return { label: 'Good', color: 'text-blue-700', desc: 'Many university and college programmes are accessible to you.' };
   if (aps >= 18) return { label: 'Average', color: 'text-amber-700', desc: 'Diploma and TVET programmes are a great fit. Some universities accept lower APS with conditional entry.' };
-  if (aps >= 14) return { label: 'Below Average', color: 'text-orange-700', desc: 'TVET colleges offer strong career paths. Consider N-Diplomas in trades or business.' };
+  if (aps >= 14) return { label: 'Below Average', color: 'text-slate-700', desc: 'TVET colleges offer strong career paths. Consider N-Diplomas in trades or business.' };
   return { label: 'Entry Level', color: 'text-red-700', desc: 'TVET trade certificates require no minimum APS. You can still build a successful career.' };
 }
 

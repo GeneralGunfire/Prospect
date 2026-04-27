@@ -132,12 +132,12 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
                 </ul>
               </div>
 
-              <div className="border-l-4 border-purple-500 pl-6">
+              <div className="border-l-4 border-blue-500 pl-6">
                 <h5 className="font-bold mb-2" style={{ color: '#1e293b' }}>Why This Bursary - 1-2 paragraphs</h5>
                 <p style={{ color: '#475569' }}>Explain how this specific bursary helps YOU achieve your goals. Not just that you need money, but what this opportunity means to your future.</p>
               </div>
 
-              <div className="border-l-4 border-orange-500 pl-6">
+              <div className="border-l-4 border-slate-500 pl-6">
                 <h5 className="font-bold mb-2" style={{ color: '#1e293b' }}>Closing (Future Goals) - 1 paragraph</h5>
                 <p style={{ color: '#475569' }}>What will you achieve with this support? How will you give back to your community? What's your vision?</p>
               </div>
@@ -289,7 +289,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
       icon: Users,
       content: (
         <div className="space-y-6">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-8 border border-green-200">
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-8 border border-green-200">
             <h5 className="font-bold mb-4 text-lg flex items-center gap-2" style={{ color: '#15803d' }}>
               <CheckCircle2 className="w-6 h-6" /> Why Apply to Multiple Bursaries?
             </h5>
@@ -314,7 +314,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
               </ol>
             </div>
 
-            <div className="p-6 rounded-2xl border-2 border-purple-200" style={{ backgroundColor: 'rgba(168, 85, 247, 0.05)' }}>
+            <div className="p-6 rounded-2xl border-2 border-blue-200" style={{ backgroundColor: 'rgba(168, 85, 247, 0.05)' }}>
               <h5 className="font-bold mb-4" style={{ color: '#1e293b' }}>Customize Your Letter for EACH</h5>
               <ul className="space-y-2 text-sm" style={{ color: '#475569' }}>
                 <li>✓ Keep your core story the same</li>

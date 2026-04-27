@@ -13,11 +13,11 @@ export const PPCInteractiveVisualization: React.FC = () => {
   const gunsProduction = calculateGuns(cornProduction);
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-slate-50 to-amber-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Production Possibility Curve</h3>
 
       {/* PPC Graph */}
-      <div className="bg-white border-2 border-orange-300 rounded-lg p-6">
+      <div className="bg-white border-2 border-slate-300 rounded-lg p-6">
         <svg viewBox="0 0 400 300" className="w-full">
           {/* Grid */}
           {[...Array(5)].map((_, i) => (
@@ -77,7 +77,7 @@ export const PPCInteractiveVisualization: React.FC = () => {
       </div>
 
       {/* Controls and Display */}
-      <div className="bg-orange-100 border-2 border-orange-300 rounded-lg p-4">
+      <div className="bg-slate-100 border-2 border-slate-300 rounded-lg p-4">
         <div className="space-y-4">
           <div>
             <label className="text-sm font-bold text-slate-700">Corn Production: {cornProduction} units</label>
@@ -87,7 +87,7 @@ export const PPCInteractiveVisualization: React.FC = () => {
               max="100"
               value={cornProduction}
               onChange={(e) => setCornProduction(Number(e.target.value))}
-              className="w-full h-2 bg-orange-300 rounded-lg cursor-pointer"
+              className="w-full h-2 bg-slate-300 rounded-lg cursor-pointer"
             />
           </div>
 
@@ -131,11 +131,11 @@ export const CircularFlowAnimationVisualization: React.FC = () => {
   const flowSpeed = (spending / 100) * 8 + 2;
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Circular Flow of Income</h3>
 
       {/* Circular Flow Diagram */}
-      <div className="bg-white border-2 border-purple-300 rounded-lg p-6">
+      <div className="bg-white border-2 border-blue-300 rounded-lg p-6">
         <svg viewBox="0 0 400 300" className="w-full">
           {/* Households box */}
           <rect x="50" y="100" width="100" height="80" fill="#e9d5ff" stroke="#a855f7" strokeWidth="2" rx="8" />
@@ -196,7 +196,7 @@ export const CircularFlowAnimationVisualization: React.FC = () => {
       </div>
 
       {/* Spending Control */}
-      <div className="bg-purple-100 border-2 border-purple-300 rounded-lg p-4">
+      <div className="bg-blue-100 border-2 border-blue-300 rounded-lg p-4">
         <label className="text-sm font-bold text-slate-700 block mb-2">Consumer Spending Level: {spending}%</label>
         <input
           type="range"
@@ -204,7 +204,7 @@ export const CircularFlowAnimationVisualization: React.FC = () => {
           max="100"
           value={spending}
           onChange={(e) => setSpending(Number(e.target.value))}
-          className="w-full h-2 bg-purple-400 rounded-lg cursor-pointer"
+          className="w-full h-2 bg-blue-400 rounded-lg cursor-pointer"
         />
       </div>
 
@@ -251,7 +251,7 @@ export const ScarcityVisualization: React.FC = () => {
   const scarcityGap = Math.max(0, wants - resources);
 
   return (
-    <div className="space-y-6 p-6 bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl">
+    <div className="space-y-6 p-6 bg-gradient-to-br from-red-50 to-slate-50 rounded-2xl">
       <h3 className="text-xl font-bold text-slate-900 text-center">Scarcity: The Economic Problem</h3>
 
       {/* Visualization */}
@@ -332,9 +332,9 @@ export const ScarcityVisualization: React.FC = () => {
           <p className="text-xs text-slate-600 font-semibold">WANTS</p>
           <p className="text-2xl font-bold text-red-700">{wants}</p>
         </div>
-        <div className="bg-orange-50 border border-orange-300 rounded p-3 text-center">
+        <div className="bg-slate-50 border border-slate-300 rounded p-3 text-center">
           <p className="text-xs text-slate-600 font-semibold">GAP</p>
-          <p className="text-2xl font-bold text-orange-700">{scarcityGap}</p>
+          <p className="text-2xl font-bold text-slate-700">{scarcityGap}</p>
         </div>
       </div>
 

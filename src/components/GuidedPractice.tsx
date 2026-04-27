@@ -50,9 +50,9 @@ export function GuidedPractice({ items, onComplete }: Props) {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-purple-600 mb-1">Guided Practice</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Guided Practice</p>
         <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-          <div className="h-full bg-purple-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+          <div className="h-full bg-blue-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
         </div>
       </div>
 

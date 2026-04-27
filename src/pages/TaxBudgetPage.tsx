@@ -228,7 +228,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                   <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Your Breakdown</p>
                   <div className="flex rounded-xl overflow-hidden h-8 gap-0.5">
                     <div
-                      className="bg-emerald-500 flex items-center justify-center text-xs font-black text-white transition-all"
+                      className="bg-blue-500 flex items-center justify-center text-xs font-black text-white transition-all"
                       style={{ width: `${netPercent}%` }}
                     >
                       {netPercent > 10 && `${netPercent}%`}
@@ -247,7 +247,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                     </div>
                   </div>
                   <div className="flex gap-4 mt-2 text-xs text-slate-500">
-                    <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />Take-home</span>
+                    <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm bg-blue-500" />Take-home</span>
                     <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm bg-red-400" />PAYE</span>
                     <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm bg-amber-400" />UIF</span>
                   </div>
@@ -259,7 +259,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                     { label: 'Gross', value: fmt(gross), color: 'text-slate-900' },
                     { label: 'PAYE', value: `−${fmt(monthlyTax)}`, color: 'text-red-500' },
                     { label: 'UIF', value: `−${fmt(monthlyUIF)}`, color: 'text-amber-600' },
-                    { label: 'Take-home', value: fmt(monthlyNet), color: 'text-emerald-600' },
+                    { label: 'Take-home', value: fmt(monthlyNet), color: 'text-blue-500' },
                   ].map(({ label, value, color }) => (
                     <div key={label} className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
                       <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-1">{label}</p>
@@ -313,10 +313,10 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
             <div className="space-y-2.5">
               {[
                 { icon: <Home className="w-4 h-4" />, label: living === 'family' ? 'Rent / contribution' : 'Rent', value: rent, color: 'bg-blue-500' },
-                { icon: <ShoppingCart className="w-4 h-4" />, label: 'Food & groceries', value: food, color: 'bg-emerald-500' },
-                { icon: <Car className="w-4 h-4" />, label: 'Transport', value: transport, color: 'bg-indigo-500' },
+                { icon: <ShoppingCart className="w-4 h-4" />, label: 'Food & groceries', value: food, color: 'bg-blue-500' },
+                { icon: <Car className="w-4 h-4" />, label: 'Transport', value: transport, color: 'bg-blue-500' },
                 { icon: <Zap className="w-4 h-4" />, label: 'Electricity & water', value: utilities, color: 'bg-amber-500' },
-                { icon: <Wifi className="w-4 h-4" />, label: 'Entertainment & data', value: entertainment, color: 'bg-purple-500' },
+                { icon: <Wifi className="w-4 h-4" />, label: 'Entertainment & data', value: entertainment, color: 'bg-blue-500' },
               ].map(({ icon, label, value, color }) => {
                 const pct = monthlyNet > 0 ? Math.min(100, Math.round((value / monthlyNet) * 100)) : 0;
                 return (
@@ -342,13 +342,13 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={`p-4 rounded-xl border ${savings >= 0 ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}
+                className={`p-4 rounded-xl border ${savings >= 0 ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200'}`}
               >
                 <div className="flex items-center gap-2">
-                  <Smile className={`w-4 h-4 ${savings >= 0 ? 'text-emerald-600' : 'text-red-500'}`} />
+                  <Smile className={`w-4 h-4 ${savings >= 0 ? 'text-blue-500' : 'text-red-500'}`} />
                   <span className="text-xs font-black uppercase tracking-wider text-slate-600">Estimated monthly savings</span>
                 </div>
-                <p className={`font-black text-2xl mt-1 ${savings >= 0 ? 'text-emerald-700' : 'text-red-600'}`}>
+                <p className={`font-black text-2xl mt-1 ${savings >= 0 ? 'text-blue-700' : 'text-red-600'}`}>
                   {savings >= 0 ? fmt(savings) : `−${fmt(Math.abs(savings))}`}
                 </p>
                 {savings < 0 && (

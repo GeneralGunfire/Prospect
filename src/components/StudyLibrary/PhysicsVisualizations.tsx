@@ -209,7 +209,7 @@ export const WavePropertiesInteractive: React.FC = () => {
         <div className="mb-6">
           <div className="flex justify-between mb-2">
             <label className="font-semibold text-slate-700">Wavelength (λ)</label>
-            <span className="text-purple-600 font-bold">{wavelength.toFixed(0)} px</span>
+            <span className="text-blue-600 font-bold">{wavelength.toFixed(0)} px</span>
           </div>
           <input
             type="range"
@@ -271,9 +271,9 @@ export const WavePropertiesInteractive: React.FC = () => {
             <p className="text-lg font-bold text-blue-600">{amplitude.toFixed(0)}</p>
             <p className="text-xs text-slate-500">Height from center</p>
           </div>
-          <div className="p-3 bg-purple-50 rounded">
+          <div className="p-3 bg-blue-50 rounded">
             <p className="text-xs text-slate-600 font-semibold">Wavelength (λ)</p>
-            <p className="text-lg font-bold text-purple-600">{wavelength.toFixed(0)}</p>
+            <p className="text-lg font-bold text-blue-600">{wavelength.toFixed(0)}</p>
             <p className="text-xs text-slate-500">Peak to peak</p>
           </div>
           <div className="p-3 bg-green-50 rounded">
@@ -613,7 +613,7 @@ export const ComprehensiveWavePropertiesExplorer: React.FC = () => {
         </div>
 
         {/* Visualization */}
-        <svg viewBox="0 0 600 200" className="w-full bg-gradient-to-b from-cyan-50 to-blue-50 rounded border border-cyan-200 mb-4">
+        <svg viewBox="0 0 600 200" className="w-full bg-gradient-to-b from-blue-50 to-blue-50 rounded border border-blue-200 mb-4">
           {/* Wave visualization */}
           <polyline
             points={Array.from({ length: 60 }, (_, i) => {
@@ -659,9 +659,9 @@ export const ComprehensiveWavePropertiesExplorer: React.FC = () => {
             <p className="text-xs text-slate-500">Hz</p>
           </div>
 
-          <div className="bg-white rounded p-3 shadow-sm border-2 border-purple-400">
+          <div className="bg-white rounded p-3 shadow-sm border-2 border-blue-400">
             <p className="text-xs text-slate-600 font-semibold">Wavelength (λ)</p>
-            <p className="text-xl font-bold text-purple-600">{wavelength.toFixed(2)}</p>
+            <p className="text-xl font-bold text-blue-600">{wavelength.toFixed(2)}</p>
             <p className="text-xs text-slate-500">m</p>
           </div>
         </div>
@@ -767,7 +767,7 @@ export const LongitudinalWaveProperties: React.FC = () => {
         {/* Toggle measurement */}
         <button
           onClick={() => setShowMeasurement(!showMeasurement)}
-          className="mb-4 px-3 py-1 bg-purple-100 text-purple-700 rounded text-sm font-semibold hover:bg-purple-200"
+          className="mb-4 px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm font-semibold hover:bg-blue-200"
         >
           {showMeasurement ? 'Hide' : 'Show'} Wavelength Measurement
         </button>
@@ -819,7 +819,7 @@ export const EMSpectrumVisualization: React.FC = () => {
     },
     {
       name: 'Microwaves',
-      color: 'bg-orange-200',
+      color: 'bg-slate-200',
       frequency: '10⁹ Hz',
       wavelength: '10⁻³ m',
       description: 'Heating food, radar',
@@ -851,7 +851,7 @@ export const EMSpectrumVisualization: React.FC = () => {
     },
     {
       name: 'X-rays',
-      color: 'bg-purple-200',
+      color: 'bg-blue-200',
       frequency: '10¹⁸ Hz',
       wavelength: '10⁻¹⁰ m',
       description: 'Medical imaging',
@@ -859,7 +859,7 @@ export const EMSpectrumVisualization: React.FC = () => {
     },
     {
       name: 'Gamma Rays',
-      color: 'bg-violet-300',
+      color: 'bg-blue-300',
       frequency: '10²⁰ Hz',
       wavelength: '10⁻¹² m',
       description: 'Radioactive decay',

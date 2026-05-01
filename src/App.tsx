@@ -51,7 +51,7 @@ const TVETRequirementsPage = lazy(() => import('./pages/TVETRequirementsPage'));
 const CalendarPageNew    = lazy(() => import('./pages/CalendarPageNew'));
 const SchoolAssistPage   = lazy(() => import('./pages/SchoolAssistPage'));
 const ImpactAuthPage     = lazy(() => import('./pages/ImpactAuthPage'));
-const DemoLearningPage   = lazy(() => import('./pages/DemoLearningPage'));
+const LinearEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/LinearEquations'));
 const CommunityImpactPage = lazy(() => import('./pages/CommunityImpactPage'));
 const PotholeMapPage     = lazy(() => import('./pages/PotholeMapPage'));
 const FlagPotholePage    = lazy(() => import('./pages/FlagPotholePage'));
@@ -805,7 +805,7 @@ export default function App() {
               {page === 'school-assist-chat' && <PageTransition pageKey="school-assist-chat"><SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'aps-calculator' && <PageTransition pageKey="aps-calculator"><APSCalculatorPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'impact-auth' && <PageTransition pageKey="impact-auth"><ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
-              {page === 'demo-learning' && <PageTransition pageKey="demo-learning"><DemoLearningPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-algebra-g10-t1-linear-equations' && <PageTransition pageKey="learning-algebra-g10-t1-linear-equations"><LinearEquationsPage {...protectedPageProps} /></PageTransition>}
               {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...careerPageProps} /></PageTransition>}
               {page === 'pothole-map' && <PageTransition pageKey="pothole-map"><PotholeMapPage {...careerPageProps} /></PageTransition>}
               {page === 'flag-pothole' && <PageTransition pageKey="flag-pothole"><FlagPotholePage {...protectedPageProps} /></PageTransition>}

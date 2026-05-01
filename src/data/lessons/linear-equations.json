@@ -1,0 +1,142 @@
+{
+  "id": "linear-equations-grade-10",
+  "subject": "Mathematics",
+  "grade": 10,
+  "term": 1,
+  "title": "Linear Equations",
+  "description": "Master solving equations with one variable",
+  "duration_minutes": 120,
+  "topics": [
+    {
+      "id": "linear-eq-topic-1",
+      "number": 1,
+      "title": "What is a Linear Equation?",
+      "duration_minutes": 30,
+      "explanation": {
+        "definition": "An equation where the variable has an exponent of 1, like x + 3 = 7",
+        "sections": [
+          {
+            "heading": "Definition",
+            "content": "A linear equation is an algebraic equation in which each term is either a constant or the product of a constant and a single variable. When graphed, it forms a straight line."
+          },
+          {
+            "heading": "Why Do We Care?",
+            "content": "Linear equations are everywhere! From calculating the total cost of groceries to predicting how much money you'll save over time, they help us model real-world relationships where things change at a constant rate."
+          }
+        ],
+        "worked_examples": [
+          {
+            "problem": "x + 3 = 7",
+            "steps": ["x + 3 - 3 = 7 - 3", "x = 4"],
+            "explanation": "We subtract 3 from both sides to isolate x"
+          }
+        ]
+      },
+      "practice_problems": [
+        {
+          "id": "linear-eq-p1",
+          "question": "x + 5 = 12",
+          "type": "linear_equation",
+          "answer": "x = 7",
+          "steps": ["x + 5 - 5 = 12 - 5", "x = 7"],
+          "hints": ["What do you add to both sides?", "Try subtracting 5"],
+          "commonMistakes": [
+            {
+              "pattern": "x + 5 = 7",
+              "feedback": "Remember to subtract 5 from 12, not 7"
+            }
+          ]
+        }
+      ],
+      "quiz_questions": [
+        {
+          "id": "linear-eq-q1",
+          "question": "Solve: x + 3 = 10",
+          "options": ["x = 7", "x = 13", "x = 30", "x = 3"],
+          "correct": "x = 7",
+          "explanation": "Subtract 3 from both sides: x = 10 - 3 = 7"
+        }
+      ]
+    },
+    {
+      "id": "linear-eq-topic-2",
+      "number": 2,
+      "title": "Two-Step Equations",
+      "duration_minutes": 45,
+      "explanation": {
+        "definition": "Equations that require two steps to solve, like 2x + 4 = 10",
+        "sections": [
+          {
+            "heading": "The Two-Step Process",
+            "content": "First, handle the addition or subtraction to isolate the term with the variable. Second, handle the multiplication or division to solve for the variable."
+          }
+        ],
+        "worked_examples": [
+          {
+            "problem": "2x + 4 = 10",
+            "steps": ["2x + 4 - 4 = 10 - 4", "2x = 6", "2x/2 = 6/2", "x = 3"],
+            "explanation": "Subtract 4 first, then divide by 2."
+          }
+        ]
+      },
+      "practice_problems": [
+        {
+          "id": "linear-eq-p2",
+          "question": "3x - 5 = 10",
+          "type": "two_step",
+          "answer": "x = 5",
+          "steps": ["3x = 15", "x = 5"],
+          "hints": ["Add 5 to both sides first", "Then divide by 3"],
+          "commonMistakes": []
+        }
+      ],
+      "quiz_questions": []
+    },
+    {
+      "id": "linear-eq-topic-3",
+      "number": 3,
+      "title": "Multi-Step Equations",
+      "duration_minutes": 60,
+      "explanation": {
+        "definition": "Equations with variables on both sides or parentheses",
+        "sections": [
+          {
+            "heading": "Brackets and Groups",
+            "content": "Use the distributive law to remove brackets first."
+          }
+        ],
+        "worked_examples": []
+      },
+      "practice_problems": [],
+      "quiz_questions": []
+    },
+    {
+      "id": "linear-eq-topic-4",
+      "number": 4,
+      "title": "Equations with Fractions",
+      "duration_minutes": 60,
+      "explanation": {
+        "definition": "Equations involving fractions like (x + 3)/2 = 5",
+        "sections": [
+          {
+            "heading": "Clearing Fractions",
+            "content": "Multiply every term by the Lowest Common Denominator (LCD) to eliminate fractions."
+          }
+        ],
+        "worked_examples": []
+      },
+      "practice_problems": [
+        {
+          "id": "linear-eq-p4",
+          "question": "(x + 3)/2 = 5",
+          "type": "fractions",
+          "answer": "x = 7",
+          "steps": ["x + 3 = 10", "x = 7"],
+          "hints": ["Multiply both sides by 2", "Subtract 3 from both sides"],
+          "commonMistakes": []
+        }
+      ],
+      "quiz_questions": []
+    }
+  ]
+}

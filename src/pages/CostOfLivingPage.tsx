@@ -70,7 +70,7 @@ function MetricCard({
     <div className={`rounded-2xl border p-4 ${color}`}>
       <div className="flex items-center gap-2 mb-2">
         {icon}
-        <span className="text-[10px] font-black uppercase tracking-wider">{label}</span>
+        <span className="text-xs font-black uppercase tracking-wider">{label}</span>
       </div>
       <p className="font-black text-2xl">{value}</p>
       {sub && <p className="text-xs mt-0.5 opacity-70">{sub}</p>}
@@ -109,7 +109,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <AppHeader currentPage="cost-of-living" user={user} onNavigate={onNavigate} mode="news" />
+      <AppHeader currentPage="cost-of-living" user={user} onNavigate={onNavigate} mode="community" />
 
       <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-6">
         {/* Header */}
@@ -205,11 +205,11 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                 <div className="grid grid-cols-3 gap-2">
                   {Object.entries(pd.electricity_monthly_estimate).map(([tier, val]) => (
                     <div key={tier} className="text-center p-2.5 bg-amber-50 rounded-xl border border-amber-100">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-amber-700 mb-0.5">
+                      <p className="text-xs font-black uppercase tracking-wider text-amber-700 mb-0.5">
                         {tier.charAt(0).toUpperCase() + tier.slice(1)}
                       </p>
                       <p className="font-black text-slate-900">{fmt(val.cost)}</p>
-                      <p className="text-[10px] text-amber-600">{val.kwh} kWh/mo</p>
+                      <p className="text-xs text-amber-600">{val.kwh} kWh/mo</p>
                     </div>
                   ))}
                 </div>
@@ -230,11 +230,11 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                 <div className="grid grid-cols-3 gap-2">
                   {Object.entries(pd.water_monthly_estimate).map(([tier, val]) => (
                     <div key={tier} className="text-center p-2.5 bg-blue-50 rounded-xl border border-blue-100">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-blue-700 mb-0.5">
+                      <p className="text-xs font-black uppercase tracking-wider text-blue-700 mb-0.5">
                         {tier.charAt(0).toUpperCase() + tier.slice(1)}
                       </p>
                       <p className="font-black text-slate-900">{fmt(val.cost)}</p>
-                      <p className="text-[10px] text-blue-600">{val.kl} kL/mo</p>
+                      <p className="text-xs text-blue-600">{val.kl} kL/mo</p>
                     </div>
                   ))}
                 </div>
@@ -269,7 +269,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                     { label: 'Family of 4', key: 'family_4' },
                   ].map(({ label, key }) => (
                     <div key={key} className="text-center p-2 bg-white rounded-lg border border-slate-200">
-                      <p className="text-[10px] text-slate-500 mb-0.5">{label}</p>
+                      <p className="text-xs text-slate-500 mb-0.5">{label}</p>
                       <p className="font-black text-slate-900">{fmt(food.monthly_estimate[key])}</p>
                     </div>
                   ))}

@@ -7,7 +7,8 @@ export interface Subject {
 export const subjects: Subject[] = [
   // Core subjects (KEPT)
   { id: 'english-hl', name: 'English Home Language', category: 'Core' },
-  { id: 'maths', name: 'Mathematics', category: 'Core' },
+  { id: 'algebra', name: 'Algebra', category: 'Core' },
+  { id: 'geometry', name: 'Geometry', category: 'Core' },
 
   // Elective subjects (KEPT - 7 subjects)
   { id: 'phys-sci', name: 'Physical Sciences', category: 'Elective' },

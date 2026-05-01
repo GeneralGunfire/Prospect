@@ -41,6 +41,7 @@ const features = [
   { icon: <Globe className="w-4 h-4" />, text: 'Community Impact — map opportunity gaps' },
   { icon: <Users className="w-4 h-4" />, text: 'Pothole Map — report & track road issues' },
   { icon: <Droplets className="w-4 h-4" />, text: 'Water Dashboard — monitor dam & water levels' },
+  { icon: <Check className="w-4 h-4" />, text: 'Tax & Budget · Cost of Living · Civics' },
   { icon: <Check className="w-4 h-4" />, text: 'Free to use · Privacy-conscious' },
 ];
 
@@ -209,7 +210,7 @@ export default function ImpactAuthPage({ onNavigateHome, onNavigate }: Props) {
         {/* Overlay with feature list */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-12 left-10 right-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/60 mb-4">What you get access to</p>
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-white/60 mb-4">What you get access to</p>
           <div className="space-y-3">
             {features.map((f, i) => (
               <div key={i} className="flex items-center gap-3">

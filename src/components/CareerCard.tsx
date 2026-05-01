@@ -85,7 +85,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
     >
       {/* Top row: category badge + RIASEC chips */}
       <div className="flex justify-between items-start mb-4">
-        <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full leading-none ${categoryClass}`}>
+        <span className={`px-2.5 py-1 text-xs font-bold uppercase tracking-widest rounded-full leading-none ${categoryClass}`}>
           {career.category}
         </span>
         <div className="flex gap-1 shrink-0">
@@ -93,7 +93,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
             <span
               key={code}
               title={code}
-              className="w-5 h-5 text-white text-[10px] font-bold flex items-center justify-center rounded-md"
+              className="w-5 h-5 text-white text-xs font-bold flex items-center justify-center rounded-md"
               style={{ backgroundColor: RIASEC_COLORS[code] ?? '#64748b' }}
             >
               {code}
@@ -126,14 +126,14 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
             </span>
           </div>
           {demandCfg && (
-            <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${demandCfg.cls}`}>
+            <span className={`text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${demandCfg.cls}`}>
               {demandCfg.label}
             </span>
           )}
         </div>
 
         <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-          <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest group-hover:text-prospect-blue-accent transition-colors">
+          <span className="text-xs font-bold text-slate-300 uppercase tracking-widest group-hover:text-prospect-blue-accent transition-colors">
             View Details
           </span>
           <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-prospect-blue-accent group-hover:translate-x-0.5 transition-all duration-200" />

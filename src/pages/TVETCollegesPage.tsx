@@ -156,7 +156,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                   </div>
 
                   {/* District */}
-                  <p className="text-[11px] uppercase tracking-widest mb-4 text-slate-500">
+                  <p className="text-xs uppercase tracking-widest mb-4 text-slate-500">
                     District: {college.district}
                   </p>
 
@@ -192,13 +192,13 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                   {/* Contact Info */}
                   <div className="space-y-2">
                     {college.phone && (
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Phone className="w-3 h-3 text-slate-900" />
                         <span>{college.phone}</span>
                       </div>
                     )}
                     {college.website && (
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                      <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Globe className="w-3 h-3 text-slate-900" />
                         <span>Website available</span>
                       </div>

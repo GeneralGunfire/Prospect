@@ -105,7 +105,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 <div className="w-14 h-14 rounded-2xl bg-prospect-green flex items-center justify-center mx-auto mb-6 shadow-md">
                   <MapIcon size={26} className="text-white" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Explore SA</p>
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Explore SA</p>
                 <h1 className="text-3xl lg:text-4xl font-black text-navy mb-3" style={{ letterSpacing: '-0.015em' }}>
                   Job Market Map
                 </h1>
@@ -160,7 +160,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                     <h2 className="text-xl font-black text-navy leading-tight" style={{ letterSpacing: '-0.01em' }}>
                       {userLocation?.label || 'Unknown'}
                     </h2>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-secondary">
+                    <p className="text-xs font-bold uppercase tracking-widest text-secondary">
                       Province: {province || 'Loading...'}
                     </p>
                   </div>

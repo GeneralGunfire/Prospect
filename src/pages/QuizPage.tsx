@@ -110,7 +110,7 @@ function QuizPhase({
           <div className="mb-12">
           <div className="flex justify-between items-end mb-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
               <p className="text-secondary text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
             </div>
             <div className="flex items-center gap-4">
@@ -184,7 +184,7 @@ function QuizPhase({
                     }
                   </div>
                   <span
-                    className={`text-[10px] font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
+                    className={`text-xs font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
                       isSelected ? 'text-navy' : 'text-slate-400'
                     }`}
                   >
@@ -417,7 +417,7 @@ function ResultsPhase({
             <Star className="w-4 h-4 text-secondary fill-secondary" />
             <span className="text-xs font-bold text-secondary uppercase tracking-widest">Assessment Complete</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-navy mb-4 uppercase tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-black text-navy mb-4 uppercase tracking-tight">
             Your RIASEC Profile
           </h1>
           <p className="text-base text-navy/70 mb-8 max-w-3xl">
@@ -488,7 +488,7 @@ function ResultsPhase({
         {/* Section 3: Top 15 Careers */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mb-20">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-navy uppercase tracking-tight mb-2">Your Best Career Matches</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-navy uppercase tracking-tight mb-2">Your Best Career Matches</h2>
             <p className="text-navy/70 text-sm">
               Ranked by compatibility with your profile ({results.topCodes.join(', ')})
             </p>
@@ -550,7 +550,7 @@ function ResultsPhase({
         {/* Section 4: Subject Recommendations */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mb-20">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-navy uppercase tracking-tight mb-2">Subjects to Focus On</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-navy uppercase tracking-tight mb-2">Subjects to Focus On</h2>
             <p className="text-navy/70 text-sm">
               These subjects will prepare you best for your matched careers
             </p>
@@ -615,7 +615,7 @@ function ResultsPhase({
 
         {/* Section 5: Next Steps */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy uppercase tracking-tight mb-10">What's Next?</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-navy uppercase tracking-tight mb-10">What's Next?</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button

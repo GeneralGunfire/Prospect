@@ -117,24 +117,14 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
             <Wallet className="w-4 h-4 text-slate-500" />
             <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Financial Aid</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+          <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
             Fund Your <span className="text-slate-500">Education</span>
           </h1>
-          <p className="text-sm leading-relaxed mb-8 text-slate-600">
+          <p className="text-base leading-relaxed mb-8 text-slate-600">
             Browse active bursaries, scholarships, and grants for South African students. Find the perfect bursary for your situation.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <button
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all bg-prospect-green text-white"
-            >
-              Browse Bursaries
-            </button>
-            <button
-              onClick={() => onNavigate('disadvantaged-guide')}
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2 bg-white text-slate-900 border border-slate-200"
-            >
-              <BookOpen className="w-4 h-4" /> Student Guide
-            </button>
+            
           </div>
         </div>
 
@@ -372,12 +362,6 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     >
                       Official Website <ExternalLink className="w-4 h-4" />
                     </a>
-                    <button
-                      onClick={() => onNavigate('disadvantaged-guide')}
-                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 bg-slate-500"
-                    >
-                      <BookOpen className="w-4 h-4" /> Get Help
-                    </button>
                   </div>
                 </div>
                 <div className="hidden lg:block">

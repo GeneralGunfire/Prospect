@@ -29,7 +29,8 @@ interface SubjectIconConfig {
 }
 
 const SUBJECT_ICON_CONFIG: Record<string, SubjectIconConfig> = {
-  'maths':             { Icon: Calculator,  bg: 'bg-blue-100',    iconColor: 'text-blue-700',    labelColor: 'text-blue-500' },
+  'algebra':           { Icon: Calculator,  bg: 'bg-blue-100',    iconColor: 'text-blue-700',    labelColor: 'text-blue-500' },
+  'geometry':          { Icon: Calculator,  bg: 'bg-emerald-100', iconColor: 'text-emerald-700', labelColor: 'text-emerald-500' },
   'phys-sci':          { Icon: Atom,        bg: 'bg-blue-100',  iconColor: 'text-blue-700',  labelColor: 'text-blue-500' },
   'life-sci':          { Icon: FlaskConical,bg: 'bg-blue-100', iconColor: 'text-blue-700', labelColor: 'text-blue-500' },
   'accounting':        { Icon: Calculator,  bg: 'bg-amber-100',   iconColor: 'text-amber-700',   labelColor: 'text-amber-500' },
@@ -43,7 +44,7 @@ const SUBJECT_ICON_CONFIG: Record<string, SubjectIconConfig> = {
 
 // Mapping of subject IDs to topic arrays for Grade 10 Term 1
 const subjectTopicsMap: Record<string, typeof grade10Term1MathTopics> = {
-  'maths': grade10Term1MathTopics,
+  'algebra': grade10Term1MathTopics,
   'phys-sci': grade10Term1PhysicalScienceTopics,
   'life-sci': grade10Term1LifeSciencesTopics,
   'accounting': grade10Term1AccountingTopics,
@@ -55,7 +56,7 @@ const subjectTopicsMap: Record<string, typeof grade10Term1MathTopics> = {
 };
 
 // Subjects with content for Grade 10 Term 1
-const subjectsWithContent = new Set(['maths', 'phys-sci', 'life-sci', 'accounting', 'business-studies', 'economics', 'cat', 'egd', 'english-hl']);
+const subjectsWithContent = new Set(['algebra', 'phys-sci', 'life-sci', 'accounting', 'business-studies', 'economics', 'cat', 'egd', 'english-hl']);
 
 function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -142,11 +143,6 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                       <button
                         onClick={() => {
                           if (hasContent) {
-                            // Mathematics navigates to the demo Algebra learning path
-                            if (subject.id === 'maths') {
-                              onNavigate('demo-learning');
-                              return;
-                            }
                             setSelectedSubject(subject.id);
                             setStep('grade');
                           }
@@ -168,12 +164,12 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                         </div>
 
                         <h3 className="text-sm font-bold mb-1 leading-snug text-slate-900">{subject.name}</h3>
-                        <p className={`text-[10px] font-bold uppercase tracking-widest mb-5 ${hasContent ? iconConfig.labelColor : 'text-slate-400'}`}>
+                        <p className={`text-xs font-bold uppercase tracking-widest mb-5 ${hasContent ? iconConfig.labelColor : 'text-slate-400'}`}>
                           {subject.category}
                         </p>
 
                         <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-                          <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
                             <Play className="w-3 h-3" />
                             {hasContent ? '12 Lessons' : 'Coming Soon'}
                           </div>
@@ -184,7 +180,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                       </button>
 
                       {!hasContent && (
-                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-widest bg-amber-100 text-amber-800">
+                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-md text-xs font-black uppercase tracking-widest bg-amber-100 text-amber-800">
                           Soon
                         </div>
                       )}
@@ -239,7 +235,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
               <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity text-navy">
                 <ChevronLeft className="w-4 h-4" /> Back to Subjects
               </button>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Step 1 of 2</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Step 1 of 2</p>
               <h2 className="text-2xl font-black mb-1 text-navy" style={{ letterSpacing: '-0.01em' }}>Select Your Grade</h2>
               <p className="text-xs font-bold uppercase tracking-widest mb-10 text-secondary">Subject: {currentSubjectName}</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -251,7 +247,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                       <GraduationCap className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-2xl font-black mb-1 text-navy group-hover:text-prospect-blue-accent transition-colors">Grade {grade}</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">CAPS Curriculum</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">CAPS Curriculum</p>
                   </button>
                 ))}
               </div>
@@ -263,21 +259,28 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
               <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity text-navy">
                 <ChevronLeft className="w-4 h-4" /> Back to Grade Selection
               </button>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Step 2 of 2</p>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Step 2 of 2</p>
               <h2 className="text-2xl font-black mb-1 text-navy" style={{ letterSpacing: '-0.01em' }}>Select Term</h2>
               <p className="text-xs font-bold uppercase tracking-widest mb-10 text-secondary">
                 {currentSubjectName} · Grade {selectedGrade}
               </p>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {[1, 2, 3, 4].map((term) => (
-                  <button key={term} onClick={() => { setSelectedTerm(term); setStep('content'); }}
+                  <button key={term} onClick={() => {
+                    if (selectedSubject === 'algebra' && selectedGrade === 10 && term === 1) {
+                      onNavigate('demo-learning');
+                    } else {
+                      setSelectedTerm(term); 
+                      setStep('content'); 
+                    }
+                  }}
                     className="group bg-white border border-slate-100 rounded-2xl p-7 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
                   >
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-slate-900 group-hover:bg-prospect-blue-accent transition-colors duration-200">
                       <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-lg font-black text-navy group-hover:text-prospect-blue-accent transition-colors">Term {term}</h3>
-                    <p className="text-[10px] font-bold uppercase tracking-widest mt-1 text-slate-400">Quarter {term}</p>
+                    <p className="text-xs font-bold uppercase tracking-widest mt-1 text-slate-400">Quarter {term}</p>
                   </button>
                 ))}
               </div>
@@ -311,7 +314,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                         <h3 className="text-sm font-bold mb-2 text-slate-900 group-hover:text-slate-600 transition-colors">{topic.title}</h3>
                         <p className="text-xs text-slate-500 mb-4 flex-1 leading-relaxed">{topic.description}</p>
                         <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300 group-hover:text-prospect-blue-accent transition-colors">Start Learning</span>
+                          <span className="text-xs font-bold uppercase tracking-widest text-slate-300 group-hover:text-prospect-blue-accent transition-colors">Start Learning</span>
                           <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-prospect-blue-accent group-hover:translate-x-0.5 transition-all duration-200" />
                         </div>
                       </button>

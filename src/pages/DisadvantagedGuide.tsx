@@ -480,16 +480,7 @@ function DisadvantagedGuide({ user, onNavigate }: AuthedProps) {
           <p className="text-white/80 mb-8 leading-relaxed">
             Getting a bursary takes effort, but it's absolutely achievable. Thousands of disadvantaged students get bursaries every year. With preparation, authenticity, and persistence, you can too.
           </p>
-          <button
-            onClick={() => {
-              sessionStorage.removeItem('selectedBursaryId');
-              onNavigate('bursaries');
-            }}
-            className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-lg"
-            style={{ backgroundColor: '#2563eb', color: '#ffffff' }}
-          >
-            Browse Bursaries Now
-          </button>
+
         </motion.div>
       </div>
     </div>

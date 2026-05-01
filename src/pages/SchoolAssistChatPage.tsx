@@ -572,7 +572,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                       </div>
                     ) : (
                       <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="text-[10px] font-bold text-slate-500">You</span>
+                        <span className="text-xs font-bold text-slate-500">You</span>
                       </div>
                     )}
                     <div className={`flex flex-col gap-1 max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
@@ -583,7 +583,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                       }`}>
                         {msg.role === 'bot' ? renderText(msg.text) : msg.text}
                       </div>
-                      <p className="text-[10px] text-slate-400 px-1">
+                      <p className="text-xs text-slate-400 px-1">
                         {msg.timestamp.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>

@@ -117,13 +117,7 @@ function Hero({ onNavigate }: HeroProps) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex justify-center mb-8"
           >
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full border border-slate-200 bg-white/80 shadow-sm backdrop-blur-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
-              <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-600">
-                Free career guidance for SA students
-              </span>
-              <MoveRight className="w-3.5 h-3.5 text-slate-400" />
-            </div>
+
           </motion.div>
 
           {/* Heading */}
@@ -145,21 +139,6 @@ function Hero({ onNavigate }: HeroProps) {
             transition={{ duration: 0.6, delay: 0.55 }}
             className="max-w-2xl mx-auto mb-10"
           >
-            <div
-              className="px-7 py-5 rounded-2xl text-center"
-              style={{
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(16px)",
-                border: "1px solid rgba(255,255,255,0.9)",
-                boxShadow: "0 2px 24px rgba(0,0,0,0.06)",
-              }}
-            >
-              <p className="text-base md:text-lg leading-relaxed text-slate-600">
-                Take our free quiz, discover careers matched to your interests and marks, find
-                bursaries, explore TVET paths, and get a full roadmap to your dream career —
-                all in one place.
-              </p>
-            </div>
           </motion.div>
 
           {/* CTAs */}

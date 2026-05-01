@@ -207,7 +207,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           transition={{ duration: 0.5 }}
           className="mb-8 text-center"
         >
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Your Study Companion</p>
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Your Study Companion</p>
           <h1 className="text-3xl lg:text-4xl font-black text-[#1e293b]" style={{ letterSpacing: '-0.02em' }}>
             School Assist
           </h1>
@@ -230,7 +230,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
             <MessageCircle className="w-5 h-5 shrink-0" />
             <div>
               <p className="text-xs font-black uppercase tracking-wider">Guidance Chat</p>
-              <p className="text-[10px] text-blue-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
+              <p className="text-xs text-blue-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
             </div>
           </button>
         </motion.div>
@@ -346,7 +346,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                 <>
                   {topicResults.length > 0 ? (
                     <div className="space-y-3">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+                      <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                         {topicResults.length} topic{topicResults.length !== 1 ? 's' : ''} found
                       </p>
                       {topicResults.map((topic, i) => (
@@ -360,10 +360,10 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
+                                <span className="text-xs font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
                                   {topic.subject}
                                 </span>
-                                <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
                                   Gr {topic.grade}
                                 </span>
                               </div>
@@ -373,7 +373,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           <p className="text-xs text-slate-500 leading-relaxed mb-3">{topic.snippet}</p>
                           <button
                             onClick={() => onNavigate('library')}
-                            className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
+                            className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
                           >
                             View Full Lesson <ChevronRight className="w-3.5 h-3.5" />
                           </button>
@@ -398,7 +398,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                 <>
                   {questionResults.length > 0 ? (
                     <div className="space-y-3">
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+                      <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                         {questionResults.length} result{questionResults.length !== 1 ? 's' : ''} found
                       </p>
                       {questionResults.map((result, i) => (
@@ -413,16 +413,16 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                             <>
                               <div className="flex items-center gap-2 mb-2 flex-wrap">
                                 {result.subject && (
-                                  <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
+                                  <span className="text-xs font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
                                     {result.subject}
                                   </span>
                                 )}
                                 {result.grade && (
-                                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                  <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
                                     Gr {result.grade}
                                   </span>
                                 )}
-                                <span className="text-[10px] font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">
+                                <span className="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">
                                   Answered
                                 </span>
                               </div>
@@ -445,7 +445,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                   </AnimatePresence>
                                   <button
                                     onClick={() => toggleAnswer(result.id)}
-                                    className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1"
+                                    className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1"
                                   >
                                     {expandedAnswers.has(result.id) ? 'Hide Answer' : 'View Answer'}
                                     <ChevronRight
@@ -459,16 +459,16 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                             <>
                               <div className="flex items-center gap-2 mb-2 flex-wrap">
                                 {result.subject && (
-                                  <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
+                                  <span className="text-xs font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
                                     {result.subject}
                                   </span>
                                 )}
                                 {result.grade && (
-                                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                  <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
                                     Gr {result.grade}
                                   </span>
                                 )}
-                                <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                                <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
                                   Topic
                                 </span>
                               </div>
@@ -478,7 +478,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                               )}
                               <button
                                 onClick={() => onNavigate('library')}
-                                className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
+                                className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
                               >
                                 View Full Lesson <ChevronRight className="w-3.5 h-3.5" />
                               </button>
@@ -513,7 +513,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                   >
                     <div className="flex items-center justify-between mb-5">
                       <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-0.5">Submit Your Question</p>
+                        <p className="text-xs font-black uppercase tracking-widest text-blue-600 mb-0.5">Submit Your Question</p>
                         <p className="text-xs text-slate-500">We'll research and add an answer to our library.</p>
                       </div>
                       <button

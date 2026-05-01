@@ -27,6 +27,7 @@ import { legalFinanceCareers } from './batches/batch_legal_finance';
 import { education2Careers } from './batches/batch_education2';
 import { mediaCommsCareers } from './batches/batch_media_comms';
 import { trades3Careers } from './batches/batch_trades3';
+import { healthcare4Careers } from './batches/batch_healthcare4';
 
 // Create template function for remaining careers (360+)
 function createCareer(
@@ -596,6 +597,7 @@ const realDataIds = new Set([
   ...education2Careers.map(c => c.id),
   ...mediaCommsCareers.map(c => c.id),
   ...trades3Careers.map(c => c.id),
+  ...healthcare4Careers.map(c => c.id),
 ]);
 
 const templateFiltered = templateBasedCareers.filter(c => !realDataIds.has(c.id));
@@ -623,6 +625,7 @@ const rawCareers: CareerFull[] = [
   ...education2Careers,
   ...mediaCommsCareers,
   ...trades3Careers,
+  ...healthcare4Careers,
   // Audited careers second (DevOps + original 15 digital) — deduped below
   ...careerDatabase,
   // Template fallbacks last

@@ -270,7 +270,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
                     }`}
                   >
                     <div className="font-bold">{meta.label}</div>
-                    <div className="text-[10px] font-normal mt-0.5 opacity-70">{meta.desc}</div>
+                    <div className="text-xs font-normal mt-0.5 opacity-70">{meta.desc}</div>
                   </button>
                 ))}
               </div>

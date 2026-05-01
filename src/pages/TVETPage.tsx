@@ -13,9 +13,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       {/* Hero Section */}
       <div
         className="pt-24 pb-32 px-4"
-        style={{
-          background: 'linear-gradient(160deg, #1a3a6b 0%, #1E3A5F 45%, #0f2644 100%)',
-        }}
+        style={{ backgroundColor: '#0f172a' }} // slate-900
       >
         <div className="max-w-5xl mx-auto text-center text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -28,11 +26,10 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
               TVET is not a backup option—it's a direct pathway to high-demand careers with excellent earning potential. Learn a trade, earn money, change your life.
             </p>
             <button
-              onClick={() => onNavigate('tvet-careers')}
-              className="inline-block px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all hover:opacity-90"
-              style={{ backgroundColor: '#F9A825', color: '#1E3A5F' }}
+              onClick={() => onNavigate('tvet-colleges')}
+              className="inline-block px-8 py-4 bg-white text-slate-900 rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90"
             >
-              Explore TVET Careers
+              Explore TVET Colleges
             </button>
           </motion.div>
         </div>
@@ -43,8 +40,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="text-4xl font-bold mb-16 text-center"
-          style={{ color: '#1E3A5F' }}
+          className="text-3xl md:text-4xl font-black mb-16 text-center text-slate-900 tracking-tight"
         >
           Why TVET Is a Smart Career Choice
         </motion.h2>
@@ -91,7 +87,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
               whileHover={{ y: -3 }}
               className="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-lg hover:border-slate-200 transition-all duration-200"
             >
-              <div className="w-10 h-10 rounded-xl bg-prospect-green flex items-center justify-center mb-5">
+              <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-5">
                 <item.icon className="w-5 h-5 text-white" />
               </div>
               <h3 className="font-black text-sm mb-2 text-slate-900" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
@@ -107,8 +103,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-4xl font-bold mb-12 text-center"
-            style={{ color: '#1E3A5F' }}
+            className="text-3xl md:text-4xl font-black mb-12 text-center text-slate-900 tracking-tight"
           >
             TVET vs University: Choose What's Right for You
           </motion.h2>
@@ -119,7 +114,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
             className="overflow-x-auto"
           >
             <table className="w-full bg-white rounded-lg overflow-hidden shadow-md">
-              <thead style={{ backgroundColor: '#1E3A5F' }} className="text-white">
+              <thead className="bg-slate-900 text-white">
                 <tr>
                   <th className="px-6 py-4 text-left font-bold text-sm uppercase tracking-wide">Aspect</th>
                   <th className="px-6 py-4 text-left font-bold text-sm uppercase tracking-wide">TVET</th>
@@ -153,32 +148,23 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       {/* CTA Section */}
       <div
         className="py-20 px-4"
-        style={{
-          background: 'linear-gradient(160deg, #1a3a6b 0%, #1E3A5F 45%, #0f2644 100%)',
-        }}
+        style={{ backgroundColor: '#0f172a' }} // slate-900
       >
         <div className="max-w-4xl mx-auto text-center text-white">
           <h2 className="text-4xl font-bold mb-6">Ready to Start Your TVET Journey?</h2>
           <p className="text-lg mb-8 opacity-95">
-            Browse 50+ trade careers, find TVET colleges near you, and discover funding options available.
+            Find TVET colleges near you, and discover funding options available.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <button
-              onClick={() => onNavigate('tvet-careers')}
-              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all"
-              style={{ backgroundColor: '#F9A825', color: '#1E3A5F' }}
-            >
-              Browse Careers
-            </button>
-            <button
               onClick={() => onNavigate('tvet-colleges')}
-              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-prospect-green"
+              className="px-8 py-4 bg-white text-slate-900 rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90"
             >
               Find Colleges
             </button>
             <button
               onClick={() => onNavigate('tvet-funding')}
-              className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-prospect-green"
+              className="px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-slate-900"
             >
               Funding Support
             </button>

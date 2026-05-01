@@ -136,7 +136,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <AppHeader currentPage="tax-budget" user={user} onNavigate={onNavigate} mode="news" />
+      <AppHeader currentPage="tax-budget" user={user} onNavigate={onNavigate} mode="community" />
 
       <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-5">
         {/* Header */}
@@ -262,7 +262,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                     { label: 'Take-home', value: fmt(monthlyNet), color: 'text-blue-500' },
                   ].map(({ label, value, color }) => (
                     <div key={label} className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
-                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-1">{label}</p>
+                      <p className="text-xs font-black uppercase tracking-wider text-slate-500 mb-1">{label}</p>
                       <p className={`font-black text-lg ${color}`}>{value}</p>
                     </div>
                   ))}

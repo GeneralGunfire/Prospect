@@ -137,10 +137,10 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               Career Explorer
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+          <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
             Explore <span className="text-slate-500">Your Future</span>
           </h1>
-          <p className="text-sm leading-relaxed text-slate-600">
+          <p className="text-base leading-relaxed text-slate-600">
             Browse {allFilteredCareers.length} careers. Filter by interest, category, or personality type.
           </p>
         </div>

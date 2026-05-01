@@ -387,7 +387,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
           </p>
           <button
             onClick={() => onNavigate('tvet-careers')}
-            className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all hover:opacity-90 bg-amber-400 text-slate-900"
+            className="px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90 bg-amber-400 text-slate-900"
           >
             Explore TVET Careers
           </button>

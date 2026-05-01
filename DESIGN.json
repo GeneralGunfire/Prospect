@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-29T00:00:00.000Z",
+  "title": "Design System: Prospect SA",
+  "extensions": {
+    "colorMeta": {
+      "deep-navy":          { "role": "primary",   "displayName": "Deep Prospect Navy",  "canonical": "#1E3A5F", "tonalRamp": ["#0a1626", "#12213a", "#1E3A5F", "#2b4d7a", "#3B5A7F", "#5c7fa0", "#8aa4be", "#c4d3e2", "#e8eef5"] },
+      "deep-navy-dark":     { "role": "primary",   "displayName": "Prospect Navy Dark",  "canonical": "#152a45", "tonalRamp": ["#080f18", "#0e1b2d", "#152a45", "#1E3A5F", "#28507a", "#476d93", "#7798b5", "#b5c8db", "#dfe8f0"] },
+      "mid-navy":           { "role": "secondary", "displayName": "Mid Navy",            "canonical": "#3B5A7F", "tonalRamp": ["#111d28", "#1c2f42", "#2a4562", "#3B5A7F", "#4e729e", "#718fb8", "#9bb2cc", "#c8d7e6", "#e5ecf4"] },
+      "surface-navy":       { "role": "neutral",   "displayName": "Surface Navy",        "canonical": "#1e293b", "tonalRamp": ["#090d13", "#101622", "#1e293b", "#2d3c54", "#3d516e", "#5a6e88", "#8597ad", "#b9c4d2", "#dde3ec"] },
+      "gold":               { "role": "tertiary",  "displayName": "Prospect Gold",       "canonical": "#F9A825", "tonalRamp": ["#5c3d06", "#8c5e0a", "#bd8010", "#F9A825", "#fab93d", "#fcc868", "#fdd894", "#fee7b9", "#fff4de"] },
+      "canvas":             { "role": "neutral",   "displayName": "Canvas White",        "canonical": "#ffffff", "tonalRamp": ["#9ca3af", "#c4c9d0", "#d9dde4", "#e8ebef", "#f1f3f6", "#f6f7f9", "#f9fafb", "#fcfdfd", "#ffffff"] },
+      "pale-surface":       { "role": "neutral",   "displayName": "Pale Surface",        "canonical": "#f8fafc", "tonalRamp": ["#8fa0b3", "#b2c0ce", "#ccd5de", "#dde4ea", "#eaeff4", "#f1f5f8", "#f5f8fa", "#f8fafc", "#fcfdfe"] },
+      "text-primary":       { "role": "neutral",   "displayName": "Text Primary",        "canonical": "#1e293b", "tonalRamp": ["#090d13", "#101622", "#1e293b", "#2d3c54", "#3d516e", "#5a6e88", "#8597ad", "#b9c4d2", "#dde3ec"] },
+      "text-secondary":     { "role": "neutral",   "displayName": "Text Secondary",      "canonical": "#64748b", "tonalRamp": ["#1a1f28", "#2d3545", "#3d4d64", "#64748b", "#8292aa", "#a4b2c6", "#c3ccd9", "#dde2ea", "#eef1f5"] },
+      "text-tertiary":      { "role": "neutral",   "displayName": "Text Tertiary",       "canonical": "#94a3b8", "tonalRamp": ["#2c3545", "#3e4f65", "#566484", "#94a3b8", "#afbdc9", "#c4ced9", "#d9e0e8", "#eceef3", "#f6f7fa"] },
+      "border-subtle":      { "role": "neutral",   "displayName": "Border Subtle",       "canonical": "#e2e8f0", "tonalRamp": ["#6272a0", "#8596b5", "#a5b4c7", "#c2ced9", "#d4dce5", "#e2e8f0", "#ebf0f5", "#f3f6f9", "#fafdff"] },
+      "success":            { "role": "semantic",  "displayName": "Success Green",       "canonical": "#10b981", "tonalRamp": ["#023b27", "#046038", "#079156", "#10b981", "#22d49a", "#4ee3b4", "#87edcf", "#bef5e5", "#e3faf3"] },
+      "warning":            { "role": "semantic",  "displayName": "Warning Amber",       "canonical": "#f59e0b", "tonalRamp": ["#562e00", "#8a4c00", "#c27100", "#f59e0b", "#fbb332", "#fcc55e", "#fdd88c", "#feeab8", "#fff5de"] },
+      "error":              { "role": "semantic",  "displayName": "Error Red",           "canonical": "#ef4444", "tonalRamp": ["#4c0000", "#780000", "#b00000", "#ef4444", "#f36b6b", "#f79292", "#fab9b9", "#fcdcdc", "#fef2f2"] },
+      "info":               { "role": "semantic",  "displayName": "Info Blue",           "canonical": "#3b82f6", "tonalRamp": ["#0a1f5c", "#122f8c", "#1c46c0", "#3b82f6", "#65a0f8", "#91bafa", "#b8d2fb", "#dce9fd", "#eef4ff"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page heroes and single section titles. One per screen maximum." },
+      "headline": { "displayName": "Headline", "purpose": "Major section headers and card group titles." },
+      "title":    { "displayName": "Title",    "purpose": "Card headings, modal titles, subsection labels." },
+      "body":     { "displayName": "Body",     "purpose": "All paragraph copy. Max 65ch line length on desktop." },
+      "label":    { "displayName": "Label",    "purpose": "Badges, category tags, section eyebrows, button text on small controls. Minimum 12px." }
+    },
+    "shadows": [
+      { "name": "surface-raised",   "value": "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",         "purpose": "Interactive card hover state. Minimum signal that something is pressable." },
+      { "name": "surface-elevated", "value": "0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)",         "purpose": "Dropdowns, tooltips, popover panels. Layer separation." },
+      { "name": "modal",            "value": "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)", "purpose": "Modals and full-screen sheets only." }
+    ],
+    "motion": [
+      { "name": "ease-out-standard", "value": "cubic-bezier(0.0, 0.0, 0.2, 1.0)", "purpose": "Default easing for all state transitions and entrance animations." },
+      { "name": "duration-quick",    "value": "150ms", "purpose": "Button hover, chip selection, tab switches." },
+      { "name": "duration-standard", "value": "250ms", "purpose": "Card hover lift, input focus transitions." },
+      { "name": "duration-entrance", "value": "350ms", "purpose": "Page-level fade-up entrance animations." },
+      { "name": "fade-up",           "value": "opacity 0 -> 1, translateY 16px -> 0, 350ms ease-out", "purpose": "Primary page entrance. Used on sections and card groups." },
+      { "name": "scale-in",          "value": "opacity 0 -> 1, scale 0.95 -> 1, 250ms ease-out",       "purpose": "Card and modal entrance." }
+    ],
+    "breakpoints": [
+      { "name": "sm",  "value": "640px",  "purpose": "Small mobile breakpoint" },
+      { "name": "md",  "value": "768px",  "purpose": "Tablet" },
+      { "name": "lg",  "value": "1024px", "purpose": "Desktop" },
+      { "name": "xl",  "value": "1280px", "purpose": "Wide desktop" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action button. Deep Navy fill. One per section.",
+      "html": "<button class=\"ds-btn-primary\">Get Started</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #1E3A5F; color: #ffffff; font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.875rem; font-weight: 600; line-height: 1; letter-spacing: 0; padding: 12px 24px; border: none; border-radius: 8px; min-height: 44px; cursor: pointer; transition: background 150ms cubic-bezier(0.0,0.0,0.2,1); } .ds-btn-primary:hover { background: #152a45; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3B5A7F; } .ds-btn-primary:active { background: #0f1f32; transform: translateY(1px); }"
+    },
+    {
+      "name": "Gold CTA Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "Single strongest CTA per screen. Gold fill, navy text. One per page.",
+      "html": "<button class=\"ds-btn-accent\">Apply Now</button>",
+      "css": ".ds-btn-accent { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #F9A825; color: #1e293b; font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.875rem; font-weight: 700; line-height: 1; padding: 12px 24px; border: none; border-radius: 8px; min-height: 44px; cursor: pointer; transition: background 150ms cubic-bezier(0.0,0.0,0.2,1); } .ds-btn-accent:hover { background: #e09520; } .ds-btn-accent:focus-visible { outline: none; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #F9A825; } .ds-btn-accent:active { background: #c67e10; transform: translateY(1px); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action. Transparent fill, navy text, subtle border.",
+      "html": "<button class=\"ds-btn-ghost\">Learn More</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: transparent; color: #1E3A5F; font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.875rem; font-weight: 600; line-height: 1; padding: 10px 22px; border: 1.5px solid #e2e8f0; border-radius: 8px; min-height: 44px; cursor: pointer; transition: background 150ms cubic-bezier(0.0,0.0,0.2,1), border-color 150ms; } .ds-btn-ghost:hover { background: #f8fafc; border-color: #94a3b8; } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3B5A7F; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Category and filter selection pills. Used in career browser, civics, bursaries.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"false\">Identity</button><button class=\"ds-chip ds-chip--active\" aria-pressed=\"true\">Finance</button>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; background: #ffffff; color: #64748b; font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border: 1.5px solid #e2e8f0; border-radius: 9999px; min-height: 36px; cursor: pointer; transition: background 150ms, color 150ms, border-color 150ms; white-space: nowrap; } .ds-chip:hover { background: #f1f5f9; border-color: #94a3b8; } .ds-chip--active { background: #1E3A5F; color: #ffffff; border-color: #1E3A5F; } .ds-chip--active:hover { background: #152a45; border-color: #152a45; } .ds-chip:focus-visible { outline: none; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3B5A7F; }"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Standard interactive card. White on pale-surface. Flat rest, raised hover.",
+      "html": "<div class=\"ds-card\"><p class=\"ds-card__title\">Become a Civil Engineer</p><p class=\"ds-card__meta\">Engineering · APS 30+</p></div>",
+      "css": ".ds-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: box-shadow 150ms cubic-bezier(0.0,0.0,0.2,1), border-color 150ms; } .ds-card:hover { box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); border-color: #94a3b8; } .ds-card__title { font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.9375rem; font-weight: 700; color: #1e293b; line-height: 1.3; margin: 0 0 4px; } .ds-card__meta { font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.8125rem; font-weight: 400; color: #64748b; line-height: 1.4; margin: 0; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Standard text field. 16px min font-size prevents iOS zoom.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">Search careers</span><input class=\"ds-input\" type=\"text\" placeholder=\"Software developer...\" /></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; } .ds-field__label { font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.8125rem; font-weight: 600; color: #1e293b; } .ds-input { width: 100%; background: #ffffff; color: #1e293b; font-family: Inter, ui-sans-serif, sans-serif; font-size: 16px; font-weight: 400; line-height: 1.5; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; min-height: 44px; box-sizing: border-box; transition: border-color 200ms, box-shadow 200ms; outline: none; } .ds-input::placeholder { color: #94a3b8; } .ds-input:focus { border-color: #3B5A7F; box-shadow: 0 0 0 3px rgba(59,90,127,0.12); } .ds-input:disabled { background: #f8fafc; color: #94a3b8; cursor: not-allowed; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Semantic status indicator. Always paired with text label.",
+      "html": "<span class=\"ds-badge ds-badge--success\">High Demand</span><span class=\"ds-badge ds-badge--warning\">Medium</span><span class=\"ds-badge ds-badge--easy\">Easy</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 8px; border-radius: 9999px; white-space: nowrap; } .ds-badge--success { background: #dcfce7; color: #15803d; } .ds-badge--warning { background: #fef9c3; color: #92400e; } .ds-badge--error { background: #fee2e2; color: #b91c1c; } .ds-badge--info { background: #dbeafe; color: #1d4ed8; } .ds-badge--neutral { background: #f1f5f9; color: #475569; } .ds-badge--easy { background: #d1fae5; color: #065f46; } .ds-badge--medium { background: #fef3c7; color: #92400e; } .ds-badge--hard { background: #fee2e2; color: #b91c1c; }"
+    },
+    {
+      "name": "Dark Hero Card",
+      "kind": "card",
+      "refersTo": "card-hero",
+      "description": "Full-width dark feature section. Used for section intros and navigation hubs.",
+      "html": "<div class=\"ds-hero-card\"><p class=\"ds-hero-card__eyebrow\">Career Guidance</p><h2 class=\"ds-hero-card__title\">Find your path</h2><p class=\"ds-hero-card__body\">Discover 400+ careers matched to your interests.</p></div>",
+      "css": ".ds-hero-card { background: #1e293b; border-radius: 16px; padding: 24px; } .ds-hero-card__eyebrow { font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #94a3b8; margin: 0 0 8px; } .ds-hero-card__title { font-family: Inter, ui-sans-serif, sans-serif; font-size: 1.5rem; font-weight: 800; color: #ffffff; line-height: 1.25; letter-spacing: -0.015em; margin: 0 0 8px; } .ds-hero-card__body { font-family: Inter, ui-sans-serif, sans-serif; font-size: 0.9375rem; font-weight: 400; color: #94a3b8; line-height: 1.5; margin: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Trusted Older Sibling",
+    "overview": "Prospect SA is built for a specific moment: a 16-year-old in a small town with a prepaid SIM card, sitting in the library during break, trying to figure out what to do with their life. The interface serves that moment. It is not a showcase, not a marketing canvas, not a startup dashboard. Every pixel exists to deliver information clearly and fast, under real-world constraints: small screens, bright sunlight, limited data, limited confidence.\n\nThe aesthetic is restrained and purposeful. Deep navy anchors trust. Gold marks the one moment that matters most (the primary action). White space is generous because information is dense and the user needs room to think. Typography is the primary design tool.\n\nThis system explicitly rejects government portal aesthetics, corporate HR site polish, SaaS dashboard over-engineering, and edtech boredom.",
+    "keyCharacteristics": [
+      "Deep navy on white as the primary surface relationship",
+      "Gold used sparingly as a single call-to-action signal",
+      "Inter at 900 weight creates display hierarchy without a second typeface",
+      "Touch targets minimum 44px; minimum font size 16px on inputs",
+      "Motion is entrance-only: fade-up and scale-in at 0.3-0.4s ease-out"
+    ],
+    "rules": [
+      { "name": "The One Gold Rule", "body": "Gold appears on one element per screen: the primary call-to-action. If there are two CTAs on the same page, only one may be gold. Gold used as decoration loses its signal value.", "section": "colors" },
+      { "name": "The No-Gradient-Text Rule", "body": "Text gradient (background-clip: text) is absolutely prohibited. Use one solid color; emphasis through weight.", "section": "colors" },
+      { "name": "The Single-Family Rule", "body": "Prospect uses one typeface: Inter. Adding a second font adds a request, adds render delay, and adds complexity for zero gain.", "section": "typography" },
+      { "name": "The Weight-is-Hierarchy Rule", "body": "Every level change must pair a size reduction with a weight reduction. Size alone is insufficient to establish hierarchy.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Cards, list items, and containers are flat at rest. Shadows appear only on hover, focus, or when a component is in a physically higher layer.", "section": "elevation" }
+    ],
+    "dos": [
+      "Use Deep Prospect Navy (#1E3A5F) as the primary action color.",
+      "Reserve gold (#F9A825) for the single most important CTA on each screen.",
+      "Use Inter at weight 900 for display text and 400 for body.",
+      "Maintain a minimum touch target of 44px height on all interactive elements.",
+      "Set all form inputs to font-size: 16px minimum to prevent iOS zoom.",
+      "Use prefers-reduced-motion to disable all animations for users who need it.",
+      "Animate entrance-only: fade-up, scale-in. 0.25-0.4s, ease-out.",
+      "Use full card borders (1px #e2e8f0) rather than colored side stripes.",
+      "Test all text on its background at WCAG AA minimum."
+    ],
+    "donts": [
+      "Don't use border-left greater than 1px as a colored accent stripe on cards, list items, or callouts.",
+      "Don't use gradient text (background-clip: text with gradient fill).",
+      "Don't use glassmorphism (backdrop-filter: blur) as decoration.",
+      "Don't look like a government department website: avoid table-dominated layouts and link-list navigation.",
+      "Don't look like a corporate recruitment portal: no formal photography, no serif-heavy polished headers.",
+      "Don't look like a SaaS analytics dashboard: no KPI boxes with big numbers as the dominant layout unit.",
+      "Don't use identical card grids with icon + heading + body paragraph repeated without differentiation.",
+      "Don't reach for a modal as the first interaction pattern.",
+      "Don't use color alone to convey meaning.",
+      "Don't animate CSS layout properties (height, width, margin, padding)."
+    ]
+  }
+}

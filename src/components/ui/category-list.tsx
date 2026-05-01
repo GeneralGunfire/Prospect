@@ -27,7 +27,7 @@ export function CategoryList({ title, subtitle, categories }: CategoryListProps)
     <div className="max-w-6xl mx-auto px-4">
       {/* Header */}
       <div className="text-center mb-10">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Explore</p>
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Explore</p>
         <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-2">{title}</h2>
         <p className="text-sm text-slate-500 max-w-md mx-auto">{subtitle}</p>
       </div>

@@ -381,7 +381,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-12 left-10 right-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/60 mb-4">What you get access to</p>
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-white/60 mb-4">What you get access to</p>
           <div className="space-y-3">
             {features.map((f, i) => (
               <div key={i} className="flex items-center gap-3">

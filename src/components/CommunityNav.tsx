@@ -1,4 +1,4 @@
-import { Globe, Construction, Droplets } from 'lucide-react';
+import { Globe, Construction, Droplets, Calculator, MapPin, Building2 } from 'lucide-react';
 import type { AppPage } from '../lib/withAuth';
 
 interface CommunityNavProps {
@@ -10,6 +10,9 @@ const TABS: { page: AppPage; label: string; icon: React.ReactNode }[] = [
   { page: 'community-impact',  label: 'Community Impact', icon: <Globe className="w-4 h-4" /> },
   { page: 'pothole-map',       label: 'Pothole Map',      icon: <Construction className="w-4 h-4" /> },
   { page: 'water-dashboard',   label: 'Water Dashboard',  icon: <Droplets className="w-4 h-4" /> },
+  { page: 'tax-budget',        label: 'Tax & Budget',     icon: <Calculator className="w-4 h-4" /> },
+  { page: 'cost-of-living',    label: 'Cost of Living',   icon: <MapPin className="w-4 h-4" /> },
+  { page: 'civics',            label: 'Civics',           icon: <Building2 className="w-4 h-4" /> },
 ];
 
 export default function CommunityNav({ currentPage, onNavigate }: CommunityNavProps) {

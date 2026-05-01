@@ -147,7 +147,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
                   </ul>
                 </div>
 
-                <p className="text-[11px] italic text-slate-500">
+                <p className="text-xs italic text-slate-500">
                   {reqs.notes}
                 </p>
               </motion.div>
@@ -363,7 +363,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
           </p>
           <button
             onClick={() => onNavigate('tvet-careers')}
-            className="px-8 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all hover:opacity-90 bg-amber-400 text-slate-900"
+            className="px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90 bg-amber-400 text-slate-900"
           >
             Explore TVET Careers Now
           </button>

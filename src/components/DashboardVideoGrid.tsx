@@ -36,7 +36,7 @@ export function DashboardVideoGrid() {
   return (
     <>
       <section className="mb-10">
-        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 mb-5" style={{ color: '#64748b' }}>
+        <h3 className="text-xs font-black uppercase tracking-[0.2em] flex items-center gap-2 mb-5" style={{ color: '#64748b' }}>
           <span className="w-1 h-4 rounded-full inline-block" style={{ backgroundColor: '#3B5A7F' }} />
           Learn How It Works
         </h3>
@@ -70,7 +70,7 @@ export function DashboardVideoGrid() {
                 </div>
 
                 {/* Duration badge */}
-                <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 text-white text-[10px] font-bold tracking-wide">
+                <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 text-white text-xs font-bold tracking-wide">
                   <Clock className="w-3 h-3 opacity-80" />
                   {video.duration}
                 </div>

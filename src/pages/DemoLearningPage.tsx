@@ -119,7 +119,7 @@ function DemoLearningPage({ user, onNavigate }: AuthedProps) {
         {step === 'overview' && (
           <div className="space-y-5">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Grade 10 · Mathematics</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">Grade 10 · Term 1</p>
               <h1 className="text-2xl font-black text-slate-900">Algebra</h1>
               <p className="text-sm text-slate-500 mt-1">{algebraLearningPath.description}</p>
             </div>

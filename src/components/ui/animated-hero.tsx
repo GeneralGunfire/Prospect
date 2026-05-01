@@ -84,7 +84,7 @@ function FloatingIcons({ mouseX, mouseY }: { mouseX: number; mouseY: number }) {
               }}
             >
               {emoji}
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 hidden group-hover:block whitespace-nowrap">
+              <span className="text-xs font-black uppercase tracking-widest text-slate-600 hidden group-hover:block whitespace-nowrap">
                 {label}
               </span>
             </div>
@@ -226,7 +226,7 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="inline-flex items-center justify-center gap-2.5 mb-8"
           >
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">
               South Africa's Premier Career Platform
             </span>
           </motion.div>
@@ -296,12 +296,12 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
             ].map(({ value, label, color }) => (
               <div key={label} className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border ${color}`}>
                 <span className="text-xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>{value}</span>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">{label}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-500">{label}</span>
               </div>
             ))}
             <div className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-100">
               <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Now</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Live Now</span>
             </div>
           </motion.div>
 
@@ -321,7 +321,7 @@ export function Hero({ onNavigate }: { onNavigate?: (page: string) => void }) {
                 <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </motion.div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Scroll to explore</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Scroll to explore</span>
           </motion.div>
         </div>
       </div>

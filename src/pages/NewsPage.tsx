@@ -55,7 +55,7 @@ const CATEGORIES: Category[] = ['All', 'Job Market', 'Education', 'Economy', 'Go
 function CategoryBadge({ category }: { category: Category }) {
   const cfg = CATEGORY_CONFIG[category];
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${cfg.bg} ${cfg.text} border ${cfg.border}`}>
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${cfg.bg} ${cfg.text} border ${cfg.border}`}>
       {cfg.icon}
       {category}
     </span>
@@ -198,7 +198,7 @@ function NewsPage({ user, onNavigate }: AuthedProps) {
                 {cfg.icon}
                 {cat}
                 {active && filtered.length > 0 && (
-                  <span className={`ml-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${cfg.dot} text-white`}>
+                  <span className={`ml-0.5 w-4 h-4 rounded-full flex items-center justify-center text-xs ${cfg.dot} text-white`}>
                     {filtered.length}
                   </span>
                 )}
@@ -269,7 +269,7 @@ function NewsPage({ user, onNavigate }: AuthedProps) {
               { label: 'Home Affairs', number: '0800 601 190' },
             ].map(({ label, number }) => (
               <div key={label} className="bg-white/10 rounded-xl p-3">
-                <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">{label}</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-0.5">{label}</p>
                 <p className="font-black text-white text-lg">{number}</p>
               </div>
             ))}

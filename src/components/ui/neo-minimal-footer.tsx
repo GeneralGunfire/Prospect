@@ -45,7 +45,7 @@ export function NeoMinimalFooter() {
 
           {/* Features */}
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white mb-4">Features</h4>
+            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-white mb-4">Features</h4>
             <ul className="space-y-2.5">
               {['Quiz', 'Careers', 'Study Library', 'TVET Path'].map(l => (
                 <li key={l}>
@@ -57,7 +57,7 @@ export function NeoMinimalFooter() {
 
           {/* Resources */}
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white mb-4">Resources</h4>
+            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-white mb-4">Resources</h4>
             <ul className="space-y-2.5">
               {['Bursaries', 'Job Map', 'Study Calendar', 'Subject Selector'].map(l => (
                 <li key={l}>
@@ -69,7 +69,7 @@ export function NeoMinimalFooter() {
 
           {/* Legal */}
           <div>
-            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white mb-4">Legal</h4>
+            <h4 className="text-xs font-black uppercase tracking-[0.2em] text-white mb-4">Legal</h4>
             <ul className="space-y-2.5">
               {['Privacy Policy', 'Terms of Use', 'Contact Us'].map(l => (
                 <li key={l}>
@@ -82,10 +82,10 @@ export function NeoMinimalFooter() {
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-8">
-          <p className="text-[11px] text-slate-600">
+          <p className="text-xs text-slate-600">
             &copy; {year} Prospect SA. All rights reserved.
           </p>
-          <p className="text-[11px] text-slate-700">
+          <p className="text-xs text-slate-700">
             Built for South African learners
           </p>
         </div>

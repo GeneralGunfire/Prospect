@@ -74,7 +74,7 @@ function StatusBadge({ status }: { status: 'unverified' | 'verified' | 'pending'
   };
   const { label, icon, cls } = map[status] ?? map.unverified;
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${cls}`}>
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold border ${cls}`}>
       {icon}{label}
     </span>
   );
@@ -116,15 +116,15 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2.5">
-                <span className={`text-[10px] font-black uppercase tracking-widest ${meta.color}`}>
+                <span className={`text-xs font-black uppercase tracking-widest ${meta.color}`}>
                   {meta.label}
                 </span>
                 {item.category && (
-                  <span className="text-[10px] text-slate-400 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-full font-medium">
+                  <span className="text-xs text-slate-400 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-full font-medium">
                     {item.category}
                   </span>
                 )}
-                <span className="flex items-center gap-1 text-[10px] text-slate-400">
+                <span className="flex items-center gap-1 text-xs text-slate-400">
                   <MapPin className="w-3 h-3" />
                   {item.city}, {item.province}
                 </span>
@@ -141,7 +141,7 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
                   href={item.website_url.startsWith('http') ? item.website_url : `https://${item.website_url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[10px] font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors"
                 >
                   <Globe className="w-3 h-3" />
                   Visit website
@@ -318,7 +318,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/5 mb-4">
             <Users className="w-4 h-4 text-slate-900" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-900">Community Impact</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Community Impact</span>
           </div>
           <h1 className="text-2xl md:text-4xl font-black tracking-tight text-slate-900 mb-2">
             Opportunities near you
@@ -341,7 +341,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 key={tab}
                 data-testid={`ci-tab-${tab}`}
                 onClick={() => handleTabChange(tab)}
-                className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
                   activeTab === tab
                     ? 'bg-slate-900 text-white shadow-sm'
                     : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
@@ -399,7 +399,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     {s.icon}
                   </div>
                   <p className="text-3xl font-black tabular-nums text-slate-900 leading-none">{s.value}</p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -429,7 +429,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   <button
                     key={t}
                     onClick={() => setFilterType(t)}
-                    className={`px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${
+                    className={`px-3 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all ${
                       filterType === t
                         ? 'bg-slate-900 text-white border-slate-900'
                         : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
@@ -455,7 +455,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             </div>
 
             {/* Results count */}
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
               {isLoading ? 'Loading…' : `${filteredSubmissions.length} ${filteredSubmissions.length === 1 ? 'opportunity' : 'opportunities'} found`}
             </p>
 
@@ -517,7 +517,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                       >
                         <span className={`mb-3 ${t.color}`}>{t.icon}</span>
                         <p className={`text-sm font-black mb-1 ${t.color}`}>{t.label}</p>
-                        <p className="text-[10px] text-slate-500 leading-relaxed">{t.desc}</p>
+                        <p className="text-xs text-slate-500 leading-relaxed">{t.desc}</p>
                         <ArrowRight className={`w-3.5 h-3.5 mt-3 opacity-0 group-hover:opacity-100 transition-opacity ${t.color}`} />
                       </motion.button>
                     ))}
@@ -637,7 +637,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                         rows={2}
                         className="input-base resize-none"
                       />
-                      <p className="text-right text-[10px] text-slate-400 mt-1">{form.description.length}/150</p>
+                      <p className="text-right text-xs text-slate-400 mt-1">{form.description.length}/150</p>
                     </FormField>
 
                     <FormField label="Website" hint="Optional">
@@ -655,7 +655,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
 
                     {/* Contributor */}
                     <div className="border-t border-slate-100 pt-4 mt-2">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Your details</p>
+                      <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Your details</p>
                       <div className="grid grid-cols-2 gap-3">
                         <FormField label="Your name" hint="Optional">
                           <input
@@ -679,7 +679,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                           />
                         </FormField>
                       </div>
-                      <p className="text-[10px] text-slate-400 mt-2">Email is used for verification only, not displayed publicly.</p>
+                      <p className="text-xs text-slate-400 mt-2">Email is used for verification only, not displayed publicly.</p>
                     </div>
 
                     {/* Error */}
@@ -806,7 +806,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
               </div>
             ) : (
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">
+                <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">
                   {mySubmissions.length} contribution{mySubmissions.length !== 1 ? 's' : ''}
                 </p>
                 <div className="grid gap-3">
@@ -838,7 +838,7 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-600 mb-1.5">
+      <label className="block text-xs font-black uppercase tracking-widest text-slate-600 mb-1.5">
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}
         {hint && <span className="text-slate-400 normal-case tracking-normal font-normal ml-1.5">— {hint}</span>}

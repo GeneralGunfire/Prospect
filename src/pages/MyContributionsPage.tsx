@@ -18,7 +18,7 @@ function severityBadge(severity: Pothole['severity']) {
     high: 'bg-red-50 text-red-700 border-red-200',
   };
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${map[severity]}`}>
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${map[severity]}`}>
       {severity.charAt(0).toUpperCase() + severity.slice(1)}
     </span>
   );
@@ -27,20 +27,20 @@ function severityBadge(severity: Pothole['severity']) {
 function statusBadge(pothole: Pothole) {
   if (pothole.status === 'fixed') {
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
         <CheckCircle2 className="w-3 h-3" /> Fixed
       </span>
     );
   }
   if (pothole.needs_fixing) {
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
         <AlertTriangle className="w-3 h-3" /> Needs Fixing
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
       <Flag className="w-3 h-3" /> Reported
     </span>
   );
@@ -74,12 +74,12 @@ function PotholeCard({ pothole, onViewOnMap }: { pothole: Pothole; onViewOnMap: 
       <div className="flex flex-wrap gap-1.5 mb-3">
         {severityBadge(pothole.severity)}
         {statusBadge(pothole)}
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600">
           <Flag className="w-3 h-3" /> {pothole.flag_count} flag{pothole.flag_count !== 1 ? 's' : ''}
         </span>
       </div>
       <div className="flex items-center justify-between">
-        <p className="text-[10px] text-slate-400">
+        <p className="text-xs text-slate-400">
           {new Date(pothole.created_at).toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' })}
         </p>
         <button

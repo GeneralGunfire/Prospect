@@ -76,7 +76,7 @@ function StatusBadge({ status }: { status: DeadlineStatus }) {
     Done: 'bg-blue-400', Urgent: 'bg-red-400', Upcoming: 'bg-amber-400', Planned: 'bg-blue-400',
   };
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-bold ${styles[status]}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-bold ${styles[status]}`}>
       <span className={`w-1.5 h-1.5 rounded-full ${dots[status]}`} />
       {status}
     </span>
@@ -235,8 +235,8 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
 
             {/* ── Title ──────────────────────────────────────────────────────── */}
             <motion.div variants={item}>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">{todayLabel}</p>
-              <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">{todayLabel}</p>
+              <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">
                 Good {getGreeting()}, {firstName}
               </h1>
             </motion.div>
@@ -250,8 +250,8 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <MoreHorizontal className="w-4 h-4 text-slate-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Status</p>
-                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-bold ${studyStatusStyle}`}>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Status</p>
+                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-bold ${studyStatusStyle}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${studyStatusDot}`} />
                     {studyStatus}
                   </span>
@@ -264,14 +264,14 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <User className="w-4 h-4 text-slate-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Student</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Student</p>
                   <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center text-white text-[10px] font-black">
+                    <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-black">
                       {fullName.charAt(0)}
                     </div>
                     <span className="text-sm font-semibold text-slate-800">{fullName}</span>
                   </div>
-                  {email && <p className="text-[10px] text-slate-400 mt-0.5">{email}</p>}
+                  {email && <p className="text-xs text-slate-400 mt-0.5">{email}</p>}
                 </div>
               </div>
 
@@ -281,11 +281,11 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <CalendarDays className="w-4 h-4 text-slate-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Next Deadline</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Next Deadline</p>
                   {nextDeadline ? (
                     <>
                       <p className="text-sm font-semibold text-slate-800 leading-snug">{nextDeadline.title}</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">
+                      <p className="text-xs text-slate-400 mt-0.5">
                         {formatDateLong(nextDeadline.iso)} · {nextDeadline.cat}
                       </p>
                     </>
@@ -301,7 +301,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <Star className="w-4 h-4 text-blue-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Career Type</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Career Type</p>
                   {riasecType ? (
                     <p className="text-xl font-black text-slate-900 leading-none">{riasecType}</p>
                   ) : (
@@ -321,12 +321,12 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <Tag className="w-4 h-4 text-slate-500" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Saved Items</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Saved Items</p>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 border border-blue-100 rounded-full text-[10px] font-bold text-blue-700">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 border border-blue-100 rounded-full text-xs font-bold text-blue-700">
                       <Briefcase className="w-3 h-3" /> {savedCareers.length} career{savedCareers.length !== 1 ? 's' : ''}
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 border border-blue-100 rounded-full text-[10px] font-bold text-blue-700">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 border border-blue-100 rounded-full text-xs font-bold text-blue-700">
                       <Wallet className="w-3 h-3" /> {savedBursaries.length} bursar{savedBursaries.length !== 1 ? 'ies' : 'y'}
                     </span>
                   </div>
@@ -340,7 +340,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                     <FileText className="w-4 h-4 text-slate-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Progress Summary</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1.5">Progress Summary</p>
                     <p className="text-sm text-slate-600">
                       {hasActivePath && nextTopicToStudy
                         ? `Currently working through Mathematics (Algebra). Next up: ${nextTopicToStudy.title}. Overall study progress is at ${overallStudyPct}%.`
@@ -356,16 +356,16 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {/* ── Learning Paths (like Attachments) ────────────────────────── */}
             <motion.div variants={item} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
                   <Paperclip className="w-4 h-4 text-slate-400" />
                   Active Learning Paths
-                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-[10px] font-black text-slate-600">
+                  <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-slate-100 text-xs font-black text-slate-600">
                     {subjectProgress.length}
                   </span>
                 </h3>
                 <button
                   onClick={() => onNavigate('library')}
-                  className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
                 >
                   <BookOpen className="w-3.5 h-3.5" /> View Library
                 </button>
@@ -384,7 +384,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-black text-slate-800 truncate">{sp.subject}</p>
-                        {sp.lastTopic && <p className="text-[10px] text-slate-500 truncate">Last: {sp.lastTopic}</p>}
+                        {sp.lastTopic && <p className="text-xs text-slate-500 truncate">Last: {sp.lastTopic}</p>}
                         <div className="mt-2 h-1.5 bg-white/60 rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
@@ -393,7 +393,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                             className={`h-full rounded-full ${color}`}
                           />
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-1">{sp.completed}/{sp.total} topics · {pct}%</p>
+                        <p className="text-xs text-slate-500 mt-1">{sp.completed}/{sp.total} topics · {pct}%</p>
                       </div>
                     </div>
                   );
@@ -423,10 +423,10 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {/* ── Deadlines table ───────────────────────────────────────────── */}
             <motion.div variants={item} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-black text-slate-800">Upcoming Deadlines</h3>
+                <h3 className="text-base font-bold text-slate-800">Upcoming Deadlines</h3>
                 <button
                   onClick={() => onNavigate('calendar')}
-                  className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
                 >
                   <CalendarDays className="w-3.5 h-3.5" /> Full Calendar
                 </button>
@@ -436,11 +436,11 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-slate-100 bg-slate-50/60">
-                      <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3 w-10">#</th>
-                      <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Event</th>
-                      <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Category</th>
-                      <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Status</th>
-                      <th className="text-right text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Date</th>
+                      <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3 w-10">#</th>
+                      <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Event</th>
+                      <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Category</th>
+                      <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Status</th>
+                      <th className="text-right text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -457,7 +457,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                             <span className="font-semibold text-slate-800 text-xs">{d.title}</span>
                           </td>
                           <td className="px-4 py-3">
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                               d.cat === 'Funding' ? 'bg-blue-50 text-blue-700'
                               : d.cat === 'Exams' ? 'bg-red-50 text-red-700'
                               : 'bg-blue-50 text-blue-700'
@@ -479,15 +479,15 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {questionsLoaded && questions.length > 0 && (
               <motion.div variants={item} className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-black text-slate-800 flex items-center gap-2">
+                  <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
                     My Questions
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-blue-50 text-[10px] font-black text-blue-600">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-blue-50 text-xs font-black text-blue-600">
                       {questions.length}
                     </span>
                   </h3>
                   <button
                     onClick={() => onNavigate('school-assist')}
-                    className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-blue-700 transition-colors"
+                    className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-blue-500 hover:text-blue-700 transition-colors"
                   >
                     Ask a question <ChevronRight className="w-3 h-3" />
                   </button>
@@ -505,9 +505,9 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1 flex-wrap">
                             <QuestionStatusBadge status={q.status} />
-                            {q.subject && <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{q.subject}</span>}
-                            {q.grade && <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Gr {q.grade}</span>}
-                            <span className="text-[10px] text-slate-400">{formatDateShort(q.created_at)}</span>
+                            {q.subject && <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{q.subject}</span>}
+                            {q.grade && <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Gr {q.grade}</span>}
+                            <span className="text-xs text-slate-400">{formatDateShort(q.created_at)}</span>
                           </div>
                           <p className="text-sm font-semibold text-slate-800 leading-snug">{q.question}</p>
 
@@ -527,7 +527,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                               </AnimatePresence>
                               <button
                                 onClick={() => toggleAnswer(q.id)}
-                                className="mt-1.5 flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-blue-800 transition-colors"
+                                className="mt-1.5 flex items-center gap-1 text-xs font-black uppercase tracking-widest text-blue-500 hover:text-blue-800 transition-colors"
                               >
                                 {expandedAnswers.has(q.id)
                                   ? <><ChevronUp className="w-3 h-3" /> Hide Answer</>
@@ -554,16 +554,16 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {/* ── Saved Careers + Bursaries ────────────────────────────────── */}
             {totalBookmarks > 0 && (
               <motion.div variants={item} className="space-y-4">
-                <h3 className="text-sm font-black text-slate-800">Saved Items</h3>
+                <h3 className="text-base font-bold text-slate-800">Saved Items</h3>
                 <div className="rounded-2xl border border-slate-100 overflow-hidden">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/60">
-                        <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">#</th>
-                        <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Name</th>
-                        <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Type</th>
-                        <th className="text-left text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Category</th>
-                        <th className="text-right text-[10px] font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Actions</th>
+                        <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">#</th>
+                        <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Name</th>
+                        <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Type</th>
+                        <th className="text-left text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Category</th>
+                        <th className="text-right text-xs font-bold uppercase tracking-widest text-slate-400 px-4 py-3">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -571,11 +571,11 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                         <motion.tr key={career.id} variants={item} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60 transition-colors">
                           <td className="px-4 py-3 text-slate-400 text-xs">{i + 1}</td>
                           <td className="px-4 py-3 font-semibold text-slate-800 text-xs">{career.title}</td>
-                          <td className="px-4 py-3"><span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Career</span></td>
+                          <td className="px-4 py-3"><span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Career</span></td>
                           <td className="px-4 py-3 text-xs text-slate-500">{career.category}</td>
                           <td className="px-4 py-3 text-right">
                             <div className="flex items-center justify-end gap-1">
-                              <button onClick={() => onNavigate('careers')} className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                              <button onClick={() => onNavigate('careers')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
                               <button onClick={() => handleRemoveCareer(career.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
                             </div>
                           </td>
@@ -585,11 +585,11 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                         <motion.tr key={bursary.id} variants={item} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60 transition-colors">
                           <td className="px-4 py-3 text-slate-400 text-xs">{savedCareers.length + i + 1}</td>
                           <td className="px-4 py-3 font-semibold text-slate-800 text-xs">{bursary.name}</td>
-                          <td className="px-4 py-3"><span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Bursary</span></td>
+                          <td className="px-4 py-3"><span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Bursary</span></td>
                           <td className="px-4 py-3 text-xs text-slate-500">{bursary.provider}</td>
                           <td className="px-4 py-3 text-right">
                             <div className="flex items-center justify-end gap-1">
-                              <button onClick={() => onNavigate('bursaries')} className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                              <button onClick={() => onNavigate('bursaries')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
                               <button onClick={() => handleRemoveBursary(bursary.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
                             </div>
                           </td>
@@ -617,7 +617,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                     <div className="shrink-0">{icon}</div>
                     <div>
                       <p className="text-xs font-black">{label}</p>
-                      <p className="text-[10px] opacity-70">{desc}</p>
+                      <p className="text-xs opacity-70">{desc}</p>
                     </div>
                     <ArrowRight className="w-3.5 h-3.5 ml-auto shrink-0 opacity-50" />
                   </button>
@@ -640,9 +640,9 @@ function getGreeting() {
 }
 
 function QuestionStatusBadge({ status }: { status: UnansweredQuestion['status'] }) {
-  if (status === 'pending') return <span className="text-[10px] font-black uppercase tracking-widest bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full">Pending</span>;
-  if (status === 'answered') return <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">Answered</span>;
-  return <span className="text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-full">Resolved</span>;
+  if (status === 'pending') return <span className="text-xs font-black uppercase tracking-widest bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full">Pending</span>;
+  if (status === 'answered') return <span className="text-xs font-black uppercase tracking-widest bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">Answered</span>;
+  return <span className="text-xs font-black uppercase tracking-widest bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-full">Resolved</span>;
 }
 
 export default withAuth(DashboardPage);

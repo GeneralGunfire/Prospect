@@ -203,7 +203,7 @@ export default function APSCalculatorPage({ onNavigate, onNavigateHome }: Props)
                   </div>
                   {pts !== null && (
                     <div className="shrink-0 text-center w-12">
-                      <p className="text-[10px] text-slate-400 uppercase tracking-wider">pts</p>
+                      <p className="text-xs text-slate-400 uppercase tracking-wider">pts</p>
                       <p className={`text-xl font-black ${pts >= 5 ? 'text-green-600' : pts >= 3 ? 'text-amber-600' : 'text-red-500'}`}>{pts}</p>
                     </div>
                   )}
@@ -336,11 +336,11 @@ export default function APSCalculatorPage({ onNavigate, onNavigateHome }: Props)
                         <p className="text-xs text-slate-500 truncate">{career.institution}</p>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${CATEGORY_COLORS[career.category] ?? 'bg-gray-100 text-gray-600'}`}>
+                        <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${CATEGORY_COLORS[career.category] ?? 'bg-gray-100 text-gray-600'}`}>
                           {CATEGORY_LABELS[career.category] ?? career.category}
                         </span>
                         {career.minAps > 0 && (
-                          <span className="text-[10px] text-slate-400">APS {career.minAps}+</span>
+                          <span className="text-xs text-slate-400">APS {career.minAps}+</span>
                         )}
                       </div>
                     </motion.div>

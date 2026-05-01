@@ -17,8 +17,8 @@ interface AppHeaderProps {
   currentPage: AppPage;
   user: SupabaseUser;
   onNavigate: (page: AppPage) => void;
-  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Potholes/Water. 'news' = News/Tax/Cost/Civics. Defaults to 'school'. */
-  mode?: 'school' | 'career' | 'community' | 'news';
+  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Potholes/Water/Tax/Civics. Defaults to 'school'. */
+  mode?: 'school' | 'career' | 'community';
   /** Called when Sign In is clicked (guest users in career mode) */
   onNavigateAuth?: () => void;
 }
@@ -40,6 +40,9 @@ const COMMUNITY_NAV: NavItem[] = [
   { name: 'Community Impact', page: 'community-impact', icon: <Globe className="w-3.5 h-3.5" /> },
   { name: 'Pothole Map',      page: 'pothole-map',      icon: <Construction className="w-3.5 h-3.5" /> },
   { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-3.5 h-3.5" /> },
+  { name: 'Tax & Budget',     page: 'tax-budget',        icon: <Calculator className="w-3.5 h-3.5" /> },
+  { name: 'Cost of Living',   page: 'cost-of-living',    icon: <MapPin className="w-3.5 h-3.5" /> },
+  { name: 'Civics',           page: 'civics',             icon: <Building2 className="w-3.5 h-3.5" /> },
 ];
 
 const CAREER_NAV: NavItem[] = [
@@ -48,7 +51,6 @@ const CAREER_NAV: NavItem[] = [
   { name: 'TVET',       page: 'tvet',                icon: <GraduationCap className="w-3.5 h-3.5" /> },
   { name: 'Bursaries',  page: 'bursaries',           icon: <Wallet className="w-3.5 h-3.5" /> },
   { name: 'Job Map',    page: 'map',                 icon: <Map className="w-3.5 h-3.5" /> },
-  { name: 'Guide',      page: 'disadvantaged-guide', icon: <Heart className="w-3.5 h-3.5" /> },
 ];
 
 const EXPAND_SCROLL_THRESHOLD = 80;
@@ -62,14 +64,7 @@ export default function AppHeader({
 }: AppHeaderProps) {
   const isGuest = user?.id === 'guest' || user?.is_anonymous === true;
 
-  const NEWS_NAV: NavItem[] = [
-    { name: 'SA News',      page: 'news',            icon: <Newspaper className="w-3.5 h-3.5" /> },
-    { name: 'Tax & Budget', page: 'tax-budget',      icon: <Calculator className="w-3.5 h-3.5" /> },
-    { name: 'Cost of Living', page: 'cost-of-living', icon: <MapPin className="w-3.5 h-3.5" /> },
-    { name: 'Civics',       page: 'civics',          icon: <Building2 className="w-3.5 h-3.5" /> },
-  ];
-
-  const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : mode === 'news' ? NEWS_NAV : SCHOOL_NAV;
+  const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : SCHOOL_NAV;
 
   const [isExpanded, setExpanded] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -154,7 +149,7 @@ export default function AppHeader({
   return (
     <>
       {/* Floating pill nav */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-120">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[9000]">
         <motion.nav
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1, width: isExpanded ? 'auto' : '3rem' }}
@@ -237,8 +232,8 @@ export default function AppHeader({
               </button>
             )}
 
-            {!isGuest && (
-              <div className="flex items-center gap-1">
+            {!isGuest && mode !== 'career' && (
+              <div className="relative flex items-center gap-1">
                 <button
                   onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(v => !v); }}
                   className="w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center ring-2 ring-transparent hover:ring-slate-300 transition-all"
@@ -246,55 +241,6 @@ export default function AppHeader({
                 >
                   <User className="w-3.5 h-3.5" />
                 </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); handleLogout(); }}
-                  className="p-2 rounded-full hover:bg-red-50 transition-colors text-slate-400 hover:text-red-500"
-                  aria-label="Sign out"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-
-                <AnimatePresence>
-                  {isUserMenuOpen && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(false); }}
-                        className="fixed inset-0 z-30"
-                      />
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.15, ease: 'easeOut' }}
-                        className="absolute right-0 top-10 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-130 overflow-hidden"
-                      >
-                        <div className="p-4 border-b border-slate-50">
-                          <p className="text-xs font-black uppercase tracking-wider text-slate-800">{firstName}</p>
-                          <p className="text-xs truncate mt-0.5 text-slate-500">{email}</p>
-                        </div>
-                        <div className="p-2">
-                          {mode !== 'career' && (
-                            <button
-                              onClick={() => { setIsUserMenuOpen(false); onNavigate('dashboard'); }}
-                              className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium hover:bg-slate-50 rounded-xl transition-colors text-left text-slate-800"
-                            >
-                              <LayoutDashboard className="w-4 h-4" />
-                              Dashboard
-                            </button>
-                          )}
-                          <button
-                            onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors text-left"
-                          >
-                            <LogOut className="w-4 h-4" />
-                            Sign Out
-                          </button>
-                        </div>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
               </div>
             )}
           </motion.div>
@@ -309,6 +255,49 @@ export default function AppHeader({
             </motion.div>
           </div>
         </motion.nav>
+
+        {/* User Menu Dropdown placed outside nav to escape overflow-hidden */}
+        <AnimatePresence>
+          {isUserMenuOpen && !isGuest && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(false); }}
+                className="fixed inset-0 z-[125]"
+              />
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
+                className="absolute right-0 top-[3.5rem] w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-[130] overflow-hidden"
+              >
+                <div className="p-4 border-b border-slate-50">
+                  <p className="text-xs font-black uppercase tracking-wider text-slate-800">{firstName}</p>
+                  <p className="text-xs truncate mt-0.5 text-slate-500">{email}</p>
+                </div>
+                <div className="p-2">
+                  {mode !== 'career' && (
+                    <button
+                      onClick={() => { setIsUserMenuOpen(false); onNavigate('dashboard'); }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium hover:bg-slate-50 rounded-xl transition-colors text-left text-slate-800"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      Dashboard
+                    </button>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors text-left"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Mobile drawer */}
@@ -319,13 +308,13 @@ export default function AppHeader({
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsDrawerOpen(false)}
-              className="fixed inset-0 bg-black/40 z-110 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/40 z-[9990] backdrop-blur-sm"
               aria-hidden="true"
             />
             <motion.div
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-              className="fixed inset-y-0 left-0 z-120 w-72 bg-white shadow-2xl flex flex-col"
+              className="fixed inset-y-0 left-0 z-[9999] w-72 bg-white shadow-2xl flex flex-col"
               role="navigation"
             >
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
@@ -338,7 +327,7 @@ export default function AppHeader({
                 </button>
               </div>
 
-              {!isGuest && (
+              {!isGuest && mode !== 'career' && (
                 <div className="px-5 py-4 bg-slate-50/60 border-b border-slate-100">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 bg-slate-900 rounded-full flex items-center justify-center text-white shrink-0">
@@ -385,17 +374,6 @@ export default function AppHeader({
                 })}
               </div>
 
-              <div className="p-3 border-t border-slate-100 flex flex-col gap-1">
-                {!isGuest && (
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-3 text-xs font-semibold text-red-500 hover:bg-red-50 rounded-xl px-3 py-3 transition-colors uppercase tracking-wider"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </button>
-                )}
-              </div>
             </motion.div>
           </>
         )}
@@ -409,26 +387,26 @@ export default function AppHeader({
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
               onClick={() => setSearchOpen(false)}
-              className="fixed inset-0 bg-black/50 z-200 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/50 z-[9990] backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: -16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -16, scale: 0.97 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-210 px-4"
+              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-[9999] px-4"
             >
               <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
                 <div className="flex gap-1 p-3 border-b border-slate-100">
                   <button
                     onClick={() => { setSearchMode('topic'); setSearched(false); }}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${searchMode === 'topic' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${searchMode === 'topic' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
                   >
                     <BookText className="w-3 h-3" /> Topics
                   </button>
                   <button
                     onClick={() => { setSearchMode('question'); setSearched(false); }}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${searchMode === 'question' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${searchMode === 'question' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}
                   >
                     <HelpCircle className="w-3 h-3" /> Questions
                   </button>
@@ -450,7 +428,7 @@ export default function AppHeader({
                   <button
                     onClick={runSearch}
                     disabled={!searchQuery.trim() || searchLoading}
-                    className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-[10px] font-black uppercase tracking-widest disabled:opacity-40 hover:bg-slate-700 transition-all flex items-center gap-1.5"
+                    className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-black uppercase tracking-widest disabled:opacity-40 hover:bg-slate-700 transition-all flex items-center gap-1.5"
                   >
                     {searchLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ArrowRight className="w-3 h-3" />}
                     Go
@@ -481,7 +459,7 @@ export default function AppHeader({
                         <p className="text-xs text-slate-400 mb-3">No answers found for "{searchQuery}"</p>
                         <button
                           onClick={() => { setSearchOpen(false); onNavigate('school-assist' as AppPage); }}
-                          className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-700"
+                          className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-700"
                         >
                           Submit your question on School Assist →
                         </button>

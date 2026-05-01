@@ -33,19 +33,19 @@ const ACADEMIC_YEAR = 2026;
 // ── Design tokens ─────────────────────────────────────────────────────────────
 
 const CHIP = {
-  deadline: 'bg-red-50     border border-red-200     text-red-700',
-  school:   'bg-blue-50    border border-blue-200    text-blue-700',
-  holiday:  'bg-slate-50    border border-slate-200    text-slate-600',
-  personal: 'bg-blue-50 border border-blue-200 text-blue-700',
-  exam:     'bg-red-50     border border-red-200     text-red-700',
+  deadline: 'bg-slate-900 text-white',
+  school:   'bg-blue-100 text-blue-800',
+  holiday:  'bg-transparent text-slate-500',
+  personal: 'bg-slate-200 text-slate-800',
+  exam:     'bg-slate-700 text-white',
 } as const;
 
 const DOT = {
-  deadline: 'bg-red-500',
+  deadline: 'bg-slate-400',
   school:   'bg-blue-500',
-  holiday:  'bg-slate-500',
-  personal: 'bg-blue-500',
-  exam:     'bg-red-500',
+  holiday:  'bg-slate-400',
+  personal: 'bg-slate-300',
+  exam:     'bg-slate-400',
 } as const;
 
 const EVENT_STYLE: Record<UserCalendarEvent['category'], { chip: string; dot: string; label: string }> = {
@@ -74,7 +74,7 @@ const TERMS = [
   { id: 4, name: 'Term 4', start: '13 Oct', end: '9 Dec',  weeks: 9,  holidays: '10 Dec – Jan 2027', startMonth: 9, startDay: 13, endMonth: 11, endDay: 9 },
 ];
 
-const TERM_GRADIENT = ['from-blue-400 to-blue-500', 'from-blue-500 to-blue-600', 'from-blue-600 to-blue-700', 'from-blue-700 to-slate-700'];
+const TERM_GRADIENT = ['from-slate-700 to-slate-900', 'from-slate-800 to-black', 'from-blue-800 to-slate-900', 'from-blue-900 to-black'];
 
 // ── Deadlines ─────────────────────────────────────────────────────────────────
 interface DeadlineEvent {
@@ -180,7 +180,7 @@ function FilterDropdown({ label, options, selected, onToggle, onClear }: {
         <Filter className="w-3.5 h-3.5" />
         {label}
         {selected.length > 0 && (
-          <span className="bg-blue-600 text-white rounded-full px-1.5 py-0.5 text-[10px] font-black leading-none">
+          <span className="bg-blue-600 text-white rounded-full px-1.5 py-0.5 text-xs font-black leading-none">
             {selected.length}
           </span>
         )}
@@ -392,14 +392,14 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
         {selectedDay ? (
           <motion.div key="day-detail" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={{ duration: 0.16 }}
             className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 bg-blue-600 text-white">
+            <div className="flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
               <div>
                 <p className="text-[9px] font-black uppercase tracking-widest opacity-60">Selected</p>
                 <h4 className="text-sm font-black">{selectedDayLabel}</h4>
                 {(() => {
                   const [, m, d] = selectedDay.split('-').map(Number);
                   const t = getTermForDate(m - 1, d);
-                  return t ? <span className="text-[10px] text-blue-200">{t.name}</span> : null;
+                  return t ? <span className="text-xs text-blue-200">{t.name}</span> : null;
                 })()}
               </div>
               <button onClick={() => setSelectedDay(null)} className="p-1.5 hover:bg-white/10 rounded-lg">
@@ -467,7 +467,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   ))}
                 </div>
                 <button onClick={saveEvent} disabled={!newEventName.trim()} data-testid="create-event-btn"
-                  className={`w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
+                  className={`w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
                   {savedEvent ? 'Saved ✓' : <><Plus className="w-3.5 h-3.5" /> Add Event</>}
                 </button>
               </div>
@@ -494,14 +494,14 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
         <div className="flex-1 min-w-0">
           {/* Stats bar */}
           <div className="flex flex-wrap gap-2 mb-5">
-            <div className="flex items-center gap-2.5 px-4 py-2.5 bg-red-50 border border-red-200 rounded-xl flex-1 min-w-0">
-              <Bell className="w-3.5 h-3.5 text-red-600 shrink-0" />
+            <div className="flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl flex-1 min-w-0">
+              <Bell className="w-3.5 h-3.5 text-slate-300 shrink-0" />
               <div className="min-w-0">
-                <p className="text-[9px] font-black uppercase tracking-widest text-red-400">Next Deadline</p>
-                <p className="text-xs font-bold text-red-700 truncate">
+                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Next Deadline</p>
+                <p className="text-xs font-bold text-white truncate">
                   {nextDeadline?.shortTitle}
-                  {daysUntilNext != null && daysUntilNext > 0 && <span className="ml-1.5 font-normal text-red-400">· {daysUntilNext}d</span>}
-                  {daysUntilNext === 0 && <span className="ml-1.5 font-black text-red-600">· Today!</span>}
+                  {daysUntilNext != null && daysUntilNext > 0 && <span className="ml-1.5 font-normal text-slate-400">· {daysUntilNext}d</span>}
+                  {daysUntilNext === 0 && <span className="ml-1.5 font-black text-white">· Today!</span>}
                 </p>
               </div>
             </div>
@@ -522,7 +522,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {WEEK_DAYS.map((d, i) => (
-                <div key={d} className={`py-3 text-center text-[10px] font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
+                <div key={d} className={`py-3 text-center text-xs font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
                   {d}
                 </div>
               ))}
@@ -551,49 +551,44 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 for (const dl of dlList) chips.push({ key: dl.isoDate + dl.title, label: dl.shortTitle, chip: deadlineChip(dl.category), dot: deadlineDot(dl.category) });
                 for (const e of userEvts)  chips.push({ key: e.id, label: e.eventName, chip: EVENT_STYLE[e.category].chip, dot: EVENT_STYLE[e.category].dot });
                 if (holiday && chips.length < 2) chips.push({ key: 'hol', label: holiday.split(' ')[0], chip: CHIP.holiday, dot: DOT.holiday });
-                const visible  = chips.slice(0, 2);
-                const overflow = chips.length - 2;
+                const visible  = chips.slice(0, 4);
+                const overflow = chips.length - 4;
 
                 return (
                   <motion.button
                     key={day}
                     data-testid="calendar-day"
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
-                    whileHover={{ backgroundColor: isSelected ? undefined : hasDeadline ? 'rgba(239,68,68,0.04)' : 'rgba(79,70,229,0.03)' }}
+                    whileHover={{ backgroundColor: isSelected ? undefined : hasDeadline ? 'rgba(15,23,42,0.03)' : 'rgba(15,23,42,0.02)' }}
                     className={[
-                      'relative min-h-[6rem] md:min-h-[7rem] p-2 text-left border-b border-r border-slate-100 transition-colors',
+                      'relative min-h-[4.5rem] md:min-h-[7rem] p-1 md:p-2 text-left border-b border-r border-slate-100 transition-colors',
                       isWeekend  ? 'bg-slate-50/70' : 'bg-white',
-                      hasDeadline && !isSelected ? 'bg-red-50/40' : '',
+                      hasDeadline && !isSelected ? 'bg-slate-50/60' : '',
                       holiday && !hasDeadline && !isSelected ? 'bg-slate-50/30' : '',
-                      isSelected ? 'bg-blue-50 ring-2 ring-inset ring-blue-500 z-10' : '',
+                      isSelected ? 'bg-slate-100 ring-2 ring-inset ring-slate-900 z-10' : '',
                       (offset + i) % 7 === 6 ? 'border-r-0' : '',
                     ].filter(Boolean).join(' ')}
                   >
                     {inTerm && <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-300/60" />}
                     <span className={[
-                      'inline-flex items-center justify-center w-7 h-7 rounded-lg text-xs font-black mb-1.5 transition-all',
+                      'inline-flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-lg text-[10px] md:text-xs font-black mb-0.5 md:mb-1.5 transition-all',
                       today
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-300/50 scale-110'
+                        ? 'bg-slate-900 text-white shadow-md shadow-slate-300/50 scale-110'
                         : isSelected
-                          ? 'bg-blue-100 text-blue-700'
+                          ? 'bg-slate-200 text-slate-800'
                           : isWeekend
                             ? 'text-slate-400'
                             : 'text-slate-700',
                     ].filter(Boolean).join(' ')}>
                       {day}
                     </span>
-                    <div className="hidden md:flex flex-col gap-0.5">
+                    <div className="flex flex-col gap-[2px] mt-0.5 w-full overflow-hidden">
                       {visible.map(c => (
-                        <span key={c.key} className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate leading-tight ${c.chip}`}>
+                        <div key={c.key} className={`text-[9px] md:text-[10px] font-medium leading-[13px] px-1.5 py-0.5 rounded-[3px] truncate whitespace-nowrap text-left ${c.chip}`}>
                           {c.label}
-                        </span>
+                        </div>
                       ))}
-                      {overflow > 0 && <span className="text-[9px] font-bold text-slate-400 pl-1">+{overflow}</span>}
-                    </div>
-                    <div className="flex gap-0.5 mt-0.5 md:hidden">
-                      {chips.slice(0, 3).map((c, j) => (
-                        <span key={j} className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
-                      ))}
+                      {overflow > 0 && <div className="text-[9px] font-medium text-slate-500 pl-1 leading-none mt-0.5">+{overflow} more</div>}
                     </div>
                   </motion.button>
                 );
@@ -604,18 +599,19 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           {/* Legend */}
           <div className="mt-4 flex flex-wrap gap-2 px-1">
             <div className="flex items-center gap-1.5">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-md bg-blue-600 text-[8px] font-black text-white">17</span>
-              <span className="text-[10px] font-bold text-slate-500">Today</span>
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-900 text-[8px] font-black text-white">17</span>
+              <span className="text-xs font-bold text-slate-500">Today</span>
             </div>
-            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.deadline}`}>Deadline</span>
-            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.holiday}`}>Holiday</span>
-            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.school}`}>University</span>
-            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${CHIP.personal}`}>Your Event</span>
+            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.deadline}`}>Deadline</span>
+            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.exam}`}>Exam</span>
+            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.school}`}>University</span>
+            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.personal}`}>Your Event</span>
+            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.holiday}`}>Holiday</span>
             <div className="flex items-center gap-1.5 ml-1">
               <div className="w-4 h-[2px] bg-slate-300 rounded" />
-              <span className="text-[10px] font-bold text-slate-400">In term</span>
+              <span className="text-xs font-bold text-slate-400">In term</span>
             </div>
-            <span className="text-[10px] text-slate-300 ml-auto hidden md:block">← → keys to navigate</span>
+            <span className="text-xs text-slate-300 ml-auto hidden md:block">← → keys to navigate</span>
           </div>
         </div>
         {renderSidePanel()}
@@ -640,11 +636,11 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 const todayFlag = isToday(d.getDate(), d.getMonth(), d.getFullYear());
                 return (
                   <div key={i} className="py-3 text-center">
-                    <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${i >= 5 ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <p className={`text-xs font-black uppercase tracking-widest mb-1 ${i >= 5 ? 'text-slate-400' : 'text-slate-500'}`}>
                       {WEEK_DAYS[i]}
                     </p>
                     <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-black mx-auto ${
-                      todayFlag ? 'bg-blue-600 text-white shadow-sm shadow-blue-300/50' : i >= 5 ? 'text-slate-400' : 'text-slate-700'
+                      todayFlag ? 'bg-slate-900 text-white shadow-sm shadow-slate-300/50' : i >= 5 ? 'text-slate-400' : 'text-slate-700'
                     }`}>
                       {d.getDate()}
                     </span>
@@ -666,9 +662,9 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     key={i}
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
                     className={[
-                      'p-2 text-left transition-colors hover:bg-blue-50/50 min-h-[360px] flex flex-col gap-1',
+                      'p-2 text-left transition-colors hover:bg-slate-50 min-h-[360px] flex flex-col gap-1',
                       i >= 5 ? 'bg-slate-50/50' : 'bg-white',
-                      isSelected ? 'bg-blue-50 ring-2 ring-inset ring-blue-400' : '',
+                      isSelected ? 'bg-slate-50 ring-2 ring-inset ring-slate-900' : '',
                     ].join(' ')}
                   >
                     {holiday && (
@@ -712,19 +708,21 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
         <div className="flex-1 min-w-0">
           <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
             {/* Day header */}
-            <div className={`px-6 py-5 border-b border-slate-100 flex items-center justify-between ${todayFlag ? 'bg-blue-50' : 'bg-slate-50'}`}>
+            <div className={`px-6 py-5 border-b border-slate-100 flex items-center justify-between ${todayFlag ? 'bg-slate-900 text-white' : 'bg-slate-50'}`}>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">
+                <p className={`text-xs font-black uppercase tracking-widest mb-1 ${todayFlag ? 'text-slate-400' : 'text-slate-400'}`}>
                   {viewDate.toLocaleDateString('en-ZA', { weekday: 'long' })}
                 </p>
-                <h3 className={`text-3xl font-black ${todayFlag ? 'text-blue-600' : 'text-slate-800'}`}>
+                <h3 className={`text-3xl font-black ${todayFlag ? 'text-white' : 'text-slate-800'}`}>
                   {viewDate.getDate()}
                 </h3>
-                <p className="text-sm text-slate-500">{MONTH_NAMES[viewDate.getMonth()]} {viewDate.getFullYear()}</p>
+                <p className={`text-sm ${todayFlag ? 'text-slate-300' : 'text-slate-500'}`}>
+                  {MONTH_NAMES[viewDate.getMonth()]} {viewDate.getFullYear()}
+                </p>
               </div>
               <div className="text-right space-y-1">
-                {todayFlag && <span className="inline-block px-3 py-1 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Today</span>}
-                {term && <p className="text-[10px] font-bold text-slate-500">{term.name}</p>}
+                {todayFlag && <span className="inline-block px-3 py-1 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-full">Today</span>}
+                {term && <p className="text-xs font-bold text-slate-500">{term.name}</p>}
               </div>
             </div>
 
@@ -790,7 +788,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   <button
                     onClick={() => { setSelectedDay(iso); saveEvent(); }}
                     disabled={!newEventName.trim()}
-                    className="px-3 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 disabled:opacity-40 transition-all"
+                    className="px-3 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 disabled:opacity-40 transition-all"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -864,11 +862,11 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
             </div>
             <div className="text-right shrink-0 flex items-center gap-2">
               <div>
-                <div className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">
+                <div className="text-xs font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">
                   {new Date(item.iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}
                 </div>
                 {!isPast && (
-                  <div className={`text-[10px] font-black text-right ${item.daysAway === 0 ? 'text-red-600' : item.daysAway <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
+                  <div className={`text-xs font-black text-right ${item.daysAway === 0 ? 'text-red-600' : item.daysAway <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
                     {item.daysAway === 0 ? 'Today!' : `${item.daysAway}d`}
                   </div>
                 )}
@@ -888,13 +886,13 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
       <div className="max-w-2xl space-y-6">
         {upcoming.length > 0 && (
           <div className="space-y-2">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Upcoming · {upcoming.length} events</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Upcoming · {upcoming.length} events</p>
             {renderGroup(upcoming)}
           </div>
         )}
         {past.length > 0 && (
           <div className="space-y-2">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Past</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Past</p>
             {renderGroup(past, true)}
           </div>
         )}
@@ -913,7 +911,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/5 mb-3">
             <CalendarIcon className="w-3.5 h-3.5 text-slate-700" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-700">Academic Calendar {ACADEMIC_YEAR}</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-700">Academic Calendar {ACADEMIC_YEAR}</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-800">Study Calendar</h1>
           <p className="text-sm text-slate-400 mt-1">Track terms, deadlines, and personal events.</p>
@@ -921,10 +919,10 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
 
         {/* ── Main tab bar ── */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-          <div className="flex w-fit p-1 bg-white border border-slate-200 rounded-xl shadow-sm">
+          <div className="flex w-full sm:w-fit p-1 bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
             {(['calendar','terms','deadlines'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-500 hover:text-blue-600'}`}>
+                className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}>
                 {tab}
               </button>
             ))}
@@ -936,19 +934,19 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               {/* Desktop button group */}
               <div className="hidden sm:flex items-center gap-1 p-1 bg-white border border-slate-200 rounded-xl shadow-sm">
                 <button onClick={() => setCalView('month')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${calView === 'month' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'month' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
                   <CalendarIcon className="w-3.5 h-3.5" /> Month
                 </button>
                 <button onClick={() => setCalView('week')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${calView === 'week' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'week' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
                   <Grid3x3 className="w-3.5 h-3.5" /> Week
                 </button>
                 <button onClick={() => setCalView('day')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${calView === 'day' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'day' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
                   <Clock className="w-3.5 h-3.5" /> Day
                 </button>
                 <button onClick={() => setCalView('list')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${calView === 'list' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'list' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
                   <List className="w-3.5 h-3.5" /> List
                 </button>
               </div>
@@ -977,15 +975,15 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 {calView !== 'list' && (
                   <div className="flex items-center gap-1.5">
                     <button onClick={navigatePrev}
-                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 flex items-center justify-center transition-all shadow-sm">
+                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all shadow-sm">
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button onClick={goToToday}
-                      className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm">
+                      className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all shadow-sm">
                       Today
                     </button>
                     <button onClick={navigateNext}
-                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-blue-600 hover:text-white hover:border-blue-600 flex items-center justify-center transition-all shadow-sm">
+                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all shadow-sm">
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -1072,7 +1070,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                           <span className={`w-2.5 h-2.5 rounded-full shrink-0 bg-current`} style={{ backgroundColor: '' }} />
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-bold text-slate-700 truncate">{r.label}</p>
-                            <p className="text-[10px] text-slate-400">{r.type} · {new Date(r.iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                            <p className="text-xs text-slate-400">{r.type} · {new Date(r.iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                           </div>
                           <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${r.chip}`}>{r.type}</span>
                         </button>
@@ -1110,15 +1108,15 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Term {term.id}</p>
                           <h3 className="text-xl font-black text-slate-800">{term.name}</h3>
                         </div>
-                        <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-lg">{term.weeks}w</span>
+                        <span className="text-xs font-bold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-lg">{term.weeks}w</span>
                       </div>
                       <div className="space-y-2">
                         <div className="flex justify-between py-2 border-b border-slate-50">
-                          <span className="text-[10px] font-bold text-slate-400 uppercase">Start</span>
+                          <span className="text-xs font-bold text-slate-400 uppercase">Start</span>
                           <span className="text-xs font-bold text-slate-700">{term.start}</span>
                         </div>
                         <div className="flex justify-between py-2 border-b border-slate-50">
-                          <span className="text-[10px] font-bold text-slate-400 uppercase">End</span>
+                          <span className="text-xs font-bold text-slate-400 uppercase">End</span>
                           <span className="text-xs font-bold text-slate-700">{term.end}</span>
                         </div>
                         <div className="pt-1">
@@ -1131,17 +1129,17 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 ))}
               </div>
               <div className="bg-white border border-slate-200 rounded-2xl p-5">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">2026 Academic Year Timeline</p>
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">2026 Academic Year Timeline</p>
                 <div className="flex gap-0.5 h-7 rounded-xl overflow-hidden">
                   {TERMS.map((t, i) => (
                     <div key={t.id} className={`bg-linear-to-r ${TERM_GRADIENT[i]} flex items-center justify-center`} style={{ flexGrow: t.weeks }}>
-                      <span className="text-[10px] font-black text-white/90 hidden sm:block">{t.name}</span>
+                      <span className="text-xs font-black text-white/90 hidden sm:block">{t.name}</span>
                     </div>
                   ))}
                 </div>
                 <div className="flex justify-between mt-1.5">
                   {['Jan','Apr','Jul','Oct','Dec'].map(m => (
-                    <span key={m} className="text-[10px] text-slate-400">{m}</span>
+                    <span key={m} className="text-xs text-slate-400">{m}</span>
                   ))}
                 </div>
               </div>
@@ -1150,7 +1148,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
 
           {activeTab === 'deadlines' && (
             <motion.div key="deadlines" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">All Key Dates · Sorted by Date</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">All Key Dates · Sorted by Date</p>
               {sortedDeadlines.map((item, i) => {
                 const days   = daysUntil(item.isoDate);
                 const isPast = days < 0;
@@ -1167,9 +1165,9 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                       <h4 className={`text-sm font-bold truncate ${isPast ? 'line-through text-slate-400' : ''}`}>{item.title}</h4>
                     </div>
                     <div className="text-right shrink-0">
-                      <div className="text-[10px] font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">{item.date}</div>
+                      <div className="text-xs font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">{item.date}</div>
                       {!isPast && (
-                        <div className={`text-[10px] font-black ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
+                        <div className={`text-xs font-black ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
                           {days === 0 ? 'Today!' : `${days}d`}
                         </div>
                       )}

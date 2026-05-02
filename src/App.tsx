@@ -383,68 +383,64 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
 
 const LampSection = () => {
   return (
-    <section className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden bg-[#0f172a] w-full">
-      {/* Lamp effect */}
-      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0">
+    <section className="relative flex min-h-[60vh] sm:min-h-[75vh] flex-col items-center justify-center overflow-hidden bg-[#0f172a] w-full py-20 sm:py-28">
+      {/* Lamp glow — purely decorative, sits at the top */}
+      <div className="absolute top-0 left-0 right-0 h-64 sm:h-80 flex items-start justify-center isolate pointer-events-none">
         <motion.div
-          initial={{ opacity: 0.5, width: '15rem' }}
-          whileInView={{ opacity: 1, width: '30rem' }}
+          initial={{ opacity: 0.5, width: '10rem' }}
+          whileInView={{ opacity: 1, width: '20rem' }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
           style={{ backgroundImage: 'conic-gradient(var(--conic-position), var(--tw-gradient-stops))' }}
-          className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] bg-gradient-conic from-slate-400 via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+          className="absolute inset-auto right-1/2 h-48 overflow-visible w-[20rem] bg-gradient-conic from-slate-400 via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
         >
-          <div className="absolute w-full left-0 bg-[#0f172a] h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
-          <div className="absolute w-40 h-full left-0 bg-[#0f172a] bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
+          <div className="absolute w-full left-0 bg-[#0f172a] h-32 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute w-32 h-full left-0 bg-[#0f172a] bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
-
         <motion.div
-          initial={{ opacity: 0.5, width: '15rem' }}
-          whileInView={{ opacity: 1, width: '30rem' }}
+          initial={{ opacity: 0.5, width: '10rem' }}
+          whileInView={{ opacity: 1, width: '20rem' }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
           style={{ backgroundImage: 'conic-gradient(var(--conic-position), var(--tw-gradient-stops))' }}
-          className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-slate-400 text-white [--conic-position:from_290deg_at_center_top]"
+          className="absolute inset-auto left-1/2 h-48 w-[20rem] bg-gradient-conic from-transparent via-transparent to-slate-400 text-white [--conic-position:from_290deg_at_center_top]"
         >
-          <div className="absolute w-40 h-full right-0 bg-[#0f172a] bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
-          <div className="absolute w-full right-0 bg-[#0f172a] h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute w-32 h-full right-0 bg-[#0f172a] bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
+          <div className="absolute w-full right-0 bg-[#0f172a] h-32 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
-
-        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-[#0f172a] blur-2xl" />
-        <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md" />
-        <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-slate-300 opacity-20 blur-3xl" />
+        <div className="absolute inset-auto z-50 h-36 w-64 sm:w-md rounded-full bg-slate-300 opacity-10 blur-3xl top-0" />
         <motion.div
-          initial={{ width: '8rem' }}
-          whileInView={{ width: '16rem' }}
+          initial={{ width: '6rem' }}
+          whileInView={{ width: '12rem' }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-          className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-slate-200 blur-2xl opacity-30"
+          className="absolute inset-auto z-30 h-24 rounded-full bg-slate-200 blur-2xl opacity-25 top-0"
         />
         <motion.div
-          initial={{ width: '15rem' }}
-          whileInView={{ width: '30rem' }}
+          initial={{ width: '10rem' }}
+          whileInView={{ width: '20rem' }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-slate-300 opacity-60"
+          className="absolute inset-auto z-50 h-0.5 bg-slate-300 opacity-50 top-0"
         />
-        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-[#0f172a]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-50 flex -translate-y-32 sm:-translate-y-52 md:-translate-y-64 lg:-translate-y-80 flex-col items-center px-5 text-center max-w-3xl mx-auto">
+      {/* Content — centered in section */}
+      <div className="relative z-10 flex flex-col items-center px-5 text-center max-w-3xl mx-auto">
         <motion.div
-          initial={{ opacity: 0.5, y: 100 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
         >
-          {/* Mandela quote */}
-          <blockquote className="text-xl sm:text-2xl md:text-4xl font-black text-white leading-tight mb-6 sm:mb-8"
-            style={{ letterSpacing: '-0.025em', lineHeight: 1.15 }}>
+          <blockquote
+            className="font-black text-white leading-tight mb-6 sm:mb-8"
+            style={{ fontSize: "clamp(1.25rem, 4vw, 2.5rem)", letterSpacing: '-0.025em', lineHeight: 1.15 }}
+          >
             "Education is the most powerful weapon which you can use to change the world."
           </blockquote>
-          <footer className="flex flex-col items-center gap-1 mb-8">
+          <footer className="flex flex-col items-center gap-1 mb-6 sm:mb-8">
             <div className="w-8 h-px bg-slate-600 mb-3" />
             <cite className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 not-italic">
               Nelson Mandela
             </cite>
           </footer>
-          <p className="text-slate-400 text-base leading-relaxed max-w-md mx-auto">
+          <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-md mx-auto">
             Arm yourself with the knowledge to shape your own future.
           </p>
         </motion.div>
@@ -619,7 +615,7 @@ const DiscoveryGrid = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
               whileHover={{ y: -6, scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-[3/4] shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform"
+              className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-4/3 sm:aspect-3/4 shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform"
             >
               <picture>
                 <source srcSet={item.webp} type="image/webp" />

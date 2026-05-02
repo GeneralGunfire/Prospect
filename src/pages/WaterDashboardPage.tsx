@@ -1,27 +1,37 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   ChevronDown, AlertTriangle, Droplets, Wrench,
   TrendingUp, TrendingDown, Minus, RefreshCw,
-  ChevronLeft, ExternalLink, X,
+  ChevronLeft, ExternalLink, X, ShieldCheck, BookOpen, Lightbulb,
 } from 'lucide-react';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
 import AppHeader from '../components/AppHeader';
+import { PreparednessSection } from '../components/water/PreparednessSection';
+import { ResearchSection } from '../components/water/ResearchSection';
+import { RestrictionLevelGuide } from '../components/water/RestrictionLevelGuide';
+import { DamTrendsChart } from '../components/water/DamTrendsChart';
 import {
-  getWaterDataByProvince, getLastFetchLabel,
+  getWaterDataByProvince,
+  getWaterNews,
+  getLastFetchLabel,
   SA_PROVINCES,
-  type WaterAlert, type DamLevel, type MaintenanceSchedule,
+  type WaterAlert,
+  type DamLevel,
+  type MaintenanceSchedule,
+  type WaterRestriction,
+  type WaterNewsItem,
 } from '../services/waterService';
 
-// ── Constants ──────────────────────────────────────────────────────────────────
+// ── Constants ────────────────────────────────────────────────────���─────────────
 
 const PROVINCE_STORAGE_KEY = 'water_dashboard_province';
 
 const URGENCY_CONFIG = {
-  critical: { label: 'Critical', bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200', bar: 'bg-red-500', dot: 'bg-red-500' },
-  high:     { label: 'High',     bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200', bar: 'bg-slate-500', dot: 'bg-slate-500' },
-  medium:   { label: 'Medium',   bg: 'bg-amber-100', text: 'text-amber-700', border: 'border-amber-200', bar: 'bg-amber-500', dot: 'bg-amber-400' },
-  low:      { label: 'Low',      bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-200', bar: 'bg-green-500', dot: 'bg-green-500' },
+  critical: { label: 'Critical', bg: 'bg-red-100',    text: 'text-red-700',   border: 'border-red-200',   dot: 'bg-red-500' },
+  high:     { label: 'High',     bg: 'bg-slate-100',  text: 'text-slate-700', border: 'border-slate-200', dot: 'bg-slate-500' },
+  medium:   { label: 'Medium',   bg: 'bg-amber-100',  text: 'text-amber-700', border: 'border-amber-200', dot: 'bg-amber-400' },
+  low:      { label: 'Low',      bg: 'bg-green-100',  text: 'text-green-700', border: 'border-green-200', dot: 'bg-green-500' },
 };
 
 const TREND_CONFIG = {
@@ -29,6 +39,17 @@ const TREND_CONFIG = {
   stable:  { icon: <Minus className="w-4 h-4" />,        label: 'Stable',  color: 'text-blue-600' },
   falling: { icon: <TrendingDown className="w-4 h-4" />, label: 'Falling', color: 'text-slate-500' },
 };
+
+type TabId = 'alerts' | 'dams' | 'restrictions' | 'maintenance' | 'preparedness' | 'research';
+
+const TABS: { id: TabId; label: string; icon: React.ReactNode }[] = [
+  { id: 'alerts',       label: 'Alerts',        icon: <AlertTriangle className="w-3.5 h-3.5" /> },
+  { id: 'dams',         label: 'Dam Levels',    icon: <Droplets className="w-3.5 h-3.5" /> },
+  { id: 'restrictions', label: 'Restrictions',  icon: <ShieldCheck className="w-3.5 h-3.5" /> },
+  { id: 'maintenance',  label: 'Maintenance',   icon: <Wrench className="w-3.5 h-3.5" /> },
+  { id: 'preparedness', label: 'Preparedness',  icon: <Lightbulb className="w-3.5 h-3.5" /> },
+  { id: 'research',     label: 'History',       icon: <BookOpen className="w-3.5 h-3.5" /> },
+];
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
@@ -96,10 +117,12 @@ function AlertCard({ alert, onDismiss }: { alert: WaterAlert; onDismiss: (id: st
             </div>
           )}
 
-          <div className={`rounded-xl p-3 ${cfg.bg} border ${cfg.border} bg-white/40`}>
-            <p className="text-xs font-bold text-slate-700 mb-0.5">What to do:</p>
-            <p className="text-sm text-slate-700">{alert.recommendation}</p>
-          </div>
+          {alert.recommendation && (
+            <div className={`rounded-xl p-3 ${cfg.bg} border ${cfg.border} bg-white/40`}>
+              <p className="text-xs font-bold text-slate-700 mb-0.5">What to do:</p>
+              <p className="text-sm text-slate-700">{alert.recommendation}</p>
+            </div>
+          )}
 
           {alert.sourceUrl && (
             <a
@@ -114,56 +137,6 @@ function AlertCard({ alert, onDismiss }: { alert: WaterAlert; onDismiss: (id: st
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function DamCard({ dam }: { dam: DamLevel }) {
-  const trend = TREND_CONFIG[dam.trend];
-  const level = Math.min(100, Math.max(0, dam.levelPercent));
-  const isCritical = level < 20;
-
-  const barColor = isCritical
-    ? 'bg-red-500'
-    : level < 40
-    ? 'bg-slate-500'
-    : level < 60
-    ? 'bg-amber-500'
-    : 'bg-blue-500';
-
-  return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center">
-            <Droplets className="w-4 h-4 text-blue-600" />
-          </div>
-          <h4 className="font-bold text-slate-900 text-sm">{dam.damName}</h4>
-        </div>
-        {isCritical && (
-          <span className="text-xs font-bold px-2 py-0.5 bg-red-100 text-red-700 rounded-full">Critical</span>
-        )}
-      </div>
-
-      <div className="mb-2">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-2xl font-black text-slate-900">{level.toFixed(1)}%</span>
-          <span className={`flex items-center gap-1 text-xs font-semibold ${trend.color}`}>
-            {trend.icon}
-            {trend.label}
-          </span>
-        </div>
-        <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-          <div
-            className={`h-full ${barColor} rounded-full transition-all duration-700`}
-            style={{ width: `${level}%` }}
-          />
-        </div>
-      </div>
-
-      <p className="text-xs text-slate-400 mt-2">
-        Updated {dam.lastUpdated.toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}
-      </p>
-    </div>
   );
 }
 
@@ -187,7 +160,6 @@ function MaintenanceCard({ item }: { item: MaintenanceSchedule }) {
           <p className="text-xs text-slate-500 mb-3">
             {fmt(item.startDate)} — {fmt(item.endDate)}
           </p>
-
           {item.affectedAreas.length > 0 && (
             <div className="mb-3">
               <p className="text-xs font-semibold text-slate-700 mb-1">Affected areas:</p>
@@ -200,7 +172,6 @@ function MaintenanceCard({ item }: { item: MaintenanceSchedule }) {
               </div>
             </div>
           )}
-
           {item.expectedImpact.length > 0 && (
             <ul className="space-y-0.5">
               {item.expectedImpact.map((impact, i) => (
@@ -217,17 +188,6 @@ function MaintenanceCard({ item }: { item: MaintenanceSchedule }) {
   );
 }
 
-function SectionHeader({ title, count }: { title: string; count: number }) {
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <h2 className="text-sm font-black uppercase tracking-widest text-slate-500">{title}</h2>
-      {count > 0 && (
-        <span className="text-xs font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full">{count}</span>
-      )}
-    </div>
-  );
-}
-
 function EmptyState({ message }: { message: string }) {
   return (
     <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
@@ -236,32 +196,72 @@ function EmptyState({ message }: { message: string }) {
   );
 }
 
-// ── Province Selector ──────────────────────────────────────────────────────────
+function ProvinceSelector({ selected, onChange }: { selected: string; onChange: (p: string) => void }) {
+  const [isOpen, setIsOpen] = useState(false);
 
-function ProvinceSelector({
-  selected,
-  onChange,
-}: {
-  selected: string;
-  onChange: (p: string) => void;
-}) {
   return (
-    <div className="relative inline-block">
-      <select
-        value={selected}
-        onChange={e => onChange(e.target.value)}
-        className="appearance-none pl-4 pr-9 py-2 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-800 shadow-sm hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer transition-all"
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/40 transition-all duration-300 group"
       >
-        {SA_PROVINCES.map(p => (
-          <option key={p} value={p}>{p}</option>
-        ))}
-      </select>
-      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+        <div className="flex flex-col items-start">
+          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Select Region</span>
+          <span className="text-sm font-black text-slate-900 leading-none">{selected}</span>
+        </div>
+        <div className={`ml-2 p-1 rounded-lg bg-slate-50 border border-slate-100 text-slate-400 group-hover:text-slate-900 transition-colors ${isOpen ? 'rotate-180' : ''}`}>
+          <ChevronDown className="w-4 h-4 transition-transform duration-300" />
+        </div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop for closing */}
+            <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 4, scale: 1 }}
+              exit={{ opacity: 0, y: 4, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute right-0 top-full mt-2 w-56 bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-900/10 p-2 z-50 overflow-hidden"
+            >
+              <div className="px-3 py-2 mb-1">
+                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">South African Provinces</p>
+              </div>
+              <div className="max-h-80 overflow-y-auto scrollbar-hide">
+                {SA_PROVINCES.map(p => {
+                  const isActive = selected === p;
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => {
+                        onChange(p);
+                        setIsOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                        isActive 
+                          ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' 
+                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                      }`}
+                    >
+                      {p}
+                      {isActive && <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-// ── Main Page ──────────────────────────────────────────────────────────────────
+
+// ── Main Page ─────────────────────────────────────────────────────────���────────
 
 interface WaterDashboardPageProps extends AuthedProps {}
 
@@ -269,20 +269,30 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
   const [province, setProvince] = useState<string>(
     () => localStorage.getItem(PROVINCE_STORAGE_KEY) ?? 'Gauteng'
   );
+  const [activeTab, setActiveTab] = useState<TabId>('alerts');
   const [alerts, setAlerts] = useState<WaterAlert[]>([]);
   const [damLevels, setDamLevels] = useState<DamLevel[]>([]);
   const [maintenance, setMaintenance] = useState<MaintenanceSchedule[]>([]);
+  const [restrictions, setRestrictions] = useState<WaterRestriction[]>([]);
+  const [news, setNews] = useState<WaterNewsItem[]>([]);
   const [lastFetched, setLastFetched] = useState<Date | null>(null);
+  const [dataSource, setDataSource] = useState<'live' | 'seed'>('seed');
   const [loading, setLoading] = useState(true);
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
 
   const load = useCallback(async (prov: string) => {
     setLoading(true);
-    const data = await getWaterDataByProvince(prov);
+    const [data, newsData] = await Promise.all([
+      getWaterDataByProvince(prov),
+      getWaterNews(prov),
+    ]);
     setAlerts(data.alerts);
     setDamLevels(data.damLevels);
     setMaintenance(data.maintenance);
+    setRestrictions(data.restrictions);
+    setNews(newsData);
     setLastFetched(data.lastFetched);
+    setDataSource(data.source);
     setLoading(false);
     setDismissed(new Set());
   }, []);
@@ -294,11 +304,18 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
     localStorage.setItem(PROVINCE_STORAGE_KEY, p);
   };
 
-  const handleDismiss = (id: string) => setDismissed(prev => new Set([...prev, id]));
-
   const visibleAlerts = alerts.filter(a => !dismissed.has(a.id));
-
   const criticalCount = visibleAlerts.filter(a => a.urgency === 'critical').length;
+  const criticalDams = damLevels.filter(d => d.levelPercent < 20);
+
+  const tabCounts: Record<TabId, number> = {
+    alerts: visibleAlerts.length,
+    dams: damLevels.length,
+    restrictions: restrictions.length,
+    maintenance: maintenance.length,
+    preparedness: 0,
+    research: news.length,
+  };
 
   return (
     <div className="min-h-screen bg-bg-light">
@@ -310,7 +327,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
         >
           <div>
             <button
@@ -343,77 +360,133 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
           </div>
         </motion.div>
 
-        {/* ── Critical banner ── */}
-        {criticalCount > 0 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="mb-6 rounded-2xl bg-red-600 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-red-500/20"
-          >
-            <AlertTriangle className="w-5 h-5 shrink-0" />
-            <p className="text-sm font-bold">
-              {criticalCount} critical water alert{criticalCount > 1 ? 's' : ''} active in {province}. Take action immediately.
-            </p>
-          </motion.div>
-        )}
+        {/* ── Critical banners ── */}
+        <AnimatePresence>
+          {criticalCount > 0 && (
+            <motion.div
+              key="critical-alerts"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="mb-3 rounded-2xl bg-red-600 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-red-500/20"
+            >
+              <AlertTriangle className="w-5 h-5 shrink-0" />
+              <p className="text-sm font-bold">
+                {criticalCount} critical water alert{criticalCount > 1 ? 's' : ''} active in {province}. Take action immediately.
+              </p>
+            </motion.div>
+          )}
+          {criticalDams.length > 0 && (
+            <motion.div
+              key="critical-dams"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="mb-3 rounded-2xl bg-amber-500 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-amber-400/20"
+            >
+              <Droplets className="w-5 h-5 shrink-0" />
+              <p className="text-sm font-bold">
+                {criticalDams.map(d => d.damName).join(', ')} {criticalDams.length === 1 ? 'is' : 'are'} critically low (&lt;20%).
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {loading ? (
-          <div className="space-y-4">
+          <div className="space-y-4 mt-6">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-32 rounded-2xl bg-slate-200 animate-pulse" />
+              <div key={i} className="h-28 rounded-2xl bg-slate-200 animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="space-y-10">
-            {/* ── Alerts ── */}
-            <section>
-              <SectionHeader title="Active Alerts" count={visibleAlerts.length} />
-              {visibleAlerts.length === 0 ? (
-                <EmptyState message={`No active water alerts in ${province}`} />
-              ) : (
-                <div className="space-y-4">
-                  {[...visibleAlerts]
-                    .sort((a, b) => {
-                      const order = { critical: 0, high: 1, medium: 2, low: 3 };
-                      return order[a.urgency] - order[b.urgency];
-                    })
-                    .map(alert => (
-                      <AlertCard key={alert.id} alert={alert} onDismiss={handleDismiss} />
-                    ))}
-                </div>
-              )}
-            </section>
+          <>
+            {/* ── Tab nav ── */}
+            <div className="flex gap-1 overflow-x-auto pb-1 mb-6 -mx-1 px-1 scrollbar-hide">
+              {TABS.map(tab => {
+                const count = tabCounts[tab.id];
+                const active = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+                      active
+                        ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/20'
+                        : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    {tab.icon}
+                    {tab.label}
+                    {count > 0 && tab.id !== 'preparedness' && (
+                      <span className={`ml-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                        active ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                      }`}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
 
-            {/* ── Dam Levels ── */}
-            <section>
-              <SectionHeader title="Dam Levels" count={damLevels.length} />
-              {damLevels.length === 0 ? (
-                <EmptyState message={`No dam data available for ${province}`} />
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {damLevels.map(dam => (
-                    <DamCard key={dam.id} dam={dam} />
-                  ))}
-                </div>
-              )}
-            </section>
+            {/* ── Tab content ── */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18 }}
+              >
+                {activeTab === 'alerts' && (
+                  visibleAlerts.length === 0
+                    ? <EmptyState message={`No active water alerts in ${province}`} />
+                    : (
+                      <div className="space-y-4">
+                        {[...visibleAlerts]
+                          .sort((a, b) => {
+                            const order = { critical: 0, high: 1, medium: 2, low: 3 };
+                            return order[a.urgency] - order[b.urgency];
+                          })
+                          .map(alert => (
+                            <AlertCard key={alert.id} alert={alert} onDismiss={id => setDismissed(p => new Set([...p, id]))} />
+                          ))}
+                      </div>
+                    )
+                )}
 
-            {/* ── Maintenance ── */}
-            <section>
-              <SectionHeader title="Scheduled Maintenance" count={maintenance.length} />
-              {maintenance.length === 0 ? (
-                <EmptyState message={`No scheduled maintenance in ${province}`} />
-              ) : (
-                <div className="space-y-4">
-                  {[...maintenance]
-                    .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
-                    .map(item => (
-                      <MaintenanceCard key={item.id} item={item} />
-                    ))}
-                </div>
-              )}
-            </section>
-          </div>
+                {activeTab === 'dams' && (
+                  damLevels.length === 0
+                    ? <EmptyState message={`No dam data available for ${province}`} />
+                    : <DamTrendsChart dams={damLevels} />
+                )}
+
+                {activeTab === 'restrictions' && (
+                  <RestrictionLevelGuide restrictions={restrictions} province={province} />
+                )}
+
+                {activeTab === 'maintenance' && (
+                  maintenance.length === 0
+                    ? <EmptyState message={`No scheduled maintenance in ${province}`} />
+                    : (
+                      <div className="space-y-4">
+                        {[...maintenance]
+                          .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
+                          .map(item => (
+                            <MaintenanceCard key={item.id} item={item} />
+                          ))}
+                      </div>
+                    )
+                )}
+
+                {activeTab === 'preparedness' && <PreparednessSection />}
+
+                {activeTab === 'research' && (
+                  <ResearchSection news={news} province={province} />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </>
         )}
 
         {/* ── Footer ── */}
@@ -421,8 +494,11 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
           <span>
             Last updated:{' '}
             <span className="font-semibold text-slate-600">{getLastFetchLabel(lastFetched)}</span>
-            {lastFetched === null && (
+            {dataSource === 'seed' && (
               <span className="ml-2 px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full font-semibold">Demo data</span>
+            )}
+            {dataSource === 'live' && (
+              <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-semibold">Live</span>
             )}
           </span>
           <a

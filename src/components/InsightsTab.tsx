@@ -31,7 +31,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl p-5 shadow-sm border-2 border-slate-100 hover:border-prospect-green hover:shadow-md transition"
+      className="bg-white rounded-2xl p-5 shadow-sm border-2 border-slate-100 hover:border-slate-900 hover:shadow-md transition"
     >
       <div className="mb-2 text-slate-500">{icon}</div>
       <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">{label}</p>
@@ -107,13 +107,13 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-slate-900">{item.label}</span>
-                  <span className="font-bold text-prospect-green">
+                  <span className="font-bold text-slate-900">
                     R{Array.isArray(item.value) ? `${item.value[0]}-${item.value[1]}` : item.value}
                   </span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2">
                   <div
-                    className="bg-prospect-green h-2 rounded-full"
+                    className="bg-slate-900 h-2 rounded-full"
                     style={{
                       width: `${Math.min(
                         100,
@@ -129,12 +129,12 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-gradient-to-r from-prospect-green/10 to-prospect-gold/10 rounded-2xl p-4 border-2 border-prospect-green/30"
+              className="bg-gradient-to-r from-slate-900/10 to-slate-100 rounded-2xl p-4 border-2 border-slate-200"
             >
               <p className="text-xs font-semibold text-slate-700 uppercase tracking-widest mb-1">
                 Monthly Total
               </p>
-              <p className="text-2xl font-bold text-prospect-green">
+              <p className="text-2xl font-bold text-slate-900">
                 R{costOfLiving.monthly_total[0]} - R{costOfLiving.monthly_total[1]}
               </p>
             </motion.div>
@@ -166,7 +166,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                     initial={{ width: 0 }}
                     animate={{ width: `${industry.percentage}%` }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="bg-prospect-green h-2 rounded-full"
+                    className="bg-slate-900 h-2 rounded-full"
                   ></motion.div>
                 </div>
               </motion.div>
@@ -200,7 +200,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                 key={employer.name}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white rounded-2xl p-4 border-2 border-slate-100 hover:border-prospect-green transition"
+                className="bg-white rounded-2xl p-4 border-2 border-slate-100 hover:border-slate-900 transition"
               >
                 <div className="flex items-center justify-between">
                   <div>
@@ -208,7 +208,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                     <p className="text-xs text-slate-600">{employer.city}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-prospect-green">{employer.openRoles}+ roles</p>
+                    <p className="text-sm font-bold text-slate-900">{employer.openRoles}+ roles</p>
                     <p className="text-xs text-slate-600">{employer.industry}</p>
                   </div>
                 </div>

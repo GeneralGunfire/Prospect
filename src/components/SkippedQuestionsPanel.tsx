@@ -37,7 +37,7 @@ export function SkippedQuestionsPanel({
           >
             {/* Header */}
             <div className="sticky top-0 bg-white border-b border-slate-200 p-6 flex justify-between items-center">
-              <h2 className="text-lg font-bold text-navy uppercase tracking-tight">
+              <h2 className="text-lg font-bold text-slate-900 uppercase tracking-tight">
                 Skipped Questions
               </h2>
               <button
@@ -45,7 +45,7 @@ export function SkippedQuestionsPanel({
                 className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
                 title="Close"
               >
-                <X className="w-5 h-5 text-navy" />
+                <X className="w-5 h-5 text-slate-900" />
               </button>
             </div>
 
@@ -66,7 +66,7 @@ export function SkippedQuestionsPanel({
                           <span className="text-xs font-bold uppercase tracking-widest text-secondary">
                             Q{item.index + 1}
                           </span>
-                          <span className="text-xs font-medium text-navy/80 line-clamp-2">
+                          <span className="text-xs font-medium text-slate-700 line-clamp-2">
                             {item.question}
                           </span>
                         </div>
@@ -86,14 +86,14 @@ export function SkippedQuestionsPanel({
                 </div>
               ) : (
                 <div className="p-8 text-center">
-                  <p className="text-sm text-navy/60">No skipped questions</p>
+                  <p className="text-sm text-slate-500">No skipped questions</p>
                 </div>
               )}
             </div>
 
             {/* Footer */}
             <div className="border-t border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs font-bold text-navy/70 uppercase tracking-widest">
+              <p className="text-xs font-bold text-slate-600 uppercase tracking-widest">
                 {skippedQuestions.length} Question{skippedQuestions.length !== 1 ? 's' : ''} Skipped
               </p>
             </div>

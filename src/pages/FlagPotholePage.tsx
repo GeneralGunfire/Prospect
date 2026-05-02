@@ -156,7 +156,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
           <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="w-8 h-8 text-blue-500" />
           </div>
-          <h2 className="text-xl font-black text-navy mb-2">Report Submitted!</h2>
+          <h2 className="text-xl font-black text-slate-900 mb-2">Report Submitted!</h2>
           <p className="text-slate-500 text-sm">
             Thank you! Your report has been submitted. Redirecting to the map…
           </p>
@@ -179,7 +179,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
 
         <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8">
           <div className="mb-6">
-            <h1 className="text-2xl font-black text-navy mb-1">Report a Pothole</h1>
+            <h1 className="text-2xl font-black text-slate-900 mb-1">Report a Pothole</h1>
             <p className="text-slate-500 text-sm">
               Help improve SA roads by reporting potholes in your area.
             </p>

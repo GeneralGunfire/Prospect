@@ -89,9 +89,9 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
     setDisplayCount(25); // Reset to initial display count
   };
 
-  const handleCareerClick = (career: CareerFull) => {
+  const handleCareerClick = async (career: CareerFull) => {
     setSelectedCareer(career);
-    const related = findSimilarCareers(career.id, allCareersComplete);
+    const related = await findSimilarCareers(career.id, allCareersComplete);
     setRelatedCareers(related);
     setShowDetailModal(true);
   };
@@ -119,9 +119,9 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
     }
   };
 
-  const handleSelectRelatedCareer = (career: CareerFull) => {
+  const handleSelectRelatedCareer = async (career: CareerFull) => {
     setSelectedCareer(career);
-    const related = findSimilarCareers(career.id, allCareersComplete);
+    const related = await findSimilarCareers(career.id, allCareersComplete);
     setRelatedCareers(related);
   };
 

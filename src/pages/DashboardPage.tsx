@@ -15,7 +15,7 @@ import { studyProgressStorage, learningPathStorage } from '../services/storageSe
 import { algebraLearningPath } from '../data/demoLearningPath';
 import { getUserQuestions, deleteQuestion, type UnansweredQuestion } from '../services/unansweredQuestionService';
 import { getUserBookmarks, removeBookmark, type BookmarkState } from '../services/bookmarkService';
-import { getAPSMarks, getQuizResults } from '../services/dashboardService';
+import { getQuizResults } from '../services/dashboardService';
 import { careers } from '../data/careers';
 import { bursaries } from '../data/bursaries';
 
@@ -142,12 +142,10 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
   }, [algebraPath]);
 
   // APS + RIASEC
-  const [apsScore, setApsScore] = useState<number | null>(null);
   const [riasecType, setRiasecType] = useState<string | null>(null);
 
   useEffect(() => {
     if (user.id === 'guest') return;
-    getAPSMarks(user.id).then(data => { if (data?.calculated_aps) setApsScore(data.calculated_aps); });
     getQuizResults(user.id).then(data => { if (data?.top_codes?.length) setRiasecType(data.top_codes.slice(0, 2).join('')); });
   }, [user.id]);
 

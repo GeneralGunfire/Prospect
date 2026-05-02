@@ -58,7 +58,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
           onClick={() => setActiveSubtab('universities')}
           className={`px-4 py-3 font-semibold text-sm transition ${
             activeSubtab === 'universities'
-              ? 'border-b-2 border-prospect-green text-prospect-green'
+              ? 'border-b-2 border-slate-900 text-slate-900'
               : 'text-slate-600 hover:text-slate-900'
           }`}
           style={{
@@ -72,7 +72,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
           onClick={() => setActiveSubtab('tvet')}
           className={`px-4 py-3 font-semibold text-sm transition ${
             activeSubtab === 'tvet'
-              ? 'border-b-2 border-prospect-green text-prospect-green'
+              ? 'border-b-2 border-slate-900 text-slate-900'
               : 'text-slate-600 hover:text-slate-900'
           }`}
           style={{
@@ -97,11 +97,11 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ delay: idx * 0.05 }}
-                className="bg-white border-2 border-slate-100 rounded-2xl p-4 hover:border-prospect-green hover:shadow-lg transition group cursor-pointer"
+                className="bg-white border-2 border-slate-100 rounded-2xl p-4 hover:border-slate-900 hover:shadow-lg transition group cursor-pointer"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-slate-900 group-hover:text-prospect-green transition line-clamp-2">
+                    <h4 className="font-semibold text-slate-900 group-hover:text-slate-900 transition line-clamp-2">
                       {college.name}
                     </h4>
                     <div className="flex items-center gap-2 mt-2 text-sm text-slate-600">
@@ -117,7 +117,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-lg bg-slate-100 hover:bg-prospect-green hover:text-white transition flex-shrink-0"
+                    className="p-2 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-white transition shrink-0"
                   >
                     <ExternalLink size={16} />
                   </motion.a>

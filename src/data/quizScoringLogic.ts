@@ -748,8 +748,13 @@ function generateProfileDescription(topCodes: string[]): string {
 export function computeQuizResults(
   answers: { questionId: string; value: number }[]
 ): QuizResults {
-  // 1. Sum raw scores per code
+  // 1. Sum raw scores per code and count questions per code
   const rawScores: RIASECScores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+  const questionCount: RIASECScores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+
+  // Count total questions per code from the question bank (not just answered ones)
+  quizQuestions.forEach((q) => { questionCount[q.riasecCode] += 1; });
+
   answers.forEach(({ questionId, value }) => {
     const question = quizQuestions.find((q) => q.id === questionId);
     if (question) {
@@ -757,15 +762,15 @@ export function computeQuizResults(
     }
   });
 
-  // 2. Convert to percentages (10 questions × 5 = 50 max per code)
-  const MAX_SCORE = 50;
+  // 2. Normalise to percentages using per-code max (questions × 5)
+  // This handles unequal question counts per type gracefully.
+  const pct = (code: keyof RIASECScores) => {
+    const max = (questionCount[code] || 1) * 5;
+    return Math.round((rawScores[code] / max) * 100);
+  };
   const percentages: RIASECScores = {
-    R: Math.round((rawScores.R / MAX_SCORE) * 100),
-    I: Math.round((rawScores.I / MAX_SCORE) * 100),
-    A: Math.round((rawScores.A / MAX_SCORE) * 100),
-    S: Math.round((rawScores.S / MAX_SCORE) * 100),
-    E: Math.round((rawScores.E / MAX_SCORE) * 100),
-    C: Math.round((rawScores.C / MAX_SCORE) * 100),
+    R: pct('R'), I: pct('I'), A: pct('A'),
+    S: pct('S'), E: pct('E'), C: pct('C'),
   };
 
   // 3. Identify top 3 codes

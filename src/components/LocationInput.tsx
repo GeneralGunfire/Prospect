@@ -160,7 +160,7 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
       >
         <div className="relative">
           <div className="relative flex items-center">
-            <MapPin className="absolute left-4 text-prospect-green pointer-events-none" size={20} />
+            <MapPin className="absolute left-4 text-slate-900 pointer-events-none" size={20} />
             <input
               ref={inputRef}
               type="text"
@@ -168,11 +168,11 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
               onChange={(e) => setInput(e.target.value)}
               onFocus={() => input && setShowSuggestions(true)}
               placeholder="Enter your location (e.g., Johannesburg)"
-              className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-prospect-green transition"
+              className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-slate-900 transition"
               disabled={isLoading || geoLoading}
             />
-            {success && <Check className="absolute right-4 text-prospect-green" size={20} />}
-            {geoLoading && <Loader className="absolute right-4 text-prospect-green animate-spin" size={20} />}
+            {success && <Check className="absolute right-4 text-slate-900" size={20} />}
+            {geoLoading && <Loader className="absolute right-4 text-slate-900 animate-spin" size={20} />}
           </div>
 
           {/* Autocomplete Dropdown */}

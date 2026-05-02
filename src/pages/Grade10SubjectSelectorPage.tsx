@@ -62,7 +62,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
             <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Subject Selection</span>
           </div>
           <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900">
-            Explore Careers by <span className="text-prospect-green">Subject</span>
+            Explore Careers by <span className="text-slate-900">Subject</span>
           </h1>
           <p className="text-sm mt-2 text-slate-500">
             Select your Grade 10 subjects to see matching career paths and university requirements
@@ -95,7 +95,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                       )}
                     </div>
                     <span
-                      className="text-sm font-medium transition-colors group-hover:text-prospect-green flex-1 text-slate-900"
+                      className="text-sm font-medium transition-colors group-hover:text-slate-900 flex-1 text-slate-900"
                     >
                       {subject}
                     </span>
@@ -177,10 +177,10 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                           onClick={() => onNavigate('careers' as any)}
                         >
                           <div className="flex items-start justify-between mb-3">
-                            <h4 className="text-sm font-bold flex-1 group-hover:text-prospect-green transition-colors text-slate-900">
+                            <h4 className="text-sm font-bold flex-1 group-hover:text-slate-900 transition-colors text-slate-900">
                               {career.name}
                             </h4>
-                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-prospect-green transition-colors ml-2" />
+                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-900 transition-colors ml-2" />
                           </div>
                           <p className="text-xs font-bold uppercase tracking-widest mb-4 text-slate-500">
                             {career.sector || 'Professional'}
@@ -274,10 +274,10 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                           onClick={() => onNavigate('tvet-careers' as any)}
                         >
                           <div className="flex items-start justify-between mb-3">
-                            <h4 className="text-sm font-bold flex-1 group-hover:text-prospect-green transition-colors text-slate-900">
+                            <h4 className="text-sm font-bold flex-1 group-hover:text-slate-900 transition-colors text-slate-900">
                               {career.name}
                             </h4>
-                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-prospect-green transition-colors ml-2" />
+                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-900 transition-colors ml-2" />
                           </div>
                           <p className="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500">
                             {career.duration} • {career.jobDemand} Demand

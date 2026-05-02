@@ -130,7 +130,7 @@ function MyContributionsPageComponent({ user, onNavigate }: MyContributionsPageP
 
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-black text-navy">My Contributions</h1>
+            <h1 className="text-2xl font-black text-slate-900">My Contributions</h1>
             <p className="text-sm text-slate-500 mt-1">Potholes you've reported and flagged</p>
           </div>
           <div className="flex gap-2">

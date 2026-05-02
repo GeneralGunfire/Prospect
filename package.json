@@ -12,7 +12,9 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "scrape:water": "tsx lib/scrapers/water-scraper-manager.ts",
+    "scrape:water:local": "tsx --env-file=.env.local lib/scrapers/water-scraper-manager.ts"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
@@ -25,6 +27,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@types/leaflet": "^1.9.21",
     "@vitejs/plugin-react": "^5.0.4",
+    "cheerio": "^1.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

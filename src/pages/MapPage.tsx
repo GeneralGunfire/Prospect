@@ -12,7 +12,7 @@ import InsightsTab from '../components/InsightsTab';
 import AppHeader from '../components/AppHeader';
 import { CareerDetailModal } from '../components/CareerDetailModal';
 import type { CareerFull } from '../data/careersTypes';
-import { getCareersByProvince, getUniversitiesByProvince, getTVETCollegesByProvince, createCareerMarkers, createUniversityMarkers, createTVETMarkers } from '../services/mapService';
+import { getUniversitiesByProvince, getTVETCollegesByProvince, createUniversityMarkers, createTVETMarkers } from '../services/mapService';
 import { PROVINCES } from '../data/mapData';
 
 interface MapPageProps extends AuthedProps {}
@@ -57,14 +57,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
 
     let markers = [];
 
-    if (activeTab === 'careers') {
-      try {
-        const careers = getCareersByProvince(province);
-        markers = createCareerMarkers(careers.slice(0, 20));
-      } catch (e) {
-        console.error('Error getting career markers:', e);
-      }
-    } else if (activeTab === 'colleges') {
+    if (activeTab === 'colleges') {
       try {
         const unis = getUniversitiesByProvince(province);
         const tvet = getTVETCollegesByProvince(province);
@@ -102,11 +95,11 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 transition={{ delay: 0.1 }}
                 className="mb-8"
               >
-                <div className="w-14 h-14 rounded-2xl bg-prospect-green flex items-center justify-center mx-auto mb-6 shadow-md">
+                <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center mx-auto mb-6 shadow-md">
                   <MapIcon size={26} className="text-white" />
                 </div>
                 <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Explore SA</p>
-                <h1 className="text-3xl lg:text-4xl font-black text-navy mb-3" style={{ letterSpacing: '-0.015em' }}>
+                <h1 className="text-3xl lg:text-4xl font-black text-slate-900 mb-3" style={{ letterSpacing: '-0.015em' }}>
                   Job Market Map
                 </h1>
                 <p className="text-sm text-secondary leading-relaxed">
@@ -127,10 +120,10 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.45 }}
-                className="mt-5 p-4 rounded-xl flex items-center gap-3 bg-prospect-green/5 border border-prospect-green/10"
+                className="mt-5 p-4 rounded-xl flex items-center gap-3 bg-slate-900/5 border border-slate-200"
               >
-                <MapPin size={16} className="text-prospect-green shrink-0" />
-                <p className="text-xs text-prospect-green font-medium text-left">
+                <MapPin size={16} className="text-slate-900 shrink-0" />
+                <p className="text-xs text-slate-900 font-medium text-left">
                   Enter your location to see careers, colleges, and job market insights for your area.
                 </p>
               </motion.div>
@@ -153,11 +146,11 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 className="mb-6 pb-5 border-b border-slate-100 flex items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-prospect-green flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
                     <MapPin size={18} className="text-white" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-black text-navy leading-tight" style={{ letterSpacing: '-0.01em' }}>
+                    <h2 className="text-xl font-black text-slate-900 leading-tight" style={{ letterSpacing: '-0.01em' }}>
                       {userLocation?.label || 'Unknown'}
                     </h2>
                     <p className="text-xs font-bold uppercase tracking-widest text-secondary">
@@ -168,7 +161,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 <motion.button
                   onClick={handleBackClick}
                   whileHover={{ x: -2 }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-navy hover:bg-prospect-blue-accent shrink-0"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-slate-900 hover:bg-slate-700 shrink-0"
                 >
                   <ChevronLeft size={14} />
                   Change
@@ -307,7 +300,6 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
           isOpen={showCareerModal}
           onClose={() => setShowCareerModal(false)}
           onNavigate={onNavigate}
-          allCareers={getCareersByProvince(province)}
         />
       )}
     </div>

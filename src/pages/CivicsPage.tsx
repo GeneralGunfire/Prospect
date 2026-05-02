@@ -74,16 +74,16 @@ const CATEGORY_CONFIG: Record<string, { icon: React.ReactNode; color: string; bg
   },
   Finance: {
     icon: <Landmark className="w-5 h-5" />,
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
+    color: 'text-green-600',
+    bg: 'bg-green-50',
+    border: 'border-green-200',
     desc: 'NSFAS, SASSA grants, UIF, tax returns, banking',
   },
   Education: {
     icon: <GraduationCap className="w-5 h-5" />,
-    color: 'text-violet-600',
-    bg: 'bg-violet-50',
-    border: 'border-violet-200',
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
     desc: 'Student rights, funding, school enrolment',
   },
   Employment: {
@@ -96,7 +96,7 @@ const CATEGORY_CONFIG: Record<string, { icon: React.ReactNode; color: string; bg
 };
 
 const DIFFICULTY_COLOR: Record<string, string> = {
-  Easy: 'bg-emerald-100 text-emerald-700',
+  Easy: 'bg-green-100 text-green-700',
   Medium: 'bg-amber-100 text-amber-700',
   Hard: 'bg-red-100 text-red-700',
 };
@@ -411,8 +411,8 @@ function BrowseView({ procedures, initialCategory, onSelect, onBack }: {
                   <p className="text-xs text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">{p.overview}</p>
                   <div className="flex flex-wrap items-center gap-2 mt-2">
                     <span className={`text-xs font-black px-1.5 py-0.5 rounded-md ${DIFFICULTY_COLOR[p.difficulty]}`}>{p.difficulty}</span>
-                    <span className="text-xs text-slate-400 flex items-center gap-0.5"><Clock className="w-2.5 h-2.5" />{p.time_to_complete}</span>
-                    <span className="text-xs text-slate-400 flex items-center gap-0.5"><Banknote className="w-2.5 h-2.5" />{p.cost}</span>
+                    <span className="text-xs text-slate-500 flex items-center gap-0.5"><Clock className="w-2.5 h-2.5" />{p.time_to_complete}</span>
+                    <span className="text-xs text-slate-500 flex items-center gap-0.5"><Banknote className="w-2.5 h-2.5" />{p.cost}</span>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-slate-300 shrink-0 mt-1" />
@@ -466,7 +466,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
         ].map(({ icon, label, value, extra }) => (
           <div key={label} className="bg-white border border-slate-200 rounded-xl p-3 text-center">
             <div className="flex justify-center text-slate-400 mb-1">{icon}</div>
-            <p className="text-xs text-slate-500 uppercase tracking-wide">{label}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</p>
             <p className={`text-xs font-black mt-0.5 ${extra ? '' : 'text-slate-900'}`}>
               {extra ? <span className={`px-1.5 py-0.5 rounded-md ${extra}`}>{value}</span> : value}
             </p>
@@ -529,7 +529,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
                           <ul className="space-y-1">
                             {step.tips.map((tip, j) => (
                               <li key={j} className="flex gap-2 text-xs text-slate-600">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                                <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0 mt-0.5" />
                                 {tip}
                               </li>
                             ))}
@@ -707,7 +707,7 @@ function CivicsPage({ user, onNavigate }: AuthedProps) {
             <Building2 className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="font-black text-2xl text-slate-900 uppercase tracking-wide">Civics Guide</h1>
+            <h1 className="font-black text-2xl text-slate-900 uppercase tracking-tight">Civics Guide</h1>
             <p className="text-xs text-slate-500">Government procedures · Know your rights</p>
           </div>
         </motion.div>

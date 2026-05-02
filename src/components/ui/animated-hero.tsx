@@ -28,9 +28,9 @@ function TypingText() {
   }, [displayed, deleting, index]);
 
   return (
-    <span className="text-prospect-blue-accent">
+    <span className="text-slate-700">
       {displayed}
-      <span className="inline-block w-0.5 h-[0.85em] bg-prospect-blue-accent ml-0.5 align-middle animate-pulse" />
+      <span className="inline-block w-0.5 h-[0.85em] bg-slate-700 ml-0.5 align-middle animate-pulse" />
     </span>
   );
 }

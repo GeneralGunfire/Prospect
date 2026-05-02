@@ -52,12 +52,12 @@ const CalendarPageNew    = lazy(() => import('./pages/CalendarPageNew'));
 const SchoolAssistPage   = lazy(() => import('./pages/SchoolAssistPage'));
 const ImpactAuthPage     = lazy(() => import('./pages/ImpactAuthPage'));
 const LinearEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/LinearEquations'));
+const SimultaneousEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/SimultaneousEquations'));
 const CommunityImpactPage = lazy(() => import('./pages/CommunityImpactPage'));
 const PotholeMapPage     = lazy(() => import('./pages/PotholeMapPage'));
 const FlagPotholePage    = lazy(() => import('./pages/FlagPotholePage'));
 const MyContributionsPage = lazy(() => import('./pages/MyContributionsPage'));
 const WaterDashboardPage = lazy(() => import('./pages/WaterDashboardPage'));
-const APSCalculatorPage  = lazy(() => import('./pages/APSCalculatorPage'));
 const SchoolAssistChatPage = lazy(() => import('./pages/SchoolAssistChatPage'));
 // NewsPage removed — SA News feature discontinued
 const TaxBudgetPage      = lazy(() => import('./pages/TaxBudgetPage'));
@@ -333,12 +333,15 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-3">What We Offer</p>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">What We Offer</p>
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter mb-4">
             Everything you need to thrive.
           </h2>
+          <p className="text-slate-500 text-base leading-relaxed max-w-lg mx-auto">
+            Three pillars built for South African students — no registration needed to start.
+          </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-6">
@@ -349,26 +352,23 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -4 }}
               onClick={() => onNavigate(f.page)}
-              className="group flex flex-col items-center text-center bg-white border border-slate-200 rounded-2xl p-8 cursor-pointer hover:shadow-xl hover:border-slate-300 transition-all duration-300 relative overflow-hidden"
+              className="group flex flex-col items-start text-left bg-white border border-slate-200 rounded-2xl p-8 cursor-pointer hover:shadow-lg hover:border-slate-300 transition-all duration-300"
             >
-              {/* Top accent line */}
-              <div className="absolute top-0 left-0 right-0 h-0.5 bg-slate-900 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-t-2xl" />
-
-              <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center mb-5 group-hover:bg-slate-100 transition-colors">
-                {f.icon}
+              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mb-6 group-hover:bg-slate-900 transition-colors duration-300">
+                <span className="text-slate-600 group-hover:text-white transition-colors duration-300">{f.icon}</span>
               </div>
 
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-900 mb-3">
+              <h3 className="text-lg font-bold text-slate-900 mb-2 tracking-tight">
                 {f.title}
               </h3>
 
-              <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-6">
+              <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-6 max-w-[34ch]">
                 {f.description}
               </p>
 
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5">
                 {f.cta}
                 <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </span>
@@ -435,15 +435,18 @@ const LampSection = () => {
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
         >
           {/* Mandela quote */}
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-500 mb-6">
-            Nelson Mandela
-          </p>
-          <blockquote className="text-2xl md:text-4xl font-black text-white tracking-tight leading-tight mb-6"
-            style={{ letterSpacing: '-0.02em' }}>
+          <blockquote className="text-2xl md:text-4xl font-black text-white leading-tight mb-8"
+            style={{ letterSpacing: '-0.025em', lineHeight: 1.15 }}>
             "Education is the most powerful weapon which you can use to change the world."
           </blockquote>
-          <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
-            Arm yourself with the knowledge and tools to empower yourself through life.
+          <footer className="flex flex-col items-center gap-1 mb-8">
+            <div className="w-8 h-px bg-slate-600 mb-3" />
+            <cite className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 not-italic">
+              Nelson Mandela
+            </cite>
+          </footer>
+          <p className="text-slate-400 text-base leading-relaxed max-w-md mx-auto">
+            Arm yourself with the knowledge to shape your own future.
           </p>
         </motion.div>
       </div>
@@ -474,7 +477,7 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
           className="mb-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
         >
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-3">No sign-in required</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">No sign-in required</p>
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter">Career Guide</h2>
             <p className="text-slate-500 text-lg leading-relaxed mt-4 max-w-lg">
               Discover the right career path, understand how to get there, and find the funding to make it happen.
@@ -530,9 +533,10 @@ const HowItWorks = () => {
     <section className="py-16 bg-slate-50 sm:py-20 border-b border-slate-100">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">The Process</p>
           <h2 className="text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">How does it work?</h2>
-          <p className="max-w-lg mx-auto mt-4 text-sm text-slate-500 leading-relaxed">
-            From discovering your ideal career to securing funding and acing your exams — Prospect guides you every step of the way.
+          <p className="max-w-md mx-auto mt-4 text-sm text-slate-500 leading-relaxed">
+            From career discovery to funding and exam prep — three steps, one platform.
           </p>
         </div>
 
@@ -584,10 +588,10 @@ const DiscoveryGrid = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-3">Career Library</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">Career Library</p>
           <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter">Explore Top SA Careers</h2>
-          <p className="text-slate-500 text-base mt-4 max-w-xl mx-auto">
-            Learn about salary ranges, job demand, and entry requirements for South Africa's most popular career paths.
+          <p className="text-slate-500 text-base mt-4 max-w-md mx-auto leading-relaxed">
+            Salary ranges, job demand by province, and entry requirements for the careers South Africa needs most.
           </p>
         </motion.div>
 
@@ -614,8 +618,8 @@ const DiscoveryGrid = () => {
               </picture>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="font-black text-sm lg:text-base leading-tight uppercase tracking-wide">{item.title}</h3>
-                <p className="text-white/70 text-xs mt-1.5 leading-snug hidden sm:block">{item.description}</p>
+                <h3 className="font-black text-sm lg:text-base leading-tight tracking-tight">{item.title}</h3>
+                <p className="text-white/60 text-xs mt-1 leading-snug hidden sm:block">{item.description}</p>
               </div>
             </motion.div>
           ))}
@@ -665,8 +669,8 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
               <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-xl shadow-sm">P</div>
               <span className="text-2xl font-black text-slate-900 tracking-tight">Prospect</span>
             </div>
-            <p className="text-slate-500 text-sm leading-relaxed max-w-sm mb-8">
-              Prospect is South Africa's leading free platform for career discovery and independent learning. We help students navigate their future with data-driven guidance and curriculum-aligned resources.
+            <p className="text-slate-500 text-sm leading-relaxed max-w-[32ch] mb-8">
+              South Africa's free platform for career discovery, matric study resources, and civic guidance — built for students, by South Africans.
             </p>
             <div className="flex gap-4">
               {[{ icon: <Facebook size={18} />, label: 'Facebook' }, { icon: <Instagram size={18} />, label: 'Instagram' }, { icon: <Twitter size={18} />, label: 'Twitter' }].map((social, i) => (
@@ -803,9 +807,9 @@ export default function App() {
               {page === 'calendar' && <PageTransition pageKey="calendar"><CalendarPageNew {...protectedPageProps} /></PageTransition>}
               {page === 'school-assist' && <PageTransition pageKey="school-assist"><SchoolAssistPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'school-assist-chat' && <PageTransition pageKey="school-assist-chat"><SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
-              {page === 'aps-calculator' && <PageTransition pageKey="aps-calculator"><APSCalculatorPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'impact-auth' && <PageTransition pageKey="impact-auth"><ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-linear-equations' && <PageTransition pageKey="learning-algebra-g10-t1-linear-equations"><LinearEquationsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-algebra-g10-t1-simultaneous' && <PageTransition pageKey="learning-algebra-g10-t1-simultaneous"><SimultaneousEquationsPage {...protectedPageProps} /></PageTransition>}
               {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...careerPageProps} /></PageTransition>}
               {page === 'pothole-map' && <PageTransition pageKey="pothole-map"><PotholeMapPage {...careerPageProps} /></PageTransition>}
               {page === 'flag-pothole' && <PageTransition pageKey="flag-pothole"><FlagPotholePage {...protectedPageProps} /></PageTransition>}

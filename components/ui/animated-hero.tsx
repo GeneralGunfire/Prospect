@@ -117,7 +117,10 @@ function Hero({ onNavigate }: HeroProps) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex justify-center mb-8"
           >
-
+            <span className="inline-flex items-center gap-2 border border-slate-200 rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 bg-white/70 backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+              Free for South African Students
+            </span>
           </motion.div>
 
           {/* Heading */}
@@ -125,7 +128,7 @@ function Hero({ onNavigate }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl sm:text-7xl md:text-8xl font-black mb-8 tracking-tighter text-slate-900"
+            className="text-5xl sm:text-7xl md:text-8xl font-black mb-6 text-slate-900"
             style={{ lineHeight: 1.05, letterSpacing: "-0.03em" }}
           >
             Know your{" "}
@@ -137,8 +140,11 @@ function Hero({ onNavigate }: HeroProps) {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.55 }}
-            className="max-w-2xl mx-auto mb-10"
+            className="max-w-xl mx-auto mb-10"
           >
+            <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
+              Career discovery, matric study tools, bursary finder, and civic guides — everything a Grade 10–12 student needs in one place.
+            </p>
           </motion.div>
 
           {/* CTAs */}

@@ -39,7 +39,7 @@ const LIVING_SITUATIONS = [
 // ── Tax calculation ────────────────────────────────────────────────────────────
 
 function calculateAnnualTax(annualIncome: number): number {
-  const bracket = TAX_BRACKETS_2026.findLast(b => annualIncome > b.min) ?? TAX_BRACKETS_2026[0];
+  const bracket = [...TAX_BRACKETS_2026].reverse().find(b => annualIncome > b.min) ?? TAX_BRACKETS_2026[0];
   const tax = bracket.base + (annualIncome - bracket.min) * (bracket.rate / 100);
   return Math.max(0, tax - PRIMARY_REBATE);
 }

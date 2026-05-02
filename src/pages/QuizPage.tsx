@@ -110,7 +110,7 @@ function QuizPhase({
           <div className="mb-12">
           <div className="flex justify-between items-end mb-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-black text-navy uppercase tracking-tight mb-1">Career Quiz</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight mb-1">Career Quiz</h1>
               <p className="text-secondary text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
             </div>
             <div className="flex items-center gap-4">
@@ -126,7 +126,7 @@ function QuizPhase({
                 </motion.button>
               )}
               <div className="text-right">
-                <span className="text-navy font-bold text-lg">{currentQuestionIndex + 1}</span>
+                <span className="text-slate-900 font-bold text-lg">{currentQuestionIndex + 1}</span>
                 <span className="text-secondary text-xs font-medium"> / {quizQuestions.length}</span>
               </div>
             </div>
@@ -135,7 +135,7 @@ function QuizPhase({
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              className="h-full bg-prospect-blue-accent"
+              className="h-full bg-slate-700"
             />
           </div>
         </div>
@@ -153,7 +153,7 @@ function QuizPhase({
               transition={{ duration: 0.3 }}
               className="min-h-30 flex flex-col justify-center"
             >
-              <h2 className="text-xl md:text-2xl font-semibold text-navy leading-tight text-center">
+              <h2 className="text-xl md:text-2xl font-medium text-slate-800 leading-tight text-center">
                 {currentQuestion.question}
               </h2>
             </motion.div>
@@ -167,7 +167,7 @@ function QuizPhase({
                 <button
                   key={option.value}
                   onClick={() => handleAnswer(option.value)}
-                  className={`group flex flex-col items-center gap-2.5 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-prospect-blue-accent rounded-2xl p-1 ${
+                  className={`group flex flex-col items-center gap-2.5 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-700 rounded-2xl p-1 ${
                     isSelected ? 'scale-105' : 'opacity-55 hover:opacity-90 hover:scale-102'
                   }`}
                 >
@@ -185,7 +185,7 @@ function QuizPhase({
                   </div>
                   <span
                     className={`text-xs font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
-                      isSelected ? 'text-navy' : 'text-slate-400'
+                      isSelected ? 'text-slate-900' : 'text-slate-400'
                     }`}
                   >
                     {option.label}
@@ -201,7 +201,7 @@ function QuizPhase({
           <button
             onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
             disabled={currentQuestionIndex === 0}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-slate-900 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous
@@ -210,7 +210,7 @@ function QuizPhase({
           {/* Skip Button */}
           <button
             onClick={handleSkip}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-prospect-blue-accent hover:bg-prospect-blue-accent/10 transition-all border border-prospect-blue-accent/30"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-slate-700 hover:bg-slate-700/10 transition-all border border-slate-300"
           >
             <SkipForward className="w-4 h-4" />
             Skip
@@ -220,7 +220,7 @@ function QuizPhase({
             <button
               onClick={handleFinish}
               disabled={answers.length === 0}
-              className="bg-prospect-green text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
+              className="bg-slate-900 text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
             >
               Finish Quiz
             </button>
@@ -228,7 +228,7 @@ function QuizPhase({
             <button
               onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
               disabled={!currentAnswer}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-navy hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-slate-900 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Next
               <ChevronRight className="w-4 h-4" />
@@ -278,10 +278,10 @@ function QuizPhase({
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/20 rounded-full mb-6">
                   <SkipForward className="w-8 h-8 text-secondary" />
                 </div>
-                <h2 className="text-2xl font-bold text-navy mb-2 uppercase tracking-tight">
+                <h2 className="text-2xl font-bold text-slate-900 mb-2 uppercase tracking-tight">
                   Skipped Questions
                 </h2>
-                <p className="text-sm text-navy/70">
+                <p className="text-sm text-slate-900/70">
                   You skipped <span className="font-bold">{skippedQuestions.length}</span> question{skippedQuestions.length !== 1 ? 's' : ''}. Go back and answer them now?
                 </p>
               </div>
@@ -297,7 +297,7 @@ function QuizPhase({
                 </button>
                 <button
                   onClick={handleConfirmFinish}
-                  className="w-full bg-slate-100 text-navy px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
+                  className="w-full bg-slate-100 text-slate-900 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
                 >
                   View Results
                 </button>
@@ -333,7 +333,7 @@ async function saveQuizResultsToSupabase(results: QuizResults, userId: string) {
 
     await saveQuizResults(
       userId,
-      results.percentages, // RIASEC scores
+      results.percentages as Record<string, number>, // RIASEC scores
       topCareerId, // Top 15 career IDs
       undefined, // APS score (not available from quiz)
       undefined, // Matric subjects (not available from quiz)
@@ -376,7 +376,7 @@ function ResultsPhase({
 
   const compatibilityColor = (score: number) => {
     if (score >= 80) return 'bg-green-600 text-white';
-    if (score >= 60) return 'bg-yellow-400 text-navy';
+    if (score >= 60) return 'bg-yellow-400 text-slate-900';
     return 'bg-blue-400 text-white';
   };
 
@@ -417,10 +417,10 @@ function ResultsPhase({
             <Star className="w-4 h-4 text-secondary fill-secondary" />
             <span className="text-xs font-bold text-secondary uppercase tracking-widest">Assessment Complete</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-navy mb-4 uppercase tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tight">
             Your RIASEC Profile
           </h1>
-          <p className="text-base text-navy/70 mb-8 max-w-3xl">
+          <p className="text-base text-slate-900/70 mb-8 max-w-3xl">
             {results.profileDescription}
           </p>
         </motion.div>
@@ -432,7 +432,7 @@ function ResultsPhase({
           transition={{ delay: 0.1 }}
           className="bg-white border border-slate-100 rounded-3xl p-8 md:p-12 shadow-sm mb-20"
         >
-          <h3 className="text-xs font-bold text-navy uppercase tracking-[0.2em] mb-12">Your Scores Across All Dimensions</h3>
+          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em] mb-12">Your Scores Across All Dimensions</h3>
           <div className="space-y-8">
             {Object.entries(results.percentages)
               .sort(([, a], [, b]) => b - a)
@@ -463,11 +463,11 @@ function ResultsPhase({
                         >
                           {code}
                         </span>
-                        <span className={`text-sm font-bold uppercase ${isTop3 ? 'text-navy' : 'text-navy/60'}`}>
+                        <span className={`text-sm font-bold uppercase ${isTop3 ? 'text-slate-900' : 'text-slate-900/60'}`}>
                           {codeLabel}
                         </span>
                       </div>
-                      <span className={`text-sm font-bold ${isTop3 ? 'text-secondary' : 'text-navy/60'}`}>
+                      <span className={`text-sm font-bold ${isTop3 ? 'text-secondary' : 'text-slate-900/60'}`}>
                         {score}%
                       </span>
                     </div>
@@ -488,8 +488,8 @@ function ResultsPhase({
         {/* Section 3: Top 15 Careers */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mb-20">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-black text-navy uppercase tracking-tight mb-2">Your Best Career Matches</h2>
-            <p className="text-navy/70 text-sm">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Your Best Career Matches</h2>
+            <p className="text-slate-900/70 text-sm">
               Ranked by compatibility with your profile ({results.topCodes.join(', ')})
             </p>
           </div>
@@ -506,8 +506,8 @@ function ResultsPhase({
                 {/* Compatibility Badge */}
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-bold text-navy mb-1">{career.title}</h3>
-                    <span className="inline-block text-xs font-bold bg-navy/10 text-navy px-2 py-1 rounded">
+                    <h3 className="text-lg font-bold text-slate-900 mb-1">{career.title}</h3>
+                    <span className="inline-block text-xs font-bold bg-slate-900/10 text-slate-900 px-2 py-1 rounded">
                       {career.category}
                     </span>
                   </div>
@@ -517,20 +517,20 @@ function ResultsPhase({
                 </div>
 
                 {/* Why It Fits */}
-                <p className="text-sm text-navy/70 mb-4 line-clamp-2">{career.whyItFits}</p>
+                <p className="text-sm text-slate-900/70 mb-4 line-clamp-2">{career.whyItFits}</p>
 
                 {/* Job Demand & Path */}
                 <div className="space-y-3 mb-4 pb-4 border-t border-slate-100">
                   <div className="flex justify-between text-xs">
-                    <span className="text-navy/60">Job Demand:</span>
-                    <span className="font-bold text-navy">{career.jobDemand}</span>
+                    <span className="text-slate-900/60">Job Demand:</span>
+                    <span className="font-bold text-slate-900">{career.jobDemand}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-navy/60">Path:</span>
-                    <span className="font-bold text-navy">{career.educationPath} ({career.studyYears})</span>
+                    <span className="text-slate-900/60">Path:</span>
+                    <span className="font-bold text-slate-900">{career.educationPath} ({career.studyYears})</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-navy/60">Salary:</span>
+                    <span className="text-slate-900/60">Salary:</span>
                     <span className="font-bold text-secondary">{career.salaryRange}</span>
                   </div>
                 </div>
@@ -538,7 +538,7 @@ function ResultsPhase({
                 {/* View Details Button */}
                 <button
                   onClick={() => onNavigate('careers')}
-                  className="w-full py-2 text-sm font-bold text-navy bg-navy/5 hover:bg-navy/10 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2 text-sm font-bold text-slate-900 bg-slate-900/5 hover:bg-slate-900/10 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   View Details <ArrowRight className="w-4 h-4" />
                 </button>
@@ -550,8 +550,8 @@ function ResultsPhase({
         {/* Section 4: Subject Recommendations */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mb-20">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-black text-navy uppercase tracking-tight mb-2">Subjects to Focus On</h2>
-            <p className="text-navy/70 text-sm">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Subjects to Focus On</h2>
+            <p className="text-slate-900/70 text-sm">
               These subjects will prepare you best for your matched careers
             </p>
           </div>
@@ -567,8 +567,8 @@ function ResultsPhase({
                 <ul className="space-y-3">
                   {subjectsByImportance.Essential.map((sub) => (
                     <li key={sub.subject} className="text-sm">
-                      <p className="font-bold text-navy mb-1">{sub.subject}</p>
-                      <p className="text-xs text-navy/60">{sub.reason}</p>
+                      <p className="font-bold text-slate-900 mb-1">{sub.subject}</p>
+                      <p className="text-xs text-slate-900/60">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -585,8 +585,8 @@ function ResultsPhase({
                 <ul className="space-y-3">
                   {subjectsByImportance.Recommended.map((sub) => (
                     <li key={sub.subject} className="text-sm">
-                      <p className="font-bold text-navy mb-1">{sub.subject}</p>
-                      <p className="text-xs text-navy/60">{sub.reason}</p>
+                      <p className="font-bold text-slate-900 mb-1">{sub.subject}</p>
+                      <p className="text-xs text-slate-900/60">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -603,8 +603,8 @@ function ResultsPhase({
                 <ul className="space-y-3">
                   {subjectsByImportance.Useful.map((sub) => (
                     <li key={sub.subject} className="text-sm">
-                      <p className="font-bold text-navy mb-1">{sub.subject}</p>
-                      <p className="text-xs text-navy/60">{sub.reason}</p>
+                      <p className="font-bold text-slate-900 mb-1">{sub.subject}</p>
+                      <p className="text-xs text-slate-900/60">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -615,7 +615,7 @@ function ResultsPhase({
 
         {/* Section 5: Next Steps */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mb-20">
-          <h2 className="text-3xl md:text-4xl font-black text-navy uppercase tracking-tight mb-10">What's Next?</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-10">What's Next?</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button
@@ -627,7 +627,7 @@ function ResultsPhase({
             </button>
             <button
               onClick={() => onNavigate('bursaries')}
-              className="bg-amber-400 hover:bg-amber-500 text-navy px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
+              className="bg-amber-400 hover:bg-amber-500 text-slate-900 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
             >
               <Star className="w-5 h-5" />
               Find Bursaries
@@ -641,14 +641,14 @@ function ResultsPhase({
             </button>
             <button
               onClick={handleShare}
-              className="bg-amber-400 hover:bg-amber-500 text-navy px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
+              className="bg-amber-400 hover:bg-amber-500 text-slate-900 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
             >
               <Copy className="w-5 h-5" />
               Share Results
             </button>
             <button
               onClick={onRetake}
-              className="border-2 border-navy text-navy hover:bg-navy/5 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all"
+              className="border-2 border-slate-900 text-slate-900 hover:bg-slate-900/5 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all"
             >
               <RefreshCw className="w-5 h-5" />
               Retake Quiz
@@ -657,8 +657,8 @@ function ResultsPhase({
         </motion.div>
 
         {/* Section 6: Disclaimer */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="bg-navy/5 border border-navy/10 rounded-2xl p-8 text-center">
-          <p className="text-sm text-navy/70 leading-relaxed italic">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="bg-slate-900/5 border border-slate-900/10 rounded-2xl p-8 text-center">
+          <p className="text-sm text-slate-900/70 leading-relaxed italic">
             This assessment is based on Holland's RIASEC model, validated by over 70 years of career research. Your results reflect
             your current interests — they can change as you grow and learn. Use these insights as a starting point for exploration,
             not a final verdict. Talk to your teacher, parents, or a career advisor for personalized guidance.

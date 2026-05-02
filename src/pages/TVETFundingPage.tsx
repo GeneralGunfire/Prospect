@@ -266,7 +266,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 <ul className="space-y-2 text-sm">
                   {item.items.map((cost, cidx) => (
                     <li key={cidx} className="flex gap-2">
-                      <span style={{ color: item.color }}>•</span>
+                      <span className={item.totalCls}>•</span>
                       <span className="text-slate-600">{cost}</span>
                     </li>
                   ))}

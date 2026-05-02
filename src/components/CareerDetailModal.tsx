@@ -67,7 +67,7 @@ export function CareerDetailModal({
             <div className="sticky top-0 bg-white border-b border-slate-100 p-6 md:p-8 flex justify-between items-start gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 bg-prospect-green/10 text-prospect-green text-xs font-bold uppercase tracking-widest rounded-full">
+                  <span className="px-3 py-1 bg-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest rounded-full">
                     {career.category}
                   </span>
                   <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full ${
@@ -90,7 +90,7 @@ export function CareerDetailModal({
                   data-testid="bookmark-btn"
                   className={`p-3 rounded-xl transition-all ${
                     isSaved
-                      ? 'bg-prospect-green text-white'
+                      ? 'bg-slate-900 text-white'
                       : 'bg-slate-100 hover:bg-slate-200'
                   }`}
                   title={isSaved ? 'Unsave' : 'Save'}
@@ -295,7 +295,7 @@ export function CareerDetailModal({
                     { label: 'Mid-Career', sub: '3–6 yrs', value: career.salary.midLevel },
                     { label: 'Senior', sub: '7+ yrs', value: career.salary.senior },
                   ].map((item, i) => (
-                    <div key={i} className="bg-gradient-to-br from-prospect-green/10 to-prospect-gold/10 rounded-2xl p-4 text-center">
+                    <div key={i} className="bg-gradient-to-br from-slate-900/10 to-slate-100 rounded-2xl p-4 text-center">
                       <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
                         {item.label}
                       </p>
@@ -326,7 +326,7 @@ export function CareerDetailModal({
                   {career.skills.map((skill, i) => (
                     <span
                       key={i}
-                      className="px-4 py-2 bg-prospect-green/10 text-prospect-green text-xs font-bold uppercase tracking-wider rounded-full"
+                      className="px-4 py-2 bg-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-wider rounded-full"
                     >
                       {skill}
                     </span>
@@ -400,7 +400,7 @@ export function CareerDetailModal({
                         <ul className="p-4 space-y-2">
                           {step.actions.map((action, j) => (
                             <li key={j} className="flex gap-2 text-sm" style={{ color: '#475569' }}>
-                              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-prospect-green" />
+                              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-slate-900" />
                               {action}
                             </li>
                           ))}
@@ -443,7 +443,7 @@ export function CareerDetailModal({
                     {relatedCareers.slice(0, 2).map((relatedCareer) => (
                       <div
                         key={relatedCareer.id}
-                        className="p-4 border border-slate-100 rounded-2xl hover:shadow-lg transition-all cursor-pointer hover:border-prospect-green"
+                        className="p-4 border border-slate-100 rounded-2xl hover:shadow-lg transition-all cursor-pointer hover:border-slate-900"
                       >
                         <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#64748b' }}>
                           {relatedCareer.category}

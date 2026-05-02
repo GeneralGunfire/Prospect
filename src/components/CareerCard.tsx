@@ -103,7 +103,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-bold text-slate-900 mb-2 group-hover:text-prospect-blue-accent transition-colors leading-snug">
+      <h3 className="text-sm font-bold text-slate-900 mb-2 group-hover:text-slate-700 transition-colors leading-snug">
         {career.title}
       </h3>
 
@@ -133,10 +133,10 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
         </div>
 
         <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-widest group-hover:text-prospect-blue-accent transition-colors">
+          <span className="text-xs font-bold text-slate-300 uppercase tracking-widest group-hover:text-slate-700 transition-colors">
             View Details
           </span>
-          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-prospect-blue-accent group-hover:translate-x-0.5 transition-all duration-200" />
+          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all duration-200" />
         </div>
       </div>
     </div>

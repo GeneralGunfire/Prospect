@@ -5,13 +5,13 @@ import {
   Award, AlertCircle, Info
 } from 'lucide-react'
 import AppHeader from '../../../../../components/AppHeader'
-import { withAuth, type AuthedProps, type AppPage } from '../../../../../lib/withAuth'
+import { withAuth, type AuthedProps } from '../../../../../lib/withAuth'
 import { supabase } from '../../../../../lib/supabase'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type TopicStatus = 'not-started' | 'mastered' | 'needs-practice'
-type ViewState = 'overview' | 'interactive-lesson' | 'guided-practice' | 'practice' | 'remediation' | 'feedback'
+type ViewState = 'interactive-lesson' | 'guided-practice' | 'practice' | 'remediation' | 'feedback'
 
 interface Question {
   id: string; question: string; options: string[]; correctIndex: number; hint: string; explanation: string
@@ -20,58 +20,73 @@ interface Question {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const TOPIC = {
-  id: 'intro',
-  title: 'Intro to Equations',
-  description: 'Learn what variables and equations are, and how to solve for one unknown.',
+  id: 'simultaneous',
+  title: 'Simultaneous Equations',
+  description: 'Solve two equations with two unknowns using the substitution method.',
   interactiveSteps: [
     {
-      id: 'step-1',
-      title: 'Meet the Variable',
-      content: 'In algebra, letters like "x" are just mystery boxes for numbers.',
-      math: ['x'],
-      bubbles: [{ target: 'x', text: "I'm the mystery number!", pos: 'top' as const }]
+      id: 'sim-1',
+      title: 'Two Unknowns, Two Clues',
+      content: 'When you have two mystery numbers, you need two equations to find both.',
+      equations: ['x + y = 7', 'x − y = 1'],
+      bubbleTexts: ['I have TWO mystery numbers (x and y) and TWO clues! I need to find both!'],
+      colors: ['blue' as const]
     },
     {
-      id: 'step-2',
-      title: 'The Equation',
-      content: 'An equation is a statement that two sides are exactly equal.',
-      math: ['x', '+', '5', '=', '12'],
-      bubbles: [
-        { target: 'x', text: 'Mystery number...', pos: 'top' as const },
-        { target: '5', text: '...plus five...', pos: 'bottom' as const },
-        { target: '12', text: '...is twelve!', pos: 'top' as const }
-      ]
+      id: 'sim-2',
+      title: 'The Substitution Method',
+      content: 'Isolate one variable in the first equation, then substitute it into the second.',
+      equations: ['From eq. 1:  y = 7 − x', 'Into eq. 2:  x − (7 − x) = 1', '→  2x − 7 = 1  →  x = 4'],
+      bubbleTexts: [
+        'First, isolate y from equation 1',
+        'Then substitute into equation 2',
+        'Solve for x, then find y'
+      ],
+      colors: ['blue' as const, 'green' as const, 'yellow' as const]
+    },
+    {
+      id: 'sim-3',
+      title: 'Both Answers Found!',
+      content: 'We solved for x first, then substituted back to find y.',
+      equations: ['x = 4', 'y = 3'],
+      bubbleTexts: ['Check: 4 + 3 = 7 ✓   and   4 − 3 = 1 ✓'],
+      colors: ['green' as const]
     }
   ],
   guidedItem: {
-    problem: 'Solve: x + 8 = 20',
+    problem: 'Solve: x + y = 10  and  x − y = 2',
     steps: [
-      { id: 1, instruction: 'Identify the +8', math: 'x + 8 = 20', explanation: 'The 8 is being added to x.' },
-      { id: 2, instruction: 'Subtract 8 from both sides', math: 'x + 8 − 8 = 20 − 8', explanation: 'Whatever we do to the left, we must do to the right.' },
-      { id: 3, instruction: 'Simplify to find x', math: 'x = 12', explanation: '12 is the final answer because 12 + 8 = 20.' }
+      { id: 1, instruction: 'Isolate y in equation 1', math: 'y = 10 − x', explanation: 'Rearrange equation 1 to express y on its own.' },
+      { id: 2, instruction: 'Substitute into equation 2', math: 'x − (10 − x) = 2', explanation: 'Replace y with (10 − x) in the second equation.' },
+      { id: 3, instruction: 'Expand the brackets', math: 'x − 10 + x = 2', explanation: 'Distribute the negative sign across the brackets.' },
+      { id: 4, instruction: 'Combine like terms', math: '2x − 10 = 2', explanation: 'Add the x terms on the left side.' },
+      { id: 5, instruction: 'Solve for x', math: '2x = 12  →  x = 6', explanation: 'Add 10 to both sides, then divide by 2.' },
+      { id: 6, instruction: 'Find y using x = 6', math: 'y = 10 − 6 = 4', explanation: 'Substitute x = 6 back into y = 10 − x.' }
     ]
   },
   initialQuestions: [
-    { id: 'q1', question: 'In x + 4 = 10, what is the first step?', options: ['Add 4 to both sides', 'Subtract 4 from both sides', 'Multiply both sides by 4', 'Divide both sides by 4'], correctIndex: 1, hint: 'Think about the opposite operation of +4.', explanation: 'Subtract 4 from both sides: x + 4 − 4 = 10 − 4 → x = 6.' },
-    { id: 'q2', question: 'If x − 2 = 8, then x equals:', options: ['6', '8', '10', '16'], correctIndex: 2, hint: 'Add 2 to both sides.', explanation: '8 + 2 = 10, so x = 10.' }
+    { id: 'sq1', question: 'Solve: 2x + y = 8 and x + y = 5. What is x?', options: ['1', '2', '3', '4'], correctIndex: 2, hint: 'From equation 2, y = 5 − x. Substitute into equation 1.', explanation: 'y = 5 − x → 2x + (5 − x) = 8 → x + 5 = 8 → x = 3.' },
+    { id: 'sq2', question: 'Solve: x + 2y = 7 and x − y = 1. What is y?', options: ['1', '2', '3', '4'], correctIndex: 1, hint: 'From equation 2, x = 1 + y. Substitute into equation 1.', explanation: 'x = 1 + y → (1 + y) + 2y = 7 → 1 + 3y = 7 → y = 2.' },
+    { id: 'sq3', question: 'Solve: 3x + y = 11 and 2x − y = 4. What is x?', options: ['2', '3', '4', '5'], correctIndex: 1, hint: 'Try adding both equations together to eliminate y.', explanation: 'Adding the equations: 5x = 15 → x = 3. Then y = 11 − 9 = 2.' }
   ],
   remediationQuestions: [
-    { id: 'r1', question: 'Solve: x + 3 = 11', options: ['x = 8', 'x = 14', 'x = 3', 'x = 11'], correctIndex: 0, hint: 'Subtract 3 from both sides.', explanation: '11 − 3 = 8, so x = 8.' },
-    { id: 'r2', question: 'Solve: x − 4 = 4', options: ['x = 0', 'x = 8', 'x = 4', 'x = 16'], correctIndex: 1, hint: 'Add 4 to both sides.', explanation: '4 + 4 = 8, so x = 8.' }
+    { id: 'sr1', question: 'Solve: x + y = 6 and x − y = 2. What is x?', options: ['x = 4', 'x = 3', 'x = 2', 'x = 5'], correctIndex: 0, hint: 'Add both equations to eliminate y.', explanation: 'Adding: 2x = 8 → x = 4. Then y = 6 − 4 = 2.' },
+    { id: 'sr2', question: 'Solve: 2x + y = 9 and x + y = 6. What is x?', options: ['x = 1', 'x = 2', 'x = 3', 'x = 4'], correctIndex: 2, hint: 'Subtract equation 2 from equation 1.', explanation: 'Subtracting: x = 3. Then y = 6 − 3 = 3.' }
   ]
 }
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
-const SpeechBubble = ({ text, pos }: { text: string; pos: 'top' | 'bottom' }) => (
-  <motion.div
-    initial={{ scale: 0, opacity: 0, y: pos === 'top' ? 10 : -10 }}
-    animate={{ scale: 1, opacity: 1, y: 0 }}
-    transition={{ duration: 0.2 }}
-    className={`absolute ${pos === 'top' ? '-top-14' : '-bottom-14'} left-1/2 -translate-x-1/2 whitespace-nowrap bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-lg z-20`}
-  >
+const colorMap = {
+  blue: 'bg-blue-50 border-blue-200 text-blue-900',
+  green: 'bg-green-50 border-green-200 text-green-900',
+  yellow: 'bg-amber-50 border-amber-200 text-amber-900'
+}
+
+const EquationBubble = ({ text, color, delay }: { text: string; color: 'blue' | 'green' | 'yellow'; delay: number }) => (
+  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay }}
+    className={`rounded-2xl border-2 px-5 py-3 text-sm font-semibold ${colorMap[color]}`}>
     {text}
-    <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-600 rotate-45 ${pos === 'top' ? '-bottom-1' : '-top-1'}`} />
   </motion.div>
 )
 
@@ -93,16 +108,15 @@ const InteractiveLesson = ({ onComplete }: { onComplete: () => void }) => {
             <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{step.title}</h2>
             <p className="text-slate-500 text-base leading-relaxed max-w-lg mx-auto">{step.content}</p>
           </div>
-          <div className="flex items-center justify-center gap-4 md:gap-6 py-12 relative flex-wrap">
-            {step.math.map((char, i) => {
-              const bubble = step.bubbles.find(b => b.target === char)
-              return (
-                <motion.div key={i} initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.1 }}
-                  className="relative text-5xl font-mono font-black text-slate-900">
-                  {char}{bubble && <SpeechBubble text={bubble.text} pos={bubble.pos} />}
-                </motion.div>
-              )
-            })}
+          <div className="space-y-4">
+            <div className="rounded-2xl bg-slate-50 border border-slate-200 px-8 py-6 font-mono text-lg md:text-xl font-black text-slate-900 space-y-2">
+              {step.equations.map((eq, i) => <div key={i}>{eq}</div>)}
+            </div>
+            <div className="space-y-2">
+              {step.bubbleTexts.map((bt, i) => (
+                <EquationBubble key={i} text={bt} color={step.colors[i] ?? 'blue'} delay={i * 0.15} />
+              ))}
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
@@ -257,13 +271,11 @@ const FeedbackModule = ({ correct, total, onRetry, onContinue }: { correct: numb
   )
 }
 
-// ── Main Page ─────────────────────────────────────────────────────────────────
-
 // ── Supabase progress helpers (copy-paste to every topic file, change TOPIC_ID only) ──
 
 const SUBJECT = 'Algebra'
 const GRADE = 10
-const TOPIC_ID = 'intro-to-equations'
+const TOPIC_ID = 'simultaneous-equations'
 
 async function loadTopicProgress(userId: string): Promise<TopicStatus> {
   const { data } = await supabase
@@ -298,8 +310,8 @@ async function saveTopicProgress(userId: string, status: TopicStatus, correct: n
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
-function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
-  const [view, setView] = useState<ViewState>('overview')
+function SimultaneousEquationsPage({ user, onNavigate }: AuthedProps) {
+  const [view, setView] = useState<ViewState>('interactive-lesson')
   const [status, setStatus] = useState<TopicStatus>('not-started')
   const [practiceResult, setPracticeResult] = useState<{ correct: number; total: number } | null>(null)
   const [attempts, setAttempts] = useState(0)
@@ -340,98 +352,47 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
       <main className="pt-28 pb-24 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-
-          {view === 'overview' ? (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
-              <div className="space-y-3">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Linear Equations · Grade 10 · Term 1</p>
-                <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Topics</h1>
+          <div className="max-w-2xl mx-auto">
+            <div className="flex items-center justify-between mb-10">
+              <button onClick={() => onNavigate('learning-algebra-g10-t1-linear-equations' as any)} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all">
+                <ChevronLeft size={18} /> Back
+              </button>
+              <div className="px-4 py-2 bg-white border border-slate-200 rounded-full text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                Algebra · Grade 10
               </div>
-              <div className="space-y-4">
-                {/* Topic 1: Intro to Equations */}
-                <motion.div
-                  onClick={() => setView('interactive-lesson')}
-                  className="bg-white rounded-4xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-xl transition-all group"
-                >
-                  <div className="flex items-center gap-6">
-                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${status === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-xl shadow-slate-900/20'}`}>
-                      {status === 'mastered' ? '✓' : '1'}
-                    </div>
-                    <div>
-                      <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">{TOPIC.title}</p>
-                      <p className="text-sm text-slate-400 mt-1">{TOPIC.description}</p>
-                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${status === 'mastered' ? 'text-emerald-600' : status === 'needs-practice' ? 'text-amber-600' : 'text-slate-300'}`}>
-                        {status === 'mastered' ? '✦ Mastered' : status === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}
-                      </p>
-                    </div>
-                  </div>
-                  <ChevronRight size={28} className="text-slate-200 group-hover:text-slate-900 transition-colors shrink-0" />
-                </motion.div>
-
-                {/* Topic 2: Simultaneous Equations */}
-                <motion.div
-                  onClick={() => onNavigate('learning-algebra-g10-t1-simultaneous' as AppPage)}
-                  className="bg-white rounded-4xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-xl transition-all group"
-                >
-                  <div className="flex items-center gap-6">
-                    <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black bg-slate-900 text-white shadow-xl shadow-slate-900/20">
-                      2
-                    </div>
-                    <div>
-                      <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">Simultaneous Equations</p>
-                      <p className="text-sm text-slate-400 mt-1">Solve two equations with two unknowns using substitution.</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest mt-2 text-slate-300">○ Not Started</p>
-                    </div>
-                  </div>
-                  <ChevronRight size={28} className="text-slate-200 group-hover:text-slate-900 transition-colors shrink-0" />
-                </motion.div>
-              </div>
-            </motion.div>
-
-          ) : (
-            <div className="max-w-2xl mx-auto">
-              <div className="flex items-center justify-between mb-10">
-                <button onClick={() => setView('overview')} className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all">
-                  <ChevronLeft size={18} /> Back
-                </button>
-                <div className="px-4 py-2 bg-white border border-slate-200 rounded-full text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                  Algebra · Grade 10
-                </div>
-              </div>
-              <AnimatePresence mode="wait">
-                <motion.div key={view} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.25 }}>
-                  {view === 'interactive-lesson' && <InteractiveLesson onComplete={() => setView('guided-practice')} />}
-                  {view === 'guided-practice' && <GuidedPracticeModule onComplete={() => setView('practice')} />}
-                  {view === 'practice' && <PracticeModule questions={TOPIC.initialQuestions} onComplete={handlePracticeComplete} />}
-                  {view === 'remediation' && (
-                    <div className="space-y-6">
-                      <div className="bg-rose-50 border border-rose-200 rounded-4xl p-8 flex gap-5 items-start">
-                        <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
-                        <div>
-                          <p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p>
-                          <p className="text-rose-700 text-sm leading-relaxed">It's okay! Let's work through two extra questions to build your confidence.</p>
-                        </div>
-                      </div>
-                      <PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} />
-                    </div>
-                  )}
-                  {view === 'feedback' && (
-                    <FeedbackModule
-                      correct={practiceResult?.correct ?? 0}
-                      total={practiceResult?.total ?? TOPIC.initialQuestions.length}
-                      onRetry={() => setView('interactive-lesson')}
-                      onContinue={() => setView('overview')}
-                    />
-                  )}
-                </motion.div>
-              </AnimatePresence>
             </div>
-          )}
-
+            <AnimatePresence mode="wait">
+              <motion.div key={view} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.25 }}>
+                {view === 'interactive-lesson' && <InteractiveLesson onComplete={() => setView('guided-practice')} />}
+                {view === 'guided-practice' && <GuidedPracticeModule onComplete={() => setView('practice')} />}
+                {view === 'practice' && <PracticeModule questions={TOPIC.initialQuestions} onComplete={handlePracticeComplete} />}
+                {view === 'remediation' && (
+                  <div className="space-y-6">
+                    <div className="bg-rose-50 border border-rose-200 rounded-4xl p-8 flex gap-5 items-start">
+                      <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
+                      <div>
+                        <p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p>
+                        <p className="text-rose-700 text-sm leading-relaxed">It's okay! Let's work through two extra questions to build your confidence.</p>
+                      </div>
+                    </div>
+                    <PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} />
+                  </div>
+                )}
+                {view === 'feedback' && (
+                  <FeedbackModule
+                    correct={practiceResult?.correct ?? 0}
+                    total={practiceResult?.total ?? TOPIC.initialQuestions.length}
+                    onRetry={() => setView('interactive-lesson')}
+                    onContinue={() => onNavigate('learning-algebra-g10-t1-linear-equations' as any)}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </main>
     </div>
   )
 }
 
-export default withAuth(LinearEquationsPage)
+export default withAuth(SimultaneousEquationsPage)

@@ -63,21 +63,22 @@ export async function saveBookmark(
       try {
         const { supabase } = await import('../lib/supabase');
         // Non-blocking, setTimeout(0) to run after rendering
-        setTimeout(() => {
-          supabase
-            .from('user_bookmarks')
-            .upsert(
-              {
-                user_id: userId,
-                bookmark_type: itemType,
-                item_id: itemId,
-                created_at: new Date().toISOString(),
-              },
-              { onConflict: 'user_id,bookmark_type,item_id' }
-            )
-            .catch((error) => {
-              console.debug('Supabase bookmark sync failed (will use localStorage):', error?.message);
-            });
+        setTimeout(async () => {
+          try {
+            await supabase
+              .from('user_bookmarks')
+              .upsert(
+                {
+                  user_id: userId,
+                  bookmark_type: itemType,
+                  item_id: itemId,
+                  created_at: new Date().toISOString(),
+                },
+                { onConflict: 'user_id,bookmark_type,item_id' }
+              );
+          } catch (error: any) {
+            console.debug('Supabase bookmark sync failed (will use localStorage):', error?.message);
+          }
         }, 0);
       } catch (err) {
         // Supabase sync failed, but localStorage save succeeded
@@ -110,18 +111,19 @@ export async function removeBookmark(
     if (userId) {
       try {
         const { supabase } = await import('../lib/supabase');
-        setTimeout(() => {
-          supabase
-            .from('user_bookmarks')
-            .delete()
-            .match({
-              user_id: userId,
-              bookmark_type: itemType,
-              item_id: itemId,
-            })
-            .catch((error) => {
-              console.debug('Supabase removal sync failed (will use localStorage):', error?.message);
-            });
+        setTimeout(async () => {
+          try {
+            await supabase
+              .from('user_bookmarks')
+              .delete()
+              .match({
+                user_id: userId,
+                bookmark_type: itemType,
+                item_id: itemId,
+              });
+          } catch (error: any) {
+            console.debug('Supabase removal sync failed (will use localStorage):', error?.message);
+          }
         }, 0);
       } catch (err) {
         console.debug('Supabase unavailable, using localStorage only');

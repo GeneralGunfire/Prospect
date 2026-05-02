@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   BookOpen, CalendarDays, ArrowRight,
@@ -8,9 +8,11 @@ import {
   X, Star, GraduationCap, User, MoreHorizontal,
   Tag, FileText, Paperclip, Plus, Download,
   CheckCircle2, Circle, AlertCircle,
+  Search, Send, Zap,
 } from 'lucide-react';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
 import AppHeader from '../components/AppHeader';
+import { supabase } from '../lib/supabase';
 import { studyProgressStorage, learningPathStorage } from '../services/storageService';
 import { algebraLearningPath } from '../data/demoLearningPath';
 import { getUserQuestions, deleteQuestion, type UnansweredQuestion } from '../services/unansweredQuestionService';
@@ -83,11 +85,84 @@ function StatusBadge({ status }: { status: DeadlineStatus }) {
   );
 }
 
+// ── Types ─────────────────────────────────────────────────────────────────────
+interface StudyProgressRow {
+  id: string;
+  user_id: string;
+  subject: string;
+  grade: number;
+  topic: string;
+  mastery_level: 'not_started' | 'needs_practice' | 'mastered';
+  last_attempt_score: string | null;
+  total_attempts: number;
+  last_accessed: string;
+}
+
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
+
+function topicLabel(topic: string): string {
+  return topic.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 function DashboardPage({ user, onNavigate }: AuthedProps) {
   const firstName = user.user_metadata?.full_name?.split(' ')[0] ?? 'Student';
   const fullName  = user.user_metadata?.full_name ?? 'Student';
   const email     = user.email ?? '';
+
+  // Supabase study_progress
+  const [studyRows, setStudyRows] = useState<StudyProgressRow[]>([]);
+  const [studyLoaded, setStudyLoaded] = useState(false);
+  const [quickAccessOpen, setQuickAccessOpen] = useState(false);
+  const [quickAccessTab, setQuickAccessTab] = useState<'topics' | 'questions'>('topics');
+  const [topicSearch, setTopicSearch] = useState('');
+  const [chatMessages, setChatMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [recentlyStudiedExpanded, setRecentlyStudiedExpanded] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (user.id === 'guest') { setStudyLoaded(true); return; }
+    supabase
+      .from('study_progress')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('last_accessed', { ascending: false })
+      .then(({ data }) => {
+        setStudyRows((data as StudyProgressRow[]) ?? []);
+        setStudyLoaded(true);
+      });
+  }, [user.id]);
+
+  const masteredCount  = studyRows.filter(r => r.mastery_level === 'mastered').length;
+  const subjectsStarted = new Set(studyRows.map(r => r.subject)).size;
+  const totalStudyMins = studyRows.reduce((s, r) => s + r.total_attempts * 5, 0);
+  const masteryRate    = studyRows.length > 0 ? Math.round((masteredCount / studyRows.length) * 100) : 0;
+
+  const recommendedRow = studyRows.find(r => r.mastery_level === 'needs_practice' || r.mastery_level === 'not_started') ?? null;
+
+  const filteredTopics = useMemo(() =>
+    studyRows.filter(r =>
+      topicSearch === '' ||
+      r.topic.toLowerCase().includes(topicSearch.toLowerCase()) ||
+      r.subject.toLowerCase().includes(topicSearch.toLowerCase())
+    ), [studyRows, topicSearch]);
+
+  function handleChatSend() {
+    const msg = chatInput.trim();
+    if (!msg) return;
+    setChatMessages(prev => [...prev, { role: 'user', text: msg }, { role: 'ai', text: 'Great question! Head to the Study Library to explore this topic, or ask your teacher for more context.' }]);
+    setChatInput('');
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 50);
+  }
 
   // Study progress
   const [subjectProgress, setSubjectProgress] = useState<
@@ -221,6 +296,12 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             </div>
             <div className="flex items-center gap-1">
               <button
+                onClick={() => { setQuickAccessOpen(true); setQuickAccessTab('topics'); }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+              >
+                <Search className="w-3.5 h-3.5" /> Quick Access
+              </button>
+              <button
                 onClick={() => onNavigate('school-assist-chat')}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 transition-colors"
               >
@@ -238,6 +319,99 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 Good {getGreeting()}, {firstName}
               </h1>
             </motion.div>
+
+            {/* ── Quick Stats ────────────────────────────────────────────────── */}
+            {studyLoaded && studyRows.length > 0 && (
+              <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { label: 'Topics Mastered', value: masteredCount, icon: <CheckCircle2 className="w-4 h-4" />, color: 'text-blue-600', bg: 'bg-blue-50 border-blue-100' },
+                  { label: 'Subjects Started', value: subjectsStarted, icon: <BookOpen className="w-4 h-4" />, color: 'text-slate-600', bg: 'bg-slate-50 border-slate-100' },
+                  { label: 'Study Time (est.)', value: totalStudyMins >= 60 ? `${Math.floor(totalStudyMins / 60)}h ${totalStudyMins % 60}m` : `${totalStudyMins}m`, icon: <Clock className="w-4 h-4" />, color: 'text-amber-600', bg: 'bg-amber-50 border-amber-100' },
+                  { label: 'Mastery Rate', value: `${masteryRate}%`, icon: <TrendingUp className="w-4 h-4" />, color: 'text-blue-600', bg: 'bg-blue-50 border-blue-100' },
+                ].map(({ label, value, icon, color, bg }) => (
+                  <div key={label} className={`flex items-center gap-3 p-4 rounded-2xl border ${bg}`}>
+                    <div className={`shrink-0 ${color}`}>{icon}</div>
+                    <div>
+                      <p className="text-lg font-black text-slate-900 leading-none">{value}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{label}</p>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+
+            {/* ── Recently Studied Topics ─────────────────────────────────────── */}
+            {studyLoaded && studyRows.length > 0 && (
+              <motion.div variants={item} className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-slate-400" />
+                    Recently Studied
+                  </h3>
+                  {studyRows.length > 3 && (
+                    <button
+                      onClick={() => setRecentlyStudiedExpanded(e => !e)}
+                      className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
+                    >
+                      {recentlyStudiedExpanded ? <><ChevronUp className="w-3 h-3" /> Show less</> : <><ChevronDown className="w-3 h-3" /> Show all ({studyRows.length})</>}
+                    </button>
+                  )}
+                </div>
+                <div className="rounded-2xl border border-slate-100 divide-y divide-slate-50 overflow-hidden">
+                  {(recentlyStudiedExpanded ? studyRows : studyRows.slice(0, 3)).map(row => {
+                    const mastered = row.mastery_level === 'mastered';
+                    const needsPractice = row.mastery_level === 'needs_practice';
+                    return (
+                      <div key={row.id} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50/60 transition-colors">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${mastered ? 'bg-blue-50' : needsPractice ? 'bg-amber-50' : 'bg-slate-100'}`}>
+                          {mastered
+                            ? <CheckCircle2 className="w-4 h-4 text-blue-500" />
+                            : needsPractice
+                            ? <AlertCircle className="w-4 h-4 text-amber-500" />
+                            : <Circle className="w-4 h-4 text-slate-400" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-slate-800 truncate">{topicLabel(row.topic)}</p>
+                          <p className="text-xs text-slate-400">{row.subject} · Gr {row.grade}</p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${
+                            mastered ? 'bg-blue-50 border-blue-200 text-blue-700'
+                            : needsPractice ? 'bg-amber-50 border-amber-200 text-amber-700'
+                            : 'bg-slate-50 border-slate-200 text-slate-500'
+                          }`}>
+                            {mastered ? 'Mastered' : needsPractice ? 'Needs Practice' : 'In Progress'}
+                          </span>
+                          <p className="text-xs text-slate-400 mt-0.5">{timeAgo(row.last_accessed)}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ── Recommended Next Topic ──────────────────────────────────────── */}
+            {studyLoaded && recommendedRow && (
+              <motion.div variants={item}>
+                <div className="flex items-center gap-4 p-4 rounded-2xl border border-blue-100 bg-blue-50">
+                  <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0">
+                    <Zap className="w-5 h-5 text-blue-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold uppercase tracking-widest text-blue-500 mb-0.5">Recommended Next</p>
+                    <p className="text-sm font-black text-slate-900">{topicLabel(recommendedRow.topic)}</p>
+                    <p className="text-xs text-slate-500">{recommendedRow.subject} · Gr {recommendedRow.grade} · {recommendedRow.mastery_level === 'needs_practice' ? 'Needs more practice' : 'Not yet started'}</p>
+                  </div>
+                  <button
+                    onClick={() => onNavigate('library')}
+                    className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 text-white text-xs font-black hover:bg-slate-800 transition-colors"
+                  >
+                    <Play className="w-3.5 h-3.5" /> Study
+                  </button>
+                </div>
+              </motion.div>
+            )}
 
             {/* ── Meta grid ──────────────────────────────────────────────────── */}
             <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
@@ -626,6 +800,132 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
           </div>
         </motion.div>
       </div>
+      {/* ── Quick Access Modal ────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {quickAccessOpen && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+            onClick={e => { if (e.target === e.currentTarget) setQuickAccessOpen(false); }}
+          >
+            <motion.div
+              initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 pt-5 pb-3">
+                <div className="flex gap-1 bg-slate-100 rounded-xl p-1">
+                  {(['topics', 'questions'] as const).map(tab => (
+                    <button
+                      key={tab}
+                      onClick={() => setQuickAccessTab(tab)}
+                      className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${quickAccessTab === tab ? 'bg-white shadow text-slate-900' : 'text-slate-500 hover:text-slate-700'}`}
+                    >
+                      {tab === 'topics' ? 'Topics' : 'Ask AI'}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={() => setQuickAccessOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Topics tab */}
+              {quickAccessTab === 'topics' && (
+                <div className="px-5 pb-5 space-y-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                      autoFocus
+                      value={topicSearch}
+                      onChange={e => setTopicSearch(e.target.value)}
+                      placeholder="Search topics…"
+                      className="w-full pl-9 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    />
+                  </div>
+                  <div className="space-y-1 max-h-72 overflow-y-auto">
+                    {filteredTopics.length === 0 && (
+                      <p className="text-xs text-slate-400 text-center py-6">No topics found. Start studying in the Library.</p>
+                    )}
+                    {filteredTopics.map(row => (
+                      <button
+                        key={row.id}
+                        onClick={() => { setQuickAccessOpen(false); onNavigate('library'); }}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-left"
+                      >
+                        <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${row.mastery_level === 'mastered' ? 'bg-blue-50' : 'bg-slate-100'}`}>
+                          {row.mastery_level === 'mastered'
+                            ? <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                            : <Circle className="w-3.5 h-3.5 text-slate-400" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-slate-800 truncate">{topicLabel(row.topic)}</p>
+                          <p className="text-xs text-slate-400">{row.subject} · Gr {row.grade}</p>
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+                      </button>
+                    ))}
+                    {studyRows.length === 0 && (
+                      <button
+                        onClick={() => { setQuickAccessOpen(false); onNavigate('library'); }}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors text-left border border-blue-100"
+                      >
+                        <BookOpen className="w-4 h-4 text-blue-500 shrink-0" />
+                        <p className="text-sm font-semibold text-blue-700">Browse Study Library</p>
+                        <ArrowRight className="w-3.5 h-3.5 text-blue-400 ml-auto shrink-0" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Ask AI tab */}
+              {quickAccessTab === 'questions' && (
+                <div className="px-5 pb-5 space-y-3">
+                  <div className="h-56 overflow-y-auto space-y-2 bg-slate-50 rounded-2xl p-3 border border-slate-100">
+                    {chatMessages.length === 0 && (
+                      <div className="h-full flex flex-col items-center justify-center gap-3 text-center">
+                        <GraduationCap className="w-8 h-8 text-slate-300" />
+                        <p className="text-xs text-slate-400 font-semibold">Ask me anything about your studies</p>
+                        <div className="flex flex-wrap gap-1.5 justify-center">
+                          {['Explain simultaneous equations', 'How do I study better?', 'What is APS?'].map(q => (
+                            <button key={q} onClick={() => { setChatInput(q); }} className="text-xs px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600 transition-colors">{q}</button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {chatMessages.map((m, i) => (
+                      <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-xs leading-relaxed ${m.role === 'user' ? 'bg-slate-900 text-white rounded-br-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-bl-sm'}`}>
+                          {m.text}
+                        </div>
+                      </div>
+                    ))}
+                    <div ref={chatEndRef} />
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      value={chatInput}
+                      onChange={e => setChatInput(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && handleChatSend()}
+                      placeholder="Ask me anything…"
+                      className="flex-1 px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    />
+                    <button
+                      onClick={handleChatSend}
+                      disabled={!chatInput.trim()}
+                      className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 text-white disabled:opacity-40 hover:bg-slate-800 transition-colors"
+                    >
+                      <Send className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

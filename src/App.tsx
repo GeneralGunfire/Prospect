@@ -326,49 +326,48 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
   ];
 
   return (
-    <section className="py-20 px-4 bg-white border-b border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-white border-b border-slate-100">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="mb-10 sm:mb-16"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">What We Offer</p>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter mb-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">What we offer</p>
+          <h2
+            className="font-black text-slate-900 tracking-tighter"
+            style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
+          >
             Everything you need to thrive.
           </h2>
-          <p className="text-slate-500 text-base leading-relaxed max-w-lg mx-auto">
-            Three pillars built for South African students — no registration needed to start.
-          </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -4 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
               onClick={() => onNavigate(f.page)}
-              className="group flex flex-col items-start text-left bg-white border border-slate-200 rounded-2xl p-8 cursor-pointer hover:shadow-lg hover:border-slate-300 transition-all duration-300"
+              className="group flex flex-col bg-white p-6 sm:p-8 md:p-10 cursor-pointer hover:bg-slate-50 transition-colors duration-200 min-h-[44px]"
             >
-              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mb-6 group-hover:bg-slate-900 transition-colors duration-300">
-                <span className="text-slate-600 group-hover:text-white transition-colors duration-300">{f.icon}</span>
+              <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center mb-6 sm:mb-8 group-hover:bg-slate-900 transition-colors duration-300 shrink-0">
+                <span className="text-slate-500 group-hover:text-white transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5">{f.icon}</span>
               </div>
 
-              <h3 className="text-lg font-bold text-slate-900 mb-2 tracking-tight">
+              <h3 className="font-bold text-slate-900 mb-2 sm:mb-3 tracking-tight text-base sm:text-lg leading-snug">
                 {f.title}
               </h3>
 
-              <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-6 max-w-[34ch]">
+              <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-6 sm:mb-8">
                 {f.description}
               </p>
 
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5 mt-auto">
                 {f.cta}
                 <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </span>
@@ -428,14 +427,14 @@ const LampSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5 text-center max-w-3xl mx-auto">
+      <div className="relative z-50 flex -translate-y-32 sm:-translate-y-52 md:-translate-y-64 lg:-translate-y-80 flex-col items-center px-5 text-center max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0.5, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
         >
           {/* Mandela quote */}
-          <blockquote className="text-2xl md:text-4xl font-black text-white leading-tight mb-8"
+          <blockquote className="text-xl sm:text-2xl md:text-4xl font-black text-white leading-tight mb-6 sm:mb-8"
             style={{ letterSpacing: '-0.025em', lineHeight: 1.15 }}>
             "Education is the most powerful weapon which you can use to change the world."
           </blockquote>
@@ -467,49 +466,55 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
   ];
 
   return (
-    <section className="py-20 px-4 bg-white border-y border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-slate-50 border-y border-slate-100">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6"
+          className="mb-10 sm:mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8"
         >
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">No sign-in required</p>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter">Career Guide</h2>
-            <p className="text-slate-500 text-lg leading-relaxed mt-4 max-w-lg">
-              Discover the right career path, understand how to get there, and find the funding to make it happen.
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">No sign-in required</p>
+            <h2
+              className="font-black text-slate-900 tracking-tighter"
+              style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
+            >
+              Career Guide
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed mt-4 sm:mt-5 max-w-md">
+              Discover the right path, understand how to get there, and find the funding to make it happen.
             </p>
           </div>
           <motion.button
-            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
             onClick={() => onNavigate('quiz')}
-            className="inline-flex items-center gap-2.5 bg-slate-900 text-white text-xs font-black uppercase tracking-widest px-7 py-3.5 rounded-full shadow-lg hover:bg-slate-700 transition-all shrink-0"
+            className="flex items-center justify-center gap-2.5 w-full lg:w-auto bg-slate-900 text-white text-[11px] font-semibold uppercase tracking-[0.15em] px-7 py-4 rounded-xl hover:bg-slate-800 transition-colors shrink-0 min-h-[48px]"
           >
-            Start Career Quiz <ArrowRight className="w-4 h-4" />
+            Start Career Quiz <ArrowRight className="w-3.5 h-3.5" />
           </motion.button>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {tools.map((tool, i) => (
             <motion.button
               key={tool.title}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: i * 0.07 }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
               onClick={() => onNavigate(tool.page)}
-              className="group flex flex-col items-start text-left p-7 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300"
+              className="group flex flex-col items-start text-left p-5 sm:p-6 rounded-xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-200 min-h-[44px]"
             >
-              <div className="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center mb-5 text-slate-600 group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+              <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center mb-4 sm:mb-5 text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-all duration-200 shrink-0">
                 {tool.icon}
               </div>
-              <h3 className="font-black text-slate-900 text-sm mb-2 tracking-tight">{tool.title}</h3>
+              <h3 className="font-bold text-slate-900 mb-2 tracking-tight text-sm sm:text-[0.9375rem]">
+                {tool.title}
+              </h3>
               <p className="text-slate-500 text-sm leading-relaxed flex-1">{tool.desc}</p>
-              <span className="mt-5 text-xs font-black uppercase tracking-widest text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5">
+              <span className="mt-4 sm:mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5">
                 {tool.cta} <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </span>
             </motion.button>
@@ -530,37 +535,42 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-16 bg-slate-50 sm:py-20 border-b border-slate-100">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">The Process</p>
-          <h2 className="text-3xl font-black tracking-tighter text-slate-900 sm:text-4xl">How does it work?</h2>
-          <p className="max-w-md mx-auto mt-4 text-sm text-slate-500 leading-relaxed">
-            From career discovery to funding and exam prep — three steps, one platform.
-          </p>
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-white border-b border-slate-100">
+      <div className="max-w-6xl mx-auto">
+        <div className="mb-12 sm:mb-16 sm:mb-20">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">The process</p>
+          <h2
+            className="font-black tracking-tighter text-slate-900"
+            style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
+          >
+            How does it work?
+          </h2>
         </div>
 
-        <div className="relative mt-12 lg:mt-20">
-          <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
-            <img className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg" alt="" aria-hidden="true" />
-          </div>
-          <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">
-            {steps.map((step, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.12 }}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 md:gap-8">
+          {steps.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="flex flex-col items-start"
+            >
+              <span
+                className="font-black text-slate-200 mb-5 sm:mb-6 select-none"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", lineHeight: 1, letterSpacing: "-0.04em" }}
               >
-                <div className="flex items-center justify-center w-14 h-14 mx-auto bg-slate-900 rounded-full shadow-lg">
-                  <span className="text-lg font-black text-white">{step.number}</span>
-                </div>
-                <h3 className="mt-6 text-base font-black text-slate-900 md:mt-10 tracking-tight">{step.title}</h3>
-                <p className="mt-3 text-sm text-slate-500 leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+                {String(step.number).padStart(2, "0")}
+              </span>
+              <h3 className="font-bold text-slate-900 mb-2 sm:mb-3 tracking-tight text-base sm:text-[1.0625rem]">
+                {step.title}
+              </h3>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                {step.desc}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -579,23 +589,28 @@ const DiscoveryGrid = () => {
   ];
 
   return (
-    <section className="py-20 px-4 bg-slate-50 border-b border-slate-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-slate-50 border-b border-slate-100">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-10"
+          className="mb-8 sm:mb-12"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3">Career Library</p>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter">Explore Top SA Careers</h2>
-          <p className="text-slate-500 text-base mt-4 max-w-md mx-auto leading-relaxed">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">Career Library</p>
+          <h2
+            className="font-black text-slate-900 tracking-tighter"
+            style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
+          >
+            Explore Top SA Careers
+          </h2>
+          <p className="text-slate-500 text-sm sm:text-base mt-4 sm:mt-5 leading-relaxed" style={{ maxWidth: "42ch" }}>
             Salary ranges, job demand by province, and entry requirements for the careers South Africa needs most.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           {items.map((item, index) => (
             <motion.div
               key={item.title}
@@ -661,11 +676,11 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
   ];
 
   return (
-    <footer className="bg-white text-slate-500 py-20 px-4 border-t border-slate-100">
+    <footer className="bg-white text-slate-500 py-16 sm:py-20 lg:py-24 px-4 sm:px-6 border-t border-slate-100">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 sm:gap-12 mb-12 sm:mb-16">
+          <div className="sm:col-span-2 lg:col-span-2">
+            <div className="flex items-center gap-4 mb-6 sm:mb-8">
               <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-xl shadow-sm">P</div>
               <span className="text-2xl font-black text-slate-900 tracking-tight">Prospect</span>
             </div>
@@ -686,7 +701,7 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
               <ul className="space-y-4">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <button onClick={() => onNavigate(link.page as Page)} className="text-sm text-slate-500 hover:text-slate-900 transition-colors text-left">
+                    <button onClick={() => onNavigate(link.page as Page)} className="text-sm text-slate-500 hover:text-slate-900 transition-colors text-left py-1 min-h-9 flex items-center">
                       {link.label}
                     </button>
                   </li>

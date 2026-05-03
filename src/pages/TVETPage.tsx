@@ -17,7 +17,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       >
         <div className="max-w-5xl mx-auto text-center text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
               Technical Skills.<br />
               Real Jobs.<br />
               Real Futures.
@@ -36,7 +36,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       </div>
 
       {/* Why TVET Section */}
-      <div className="py-20 px-4 max-w-6xl mx-auto">
+      <div className="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -45,7 +45,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
           Why TVET Is a Smart Career Choice
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           {[
             {
               icon: Clock,
@@ -85,7 +85,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.07, duration: 0.4 }}
               whileHover={{ y: -3 }}
-              className="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-lg hover:border-slate-200 transition-all duration-200"
+              className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 hover:shadow-lg hover:border-slate-200 transition-all duration-200"
             >
               <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-5">
                 <item.icon className="w-5 h-5 text-white" />
@@ -98,7 +98,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       </div>
 
       {/* TVET vs University Comparison */}
-      <div className="py-20 px-4 bg-slate-50">
+      <div className="py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0 }}
@@ -147,11 +147,11 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
 
       {/* CTA Section */}
       <div
-        className="py-20 px-4"
+        className="py-20 px-4 sm:px-6"
         style={{ backgroundColor: '#0f172a' }} // slate-900
       >
         <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-4xl font-bold mb-6">Ready to Start Your TVET Journey?</h2>
+          <h2 className="text-2xl sm:text-4xl font-bold mb-6">Ready to Start Your TVET Journey?</h2>
           <p className="text-lg mb-8 opacity-95">
             Find TVET colleges near you, and discover funding options available.
           </p>

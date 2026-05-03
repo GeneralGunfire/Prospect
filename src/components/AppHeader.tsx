@@ -149,7 +149,7 @@ export default function AppHeader({
   return (
     <>
       {/* Floating pill nav */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[9000]">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[9000] max-w-[calc(100vw-2rem)] min-w-0">
         <motion.nav
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1, width: isExpanded ? 'auto' : '3rem' }}
@@ -270,7 +270,7 @@ export default function AppHeader({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.15, ease: 'easeOut' }}
-                className="absolute right-0 top-[3.5rem] w-52 bg-white rounded-2xl shadow-xl border border-slate-100 z-[130] overflow-hidden"
+                className="absolute right-0 top-[3.5rem] w-52 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-xl border border-slate-100 z-130 overflow-hidden"
               >
                 <div className="p-4 border-b border-slate-50">
                   <p className="text-xs font-black uppercase tracking-wider text-slate-800">{firstName}</p>
@@ -360,7 +360,7 @@ export default function AppHeader({
                     <button
                       key={item.page}
                       onClick={() => { setIsDrawerOpen(false); onNavigate(item.page); }}
-                      className={`w-full flex items-center gap-3 text-xs font-semibold py-3 px-3 rounded-xl text-left transition-all uppercase tracking-wider mb-0.5 ${
+                      className={`w-full flex items-center gap-3 text-xs font-semibold min-h-11 py-3 px-4 rounded-xl text-left transition-all uppercase tracking-wider mb-0.5 ${
                         isActive
                           ? 'bg-slate-900 text-white'
                           : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
@@ -415,7 +415,7 @@ export default function AppHeader({
                   </button>
                 </div>
 
-                <div className="flex items-center gap-3 px-4 py-3">
+                <div className="flex items-center gap-3 px-4 min-h-12">
                   <Search className="w-4 h-4 text-slate-400 shrink-0" />
                   <input
                     ref={searchInputRef}
@@ -423,7 +423,8 @@ export default function AppHeader({
                     onChange={e => setSearchQuery(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && runSearch()}
                     placeholder={searchMode === 'topic' ? 'Search a topic… e.g. Quadratic equations' : 'Ask a question… e.g. How do I solve x²+5x+6=0?'}
-                    className="flex-1 bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none"
+                    className="flex-1 w-full bg-transparent text-base text-slate-800 placeholder:text-slate-400 outline-none"
+                    style={{ fontSize: '16px' }}
                   />
                   <button
                     onClick={runSearch}
@@ -444,7 +445,7 @@ export default function AppHeader({
                       <button
                         key={t.id}
                         onClick={() => { setSearchOpen(false); onNavigate('library'); }}
-                        className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0"
+                        className="w-full text-left px-4 py-3 min-h-11 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0"
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs font-black text-slate-800">{t.title}</span>
@@ -469,7 +470,7 @@ export default function AppHeader({
                       <button
                         key={r.id}
                         onClick={() => { setSearchOpen(false); onNavigate('library'); }}
-                        className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0"
+                        className="w-full text-left px-4 py-3 min-h-11 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0"
                       >
                         <p className="text-xs font-black text-slate-800 mb-1">{r.question ?? r.title}</p>
                         <p className="text-xs text-slate-500 line-clamp-2">{r.answer ?? r.snippet}</p>

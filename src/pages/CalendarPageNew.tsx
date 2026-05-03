@@ -455,7 +455,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && saveEvent()}
                   data-testid="event-description"
-                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
+                  className="w-full px-3 py-2 min-h-[44px] text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
                   placeholder="e.g. Maths exam..."
                 />
                 <div className="grid grid-cols-4 gap-1">
@@ -467,7 +467,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   ))}
                 </div>
                 <button onClick={saveEvent} disabled={!newEventName.trim()} data-testid="create-event-btn"
-                  className={`w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
+                  className={`w-full flex items-center justify-center gap-1.5 min-h-[44px] py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
                   {savedEvent ? 'Saved ✓' : <><Plus className="w-3.5 h-3.5" /> Add Event</>}
                 </button>
               </div>
@@ -522,8 +522,9 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {WEEK_DAYS.map((d, i) => (
-                <div key={d} className={`py-3 text-center text-xs font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {d}
+                <div key={d} className={`py-2 md:py-3 text-center text-[9px] md:text-xs font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
+                  <span className="hidden sm:inline">{d}</span>
+                  <span className="sm:hidden">{d.slice(0, 1)}</span>
                 </div>
               ))}
             </div>
@@ -561,7 +562,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
                     whileHover={{ backgroundColor: isSelected ? undefined : hasDeadline ? 'rgba(15,23,42,0.03)' : 'rgba(15,23,42,0.02)' }}
                     className={[
-                      'relative min-h-[4.5rem] md:min-h-[7rem] p-1 md:p-2 text-left border-b border-r border-slate-100 transition-colors',
+                      'relative min-h-[3.5rem] sm:min-h-[4.5rem] md:min-h-[7rem] p-0.5 sm:p-1 md:p-2 text-left border-b border-r border-slate-100 transition-colors',
                       isWeekend  ? 'bg-slate-50/70' : 'bg-white',
                       hasDeadline && !isSelected ? 'bg-slate-50/60' : '',
                       holiday && !hasDeadline && !isSelected ? 'bg-slate-50/30' : '',
@@ -571,7 +572,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   >
                     {inTerm && <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-300/60" />}
                     <span className={[
-                      'inline-flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-lg text-[10px] md:text-xs font-black mb-0.5 md:mb-1.5 transition-all',
+                      'inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-md sm:rounded-lg text-[9px] sm:text-[10px] md:text-xs font-black mb-0.5 md:mb-1.5 transition-all',
                       today
                         ? 'bg-slate-900 text-white shadow-md shadow-slate-300/50 scale-110'
                         : isSelected
@@ -584,10 +585,13 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     </span>
                     <div className="flex flex-col gap-[2px] mt-0.5 w-full overflow-hidden">
                       {visible.map(c => (
-                        <div key={c.key} className={`text-[9px] md:text-[10px] font-medium leading-[13px] px-1.5 py-0.5 rounded-[3px] truncate whitespace-nowrap text-left ${c.chip}`}>
+                        <div key={c.key} className={`hidden sm:block text-[9px] md:text-[10px] font-medium leading-[13px] px-1 py-0.5 rounded-[3px] truncate whitespace-nowrap text-left ${c.chip}`}>
                           {c.label}
                         </div>
                       ))}
+                      {visible.length > 0 && (
+                        <div className={`sm:hidden w-1.5 h-1.5 rounded-full mt-0.5 ${visible[0].dot}`} />
+                      )}
                       {overflow > 0 && <div className="text-[9px] font-medium text-slate-500 pl-1 leading-none mt-0.5">+{overflow} more</div>}
                     </div>
                   </motion.button>
@@ -649,7 +653,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               })}
             </div>
 
-            <div className="grid grid-cols-7 divide-x divide-slate-100 min-h-[360px]">
+            <div className="grid grid-cols-7 divide-x divide-slate-100 min-h-[200px] sm:min-h-[360px]">
               {weekDays.map((d, i) => {
                 const iso       = toIso(d.getFullYear(), d.getMonth(), d.getDate());
                 const dlList    = getDeadlinesForIso(iso);
@@ -662,7 +666,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     key={i}
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
                     className={[
-                      'p-2 text-left transition-colors hover:bg-slate-50 min-h-[360px] flex flex-col gap-1',
+                      'p-1 sm:p-2 text-left transition-colors hover:bg-slate-50 min-h-[200px] sm:min-h-[360px] flex flex-col gap-1',
                       i >= 5 ? 'bg-slate-50/50' : 'bg-white',
                       isSelected ? 'bg-slate-50 ring-2 ring-inset ring-slate-900' : '',
                     ].join(' ')}
@@ -782,7 +786,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   <input
                     type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') { setSelectedDay(iso); saveEvent(); } }}
-                    className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
+                    className="flex-1 px-3 py-2 min-h-[44px] text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
                     placeholder="Event name..."
                   />
                   <button
@@ -1005,7 +1009,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   placeholder="Search events & deadlines…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-9 py-2 text-sm border border-slate-200 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-400 shadow-sm transition-all"
+                  className="w-full pl-9 pr-9 py-2 min-h-[44px] text-base sm:text-sm border border-slate-200 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-400 shadow-sm transition-all"
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600">

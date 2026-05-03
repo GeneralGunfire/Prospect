@@ -47,8 +47,8 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-12 text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
             Find <span className="text-slate-500">TVET Colleges</span>
           </h1>
           <p className="text-sm leading-relaxed text-slate-600">
@@ -57,7 +57,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Search & Filters */}
-        <div className="mb-12 space-y-6 bg-slate-50 rounded-xl p-6">
+        <div className="mb-8 sm:mb-12 space-y-6 bg-slate-50 rounded-xl p-4 sm:p-6">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
             <input
@@ -65,7 +65,8 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
               placeholder="Search college name, city, or specialization..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900"
+              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900 min-h-12"
+              style={{ fontSize: '16px' }}
             />
           </div>
 
@@ -79,7 +80,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                   <button
                     key={prov}
                     onClick={() => setSelectedProvince(selectedProvince === prov ? null : prov)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
+                    className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                     style={
                       selectedProvince === prov
                         ? { backgroundColor: '#1e293b', color: 'white', borderColor: '#1e293b' }
@@ -125,7 +126,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Colleges Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 sm:mb-12">
           {filteredColleges.length > 0 ? (
             filteredColleges.map((college, idx) => (
               <motion.div
@@ -143,7 +144,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                   }}
                 ></div>
 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   {/* College Name */}
                   <h3 className="text-lg font-bold mb-2 text-slate-900">
                     {college.name}
@@ -207,7 +208,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                 </div>
 
                 {/* CTA */}
-                <div className="px-6 pb-6">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                   <button
                     className="w-full py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all text-white"
                     style={{ backgroundColor: '#1e293b' }}
@@ -232,7 +233,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
 
         {/* Info Section */}
         <div
-          className="rounded-xl p-8 mb-12"
+          className="rounded-xl p-5 sm:p-8 mb-8 sm:mb-12"
           style={{ backgroundColor: '#1e293b' }}
         >
           <h2 className="text-2xl font-bold text-white mb-4">About South African TVET Colleges</h2>

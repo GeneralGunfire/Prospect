@@ -35,7 +35,7 @@ export function TVETSubNav({ currentPage, onNavigate }: TVETSubNavProps) {
                 key={link.key}
                 ref={isActive ? activeRef : undefined}
                 onClick={() => onNavigate(link.page)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest whitespace-nowrap shrink-0 transition-all duration-200 border ${
+                className={`flex items-center gap-2 px-5 py-2.5 min-h-11 rounded-lg text-xs font-black uppercase tracking-widest whitespace-nowrap shrink-0 transition-all duration-200 border ${
                   isActive
                     ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
                     : 'bg-white border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-300'

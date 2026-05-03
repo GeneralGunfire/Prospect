@@ -312,10 +312,10 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
     <div className="min-h-screen bg-slate-50">
       <AppHeader currentPage="community-impact" user={user} onNavigate={onNavigate} mode="community" />
 
-      <div className="pt-20 pb-20 px-4 md:px-8 max-w-5xl mx-auto">
+      <div className="pt-16 sm:pt-20 pb-12 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
 
         {/* Page Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/5 mb-4">
             <Users className="w-4 h-4 text-slate-900" />
             <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Community Impact</span>
@@ -329,7 +329,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 bg-white rounded-xl border border-slate-200 shadow-sm mb-8 w-fit">
+        <div className="flex gap-1 p-1 bg-white rounded-xl border border-slate-200 shadow-sm mb-6 sm:mb-8 w-full sm:w-fit overflow-x-auto">
           {(['discover', 'add', 'my-contributions'] as Tab[]).map(tab => {
             const labels: Record<Tab, string> = {
               discover: 'Discover',
@@ -341,7 +341,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 key={tab}
                 data-testid={`ci-tab-${tab}`}
                 onClick={() => handleTabChange(tab)}
-                className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
+                className={`px-4 py-2.5 min-h-11 rounded-lg text-xs font-black uppercase tracking-widest transition-all shrink-0 ${
                   activeTab === tab
                     ? 'bg-slate-900 text-white shadow-sm'
                     : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
@@ -361,7 +361,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-slate-900 rounded-2xl p-5 md:p-6 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="bg-slate-900 rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Missing something?</p>
@@ -372,14 +372,14 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
               </div>
               <button
                 onClick={() => handleTabChange('add')}
-                className="shrink-0 flex items-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 transition-colors"
+                className="shrink-0 flex items-center gap-2 px-5 py-3 bg-white text-slate-900 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 transition-colors min-h-11"
               >
                 Add it now <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </motion.div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6 sm:mb-8">
               {[
                 { label: 'Total',    value: stats.total,   iconBg: 'bg-slate-900',    iconRing: 'ring-slate-200', icon: <Building2 className="w-4 h-4 text-white" /> },
                 { label: 'Schools',  value: stats.school,  iconBg: 'bg-blue-600',     iconRing: 'ring-blue-100',  icon: <GraduationCap className="w-4 h-4 text-white" /> },
@@ -475,7 +475,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 <p className="text-xs text-slate-400 mb-6">Be the first to add one in this area.</p>
                 <button
                   onClick={() => handleTabChange('add')}
-                  className="px-6 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors"
+                  className="px-6 py-3 min-h-11 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors"
                 >
                   Add an opportunity
                 </button>
@@ -505,7 +505,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Step 1 of 2</p>
                   <h2 className="text-xl font-black text-slate-900 mb-1">What are you adding?</h2>
                   <p className="text-sm text-slate-500 mb-6">Pick a category to get started.</p>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {TYPES.map(t => (
                       <motion.button
                         key={t.value}
@@ -601,7 +601,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     </FormField>
 
                     {/* Location */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <FormField label="Province" required>
                         <div className="relative">
                           <select
@@ -656,7 +656,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     {/* Contributor */}
                     <div className="border-t border-slate-100 pt-4 mt-2">
                       <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Your details</p>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <FormField label="Your name" hint="Optional">
                           <input
                             type="text"
@@ -742,13 +742,13 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <button
                       onClick={() => { handleTabChange('discover'); }}
-                      className="px-6 py-3 border border-slate-200 text-slate-700 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-colors"
+                      className="px-6 py-3 min-h-11 border border-slate-200 text-slate-700 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-colors"
                     >
                       View in Discover
                     </button>
                     <button
                       onClick={handleAddAnother}
-                      className="px-6 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors flex items-center gap-2"
+                      className="px-6 py-3 min-h-11 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors flex items-center gap-2"
                     >
                       <Plus className="w-3.5 h-3.5" /> Add another
                     </button>
@@ -780,7 +780,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   />
                   <button
                     onClick={loadMySubmissions}
-                    className="px-4 py-2.5 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors"
+                    className="px-4 py-2.5 min-h-11 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors"
                   >
                     View
                   </button>
@@ -799,7 +799,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 <p className="text-xs text-slate-400 mb-6">Add a school, college, job or service to your community.</p>
                 <button
                   onClick={() => handleTabChange('add')}
-                  className="px-6 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors"
+                  className="px-6 py-3 min-h-11 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-colors"
                 >
                   Add your first contribution
                 </button>

@@ -137,7 +137,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               Career Explorer
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
             Explore <span className="text-slate-500">Your Future</span>
           </h1>
           <p className="text-base leading-relaxed text-slate-600">
@@ -155,12 +155,12 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                 placeholder="Search careers, skills, or industries..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
+                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3 sm:py-4 min-h-12 text-sm font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
               />
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
+              className={`flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 min-h-12 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
                 isFilterOpen
                   ? 'bg-slate-900 text-white border-transparent'
                   : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'

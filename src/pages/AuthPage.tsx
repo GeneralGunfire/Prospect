@@ -12,7 +12,7 @@ interface AuthPageProps {
 }
 
 const inputBase =
-  'w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 focus:ring-2 focus:ring-slate-300 focus:border-slate-400 text-sm';
+  'w-full px-4 py-3 min-h-12 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 focus:ring-2 focus:ring-slate-300 focus:border-slate-400 text-base sm:text-sm';
 
 const PasswordField = ({
   id, label, value, onChange, placeholder, error,
@@ -115,7 +115,7 @@ const ForgotPasswordForm = ({ onBack }: { onBack: () => void }) => {
         {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
       </div>
       <button type="submit" disabled={loading}
-        className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-slate-700 transition-colors">
+        className="w-full py-3 min-h-12 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-slate-700 transition-colors">
         {loading ? <><Loader2 size={15} className="animate-spin" /> Sending…</> : 'Send Reset Link'}
       </button>
       <button type="button" onClick={onBack}
@@ -205,7 +205,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
       {/* Left — form panel */}
       <div className="flex flex-col w-full md:w-1/2 min-h-screen">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
+        <div className="flex items-center justify-between px-4 sm:px-8 py-6 border-b border-slate-100">
           <button onClick={onNavigateHome} className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors">
             <ArrowLeft size={15} />
             <span>Back</span>
@@ -217,7 +217,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
         </div>
 
         {/* Form body */}
-        <div className="flex flex-col flex-1 items-center justify-center px-8 py-12">
+        <div className="flex flex-col flex-1 items-center justify-center px-4 sm:px-8 py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -306,7 +306,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
                       className="text-sm text-slate-900 font-bold hover:underline">Forgot password?</button>
                   </div>
                   <motion.button type="submit" disabled={loading} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}
-                    className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-slate-700 transition-colors">
+                    className="w-full py-3 min-h-12 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-slate-700 transition-colors">
                     {loading ? <><Loader2 size={15} className="animate-spin" /> Logging in…</> : 'Log In'}
                   </motion.button>
                   <p className="text-center text-sm text-slate-500">
@@ -356,7 +356,7 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
                     {fieldErrors.terms && <p className="mt-1.5 text-xs text-red-500">{fieldErrors.terms}</p>}
                   </div>
                   <motion.button type="submit" disabled={loading} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}
-                    className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-slate-700 transition-colors">
+                    className="w-full py-3 min-h-12 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-60 hover:bg-slate-700 transition-colors">
                     {loading ? <><Loader2 size={15} className="animate-spin" /> Creating account…</> : 'Create Account'}
                   </motion.button>
                   <p className="text-center text-sm text-slate-500">

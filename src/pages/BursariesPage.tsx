@@ -112,12 +112,12 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
       <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="mb-12 text-center max-w-3xl mx-auto">
+        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-100/60">
             <Wallet className="w-4 h-4 text-slate-500" />
             <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Financial Aid</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
             Fund Your <span className="text-slate-500">Education</span>
           </h1>
           <p className="text-base leading-relaxed mb-8 text-slate-600">
@@ -138,12 +138,12 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     placeholder="Search bursaries, providers, or fields of study..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900"
+                    className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3 sm:py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900"
                   />
                 </div>
                 <button
                   onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
+                  className={`flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
                     isFilterOpen
                       ? 'bg-slate-900 text-white border-transparent'
                       : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
@@ -258,11 +258,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(index, 7) * 0.04 }}
-                    className="bg-white border border-slate-100 rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer"
+                    className="bg-white border border-slate-100 rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer"
                     onClick={() => handleViewDetail(bursary.id)}
                   >
                     <div className="flex flex-col md:flex-row gap-8 items-start">
-                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors bg-slate-900/5">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors bg-slate-900/5">
                         <Wallet className="w-8 h-8 text-slate-900" />
                       </div>
 
@@ -302,7 +302,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                             e.stopPropagation();
                             handleViewDetail(bursary.id);
                           }}
-                          className="grow md:grow-0 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-sm"
+                          className="grow md:grow-0 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-sm"
                         >
                           View Details <ArrowRight className="w-4 h-4" />
                         </button>
@@ -346,7 +346,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
             </div>
 
             {/* NSFAS banner */}
-            <div className="mt-20 p-8 md:p-12 rounded-3xl text-white relative overflow-hidden bg-slate-900">
+            <div className="mt-20 p-6 sm:p-8 md:p-12 rounded-3xl text-white relative overflow-hidden bg-slate-900">
               <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <h2 className="text-3xl font-bold mb-6 uppercase tracking-tight">NSFAS Funding</h2>

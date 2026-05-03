@@ -135,7 +135,7 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
         </p>
         <button
           onClick={onBrowse}
-          className="flex items-center gap-2 bg-white text-slate-900 font-black text-sm px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors"
+          className="flex items-center gap-2 bg-white text-slate-900 font-black text-sm px-4 py-2.5 rounded-xl hover:bg-slate-100 transition-colors min-h-11"
         >
           Browse all procedures
           <ChevronRight className="w-4 h-4" />
@@ -183,7 +183,7 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
         </div>
         <button
           onClick={onBrowse}
-          className="w-full mt-3 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 transition-colors"
+          className="w-full mt-3 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold text-sm hover:bg-slate-50 transition-colors min-h-11"
         >
           View all {procedures.length} procedures
         </button>
@@ -277,7 +277,7 @@ function BrowseView({ procedures, initialCategory, onSelect, onBack }: {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <button onClick={onBack} className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+        <button onClick={onBack} className="w-11 h-11 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
           <ChevronLeft className="w-4 h-4 text-slate-600" />
         </button>
         <div>
@@ -387,7 +387,7 @@ function BrowseView({ procedures, initialCategory, onSelect, onBack }: {
         {filtered.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-slate-400 text-sm">No procedures found</p>
-            <button onClick={() => { setQuery(''); setCategory(''); setDifficulty(''); }} className="mt-2 text-xs text-blue-600 font-bold">
+            <button onClick={() => { setQuery(''); setCategory(''); setDifficulty(''); }} className="mt-2 text-xs text-blue-600 font-bold min-h-11 px-3">
               Clear filters
             </button>
           </div>
@@ -445,14 +445,14 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
     <div className="space-y-5">
       {/* Header */}
       <div className="flex items-start gap-3">
-        <button onClick={onBack} className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
+        <button onClick={onBack} className="w-11 h-11 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
           <ChevronLeft className="w-4 h-4 text-slate-600" />
         </button>
         <div className="flex-1">
           <p className={`text-xs font-black uppercase tracking-wider ${cfg.color} mb-0.5`}>{procedure.category} · {procedure.subcategory}</p>
           <h2 className="font-black text-lg text-slate-900 leading-tight">{procedure.title}</h2>
         </div>
-        <button onClick={share} className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
+        <button onClick={share} className="w-11 h-11 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
           <Share2 className="w-4 h-4 text-slate-600" />
         </button>
       </div>
@@ -696,7 +696,7 @@ function CivicsPage({ user, onNavigate }: AuthedProps) {
     <div className="min-h-screen bg-slate-50">
       <AppHeader currentPage="civics" user={user} onNavigate={onNavigate} mode="community" />
 
-      <main className="max-w-3xl mx-auto px-4 pt-24 pb-16">
+      <main className="max-w-3xl mx-auto px-4 pt-24 pb-8 sm:pb-12 lg:pb-16">
         {/* Page title */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}

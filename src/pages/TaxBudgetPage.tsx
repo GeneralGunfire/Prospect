@@ -138,7 +138,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
     <div className="min-h-screen bg-slate-50">
       <AppHeader currentPage="tax-budget" user={user} onNavigate={onNavigate} mode="community" />
 
-      <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-5">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 pb-12 sm:pb-16 space-y-5">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-2">
           <div className="flex items-center gap-3 mb-2">
@@ -146,7 +146,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
               <Calculator className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="font-black text-2xl text-slate-900 uppercase tracking-wide">Tax & Budget</h1>
+              <h1 className="font-black text-xl sm:text-2xl text-slate-900 uppercase tracking-wide">Tax & Budget</h1>
               <p className="text-xs text-slate-500">Understand your money · 2026 rates</p>
             </div>
           </div>
@@ -162,7 +162,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
             <div>
               <p className="text-xs font-black uppercase tracking-wider text-slate-500 mb-2">2026/27 Tax Brackets</p>
               <div className="overflow-x-auto rounded-xl border border-slate-200">
-                <table className="w-full text-sm">
+                <table className="w-full min-w-[320px] text-sm">
                   <thead>
                     <tr className="bg-slate-50 text-left">
                       <th className="px-4 py-2.5 text-xs font-bold text-slate-600">Annual Income</th>
@@ -216,7 +216,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                   value={grossMonthly}
                   onChange={e => setGrossMonthly(e.target.value)}
                   placeholder="e.g. 25000"
-                  className="w-full pl-8 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-bold focus:outline-none focus:border-slate-400 focus:bg-white transition-colors"
+                  className="w-full pl-8 pr-4 py-3 min-h-12 text-base rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-bold focus:outline-none focus:border-slate-400 focus:bg-white transition-colors"
                 />
               </div>
             </div>
@@ -286,7 +286,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                 <select
                   value={province}
                   onChange={e => setProvince(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:border-slate-400 transition-colors"
+                  className="w-full px-3.5 py-3 min-h-12 text-base rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:border-slate-400 transition-colors"
                 >
                   {PROVINCES.map(p => <option key={p}>{p}</option>)}
                 </select>
@@ -296,7 +296,7 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
                 <select
                   value={living}
                   onChange={e => setLiving(e.target.value)}
-                  className="w-full px-3.5 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:border-slate-400 transition-colors"
+                  className="w-full px-3.5 py-3 min-h-12 text-base rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:border-slate-400 transition-colors"
                 >
                   {LIVING_SITUATIONS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                 </select>

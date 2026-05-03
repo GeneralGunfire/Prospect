@@ -190,7 +190,7 @@ function MaintenanceCard({ item }: { item: MaintenanceSchedule }) {
 
 function EmptyState({ message }: { message: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
+    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 sm:p-8 text-center">
       <p className="text-sm text-slate-400 font-medium">{message}</p>
     </div>
   );
@@ -321,7 +321,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
     <div className="min-h-screen bg-bg-light">
       <AppHeader currentPage="water-dashboard" user={user} onNavigate={onNavigate} mode="community" />
 
-      <main className="max-w-4xl mx-auto px-4 pt-20 pb-16">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-12 sm:pb-16">
         {/* ── Page header ── */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -341,7 +341,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
                 <Droplets className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-h3 text-text-primary leading-tight">Water Dashboard</h1>
+                <h1 className="text-xl sm:text-h3 text-text-primary leading-tight">Water Dashboard</h1>
                 <p className="text-sm text-slate-500 font-medium">South Africa water status &amp; dam levels</p>
               </div>
             </div>
@@ -352,7 +352,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
             <button
               onClick={() => load(province)}
               disabled={loading}
-              className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-all disabled:opacity-40"
+              className="p-2 min-h-11 min-w-11 flex items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-all disabled:opacity-40"
               aria-label="Refresh data"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />

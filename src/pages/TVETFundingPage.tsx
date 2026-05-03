@@ -12,8 +12,8 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-16 text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+        <div className="mb-8 sm:mb-12 lg:mb-16 text-center max-w-3xl mx-auto">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
             Funding & <span className="text-slate-500">Support Guide</span>
           </h1>
           <p className="text-sm leading-relaxed text-slate-600">
@@ -22,7 +22,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Why TVET is Affordable */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -54,7 +54,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-slate-50 rounded-xl p-6 hover:shadow-lg transition-shadow border-l-4 border-amber-400"
+                className="bg-slate-50 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-shadow border-l-4 border-amber-400"
               >
                 <item.icon className="w-10 h-10 mb-4 text-slate-900" />
                 <h3 className="font-bold text-lg mb-2">{item.title}</h3>
@@ -65,7 +65,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* Funding Options */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -130,7 +130,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className={`bg-white border-2 rounded-xl p-8 hover:shadow-md transition-shadow ${option.borderCls}`}
+                className={`bg-white border-2 rounded-xl p-5 sm:p-8 hover:shadow-md transition-shadow ${option.borderCls}`}
               >
                 <div className="flex items-start gap-4 mb-4">
                   <CheckCircle className="w-6 h-6 flex-shrink-0 mt-1 text-slate-700" />
@@ -152,7 +152,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* Step-by-Step Guide */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -226,7 +226,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* Costs Breakdown */}
-        <section className="mb-16 bg-slate-50 rounded-xl p-8">
+        <section className="mb-8 sm:mb-12 lg:mb-16 bg-slate-50 rounded-xl p-5 sm:p-8">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -257,7 +257,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className={`bg-white rounded-xl p-8 border-l-4 ${item.borderCls}`}
+                className={`bg-white rounded-xl p-5 sm:p-8 border-l-4 ${item.borderCls}`}
               >
                 <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
                 <p className={`text-4xl font-bold mb-8 ${item.totalCls}`}>
@@ -277,7 +277,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* Disadvantaged Student Resources */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -286,7 +286,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
             Special Support for Disadvantaged Students
           </motion.h2>
 
-          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-xl p-8 mb-6">
+          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-xl p-5 sm:p-8 mb-6">
             <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-blue-500" />
               Important: TVET is Designed for You
@@ -320,7 +320,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-slate-50 rounded-xl p-6"
+                className="bg-slate-50 rounded-xl p-4 sm:p-6"
               >
                 <h4 className="font-bold text-lg mb-4 text-slate-900">
                   {item.title}
@@ -368,7 +368,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
-                className="bg-white border-2 rounded-xl p-6 border-amber-400"
+                className="bg-white border-2 rounded-xl p-4 sm:p-6 border-amber-400"
               >
                 <h4 className="font-bold text-lg mb-2 text-slate-900">
                   {story.name}
@@ -380,7 +380,7 @@ function TVETFundingPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* CTA */}
-        <div className="mt-16 bg-slate-900 rounded-xl p-8 text-white text-center">
+        <div className="mt-8 sm:mt-12 lg:mt-16 bg-slate-900 rounded-xl p-5 sm:p-8 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Apply?</h2>
           <p className="mb-8 text-lg">
             Browse TVET careers, find colleges, and start your application today.

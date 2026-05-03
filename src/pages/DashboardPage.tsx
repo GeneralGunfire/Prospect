@@ -362,7 +362,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                     const mastered = row.mastery_level === 'mastered';
                     const needsPractice = row.mastery_level === 'needs_practice';
                     return (
-                      <div key={row.id} className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50/60 transition-colors">
+                      <div key={row.id} className="flex items-center gap-3 px-4 py-3 min-h-11 hover:bg-slate-50/60 transition-colors">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${mastered ? 'bg-blue-50' : needsPractice ? 'bg-amber-50' : 'bg-slate-100'}`}>
                           {mastered
                             ? <CheckCircle2 className="w-4 h-4 text-blue-500" />
@@ -727,7 +727,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {totalBookmarks > 0 && (
               <motion.div variants={item} className="space-y-4">
                 <h3 className="text-base font-bold text-slate-800">Saved Items</h3>
-                <div className="rounded-2xl border border-slate-100 overflow-hidden">
+                <div className="overflow-x-auto rounded-2xl border border-slate-100">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/60">
@@ -784,7 +784,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <button
                     key={label}
                     onClick={() => onNavigate(page)}
-                    className={`flex items-center gap-3 p-4 rounded-2xl border text-left hover:opacity-80 transition-opacity ${color}`}
+                    className={`flex items-center gap-3 p-4 min-h-11 rounded-2xl border text-left hover:opacity-80 transition-opacity ${color}`}
                   >
                     <div className="shrink-0">{icon}</div>
                     <div>

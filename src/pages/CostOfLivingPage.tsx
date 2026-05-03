@@ -111,7 +111,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
     <div className="min-h-screen bg-slate-50">
       <AppHeader currentPage="cost-of-living" user={user} onNavigate={onNavigate} mode="community" />
 
-      <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-6">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 pb-12 sm:pb-16 space-y-6">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-3 mb-2">
@@ -119,7 +119,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
               <MapPin className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="font-black text-2xl text-slate-900 uppercase tracking-wide">Cost of Living</h1>
+              <h1 className="font-black text-xl sm:text-2xl text-slate-900 uppercase tracking-wide">Cost of Living</h1>
               <p className="text-xs text-slate-500">By province · 2026 estimates</p>
             </div>
           </div>
@@ -141,7 +141,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
               <button
                 key={p}
                 onClick={() => setProvince(p)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all duration-150
+                className={`px-3 py-1.5 min-h-[44px] sm:min-h-0 rounded-xl text-xs font-bold border transition-all duration-150
                   ${province === p
                     ? 'bg-slate-900 text-white border-slate-900'
                     : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
@@ -166,7 +166,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
             {/* Fuel section */}
             <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
               <h2 className="font-black text-xs uppercase tracking-wider text-slate-500 mb-3">Fuel Prices</h2>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <MetricCard
                   icon={<Fuel className="w-3.5 h-3.5 text-blue-600" />}
                   label="Petrol 95"
@@ -202,7 +202,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                   </div>
                   <Zap className="w-8 h-8 text-amber-400" />
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {Object.entries(pd.electricity_monthly_estimate).map(([tier, val]) => (
                     <div key={tier} className="text-center p-2.5 bg-amber-50 rounded-xl border border-amber-100">
                       <p className="text-xs font-black uppercase tracking-wider text-amber-700 mb-0.5">
@@ -227,7 +227,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
                   </div>
                   <Droplets className="w-8 h-8 text-blue-400" />
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {Object.entries(pd.water_monthly_estimate).map(([tier, val]) => (
                     <div key={tier} className="text-center p-2.5 bg-blue-50 rounded-xl border border-blue-100">
                       <p className="text-xs font-black uppercase tracking-wider text-blue-700 mb-0.5">
@@ -262,7 +262,7 @@ function CostOfLivingPage({ user, onNavigate }: AuthedProps) {
               </div>
               <div className="px-5 py-4 bg-slate-50 border-t border-slate-100">
                 <p className="text-xs font-black uppercase tracking-wider text-slate-500 mb-2">Monthly food estimate</p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {[
                     { label: 'Single person', key: 'single' },
                     { label: 'Couple', key: 'couple' },

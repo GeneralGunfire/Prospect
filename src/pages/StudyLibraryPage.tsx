@@ -55,7 +55,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
     <div className="min-h-screen bg-surface">
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
 
-      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
+      <div className="pt-24 pb-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
         <div className="mb-12 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-900/5">
             <Library className="w-4 h-4 text-slate-900" />
@@ -79,7 +79,8 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                   placeholder="Search for a subject (e.g. Mathematics, History)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
+                  className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 min-h-12 text-base font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
+                  style={{ fontSize: '16px' }}
                 />
               </div>
 
@@ -97,7 +98,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                           }
                         }}
                         disabled={!hasContent}
-                        className={`w-full bg-white border border-slate-100 rounded-2xl p-6 shadow-sm transition-all duration-200 flex flex-col text-left ${
+                        className={`w-full bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-sm transition-all duration-200 flex flex-col text-left min-h-11 ${
                           hasContent
                             ? 'hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 cursor-pointer'
                             : 'opacity-50 cursor-not-allowed'
@@ -149,7 +150,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[10, 11, 12].map((grade) => (
                   <button key={grade} onClick={() => { setSelectedGrade(grade); setStep('term'); }}
-                    className="group bg-white border border-slate-100 rounded-2xl p-8 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
+                    className="group bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
                   >
                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-slate-900 group-hover:bg-blue-600 transition-colors duration-200">
                       <GraduationCap className="w-7 h-7 text-white" />
@@ -182,7 +183,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                       setStep('content'); 
                     }
                   }}
-                    className="group bg-white border border-slate-100 rounded-2xl p-7 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
+                    className="group bg-white border border-slate-100 rounded-2xl p-5 sm:p-7 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
                   >
                     <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-slate-900 group-hover:bg-blue-600 transition-colors duration-200">
                       <Calendar className="w-5 h-5 text-white" />
@@ -200,7 +201,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity text-slate-900">
                 <ChevronLeft className="w-4 h-4" /> Back
               </button>
-              <div className="bg-white border border-dashed border-slate-200 rounded-[2.5rem] p-24">
+              <div className="bg-white border border-dashed border-slate-200 rounded-[2.5rem] p-10 sm:p-24">
                 <BookOpen className="w-16 h-16 text-slate-200 mx-auto mb-8" />
                 <h2 className="text-2xl font-black text-slate-900 mb-4 tracking-tight uppercase">Coming Soon</h2>
                 <p className="text-slate-500 max-w-md mx-auto">Study materials for {currentSubjectName} Grade {selectedGrade} Term {selectedTerm} are currently being developed.</p>

@@ -54,14 +54,14 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
     <div className="min-h-screen bg-gray-50">
       <AppHeader currentPage="subject-selector" user={user} onNavigate={onNavigate} mode="career" />
 
-      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
+      <div className="pt-20 pb-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ background: 'rgba(30,41,59,0.05)' }}>
             <BookOpen className="w-4 h-4 text-slate-900" />
             <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Subject Selection</span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight text-slate-900">
             Explore Careers by <span className="text-slate-900">Subject</span>
           </h1>
           <p className="text-sm mt-2 text-slate-500">
@@ -72,11 +72,11 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar - Subject Selection */}
           <div className="lg:col-span-1">
-            <div className="sticky top-28 bg-white border border-slate-100 rounded-2xl p-6">
+            <div className="sticky top-28 bg-white border border-slate-100 rounded-2xl p-4 sm:p-6">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 text-slate-900">
                 Select Your Subjects
               </h3>
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1">
                 {GRADE_10_SUBJECTS.map(subject => (
                   <button
                     key={subject}
@@ -84,7 +84,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                     className="w-full flex items-center gap-3 cursor-pointer group text-left hover:bg-slate-50 p-2 rounded-lg transition-colors"
                   >
                     <div
-                      className="w-5 h-5 rounded border-2 flex items-center justify-center transition-all flex-shrink-0"
+                      className="w-5 h-5 rounded border-2 flex items-center justify-center transition-all shrink-0"
                       style={{
                         borderColor: selectedSubjects.includes(subject) ? '#1e293b' : '#cbd5e1',
                         backgroundColor: selectedSubjects.includes(subject) ? '#1e293b' : 'white',
@@ -124,7 +124,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white border border-dashed border-slate-200 rounded-2xl p-12 text-center"
+                className="bg-white border border-dashed border-slate-200 rounded-2xl p-6 sm:p-12 text-center"
               >
                 <BookOpen className="w-12 h-12 text-slate-200 mx-auto mb-4" />
                 <h3 className="text-lg font-bold mb-2 text-slate-900">
@@ -136,14 +136,14 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 <div className="flex gap-4 justify-center flex-wrap">
                   <button
                     onClick={() => onNavigate('quiz')}
-                    className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all"
+                    className="w-full sm:w-auto min-h-12 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all"
                     style={{ backgroundColor: '#1e293b' }}
                   >
                     Take Quiz
                   </button>
                   <button
                     onClick={() => onNavigate('library')}
-                    className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all text-slate-900"
+                    className="w-full sm:w-auto min-h-12 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all text-slate-900"
                   >
                     Study Library
                   </button>
@@ -332,14 +332,14 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 >
                   <button
                     onClick={() => onNavigate('quiz')}
-                    className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all hover:shadow-lg"
+                    className="w-full sm:w-auto min-h-12 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all hover:shadow-lg"
                     style={{ backgroundColor: '#1e293b' }}
                   >
                     Take Quiz
                   </button>
                   <button
                     onClick={() => onNavigate('library')}
-                    className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all hover:bg-slate-50 text-slate-900"
+                    className="w-full sm:w-auto min-h-12 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 transition-all hover:bg-slate-50 text-slate-900"
                   >
                     Study Library
                   </button>

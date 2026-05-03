@@ -63,8 +63,8 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-12 text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
+        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
             Matric <span className="text-slate-500">Requirements</span>
           </h1>
           <p className="text-sm leading-relaxed text-slate-600">
@@ -73,7 +73,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Key Message */}
-        <div className="bg-green-50 border-l-4 border-green-600 rounded-xl p-8 mb-12">
+        <div className="bg-green-50 border-l-4 border-green-600 rounded-xl p-5 sm:p-8 mb-8 sm:mb-12">
           <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-slate-900" />
             TVET Is More Flexible Than University
@@ -92,7 +92,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Subject Requirements by Trade Type */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -109,7 +109,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 onClick={() => setSelectedTrade(selectedTrade === trade ? null : trade)}
-                className={`border-2 rounded-xl p-6 cursor-pointer hover:shadow-md transition-all ${
+                className={`border-2 rounded-xl p-4 sm:p-6 cursor-pointer hover:shadow-md transition-all ${
                   selectedTrade === trade
                     ? 'bg-slate-900/5 border-slate-800'
                     : 'bg-white border-slate-200 hover:border-slate-400'
@@ -156,7 +156,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* Can You Do TVET With Low Grades */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -235,7 +235,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* Subject Selector */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -300,7 +300,7 @@ function TVETRequirementsPage({ user, onNavigate }: AuthedProps) {
         </section>
 
         {/* If You're Struggling Now */}
-        <section className="mb-16">
+        <section className="mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

@@ -198,7 +198,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
       </header>
       )}
 
-      <main className="max-w-3xl mx-auto px-4 py-10" style={{ paddingTop: user ? '5.5rem' : undefined }}>
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10" style={{ paddingTop: user ? '5.5rem' : undefined }}>
 
         {/* Hero */}
         <motion.div
@@ -208,7 +208,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           className="mb-8 text-center"
         >
           <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Your Study Companion</p>
-          <h1 className="text-3xl lg:text-4xl font-black text-[#1e293b]" style={{ letterSpacing: '-0.02em' }}>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1e293b]" style={{ letterSpacing: '-0.02em' }}>
             School Assist
           </h1>
           <p className="text-slate-500 mt-2 text-sm max-w-md mx-auto">
@@ -240,7 +240,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 mb-6"
+          className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-4 sm:p-6 mb-6"
         >
           {/* Mode toggle */}
           <div className="flex gap-2 mb-5 p-1 bg-slate-100 rounded-xl w-fit mx-auto">
@@ -283,7 +283,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                     ? 'e.g. Algebraic Expressions, Waves, Photosynthesis…'
                     : 'e.g. How do I solve quadratic equations?'
                 }
-                className="w-full h-11 pl-9 pr-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
+                className="w-full h-11 pl-9 pr-3 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-all"
               />
             </div>
             <button
@@ -509,7 +509,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="mt-4 bg-white rounded-3xl border border-blue-100 shadow-sm p-6"
+                    className="mt-4 bg-white rounded-3xl border border-blue-100 shadow-sm p-4 sm:p-6"
                   >
                     <div className="flex items-center justify-between mb-5">
                       <div>

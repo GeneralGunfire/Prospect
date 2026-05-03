@@ -129,8 +129,8 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
       <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} mode="career" />
       <TVETSubNav currentPage="careers" onNavigate={onNavigate} />
 
-      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="mb-12 text-center max-w-3xl mx-auto">
+      <div className="pt-24 pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
           <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
             style={{ background: 'rgba(30,58,95,0.05)' }}
@@ -140,7 +140,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
               TVET Career Explorer
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
             Explore <span style={{ color: '#64748b' }}>TVET Careers</span>
           </h1>
           <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
@@ -150,7 +150,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
 
         {/* Sticky search + filters */}
         <div
-          className="mb-12 sticky top-20 z-40 py-4 -mx-4 px-4"
+          className="mb-8 sm:mb-12 sticky top-20 z-40 py-4 -mx-4 px-4"
           style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)' }}
         >
           <div className="flex flex-col md:flex-row gap-4 items-center">
@@ -161,8 +161,8 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                 placeholder="Search careers, trades, skills..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all"
-                style={{ color: '#1e293b' }}
+                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all min-h-12"
+                style={{ color: '#1e293b', fontSize: '16px' }}
               />
             </div>
             <button
@@ -205,7 +205,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           <button
                             key={type}
                             onClick={() => setSelectedTradeType(selectedTradeType === type ? null : type)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedTradeType === type
                                 ? { backgroundColor: '#1E3A5F', color: 'white', borderColor: '#1E3A5F' }
@@ -226,7 +226,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           <button
                             key={prov}
                             onClick={() => setSelectedProvince(selectedProvince === prov ? null : prov)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedProvince === prov
                                 ? { backgroundColor: '#1E3A5F', color: 'white', borderColor: '#1E3A5F' }
@@ -250,7 +250,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           <button
                             key={level}
                             onClick={() => setSelectedDemand(selectedDemand === level ? null : level)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
+                            className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
                             style={
                               selectedDemand === level
                                 ? {

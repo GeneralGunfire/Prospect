@@ -107,10 +107,10 @@ function QuizPhase({
       <div className="pt-24 pb-16 px-4 flex flex-col items-center">
         <div className="max-w-2xl w-full">
           {/* Header & Progress */}
-          <div className="mb-12">
+          <div className="mb-8 sm:mb-12">
           <div className="flex justify-between items-end mb-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight mb-1">Career Quiz</h1>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight mb-1">Career Quiz</h1>
               <p className="text-secondary text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
             </div>
             <div className="flex items-center gap-4">
@@ -143,7 +143,7 @@ function QuizPhase({
         {/* Question Card */}
         <div className="relative mb-8">
 
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 md:p-12 shadow-sm relative overflow-hidden">
+          <div className="bg-white border border-slate-100 rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm relative overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestion.id}
@@ -160,7 +160,7 @@ function QuizPhase({
           </AnimatePresence>
 
           {/* Likert Scale */}
-          <div className="mt-12 grid grid-cols-5 gap-2 md:gap-3">
+          <div className="mt-8 sm:mt-12 grid grid-cols-5 gap-2 md:gap-3">
             {likertOptions.map((option) => {
               const isSelected = currentAnswer === option.value;
               return (
@@ -172,7 +172,7 @@ function QuizPhase({
                   }`}
                 >
                   <div
-                    className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all duration-150 ${
+                    className={`w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all duration-150 ${
                       isSelected
                         ? `${option.color} shadow-md ring-2 ring-offset-2 ring-current/30`
                         : 'bg-slate-50 border border-slate-200 group-hover:border-slate-300'
@@ -184,7 +184,7 @@ function QuizPhase({
                     }
                   </div>
                   <span
-                    className={`text-xs font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
+                    className={`text-[9px] sm:text-xs font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
                       isSelected ? 'text-slate-900' : 'text-slate-400'
                     }`}
                   >
@@ -220,7 +220,7 @@ function QuizPhase({
             <button
               onClick={handleFinish}
               disabled={answers.length === 0}
-              className="bg-slate-900 text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
+              className="bg-slate-900 text-white px-6 py-3 sm:px-10 sm:py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg active:scale-95 disabled:opacity-50 transition-all"
             >
               Finish Quiz
             </button>
@@ -417,7 +417,7 @@ function ResultsPhase({
             <Star className="w-4 h-4 text-secondary fill-secondary" />
             <span className="text-xs font-bold text-secondary uppercase tracking-widest">Assessment Complete</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tight">
             Your RIASEC Profile
           </h1>
           <p className="text-base text-slate-900/70 mb-8 max-w-3xl">
@@ -430,7 +430,7 @@ function ResultsPhase({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="bg-white border border-slate-100 rounded-3xl p-8 md:p-12 shadow-sm mb-20"
+          className="bg-white border border-slate-100 rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-20"
         >
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em] mb-12">Your Scores Across All Dimensions</h3>
           <div className="space-y-8">
@@ -488,7 +488,7 @@ function ResultsPhase({
         {/* Section 3: Top 15 Careers */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mb-20">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Your Best Career Matches</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Your Best Career Matches</h2>
             <p className="text-slate-900/70 text-sm">
               Ranked by compatibility with your profile ({results.topCodes.join(', ')})
             </p>
@@ -550,7 +550,7 @@ function ResultsPhase({
         {/* Section 4: Subject Recommendations */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mb-20">
           <div className="mb-10">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Subjects to Focus On</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Subjects to Focus On</h2>
             <p className="text-slate-900/70 text-sm">
               These subjects will prepare you best for your matched careers
             </p>
@@ -615,7 +615,7 @@ function ResultsPhase({
 
         {/* Section 5: Next Steps */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mb-20">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-10">What's Next?</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-10">What's Next?</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button
@@ -657,7 +657,7 @@ function ResultsPhase({
         </motion.div>
 
         {/* Section 6: Disclaimer */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="bg-slate-900/5 border border-slate-900/10 rounded-2xl p-8 text-center">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="bg-slate-900/5 border border-slate-900/10 rounded-2xl p-5 sm:p-8 text-center">
           <p className="text-sm text-slate-900/70 leading-relaxed italic">
             This assessment is based on Holland's RIASEC model, validated by over 70 years of career research. Your results reflect
             your current interests — they can change as you grow and learn. Use these insights as a starting point for exploration,

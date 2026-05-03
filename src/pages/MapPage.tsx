@@ -111,7 +111,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.25, ease: 'easeOut' }}
-                className="bg-white p-7 rounded-2xl shadow-sm border border-slate-100"
+                className="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-100"
               >
                 <LocationInput onLocationSelect={handleLocationSelect} />
               </motion.div>
@@ -161,7 +161,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 <motion.button
                   onClick={handleBackClick}
                   whileHover={{ x: -2 }}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-slate-900 hover:bg-slate-700 shrink-0"
+                  className="flex items-center gap-2 px-4 py-2 min-h-9 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-slate-900 hover:bg-slate-700 shrink-0"
                 >
                   <ChevronLeft size={14} />
                   Change
@@ -175,7 +175,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1 }}
-                  className="w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-lg"
+                  className="w-full h-64 sm:h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-lg"
                 >
                   {userLocation && (
                     <MapDisplay
@@ -211,13 +211,13 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                         onClick={() => setActiveTab(tab.id)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className={`px-4 py-3 font-semibold text-sm transition rounded-lg flex-1 min-w-fit sm:flex-none ${
+                        className={`px-4 py-3 min-h-11 font-semibold text-sm transition rounded-lg flex-1 min-w-fit sm:flex-none ${
                           activeTab === tab.id
                             ? 'text-white'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                         style={{
-                          backgroundColor: activeTab === tab.id ? '#1E3A5F' : 'transparent',
+                          backgroundColor: activeTab === tab.id ? '#0f172a' : 'transparent',
                         }}
                       >
                         <tab.icon size={18} className="inline-block mr-2" />
@@ -228,7 +228,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
 
                   {/* Tab Content - Scrollable */}
                   <motion.div
-                    className="bg-white rounded-xl p-6 border-2 border-slate-100 max-h-96 lg:max-h-full overflow-y-auto"
+                    className="bg-white rounded-xl p-4 sm:p-6 border-2 border-slate-100 max-h-96 lg:max-h-full overflow-y-auto"
                   >
                     <AnimatePresence mode="wait">
                       {activeTab === 'colleges' && province && (

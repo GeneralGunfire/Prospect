@@ -61,10 +61,10 @@ export function CareerDetailModal({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             data-testid="career-modal"
-            className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vh] md:h-[90vh] md:max-w-5xl bg-white rounded-3xl shadow-2xl z-50 overflow-y-auto"
+            className="fixed inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vw] md:h-[90vh] md:max-w-5xl bg-white md:rounded-3xl shadow-2xl z-50 overflow-y-auto"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-slate-100 p-6 md:p-8 flex justify-between items-start gap-4">
+            <div className="sticky top-0 bg-white border-b border-slate-100 p-4 sm:p-5 md:p-8 flex justify-between items-start gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="px-3 py-1 bg-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest rounded-full">
@@ -80,7 +80,7 @@ export function CareerDetailModal({
                     {career.jobDemand.level} demand
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold" style={{ color: '#1e293b' }}>
+                <h2 className="text-xl sm:text-2xl md:text-4xl font-bold" style={{ color: '#1e293b' }}>
                   {career.title}
                 </h2>
               </div>
@@ -88,7 +88,7 @@ export function CareerDetailModal({
                 <button
                   onClick={() => onToggleSave?.(career.id)}
                   data-testid="bookmark-btn"
-                  className={`p-3 rounded-xl transition-all ${
+                  className={`min-h-11 min-w-11 p-3 rounded-xl transition-all flex items-center justify-center ${
                     isSaved
                       ? 'bg-slate-900 text-white'
                       : 'bg-slate-100 hover:bg-slate-200'
@@ -99,7 +99,7 @@ export function CareerDetailModal({
                 </button>
                 <button
                   onClick={onClose}
-                  className="p-3 rounded-xl bg-slate-100 hover:bg-slate-200 transition-all"
+                  className="min-h-11 min-w-11 p-3 rounded-xl bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center"
                   title="Close"
                 >
                   <X className="w-5 h-5" style={{ color: '#1e293b' }} />
@@ -108,7 +108,7 @@ export function CareerDetailModal({
             </div>
 
             {/* Content */}
-            <div className="p-6 md:p-8 space-y-8">
+            <div className="p-4 sm:p-5 md:p-8 space-y-8">
               {/* Overview */}
               <section>
                 <p className="text-sm leading-relaxed mb-4" style={{ color: '#475569' }}>
@@ -129,7 +129,7 @@ export function CareerDetailModal({
                 <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
                   Your RIASEC Match
                 </h3>
-                <div className="grid grid-cols-6 gap-3">
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
                   {Object.entries(career.riasecMatch).map(([code, score]) => (
                     <div key={code} className="text-center">
                       <div
@@ -241,7 +241,7 @@ export function CareerDetailModal({
                 <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
                   Job Market
                 </h3>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div className="bg-slate-50 rounded-2xl p-6">
                     <div className="flex items-start gap-3 mb-4">
                       <TrendingUp className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
@@ -289,18 +289,18 @@ export function CareerDetailModal({
                   Salary Progression
                 </h3>
                 <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Gross (before tax) monthly estimates</p>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="flex flex-wrap gap-4 sm:grid sm:grid-cols-3">
                   {[
                     { label: 'Entry Level', sub: '0–2 yrs', value: career.salary.entryLevel },
                     { label: 'Mid-Career', sub: '3–6 yrs', value: career.salary.midLevel },
                     { label: 'Senior', sub: '7+ yrs', value: career.salary.senior },
                   ].map((item, i) => (
-                    <div key={i} className="bg-gradient-to-br from-slate-900/10 to-slate-100 rounded-2xl p-4 text-center">
+                    <div key={i} className="flex-1 min-w-[7rem] bg-gradient-to-br from-slate-900/10 to-slate-100 rounded-2xl p-4 text-center">
                       <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
                         {item.label}
                       </p>
                       <p className="text-xs mb-2" style={{ color: '#94a3b8' }}>{item.sub}</p>
-                      <p className="text-xl font-bold" style={{ color: '#1e293b' }}>
+                      <p className="text-lg sm:text-xl font-bold" style={{ color: '#1e293b' }}>
                         R{(item.value / 1000).toFixed(0)}k
                       </p>
                       <p className="text-xs mt-1" style={{ color: '#64748b' }}>
@@ -413,10 +413,10 @@ export function CareerDetailModal({
 
               {/* CTAs */}
               <section className="border-t border-slate-100 pt-8">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <button
                     onClick={() => onNavigate?.('library')}
-                    className="w-full p-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                    className="w-full min-h-12 p-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
                     style={{ backgroundColor: '#1e293b' }}
                   >
                     <GraduationCap className="w-4 h-4" />
@@ -424,7 +424,7 @@ export function CareerDetailModal({
                   </button>
                   <button
                     onClick={() => onNavigate?.('bursaries')}
-                    className="w-full p-4 rounded-xl font-bold text-xs uppercase tracking-widest border transition-all"
+                    className="w-full min-h-12 p-4 rounded-xl font-bold text-xs uppercase tracking-widest border transition-all"
                     style={{ backgroundColor: '#F9A825', color: '#1e293b', borderColor: '#F9A825' }}
                   >
                     <Briefcase className="w-4 h-4 inline mr-2" />
@@ -439,7 +439,7 @@ export function CareerDetailModal({
                   <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
                     Similar Careers
                   </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {relatedCareers.slice(0, 2).map((relatedCareer) => (
                       <div
                         key={relatedCareer.id}

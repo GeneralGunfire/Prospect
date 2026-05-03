@@ -124,7 +124,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
         {/* Back button */}
         <button
           onClick={() => onNavigate('bursaries')}
-          className="flex items-center gap-2 mb-8 text-sm font-bold uppercase tracking-widest hover:opacity-70 transition-opacity"
+          className="flex items-center gap-2 mb-8 min-h-11 text-sm font-bold uppercase tracking-widest hover:opacity-70 transition-opacity"
           style={{ color: '#64748b' }}
         >
           <ArrowLeft className="w-4 h-4" /> Back to Bursaries
@@ -134,7 +134,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between mb-8">
             <div>
@@ -165,7 +165,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
                 href={bursary.contact.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="grow md:grow-0 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center justify-center gap-2"
+                className="grow md:grow-0 w-full sm:w-auto min-h-12 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center justify-center gap-2"
                 style={{ backgroundColor: '#1e293b' }}
               >
                 Apply Now <ExternalLink className="w-4 h-4" />
@@ -195,7 +195,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>Am I Eligible?</h2>
 
@@ -221,7 +221,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
             ))}
           </div>
 
-          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-6 border border-slate-200">
+          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-4 sm:p-6 border border-slate-200">
             <div className="flex items-start gap-4">
               <AlertCircle className="w-6 h-6 flex-shrink-0 mt-1" style={{ color: '#64748b' }} />
               <div>
@@ -242,7 +242,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>What's Covered?</h2>
 
@@ -268,7 +268,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4 uppercase tracking-tight" style={{ color: '#1e293b' }}>How to Apply</h2>
@@ -299,7 +299,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>Required Documents</h2>
 
@@ -322,7 +322,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
             ))}
           </div>
 
-          <div className="mt-8 p-6 rounded-2xl" style={{ backgroundColor: 'rgba(59,130,246,0.05)', borderLeft: '4px solid #3b82f6' }}>
+          <div className="mt-8 p-4 sm:p-6 rounded-2xl" style={{ backgroundColor: 'rgba(59,130,246,0.05)', borderLeft: '4px solid #3b82f6' }}>
             <p className="text-sm font-bold mb-2" style={{ color: '#1e293b' }}>💡 Pro Tip:</p>
             <p className="text-xs" style={{ color: '#475569' }}>Prepare documents well in advance. Get certified copies from school immediately after your marks are released. Keep digital backups of everything you upload.</p>
           </div>
@@ -333,7 +333,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>Motivation Letter Guide</h2>
 
@@ -368,7 +368,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-6 border border-slate-200 mb-8">
+          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-4 sm:p-6 border border-slate-200 mb-8">
             <h4 className="font-bold mb-4" style={{ color: '#1e293b' }}>Template Structure</h4>
             <div className="space-y-3 text-xs" style={{ color: '#475569' }}>
               <div>
@@ -386,7 +386,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
             </div>
           </div>
 
-          <div className="bg-blue-50 rounded-2xl p-6 border border-blue-200">
+          <div className="bg-blue-50 rounded-2xl p-4 sm:p-6 border border-blue-200">
             <h4 className="font-bold mb-4 flex items-center gap-2" style={{ color: '#1e293b' }}>
               <PenTool className="w-5 h-5" /> Example
             </h4>
@@ -402,7 +402,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+            className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
           >
             <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>Success Stories</h2>
 
@@ -435,19 +435,19 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-8 border border-slate-100"
         >
           <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>Contact & Next Steps</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="p-6 rounded-xl" style={{ backgroundColor: 'rgba(30,41,59,0.05)' }}>
+            <div className="p-4 sm:p-6 rounded-xl" style={{ backgroundColor: 'rgba(30,41,59,0.05)' }}>
               <h4 className="font-bold mb-2 text-sm uppercase tracking-wider" style={{ color: '#1e293b' }}>Email</h4>
               <a href={`mailto:${bursary.contact.email}`} className="text-sm font-bold hover:opacity-70 transition-opacity" style={{ color: '#3b82f6' }}>
                 {bursary.contact.email}
               </a>
             </div>
             {bursary.contact.phone && (
-              <div className="p-6 rounded-xl" style={{ backgroundColor: 'rgba(30,41,59,0.05)' }}>
+              <div className="p-4 sm:p-6 rounded-xl" style={{ backgroundColor: 'rgba(30,41,59,0.05)' }}>
                 <h4 className="font-bold mb-2 text-sm uppercase tracking-wider" style={{ color: '#1e293b' }}>Phone</h4>
                 <a href={`tel:${bursary.contact.phone}`} className="text-sm font-bold hover:opacity-70 transition-opacity" style={{ color: '#3b82f6' }}>
                   {bursary.contact.phone}
@@ -461,14 +461,14 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
               href={bursary.contact.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 text-white"
+              className="w-full sm:w-auto min-h-12 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center justify-center gap-2 text-white"
               style={{ backgroundColor: '#1e293b' }}
             >
               Official Website <ExternalLink className="w-4 h-4" />
             </a>
             <button
               onClick={toggleSave}
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border transition-all flex items-center gap-2"
+              className="w-full sm:w-auto min-h-12 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border transition-all flex items-center justify-center gap-2"
               style={savedBursaries.includes(bursary.id)
                 ? { backgroundColor: '#64748b', borderColor: '#64748b', color: 'white' }
                 : { backgroundColor: 'white', borderColor: '#e2e8f0', color: '#1e293b' }}
@@ -476,7 +476,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
               <Bookmark className={`w-4 h-4 ${savedBursaries.includes(bursary.id) ? 'fill-white' : ''}`} />
               Save for Later
             </button>
-            <button className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 text-slate-600 hover:border-slate-400 transition-all flex items-center gap-2">
+            <button className="w-full sm:w-auto min-h-12 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest border border-slate-200 text-slate-600 hover:border-slate-400 transition-all flex items-center justify-center gap-2">
               <Share2 className="w-4 h-4" /> Share
             </button>
           </div>
@@ -494,7 +494,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
               href={bursary.contact.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all"
+              className="inline-flex w-full sm:w-auto min-h-12 items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all"
               style={{ backgroundColor: '#f59e0b', color: '#1e293b' }}
             >
               Start Your Application <ExternalLink className="w-4 h-4" />
@@ -507,7 +507,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100"
+          className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm border border-slate-100"
         >
           <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight" style={{ color: '#1e293b' }}>Similar Bursaries</h2>
 
@@ -519,7 +519,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
                 <div
                   key={similar.id}
                   onClick={() => window.location.href = `?page=bursary&id=${similar.id}`}
-                  className="p-6 rounded-2xl border border-slate-100 hover:border-slate-300 hover:shadow-lg transition-all cursor-pointer"
+                  className="p-4 sm:p-6 rounded-2xl border border-slate-100 hover:border-slate-300 hover:shadow-lg transition-all cursor-pointer"
                 >
                   <h4 className="font-bold mb-2 line-clamp-2" style={{ color: '#1e293b' }}>{similar.name}</h4>
                   <p className="text-xs mb-3" style={{ color: '#64748b' }}>{similar.provider}</p>

@@ -81,7 +81,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
     <div
       onClick={onCardClick}
       data-testid="career-card"
-      className="group bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-full cursor-pointer"
+      className="group bg-white border border-slate-100 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-full cursor-pointer"
     >
       {/* Top row: category badge + RIASEC chips */}
       <div className="flex justify-between items-start mb-4">
@@ -132,7 +132,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
           )}
         </div>
 
-        <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between min-h-11">
           <span className="text-xs font-bold text-slate-300 uppercase tracking-widest group-hover:text-slate-700 transition-colors">
             View Details
           </span>

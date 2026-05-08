@@ -9,7 +9,8 @@ import { withAuth, type AuthedProps } from '../lib/withAuth';
 import AppHeader from '../components/AppHeader';
 import {
   getAllPotholes, flagPothole, markPotholeAsFixed, hasUserFlaggedPothole,
-  type Pothole, type PotholeFilters,
+  flagPotholeImage, hasUserFlaggedImage,
+  type Pothole, type PotholeFilters, type ImageFlagReason,
 } from '../services/potholeService';
 import { SA_PROVINCES } from '../data/saLocations';
 
@@ -42,6 +43,12 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
   const [fixing, setFixing]           = useState(false);
   const [fixConfirm, setFixConfirm]   = useState(false);
 
+  const [imgFlagOpen, setImgFlagOpen]         = useState(false);
+  const [imgFlagging, setImgFlagging]         = useState(false);
+  const [alreadyImgFlagged, setAlreadyImgFlagged] = useState(false);
+  const [imgFlagMsg, setImgFlagMsg]           = useState('');
+  const [imgFlagReason, setImgFlagReason]     = useState<ImageFlagReason>('looks_fake');
+
   const load = useCallback(async () => {
     setLoading(true);
     const data = await getAllPotholes(filters);
@@ -62,13 +69,27 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
     setFlagMsg('');
     setFixConfirm(false);
     setAlreadyFlagged(false);
+    setImgFlagOpen(false);
+    setImgFlagMsg('');
+    setAlreadyImgFlagged(false);
+    setImgFlagReason('looks_fake');
     if (user.id !== 'guest') {
-      const flagged = await hasUserFlaggedPothole(pothole.id, user.id);
+      const [flagged, imgFlagged] = await Promise.all([
+        hasUserFlaggedPothole(pothole.id, user.id),
+        pothole.image_url ? hasUserFlaggedImage(pothole.id, user.id) : Promise.resolve(false),
+      ]);
       setAlreadyFlagged(flagged);
+      setAlreadyImgFlagged(imgFlagged);
     }
   }
 
-  function closeDetail() { setSelected(null); setFlagMsg(''); setFixConfirm(false); }
+  function closeDetail() {
+    setSelected(null);
+    setFlagMsg('');
+    setFixConfirm(false);
+    setImgFlagOpen(false);
+    setImgFlagMsg('');
+  }
 
   async function handleFlag() {
     if (!selected || user.id === 'guest') { onNavigate('auth'); return; }
@@ -99,6 +120,25 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
       setFixConfirm(false);
     }
     setFixing(false);
+  }
+
+  async function handleImageFlag() {
+    if (!selected || user.id === 'guest') { onNavigate('auth'); return; }
+    setImgFlagging(true);
+    const result = await flagPotholeImage(selected.id, user.id, imgFlagReason);
+    if (result.error === 'already_flagged') {
+      setAlreadyImgFlagged(true);
+      setImgFlagMsg("You've already reported this image.");
+    } else if (result.success) {
+      setAlreadyImgFlagged(true);
+      setImgFlagMsg('Image reported. Our team will review it.');
+      setPotholes(prev => prev.map(p => p.id === selected.id ? { ...p, image_flag_count: result.imageFlagCount } : p));
+      setSelected(prev => prev ? { ...prev, image_flag_count: result.imageFlagCount } : prev);
+    } else {
+      setImgFlagMsg(result.error ?? 'Failed to report. Try again.');
+    }
+    setImgFlagging(false);
+    setImgFlagOpen(false);
   }
 
   const canMarkFixed = selected?.user_id === user.id && selected?.status !== 'fixed';
@@ -335,8 +375,83 @@ function PotholeMapPageComponent({ user, onNavigate }: PotholeMapPageProps) {
                 )}
 
                 {selected.image_url ? (
-                  <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+                  <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative group">
                     <img src={selected.image_url} alt="Pothole" className="w-full h-64 object-cover" />
+                    {/* Image flag button */}
+                    <div className="absolute bottom-3 right-3">
+                      {imgFlagMsg ? (
+                        <span className="inline-flex items-center gap-1.5 bg-black/70 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm">
+                          {imgFlagMsg}
+                        </span>
+                      ) : alreadyImgFlagged ? (
+                        <span className="inline-flex items-center gap-1.5 bg-black/60 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm">
+                          <Flag className="w-3 h-3" /> Image reported
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => setImgFlagOpen(v => !v)}
+                          className="inline-flex items-center gap-1.5 bg-black/60 hover:bg-red-600/90 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm transition-colors"
+                          title="Report this image as fake or misleading"
+                        >
+                          <Flag className="w-3 h-3" /> Report image
+                        </button>
+                      )}
+                    </div>
+                    {/* Image flag count badge */}
+                    {(selected.image_flag_count ?? 0) >= 2 && (
+                      <div className="absolute top-3 left-3 bg-red-600/90 text-white text-xs font-black px-2.5 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
+                        <AlertTriangle className="w-3 h-3" /> Image disputed
+                      </div>
+                    )}
+                    {/* Reason picker */}
+                    <AnimatePresence>
+                      {imgFlagOpen && !alreadyImgFlagged && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          className="absolute bottom-12 right-3 bg-white rounded-2xl shadow-xl border border-slate-200 p-4 w-64 z-10"
+                        >
+                          <p className="text-xs font-black text-slate-700 uppercase tracking-widest mb-3">Why are you reporting this image?</p>
+                          <div className="space-y-1.5 mb-3">
+                            {([
+                              ['looks_fake', 'Looks fake or AI-generated'],
+                              ['wrong_location', 'Wrong location'],
+                              ['not_a_pothole', 'Not a pothole'],
+                              ['duplicate_image', 'Same image used elsewhere'],
+                              ['other', 'Other reason'],
+                            ] as [ImageFlagReason, string][]).map(([val, label]) => (
+                              <label key={val} className="flex items-center gap-2.5 cursor-pointer group/opt">
+                                <input
+                                  type="radio"
+                                  name="img_flag_reason"
+                                  value={val}
+                                  checked={imgFlagReason === val}
+                                  onChange={() => setImgFlagReason(val)}
+                                  className="w-3.5 h-3.5 accent-red-600"
+                                />
+                                <span className="text-xs text-slate-600 group-hover/opt:text-slate-900">{label}</span>
+                              </label>
+                            ))}
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={handleImageFlag}
+                              disabled={imgFlagging}
+                              className="flex-1 h-9 bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-1.5 disabled:opacity-60"
+                            >
+                              {imgFlagging ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Submit Report'}
+                            </button>
+                            <button
+                              onClick={() => setImgFlagOpen(false)}
+                              className="px-3 h-9 text-xs font-bold text-slate-500 hover:text-slate-700 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ) : (
                   <div className="w-full h-32 bg-slate-100 rounded-2xl border border-slate-200 border-dashed flex items-center justify-center text-slate-400">

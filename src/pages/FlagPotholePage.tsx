@@ -2,17 +2,18 @@ import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import {
   Camera, ChevronLeft, CheckCircle2, AlertCircle,
-  Loader2, Upload, X, ChevronDown,
+  Loader2, Upload, X, ChevronDown, ShieldCheck, ShieldAlert, Info,
 } from 'lucide-react';
 import { withAuth, type AuthedProps } from '../lib/withAuth';
 import AppHeader from '../components/AppHeader';
 import { createPothole, uploadPotholeImage, type PotholeSeverity } from '../services/potholeService';
 import { SA_PROVINCES, getCities, getSuburbs } from '../data/saLocations';
+import { usePotholeValidation, recordSubmission } from '../hooks/usePotholeValidation';
 
 const SEVERITY_META = {
-  low:    { label: 'Low',    desc: 'Minor surface crack',    color: 'border-blue-400 bg-blue-50 text-blue-700', ring: 'ring-blue-400' },
-  medium: { label: 'Medium', desc: 'Noticeable depression',  color: 'border-amber-400 bg-amber-50 text-amber-700',       ring: 'ring-amber-400' },
-  high:   { label: 'High',   desc: 'Large / dangerous hole', color: 'border-red-400 bg-red-50 text-red-700',             ring: 'ring-red-400' },
+  low:    { label: 'Low',    desc: 'Minor surface crack',    color: 'border-blue-400 bg-blue-50 text-blue-700',   ring: 'ring-blue-400' },
+  medium: { label: 'Medium', desc: 'Noticeable depression',  color: 'border-amber-400 bg-amber-50 text-amber-700', ring: 'ring-amber-400' },
+  high:   { label: 'High',   desc: 'Large / dangerous hole', color: 'border-red-400 bg-red-50 text-red-700',       ring: 'ring-red-400' },
 } as const;
 
 function SelectField({
@@ -46,6 +47,45 @@ function SelectField({
   );
 }
 
+// ── Quality Score Badge ────────────────────────────────────────────────────────
+
+function QualityScore({ score, hasInput }: { score: number; hasInput: boolean }) {
+  if (!hasInput) return null;
+
+  const { label, bg, text, icon } =
+    score >= 80 ? { label: 'Great quality', bg: 'bg-green-50', text: 'text-green-700', icon: <ShieldCheck className="w-3.5 h-3.5" /> }
+    : score >= 55 ? { label: 'Acceptable quality', bg: 'bg-amber-50', text: 'text-amber-700', icon: <Info className="w-3.5 h-3.5" /> }
+    : { label: 'Low quality — review likely', bg: 'bg-red-50', text: 'text-red-700', icon: <ShieldAlert className="w-3.5 h-3.5" /> };
+
+  return (
+    <div className={`flex items-center justify-between rounded-xl px-3 py-2 ${bg}`}>
+      <div className={`flex items-center gap-1.5 text-xs font-semibold ${text}`}>
+        {icon}
+        Report quality: {label}
+      </div>
+      <div className={`text-xs font-black tabular-nums ${text}`}>{score}%</div>
+    </div>
+  );
+}
+
+// ── Warnings panel ─────────────────────────────────────────────────────────────
+
+function ValidationWarnings({ warnings }: { warnings: string[] }) {
+  if (!warnings.length) return null;
+  return (
+    <div className="space-y-2">
+      {warnings.map((w, i) => (
+        <div key={i} className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5">
+          <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-amber-800 font-medium">{w}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Main Page ──────────────────────────────────────────────────────────────────
+
 interface FlagPotholePageProps extends AuthedProps {}
 
 function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
@@ -57,27 +97,27 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
   const [description, setDescription] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess]     = useState(false);
   const [error, setError]         = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const cities  = province ? getCities(province)   : [];
+  const cities  = province ? getCities(province)        : [];
   const suburbs = city     ? getSuburbs(province, city) : [];
 
-  function handleProvinceChange(v: string) {
-    setProvince(v);
-    setCity('');
-    setSuburb('');
-  }
+  function handleProvinceChange(v: string) { setProvince(v); setCity(''); setSuburb(''); }
+  function handleCityChange(v: string)     { setCity(v);     setSuburb(''); }
 
-  function handleCityChange(v: string) {
-    setCity(v);
-    setSuburb('');
-  }
-
-  // Build a human-readable address from the selections
   const builtAddress = [street.trim(), suburb, city, province].filter(Boolean).join(', ');
+
+  // Real-time validation
+  const validation = usePotholeValidation({
+    province, city, suburb, street, severity, description, imageFile,
+  });
+
+  const hasInput = !!(province || city || severity || description);
+  const needsConfirm = validation.score < 55 && hasInput;
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -101,11 +141,12 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
     if (!province) return setError('Please select a province.');
     if (!city)     return setError('Please select a city.');
     if (!severity) return setError('Please select a severity level.');
+    if (needsConfirm && !confirmed) return setError('Please confirm this is a real pothole report.');
 
     setSubmitting(true);
     try {
-      const tempId = `tmp-${Date.now()}`;
       let imageUrl: string | undefined;
+      const tempId = `tmp-${Date.now()}`;
 
       if (imageFile) {
         const { url, error: uploadErr } = await uploadPotholeImage(imageFile, user.id, tempId);
@@ -117,17 +158,24 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
         imageUrl = url ?? undefined;
       }
 
+      // Append validation flags to description if flagged
+      let finalDescription = description.trim() || undefined;
+      if (validation.flags.length > 0) {
+        const flagStr = `[flags:${validation.flags.join(',')}]`;
+        finalDescription = finalDescription ? `${finalDescription} ${flagStr}` : flagStr;
+      }
+
       const result = await createPothole({
-        userId:      user.id,
-        latitude:    0,
-        longitude:   0,
-        address:     builtAddress,
-        streetName:  street.trim() || undefined,
+        userId:       user.id,
+        latitude:     0,
+        longitude:    0,
+        address:      builtAddress,
+        streetName:   street.trim() || undefined,
         province,
         municipality: city,
-        description: description.trim() || undefined,
+        description:  finalDescription,
         imageUrl,
-        severity:    severity as PotholeSeverity,
+        severity:     severity as PotholeSeverity,
       });
 
       if (!result.success) {
@@ -136,6 +184,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
         return;
       }
 
+      recordSubmission(province, city, suburb, street);
       setSuccess(true);
       setTimeout(() => onNavigate('pothole-map'), 2500);
     } catch (err) {
@@ -180,9 +229,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
         <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8">
           <div className="mb-6">
             <h1 className="text-2xl font-black text-slate-900 mb-1">Report a Pothole</h1>
-            <p className="text-slate-500 text-sm">
-              Help improve SA roads by reporting potholes in your area.
-            </p>
+            <p className="text-slate-500 text-sm">Help improve SA roads by reporting potholes in your area.</p>
           </div>
 
           {error && (
@@ -194,46 +241,23 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
 
           <form onSubmit={handleSubmit} className="space-y-5">
 
-            {/* ── Location cascade ── */}
+            {/* ── Location ── */}
             <div className="bg-slate-50 rounded-2xl p-4 space-y-4 border border-slate-100">
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Location</p>
 
-              {/* Province */}
-              <SelectField
-                label="Province"
-                value={province}
-                onChange={handleProvinceChange}
-                options={SA_PROVINCES}
-                placeholder="Select province…"
-                required
-              />
+              <SelectField label="Province" value={province} onChange={handleProvinceChange}
+                options={SA_PROVINCES} placeholder="Select province…" required />
 
-              {/* City */}
-              <SelectField
-                label="City / Municipality"
-                value={city}
-                onChange={handleCityChange}
-                options={cities}
-                placeholder={province ? 'Select city…' : 'Select province first'}
-                required
-                disabled={!province}
-              />
+              <SelectField label="City / Municipality" value={city} onChange={handleCityChange}
+                options={cities} placeholder={province ? 'Select city…' : 'Select province first'}
+                required disabled={!province} />
 
-              {/* Suburb */}
-              <SelectField
-                label="Suburb"
-                value={suburb}
-                onChange={setSuburb}
-                options={suburbs}
-                placeholder={city ? 'Select suburb…' : 'Select city first'}
-                disabled={!city}
-              />
+              <SelectField label="Suburb" value={suburb} onChange={setSuburb}
+                options={suburbs} placeholder={city ? 'Select suburb…' : 'Select city first'}
+                disabled={!city} />
 
-              {/* Street */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                  Street Name
-                </label>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Street Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Main Road, Jan Smuts Ave"
@@ -243,11 +267,22 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
                 />
               </div>
 
-              {/* Address preview */}
               {builtAddress && (
                 <div className="flex items-start gap-2 text-xs text-slate-500 bg-white rounded-xl px-3 py-2.5 border border-slate-200">
                   <span className="text-slate-400 shrink-0 mt-0.5">📍</span>
                   <span>{builtAddress}</span>
+                </div>
+              )}
+
+              {/* Duplicate warning */}
+              {validation.duplicateDate && (
+                <div className="flex items-start gap-2.5 bg-blue-50 border border-blue-200 rounded-xl px-3 py-2.5">
+                  <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                  <p className="text-xs text-blue-800 font-medium">
+                    A pothole was already reported at this location on{' '}
+                    {validation.duplicateDate.toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}.
+                    You can still submit if it's a different pothole.
+                  </p>
                 </div>
               )}
             </div>
@@ -288,6 +323,15 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
                 rows={3}
                 className="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-slate-800 placeholder:text-slate-400 resize-none"
               />
+              {description.trim().length > 0 && (
+                <p className={`text-xs mt-1 font-medium ${
+                  validation.descFlags.length === 0 ? 'text-green-600' : 'text-amber-600'
+                }`}>
+                  {validation.descFlags.length === 0
+                    ? '✓ Good description'
+                    : `⚠ Description quality: low (${validation.descFlags[0]?.replace(/_/g, ' ')})`}
+                </p>
+              )}
             </div>
 
             {/* ── Photo ── */}
@@ -313,10 +357,16 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="flex flex-col items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-slate-300 rounded-2xl hover:border-blue-400 hover:bg-blue-50/30 transition-colors text-slate-400"
+                  className={`flex flex-col items-center justify-center gap-2 w-full h-32 border-2 border-dashed rounded-2xl transition-colors text-slate-400 ${
+                    validation.suggestPhoto
+                      ? 'border-amber-300 bg-amber-50/40 hover:border-amber-400'
+                      : 'border-slate-300 hover:border-blue-400 hover:bg-blue-50/30'
+                  }`}
                 >
                   <Upload className="w-6 h-6" />
-                  <span className="text-sm font-medium">Click to upload photo</span>
+                  <span className="text-sm font-medium">
+                    {validation.suggestPhoto ? 'Add a photo to help verify this report' : 'Click to upload photo'}
+                  </span>
                   <span className="text-xs">JPG or PNG · max 5MB</span>
                 </button>
               )}
@@ -330,10 +380,33 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
               />
             </div>
 
+            {/* ── Validation feedback ── */}
+            {hasInput && (
+              <div className="space-y-3">
+                <QualityScore score={validation.score} hasInput={hasInput} />
+                <ValidationWarnings warnings={validation.warnings} />
+              </div>
+            )}
+
+            {/* ── Confirmation checkbox (low quality only) ── */}
+            {needsConfirm && (
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={confirmed}
+                  onChange={e => setConfirmed(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm text-slate-700 font-medium">
+                  I confirm this is a real pothole report, not a test or duplicate.
+                </span>
+              </label>
+            )}
+
             {/* ── Submit ── */}
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || (needsConfirm && !confirmed)}
               className="w-full h-12 bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm rounded-2xl transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
             >
               {submitting
@@ -341,6 +414,12 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
                 : <><Camera className="w-4 h-4" /> Report Pothole</>
               }
             </button>
+
+            {validation.isClustered && (
+              <p className="text-center text-xs text-slate-400">
+                High submission volume detected. Reports are queued for moderator review.
+              </p>
+            )}
           </form>
         </div>
       </div>

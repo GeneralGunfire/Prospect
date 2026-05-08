@@ -21,6 +21,7 @@ export interface Pothole {
   created_at: string;
   fixed_at: string | null;
   fixed_by_user_id: string | null;
+  image_flag_count: number;
 }
 
 export interface CreatePotholeData {
@@ -128,6 +129,17 @@ export async function getPothole(id: string): Promise<Pothole | null> {
   return data as Pothole;
 }
 
+// Strip internal validation flags from description before display
+export function cleanDescription(description: string | null): string | null {
+  if (!description) return description;
+  return description.replace(/\s*\[flags:[^\]]*\]/g, '').trim() || null;
+}
+
+// Returns true if this report was internally flagged as suspicious
+export function isSuspiciousReport(pothole: Pothole): boolean {
+  return !!pothole.description?.includes('[flags:');
+}
+
 export async function getAllPotholes(filters?: PotholeFilters): Promise<Pothole[]> {
   try {
     let query = supabase
@@ -142,7 +154,11 @@ export async function getAllPotholes(filters?: PotholeFilters): Promise<Pothole[
 
     const { data, error } = await query;
     if (error) throw error;
-    return (data as Pothole[]) ?? [];
+
+    // Hide suspicious single-flag reports from public list; clean descriptions
+    return ((data as Pothole[]) ?? [])
+      .filter(p => !isSuspiciousReport(p) || p.flag_count >= 3)
+      .map(p => ({ ...p, description: cleanDescription(p.description) }));
   } catch {
     return [];
   }
@@ -157,7 +173,7 @@ export async function getUserReportedPotholes(userId: string): Promise<Pothole[]
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return (data as Pothole[]) ?? [];
+    return ((data as Pothole[]) ?? []).map(p => ({ ...p, description: cleanDescription(p.description) }));
   } catch {
     return [];
   }
@@ -210,6 +226,41 @@ export async function markPotholeAsFixed(
 export async function hasUserFlaggedPothole(potholeId: string, userId: string): Promise<boolean> {
   const { data } = await supabase
     .from('pothole_flags')
+    .select('id')
+    .eq('pothole_id', potholeId)
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  return !!data;
+}
+
+export type ImageFlagReason = 'looks_fake' | 'wrong_location' | 'not_a_pothole' | 'duplicate_image' | 'other';
+
+export async function flagPotholeImage(
+  potholeId: string,
+  userId: string,
+  reason: ImageFlagReason = 'looks_fake'
+): Promise<{ success: boolean; imageFlagCount: number; error?: string }> {
+  try {
+    const { data, error } = await supabase.rpc('flag_pothole_image', {
+      p_pothole_id: potholeId,
+      p_user_id: userId,
+      p_reason: reason,
+    });
+
+    if (error) return { success: false, imageFlagCount: 0, error: error.message };
+
+    const row = Array.isArray(data) ? data[0] : data;
+    if (!row.success) return { success: false, imageFlagCount: 0, error: row.error };
+    return { success: true, imageFlagCount: row.image_flag_count };
+  } catch (e) {
+    return { success: false, imageFlagCount: 0, error: String(e) };
+  }
+}
+
+export async function hasUserFlaggedImage(potholeId: string, userId: string): Promise<boolean> {
+  const { data } = await supabase
+    .from('pothole_image_flags')
     .select('id')
     .eq('pothole_id', potholeId)
     .eq('user_id', userId)

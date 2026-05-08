@@ -3,7 +3,9 @@ import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 import { getCurrentUserFromStorage } from './auth';
 
-export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'school-assist-chat' | 'impact-auth' | 'learning-algebra-g10-t1-linear-equations' | 'learning-algebra-g10-t1-simultaneous' | 'community-impact' | 'pothole-map' | 'flag-pothole' | 'my-pothole-contributions' | 'water-dashboard' | 'tax-budget' | 'cost-of-living' | 'civics' | 'demo-learning' | 'disadvantaged-guide' | 'news' | 'news-auth';
+
+// Add new topic below
+export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'school-assist-chat' | 'impact-auth' | 'learning-algebra-g10-t1-linear-equations' | 'learning-algebra-g10-t1-simultaneous' | 'community-impact' | 'pothole-map' | 'flag-pothole' | 'my-pothole-contributions' | 'water-dashboard' | 'tax-budget' | 'cost-of-living' | 'civics';
 
 export interface AuthedProps {
   user: User;
@@ -34,7 +36,8 @@ export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
 
       if (isTestMode) {
         // Create a mock user for testing
-        const mockUser: User = {
+        const mockUser = {
+          aud: 'authenticated',
           id: 'test-user-' + Math.random().toString(36).substr(2, 9),
           email: 'test@example.com',
           email_confirmed_at: new Date().toISOString(),
@@ -46,7 +49,7 @@ export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           is_anonymous: false,
-        } as User;
+        } as unknown as User;
 
         setUser(mockUser);
         setChecking(false);

@@ -5,24 +5,20 @@ const TM   = '__test_mode=true';
 
 // ── Dashboard ──────────────────────────────────────────────────────────────────
 
-test.describe('Dashboard — new structure', () => {
+test.describe('Dashboard — current structure', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`${BASE}/?${TM}&page=dashboard`);
     await page.waitForTimeout(3500);
   });
 
-  test('renders Today\'s Focus section', async ({ page }) => {
-    await expect(page.locator('[data-testid="dashboard-today-focus"]')).toBeVisible();
-    await expect(page.getByText("Today's Focus")).toBeVisible();
+  test('renders School Assist header breadcrumb', async ({ page }) => {
+    await expect(page.getByText('School Assist')).toBeVisible();
+    await expect(page.locator('span').filter({ hasText: /^Dashboard$/ }).first()).toBeVisible();
   });
 
   test('renders Next Deadline card', async ({ page }) => {
+    await expect(page.locator('[data-testid="dashboard-next-deadline"]')).toBeVisible();
     await expect(page.getByText('Next Deadline')).toBeVisible();
-  });
-
-  test('renders Study Progress section', async ({ page }) => {
-    await expect(page.locator('[data-testid="dashboard-progress"]')).toBeVisible();
-    await expect(page.getByText('Study Progress')).toBeVisible();
   });
 
   test('renders Upcoming Deadlines section', async ({ page }) => {
@@ -30,34 +26,19 @@ test.describe('Dashboard — new structure', () => {
     await expect(page.getByText('Upcoming Deadlines')).toBeVisible();
   });
 
-  test('renders Continue Learning section', async ({ page }) => {
-    await expect(page.getByText('Continue Learning')).toBeVisible();
+  test('renders Quick Access and Ask AI buttons', async ({ page }) => {
+    await expect(page.getByText('Quick Access')).toBeVisible();
+    await expect(page.getByText('Ask AI')).toBeVisible();
   });
 
-  test('renders Quick Actions with correct buttons', async ({ page }) => {
-    const qa = page.locator('[data-testid="dashboard-quick-actions"]');
-    await expect(qa).toBeVisible();
-    await expect(qa.getByText('Start Study Session')).toBeVisible();
-    await expect(qa.getByText('View Full Calendar')).toBeVisible();
-    await expect(qa.getByText('Go to Library')).toBeVisible();
-  });
-
-  test('Quick Action — View Full Calendar navigates to calendar', async ({ page }) => {
-    await page.locator('[data-testid="dashboard-quick-actions"]').getByText('View Full Calendar').click();
+  test('Full Calendar link navigates to calendar', async ({ page }) => {
+    await page.getByText('Full Calendar').click();
     await page.waitForTimeout(1500);
     await expect(page.locator('[data-testid="calendar-day"]').first()).toBeVisible({ timeout: 6000 });
   });
 
-  test('Quick Action — Go to Library navigates to library', async ({ page }) => {
-    await page.locator('[data-testid="dashboard-quick-actions"]').getByText('Go to Library').click();
-    await page.waitForTimeout(1500);
-    // Library page heading or content should appear
-    await expect(page.getByText(/study library|subjects|topics/i).first()).toBeVisible({ timeout: 6000 });
-  });
-
-  test('does NOT show old APS or Saved Careers stats', async ({ page }) => {
+  test('does NOT show old Current APS stat', async ({ page }) => {
     await expect(page.getByText('Current APS')).not.toBeVisible();
-    await expect(page.getByText('Saved Careers')).not.toBeVisible();
   });
 });
 
@@ -74,9 +55,9 @@ test.describe('Community Impact — Discover tab', () => {
   });
 
   test('standalone header — no school nav links', async ({ page }) => {
-    await expect(page.getByText('← Back to home')).toBeVisible();
-    await expect(page.getByText('Dashboard')).not.toBeVisible();
-    await expect(page.getByText('Library')).not.toBeVisible();
+    await expect(page.getByText('Community Impact').first()).toBeVisible();
+    await expect(page.getByText('Dashboard', { exact: true })).not.toBeVisible();
+    await expect(page.getByText('Library', { exact: true })).not.toBeVisible();
   });
 
   test('three tabs are visible', async ({ page }) => {

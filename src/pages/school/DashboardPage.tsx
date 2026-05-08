@@ -448,7 +448,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
               </div>
 
               {/* Next deadline */}
-              <div className="flex items-start gap-3">
+              <div data-testid="dashboard-next-deadline" className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
                   <CalendarDays className="w-4 h-4 text-slate-500" />
                 </div>
@@ -593,7 +593,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             </motion.div>
 
             {/* ── Deadlines table ───────────────────────────────────────────── */}
-            <motion.div variants={item} className="space-y-4">
+            <motion.div data-testid="dashboard-deadlines" variants={item} className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-bold text-slate-800">Upcoming Deadlines</h3>
                 <button
@@ -775,7 +775,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
 
             {/* ── Empty state quick actions ──────────────────────────────────── */}
             {totalBookmarks === 0 && !hasActivePath && subjectProgress.length === 0 && (
-              <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              <motion.div data-testid="dashboard-quick-actions" variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 {[
                   { label: 'Start Studying', desc: 'Browse the library', icon: <BookOpen className="w-4 h-4" />, page: 'library' as const, color: 'bg-blue-50 border-blue-100 text-blue-700' },
                   { label: 'Take Quiz', desc: 'Discover your career type', icon: <Target className="w-4 h-4" />, page: 'quiz' as const, color: 'bg-blue-50 border-blue-100 text-blue-700' },

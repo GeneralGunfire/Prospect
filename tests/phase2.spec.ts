@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-const BASE = 'http://localhost:5173';
+const BASE = 'http://localhost:3000';
 const TEST_MODE = '?__test_mode=true';
 
 test.describe('Phase 2 - Careers Pagination', () => {
   test('Careers page loads 25 careers initially then loads more', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=careers`);
-    await page.waitForTimeout(3500);
+    await page.locator('[data-career-card]').first().waitFor({ state: 'visible', timeout: 10000 });
 
     // Check initial load (≤25 careers)
     const initialCards = page.locator('[data-career-card]');
@@ -30,7 +30,7 @@ test.describe('Phase 2 - Careers Pagination', () => {
 
   test('Load more button disappears when all careers loaded', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=careers`);
-    await page.waitForTimeout(3500);
+    await page.locator('[data-career-card]').first().waitFor({ state: 'visible', timeout: 10000 });
 
     const loadMoreBtn = page.locator('[data-load-more-btn]');
 
@@ -50,7 +50,7 @@ test.describe('Phase 2 - Careers Pagination', () => {
 test.describe('Phase 2 - Calendar Page', () => {
   test('Calendar page displays calendar grid', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=calendar`);
-    await page.waitForTimeout(3500); // wait for 2600ms loading screen + render
+    await page.locator('[data-testid="calendar-day"]').first().waitFor({ state: 'visible', timeout: 10000 });
 
     // CalendarPageNew uses data-testid="calendar-day"
     const calendarDays = page.locator('[data-testid="calendar-day"]');
@@ -62,7 +62,7 @@ test.describe('Phase 2 - Calendar Page', () => {
 
   test('Calendar navigation works', async ({ page }) => {
     await page.goto(`${BASE}/${TEST_MODE}&page=calendar`);
-    await page.waitForTimeout(3500);
+    await page.locator('[data-testid="calendar-day"]').first().waitFor({ state: 'visible', timeout: 10000 });
 
     // Month heading visible
     const monthHeading = page.locator('h3').filter({ hasText: /January|February|March|April|May|June|July|August|September|October|November|December/ }).first();

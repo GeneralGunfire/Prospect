@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 
 // Shared site header used across all pages.
-import AppHeader from '../../../../../components/AppHeader'
+import AppHeader from '../../../../../components/shell/AppHeader'
 
 // withAuth is a higher-order component that wraps a page and makes sure
 // a user is logged in before rendering it. AuthedProps is the shape of

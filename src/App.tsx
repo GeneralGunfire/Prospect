@@ -35,7 +35,6 @@ import {
 
 // Lazy-load all page-level components
 const AuthPage           = lazy(() => import('./pages/auth/AuthPage'));
-const ImpactAuthPage     = lazy(() => import('./pages/auth/ImpactAuthPage'));
 const DashboardPage      = lazy(() => import('./pages/school/DashboardPage'));
 const StudyLibraryPage   = lazy(() => import('./pages/school/StudyLibraryPage'));
 const CalendarPageNew    = lazy(() => import('./pages/school/CalendarPageNew'));
@@ -54,7 +53,6 @@ const TVETFundingPage    = lazy(() => import('./pages/tvet/TVETFundingPage'));
 const TVETRequirementsPage = lazy(() => import('./pages/tvet/TVETRequirementsPage'));
 const LinearEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/LinearEquations'));
 const SimultaneousEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/SimultaneousEquations'));
-const CommunityImpactPage = lazy(() => import('./pages/community/CommunityImpactPage'));
 const PotholeMapPage     = lazy(() => import('./pages/community/PotholeMapPage'));
 const FlagPotholePage    = lazy(() => import('./pages/community/FlagPotholePage'));
 const MyContributionsPage = lazy(() => import('./pages/community/MyContributionsPage'));
@@ -84,7 +82,7 @@ const AnimatedNav = ({ onNavigate, user }: { onNavigate: (page: Page) => void, u
   const navItems = [
     { name: 'Career Guide', page: 'quiz' as Page },
     { name: 'School Assist', page: user && !user.is_anonymous ? 'dashboard' as Page : 'auth' as Page },
-    { name: 'Community', page: 'community-impact' as Page },
+    { name: 'Community', page: 'pothole-map' as Page },
   ];
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -209,7 +207,7 @@ const TUTORIAL_STEPS = [
   },
   {
     title: "Community & Civic Hub",
-    description: "Stay informed and make your community's voice count. Flag potholes, track water outages, explore tax & budget explainers, cost-of-living tools, and civics content. Help build a national opportunity map.",
+    description: "Stay informed and make your community's voice count. Flag potholes, track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
     icon: <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><Newspaper className="w-10 h-10 text-slate-700" /></div>,
   },
 ];
@@ -305,9 +303,9 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
     {
       icon: <Users className="w-7 h-7 text-slate-700" />,
       title: "Community",
-      description: "Flag potholes, track water outages, explore tax & budget explainers, cost-of-living tools, civics content, and help build a national opportunity map.",
+      description: "Flag potholes, track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
       cta: "Get Involved",
-      page: 'community-impact' as Page,
+      page: 'pothole-map' as Page,
     },
     {
       icon: <BookOpen className="w-7 h-7 text-slate-700" />,
@@ -664,7 +662,7 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
     {
       title: 'Community',
       links: [
-        { label: 'Community Impact', page: 'community-impact' }, { label: 'Pothole Map', page: 'pothole-map' },
+        { label: 'Pothole Map', page: 'pothole-map' },
         { label: 'Water Dashboard', page: 'water-dashboard' }, { label: 'Tax & Budget', page: 'tax-budget' },
         { label: 'Cost of Living', page: 'cost-of-living' }, { label: 'Civics', page: 'civics' },
       ],
@@ -818,10 +816,8 @@ export default function App() {
               {page === 'calendar' && <PageTransition pageKey="calendar"><CalendarPageNew {...protectedPageProps} /></PageTransition>}
               {page === 'school-assist' && <PageTransition pageKey="school-assist"><SchoolAssistPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'school-assist-chat' && <PageTransition pageKey="school-assist-chat"><SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
-              {page === 'impact-auth' && <PageTransition pageKey="impact-auth"><ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-linear-equations' && <PageTransition pageKey="learning-algebra-g10-t1-linear-equations"><LinearEquationsPage {...protectedPageProps} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-simultaneous' && <PageTransition pageKey="learning-algebra-g10-t1-simultaneous"><SimultaneousEquationsPage {...protectedPageProps} /></PageTransition>}
-              {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...careerPageProps} /></PageTransition>}
               {page === 'pothole-map' && <PageTransition pageKey="pothole-map"><PotholeMapPage {...careerPageProps} /></PageTransition>}
               {page === 'flag-pothole' && <PageTransition pageKey="flag-pothole"><FlagPotholePage {...protectedPageProps} /></PageTransition>}
               {page === 'my-pothole-contributions' && <PageTransition pageKey="my-pothole-contributions"><MyContributionsPage {...protectedPageProps} /></PageTransition>}

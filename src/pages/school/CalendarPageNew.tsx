@@ -493,8 +493,8 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 min-w-0">
           {/* Stats bar */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            <div className="flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl flex-1 min-w-0">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap mb-5">
+            <div className="col-span-2 sm:col-span-1 sm:flex-1 flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl min-w-0">
               <Bell className="w-3.5 h-3.5 text-slate-300 shrink-0" />
               <div className="min-w-0">
                 <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Next Deadline</p>
@@ -1018,28 +1018,30 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 )}
               </div>
 
-              <div className="flex items-center gap-2 flex-wrap">
-                <FilterDropdown
-                  label="Deadlines"
-                  options={[
-                    { value: 'University', label: 'University', dot: DOT.school },
-                    { value: 'Funding', label: 'Funding', dot: DOT.holiday },
-                    { value: 'Exams', label: 'Exams', dot: DOT.exam },
-                    { value: 'TVET', label: 'TVET', dot: DOT.school },
-                  ]}
-                  selected={filterCategories}
-                  onToggle={v => setFilterCategories(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])}
-                  onClear={() => setFilterCategories([])}
-                />
+              <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
+                <div className="shrink-0">
+                  <FilterDropdown
+                    label="Deadlines"
+                    options={[
+                      { value: 'University', label: 'University', dot: DOT.school },
+                      { value: 'Funding', label: 'Funding', dot: DOT.holiday },
+                      { value: 'Exams', label: 'Exams', dot: DOT.exam },
+                      { value: 'TVET', label: 'TVET', dot: DOT.school },
+                    ]}
+                    selected={filterCategories}
+                    onToggle={v => setFilterCategories(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])}
+                    onClear={() => setFilterCategories([])}
+                  />
+                </div>
                 <button
                   onClick={() => setShowHolidays(s => !s)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${showHolidays ? `${CHIP.holiday}` : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50'}`}
+                  className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${showHolidays ? `${CHIP.holiday}` : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50'}`}
                 >
                   Holidays
                 </button>
                 <button
                   onClick={() => setShowPersonal(s => !s)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${showPersonal ? `${CHIP.personal}` : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50'}`}
+                  className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${showPersonal ? `${CHIP.personal}` : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50'}`}
                 >
                   My Events
                 </button>

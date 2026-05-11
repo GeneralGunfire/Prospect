@@ -4,7 +4,7 @@ import {
   Menu, X, User, LogOut, LayoutDashboard,
   BrainCircuit, Briefcase, BookOpen, Wallet,
   Map, Calendar, GraduationCap, BookMarked,
-  Target, Heart, Globe, Construction, Droplets,
+  Target, Heart, Construction, Droplets,
   Search, BookText, HelpCircle, ArrowRight, Loader2,
   Newspaper, Calculator, MapPin, Building2, MessageCircle,
 } from 'lucide-react';
@@ -37,7 +37,6 @@ const SCHOOL_NAV: NavItem[] = [
 ];
 
 const COMMUNITY_NAV: NavItem[] = [
-  { name: 'Community Impact', page: 'community-impact', icon: <Globe className="w-3.5 h-3.5" /> },
   { name: 'Pothole Map',      page: 'pothole-map',      icon: <Construction className="w-3.5 h-3.5" /> },
   { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-3.5 h-3.5" /> },
   { name: 'Tax & Budget',     page: 'tax-budget',        icon: <Calculator className="w-3.5 h-3.5" /> },

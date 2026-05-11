@@ -332,7 +332,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <div key={label} className={`flex items-center gap-3 p-4 rounded-2xl border ${bg}`}>
                     <div className={`shrink-0 ${color}`}>{icon}</div>
                     <div>
-                      <p className="text-lg font-black text-slate-900 leading-none">{value}</p>
+                      <p className="text-base sm:text-lg font-black text-slate-900 leading-none">{value}</p>
                       <p className="text-xs text-slate-500 mt-0.5">{label}</p>
                     </div>
                   </div>
@@ -604,7 +604,29 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 </button>
               </div>
 
-              <div className="overflow-x-auto rounded-2xl border border-slate-100">
+              <div className="sm:hidden flex flex-col divide-y divide-slate-100 rounded-2xl border border-slate-100 overflow-hidden">
+                {upcomingDeadlines.slice(0, 6).map((d, i) => {
+                  const { status } = urgencyStyle(d.days);
+                  return (
+                    <motion.div key={d.iso} variants={item} className="flex items-center justify-between gap-3 px-4 py-3 bg-white">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-slate-800 text-xs truncate">{d.title}</p>
+                        <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                            d.cat === 'Funding' ? 'bg-blue-50 text-blue-700'
+                            : d.cat === 'Exams' ? 'bg-red-50 text-red-700'
+                            : 'bg-blue-50 text-blue-700'
+                          }`}>{d.cat}</span>
+                          <StatusBadge status={status} />
+                        </div>
+                      </div>
+                      <p className="text-xs text-slate-500 shrink-0">{formatDateShort(d.iso)}</p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              <div className="hidden sm:block overflow-x-auto rounded-2xl border border-slate-100">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-slate-100 bg-slate-50/60">
@@ -727,7 +749,40 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {totalBookmarks > 0 && (
               <motion.div variants={item} className="space-y-4">
                 <h3 className="text-base font-bold text-slate-800">Saved Items</h3>
-                <div className="overflow-x-auto rounded-2xl border border-slate-100">
+                <div className="sm:hidden flex flex-col divide-y divide-slate-100 rounded-2xl border border-slate-100 overflow-hidden">
+                  {savedCareers.map((career, i) => (
+                    <motion.div key={career.id} variants={item} className="flex items-center justify-between gap-3 px-4 py-3 bg-white">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-slate-800 text-xs truncate">{career.title}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Career</span>
+                          <span className="text-xs text-slate-500 truncate">{career.category}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button onClick={() => onNavigate('careers')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                        <button onClick={() => handleRemoveCareer(career.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
+                      </div>
+                    </motion.div>
+                  ))}
+                  {savedBursaries.map((bursary, i) => (
+                    <motion.div key={bursary.id} variants={item} className="flex items-center justify-between gap-3 px-4 py-3 bg-white">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-slate-800 text-xs truncate">{bursary.name}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Bursary</span>
+                          <span className="text-xs text-slate-500 truncate">{bursary.provider}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button onClick={() => onNavigate('bursaries')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                        <button onClick={() => handleRemoveBursary(bursary.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="hidden sm:block overflow-x-auto rounded-2xl border border-slate-100">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/60">

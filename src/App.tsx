@@ -7,7 +7,6 @@ import { runMigrations } from './utils/migrationScript';
 import { syncUserDataOnLogin, startBackgroundSync, stopBackgroundSync } from './services/supabaseSync';
 import { Hero as AnimatedHero } from './components/marketing/animated-hero';
 import { LogoCloud } from './components/marketing/logo-cloud-2';
-import { NeoMinimalFooter } from './components/marketing/neo-minimal-footer';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import {

@@ -52,9 +52,6 @@ const TVETFundingPage    = lazy(() => import('./pages/tvet/TVETFundingPage'));
 const TVETRequirementsPage = lazy(() => import('./pages/tvet/TVETRequirementsPage'));
 const LinearEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/LinearEquations'));
 const SimultaneousEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/SimultaneousEquations'));
-const PotholeMapPage     = lazy(() => import('./pages/community/PotholeMapPage'));
-const FlagPotholePage    = lazy(() => import('./pages/community/FlagPotholePage'));
-const MyContributionsPage = lazy(() => import('./pages/community/MyContributionsPage'));
 const WaterDashboardPage = lazy(() => import('./pages/community/WaterDashboardPage'));
 // NewsPage removed — SA News feature discontinued
 const TaxBudgetPage      = lazy(() => import('./pages/community/TaxBudgetPage'));
@@ -83,7 +80,7 @@ const AnimatedNav = ({ onNavigate, user }: { onNavigate: (page: Page) => void, u
   const navItems = [
     { name: 'Career Guide', page: 'quiz' as Page },
     { name: 'School Assist', page: user && !user.is_anonymous ? 'dashboard' as Page : 'auth' as Page },
-    { name: 'Community', page: 'pothole-map' as Page },
+    { name: 'Community', page: 'community-impact' as Page },
   ];
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -161,7 +158,7 @@ const AnimatedNav = ({ onNavigate, user }: { onNavigate: (page: Page) => void, u
             <motion.div
               initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-              className="fixed top-0 right-0 h-full w-72 bg-white z-120 shadow-2xl flex flex-col"
+              className="fixed top-0 right-0 h-full w-72 bg-white z-120 flex flex-col"
             >
               <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
                 <span className="font-black text-sm uppercase text-slate-900" style={{ letterSpacing: '0.18em' }}>Prospect</span>
@@ -194,22 +191,22 @@ const TUTORIAL_STEPS = [
   {
     title: "Welcome to Prospect SA",
     description: "Your free, all-in-one platform for career discovery, academic support, and civic awareness — built for South African students. Everything you need to plan, study, and succeed is right here.",
-    icon: <div className="w-20 h-20 rounded-2xl bg-slate-900 flex items-center justify-center text-white font-black text-4xl mx-auto mb-6">P</div>,
+    icon: <div className="w-20 h-20 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-4xl mx-auto mb-6">P</div>,
   },
   {
     title: "Discover Your Career",
     description: "Take our free RIASEC career quiz to find careers that match your personality and interests. Browse 400+ SA careers with salary data, APS requirements, university pathways, bursaries, and a job demand map by province.",
-    icon: <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><Compass className="w-10 h-10 text-slate-700" /></div>,
+    icon: <div className="w-20 h-20 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><Compass className="w-10 h-10 text-slate-700" /></div>,
   },
   {
     title: "School Assist",
     description: "Your personal study hub. Access curriculum-aligned content for Grades 10–12, stay on top of SA school terms and exam dates, and build a personalised study schedule — all behind a free account.",
-    icon: <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><BookOpen className="w-10 h-10 text-slate-700" /></div>,
+    icon: <div className="w-20 h-20 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><BookOpen className="w-10 h-10 text-slate-700" /></div>,
   },
   {
     title: "Community & Civic Hub",
-    description: "Stay informed and make your community's voice count. Flag potholes, track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
-    icon: <div className="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><Newspaper className="w-10 h-10 text-slate-700" /></div>,
+    description: "Stay informed and make your community's voice count. Track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
+    icon: <div className="w-20 h-20 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-6"><Newspaper className="w-10 h-10 text-slate-700" /></div>,
   },
 ];
 
@@ -233,7 +230,7 @@ const TutorialDialog = () => {
 
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-[201] bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <DialogPrimitive.Content className="fixed left-1/2 top-1/2 z-[201] w-full -translate-x-1/2 -translate-y-1/2 gap-4 border border-slate-200 bg-white p-10 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:max-w-[640px] rounded-2xl">
+        <DialogPrimitive.Content className="fixed left-1/2 top-1/2 z-[201] w-full -translate-x-1/2 -translate-y-1/2 gap-4 border border-slate-200 bg-white p-10 duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:max-w-[640px] rounded-xl">
 
           {/* Close button */}
           <DialogPrimitive.Close className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors outline-none">
@@ -304,9 +301,9 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
     {
       icon: <Users className="w-7 h-7 text-slate-700" />,
       title: "Community",
-      description: "Flag potholes, track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
+      description: "Track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
       cta: "Get Involved",
-      page: 'pothole-map' as Page,
+      page: 'community-impact' as Page,
     },
     {
       icon: <BookOpen className="w-7 h-7 text-slate-700" />,
@@ -343,7 +340,7 @@ const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => voi
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-xl overflow-hidden">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
@@ -614,7 +611,7 @@ const DiscoveryGrid = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
               whileHover={{ y: -6, scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden cursor-pointer group aspect-4/3 sm:aspect-3/4 shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform"
+              className="relative rounded-xl overflow-hidden cursor-pointer group aspect-4/3 sm:aspect-3/4 shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform"
             >
               <picture>
                 <source srcSet={item.webp} type="image/webp" />
@@ -663,7 +660,6 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
     {
       title: 'Community',
       links: [
-        { label: 'Pothole Map', page: 'pothole-map' },
         { label: 'Water Dashboard', page: 'water-dashboard' }, { label: 'Tax & Budget', page: 'tax-budget' },
         { label: 'Cost of Living', page: 'cost-of-living' }, { label: 'Civics', page: 'civics' },
       ],
@@ -822,9 +818,6 @@ export default function App() {
               {page === 'school-assist-chat' && <PageTransition pageKey="school-assist-chat"><SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-linear-equations' && <PageTransition pageKey="learning-algebra-g10-t1-linear-equations"><LinearEquationsPage {...protectedPageProps} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-simultaneous' && <PageTransition pageKey="learning-algebra-g10-t1-simultaneous"><SimultaneousEquationsPage {...protectedPageProps} /></PageTransition>}
-              {page === 'pothole-map' && <PageTransition pageKey="pothole-map"><PotholeMapPage {...careerPageProps} /></PageTransition>}
-              {page === 'flag-pothole' && <PageTransition pageKey="flag-pothole"><FlagPotholePage {...protectedPageProps} /></PageTransition>}
-              {page === 'my-pothole-contributions' && <PageTransition pageKey="my-pothole-contributions"><MyContributionsPage {...protectedPageProps} /></PageTransition>}
               {page === 'water-dashboard' && <PageTransition pageKey="water-dashboard"><WaterDashboardPage {...protectedPageProps} /></PageTransition>}
 
               {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage {...careerPageProps} /></PageTransition>}

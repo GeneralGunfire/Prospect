@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Eye, EyeOff, Globe, Users, Droplets, AlertCircle, Loader2, Check } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, Globe, Droplets, AlertCircle, Loader2, Check } from 'lucide-react';
 import { signIn, signUp } from '../../lib/auth';
 import type { AppPage } from '../../lib/withAuth';
 
@@ -39,7 +39,6 @@ const PasswordField = ({ id, label, value, onChange }: { id: string; label: stri
 
 const features = [
   { icon: <Globe className="w-4 h-4" />, text: 'Community Impact — map opportunity gaps' },
-  { icon: <Users className="w-4 h-4" />, text: 'Pothole Map — report & track road issues' },
   { icon: <Droplets className="w-4 h-4" />, text: 'Water Dashboard — monitor dam & water levels' },
   { icon: <Check className="w-4 h-4" />, text: 'Tax & Budget · Cost of Living · Civics' },
   { icon: <Check className="w-4 h-4" />, text: 'Free to use · Privacy-conscious' },

@@ -4,7 +4,7 @@ import {
   Menu, X, User, LogOut, LayoutDashboard,
   BrainCircuit, Briefcase, BookOpen, Wallet,
   Map, Calendar, GraduationCap, BookMarked,
-  Target, Heart, Construction, Droplets,
+  Target, Heart, Droplets,
   Search, BookText, HelpCircle, ArrowRight, Loader2,
   Newspaper, Calculator, MapPin, Building2, MessageCircle,
 } from 'lucide-react';
@@ -17,7 +17,7 @@ interface AppHeaderProps {
   currentPage: AppPage;
   user: SupabaseUser;
   onNavigate: (page: AppPage) => void;
-  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Potholes/Water/Tax/Civics. Defaults to 'school'. */
+  /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Water/Tax/Civics. Defaults to 'school'. */
   mode?: 'school' | 'career' | 'community';
   /** Called when Sign In is clicked (guest users in career mode) */
   onNavigateAuth?: () => void;
@@ -37,7 +37,6 @@ const SCHOOL_NAV: NavItem[] = [
 ];
 
 const COMMUNITY_NAV: NavItem[] = [
-  { name: 'Pothole Map',      page: 'pothole-map',      icon: <Construction className="w-3.5 h-3.5" /> },
   { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-3.5 h-3.5" /> },
   { name: 'Tax & Budget',     page: 'tax-budget',        icon: <Calculator className="w-3.5 h-3.5" /> },
   { name: 'Cost of Living',   page: 'cost-of-living',    icon: <MapPin className="w-3.5 h-3.5" /> },
@@ -268,7 +267,7 @@ export default function AppHeader({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.97 }}
                 transition={{ duration: 0.13, ease: 'easeOut' }}
-                className="absolute right-0 top-13 w-48 max-w-[calc(100vw-2rem)] bg-[#0f172a] rounded-xl shadow-2xl border border-white/10 z-130 overflow-hidden"
+                className="absolute right-0 top-13 w-48 max-w-[calc(100vw-2rem)] bg-[#0f172a] rounded-xl border border-white/10 z-130 overflow-hidden"
               >
                 <div className="px-4 py-3 border-b border-white/10">
                   <p className="text-[11px] font-black uppercase tracking-widest text-white">{firstName}</p>
@@ -312,7 +311,7 @@ export default function AppHeader({
             <motion.div
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-              className="fixed inset-y-0 left-0 z-[9999] w-72 bg-white shadow-2xl flex flex-col"
+              className="fixed inset-y-0 left-0 z-[9999] w-72 bg-white flex flex-col"
               role="navigation"
             >
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
@@ -394,7 +393,7 @@ export default function AppHeader({
               transition={{ duration: 0.18, ease: 'easeOut' }}
               className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-[9999] px-4"
             >
-              <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
+              <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
                 <div className="flex gap-1 p-3 border-b border-slate-100">
                   <button
                     onClick={() => { setSearchMode('topic'); setSearched(false); }}

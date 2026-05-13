@@ -5,7 +5,7 @@ import { getCurrentUserFromStorage } from './auth';
 
 
 // Add new topic below
-export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'school-assist-chat' | 'learning-algebra-g10-t1-linear-equations' | 'learning-algebra-g10-t1-simultaneous' | 'pothole-map' | 'flag-pothole' | 'my-pothole-contributions' | 'water-dashboard' | 'tax-budget' | 'cost-of-living' | 'civics' | 'community-impact' | 'impact-auth';
+export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'school-assist-chat' | 'learning-algebra-g10-t1-linear-equations' | 'learning-algebra-g10-t1-simultaneous' | 'water-dashboard' | 'tax-budget' | 'cost-of-living' | 'civics' | 'community-impact' | 'impact-auth';
 
 export interface AuthedProps {
   user: User;

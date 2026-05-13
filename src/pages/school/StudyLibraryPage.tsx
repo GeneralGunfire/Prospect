@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Search, Play, CheckCircle2, Star, ArrowRight, Library, ChevronLeft, GraduationCap, Calendar, Calculator, Atom, FlaskConical, Briefcase, TrendingUp, Monitor, Pencil, Languages, type LucideIcon } from 'lucide-react';
+import { BookOpen, Search, ArrowRight, ChevronLeft, Calculator, Atom, FlaskConical, Briefcase, TrendingUp, Monitor, Pencil, Languages, Play, type LucideIcon } from 'lucide-react';
 import { subjects } from '../../data/subjects';
-import { getStudyProgress, markLessonComplete } from '../../services/dashboardService';
 import { withAuth, type AuthedProps, type AppPage } from '../../lib/withAuth';
 import AppHeader from '../../components/shell/AppHeader';
 
@@ -52,21 +51,13 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
 
-      <div className="pt-24 pb-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">
-        <div className="mb-12 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-900/5">
-            <Library className="w-4 h-4 text-slate-900" />
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Digital Study Library</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
-            Master Your <span className="text-slate-500">Subjects</span>
-          </h1>
-          <p className="text-sm md:text-base leading-relaxed text-slate-600">
-            Access high-quality study materials and practice questions for all South African CAPS subjects.
-          </p>
+      <div className="pt-24 pb-16 px-4 sm:px-6 md:px-8 max-w-5xl mx-auto">
+        <div className="mb-10 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Study Library</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Library</h1>
         </div>
 
         <AnimatePresence mode="wait">
@@ -79,7 +70,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                   placeholder="Search for a subject (e.g. Mathematics, History)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 min-h-12 text-base font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
+                  className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 min-h-11 text-base text-slate-900 outline-none focus:border-slate-400 transition-colors"
                   style={{ fontSize: '16px' }}
                 />
               </div>
@@ -98,16 +89,14 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                           }
                         }}
                         disabled={!hasContent}
-                        className={`w-full bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-sm transition-all duration-200 flex flex-col text-left min-h-11 ${
+                        className={`w-full bg-white border border-slate-200 rounded-xl p-5 transition-colors duration-150 flex flex-col text-left min-h-11 ${
                           hasContent
-                            ? 'hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 cursor-pointer'
-                            : 'opacity-50 cursor-not-allowed'
+                            ? 'hover:border-slate-300 cursor-pointer'
+                            : 'opacity-40 cursor-not-allowed'
                         }`}
                       >
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 transition-all duration-200 ${
-                          hasContent
-                            ? `${iconConfig.bg} group-hover:scale-105`
-                            : 'bg-slate-100'
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-4 ${
+                          hasContent ? iconConfig.bg : 'bg-slate-100'
                         }`}>
                           <iconConfig.Icon className={`w-5 h-5 ${hasContent ? iconConfig.iconColor : 'text-slate-400'}`} />
                         </div>
@@ -150,13 +139,10 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[10, 11, 12].map((grade) => (
                   <button key={grade} onClick={() => { setSelectedGrade(grade); setStep('term'); }}
-                    className="group bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
+                    className="group bg-white border border-slate-200 rounded-xl p-6 hover:border-slate-900 transition-colors text-left"
                   >
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-slate-900 group-hover:bg-blue-600 transition-colors duration-200">
-                      <GraduationCap className="w-7 h-7 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-black mb-1 text-slate-900 group-hover:text-blue-600 transition-colors">Grade {grade}</h3>
-                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">CAPS Curriculum</p>
+                    <h3 className="text-2xl font-black text-slate-900" style={{ letterSpacing: '-0.02em' }}>Grade {grade}</h3>
+                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mt-1">CAPS Curriculum</p>
                   </button>
                 ))}
               </div>
@@ -179,17 +165,13 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                     if (selectedSubject === 'algebra' && selectedGrade === 10 && term === 1) {
                       onNavigate('learning-algebra-g10-t1-linear-equations' as AppPage);
                     } else {
-                      setSelectedTerm(term); 
-                      setStep('content'); 
+                      setSelectedTerm(term);
+                      setStep('content');
                     }
                   }}
-                    className="group bg-white border border-slate-100 rounded-2xl p-5 sm:p-7 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col items-center text-center"
+                    className="group bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-900 transition-colors text-left"
                   >
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-slate-900 group-hover:bg-blue-600 transition-colors duration-200">
-                      <Calendar className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="text-lg font-black text-slate-900 group-hover:text-blue-600 transition-colors">Term {term}</h3>
-                    <p className="text-xs font-bold uppercase tracking-widest mt-1 text-slate-400">Quarter {term}</p>
+                    <h3 className="text-lg font-black text-slate-900" style={{ letterSpacing: '-0.01em' }}>Term {term}</h3>
                   </button>
                 ))}
               </div>
@@ -201,7 +183,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                <button onClick={goBack} className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-8 hover:opacity-70 transition-opacity text-slate-900">
                 <ChevronLeft className="w-4 h-4" /> Back
               </button>
-              <div className="bg-white border border-dashed border-slate-200 rounded-[2.5rem] p-10 sm:p-24">
+              <div className="bg-white border border-dashed border-slate-200 rounded-xl p-10 sm:p-20 text-center">
                 <BookOpen className="w-16 h-16 text-slate-200 mx-auto mb-8" />
                 <h2 className="text-2xl font-black text-slate-900 mb-4 tracking-tight uppercase">Coming Soon</h2>
                 <p className="text-slate-500 max-w-md mx-auto">Study materials for {currentSubjectName} Grade {selectedGrade} Term {selectedTerm} are currently being developed.</p>

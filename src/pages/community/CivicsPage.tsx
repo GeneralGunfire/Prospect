@@ -96,9 +96,9 @@ const CATEGORY_CONFIG: Record<string, { icon: React.ReactNode; color: string; bg
 };
 
 const DIFFICULTY_COLOR: Record<string, string> = {
-  Easy: 'bg-green-100 text-green-700',
-  Medium: 'bg-amber-100 text-amber-700',
-  Hard: 'bg-red-100 text-red-700',
+  Easy: 'bg-slate-100 text-slate-600',
+  Medium: 'bg-slate-100 text-slate-600',
+  Hard: 'bg-slate-100 text-slate-600',
 };
 
 // ── Landing view ────────────────────────────────────────────────────────────
@@ -123,7 +123,7 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-900 rounded-2xl p-6 text-white"
+        className="bg-slate-900 rounded-xl p-6 text-white"
       >
         <div className="flex items-center gap-2 mb-3">
           <Shield className="w-5 h-5 text-slate-300" />
@@ -144,19 +144,18 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
 
       {/* Categories */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
-        <h2 className="font-black text-xs uppercase tracking-wider text-slate-500 mb-3">Browse by Category</h2>
+        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Browse by Category</h2>
         <div className="grid grid-cols-2 gap-3">
           {Object.entries(CATEGORY_CONFIG).map(([cat, cfg]) => (
             <button
               key={cat}
               onClick={() => onSelectCategory(cat)}
-              className={`${cfg.bg} ${cfg.border} border rounded-2xl p-4 text-left hover:shadow-sm transition-all`}
+              className="bg-white border border-slate-200 rounded-xl p-4 text-left hover:border-slate-400 transition-colors"
             >
-              <div className={`${cfg.color} mb-2`}>{cfg.icon}</div>
-              <p className={`font-black text-sm ${cfg.color.replace('text-', 'text-').replace('-600', '-900')} mb-0.5`}>{cat}</p>
+              <p className="font-black text-sm text-slate-900 mb-0.5">{cat}</p>
               <p className="text-xs text-slate-500 leading-tight">{cfg.desc}</p>
               {counts[cat] && (
-                <p className={`text-xs font-black mt-2 ${cfg.color}`}>{counts[cat]} guides</p>
+                <p className="text-[10px] font-black mt-2 text-slate-400 uppercase tracking-widest">{counts[cat]} guides</p>
               )}
             </button>
           ))}
@@ -165,7 +164,7 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
 
       {/* Popular procedures */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <h2 className="font-black text-xs uppercase tracking-wider text-slate-500 mb-3">Most Useful Guides</h2>
+        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Most Useful Guides</h2>
         <div className="space-y-2">
           {popular.map((p, i) => {
             const cfg = CATEGORY_CONFIG[p.category] ?? CATEGORY_CONFIG.Identity;
@@ -194,7 +193,7 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="bg-slate-900 rounded-2xl p-5"
+        className="bg-slate-900 rounded-xl p-5"
       >
         <div className="flex items-center gap-2 mb-3">
           <Phone className="w-4 h-4 text-slate-300" />
@@ -475,7 +474,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
       </div>
 
       {/* Overview */}
-      <div className={`${cfg.bg} ${cfg.border} border rounded-2xl p-4`}>
+      <div className={`${cfg.bg} ${cfg.border} border rounded-xl p-4`}>
         <p className={`text-xs font-black uppercase tracking-wider ${cfg.color} mb-2`}>Overview</p>
         <p className="text-sm text-slate-700 leading-relaxed">{procedure.overview}</p>
       </div>
@@ -546,7 +545,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
       </div>
 
       {/* Required documents */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-4">
+      <div className="bg-white border border-slate-200 rounded-xl p-4">
         <h3 className="font-black text-xs uppercase tracking-wider text-slate-500 mb-3">All Required Documents</h3>
         <ul className="space-y-2">
           {procedure.required_documents.map((doc, i) => (
@@ -560,7 +559,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
 
       {/* Common mistakes */}
       {procedure.common_mistakes.length > 0 && (
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
           <h3 className="font-black text-xs uppercase tracking-wider text-red-600 mb-3">Common Mistakes to Avoid</h3>
           <ul className="space-y-2">
             {procedure.common_mistakes.map((m, i) => (
@@ -575,7 +574,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
 
       {/* Forms */}
       {procedure.forms.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-2xl p-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-4">
           <h3 className="font-black text-xs uppercase tracking-wider text-slate-500 mb-3">Forms Required</h3>
           <div className="space-y-3">
             {procedure.forms.map((form, i) => (
@@ -590,14 +589,14 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
       )}
 
       {/* Timeline */}
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-        <h3 className="font-black text-xs uppercase tracking-wider text-amber-600 mb-2">Timeline</h3>
+      <div className="bg-white border border-slate-200 rounded-xl p-4">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Timeline</h3>
         <p className="text-sm text-slate-700">{procedure.timeline}</p>
       </div>
 
       {/* Contacts */}
       {procedure.contacts.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-2xl p-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-4">
           <h3 className="font-black text-xs uppercase tracking-wider text-slate-500 mb-3">Contact Information</h3>
           <div className="space-y-3">
             {procedure.contacts.map((c, i) => (
@@ -693,29 +692,20 @@ function CivicsPage({ user, onNavigate }: AuthedProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="civics" user={user} onNavigate={onNavigate} mode="community" />
 
       <main className="max-w-3xl mx-auto px-4 pt-24 pb-8 sm:pb-12 lg:pb-16">
         {/* Page title */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-3 mb-6"
-        >
-          <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
-            <Building2 className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="font-black text-2xl text-slate-900 uppercase tracking-tight">Civics Guide</h1>
-            <p className="text-xs text-slate-500">Government procedures · Know your rights</p>
-          </div>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Community</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Civics Guide</h1>
         </motion.div>
 
         {loading ? (
           <div className="space-y-3">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-24 bg-white rounded-2xl border border-slate-200 animate-pulse" />
+              <div key={i} className="h-24 bg-white rounded-xl border border-slate-200 animate-pulse" />
             ))}
           </div>
         ) : (

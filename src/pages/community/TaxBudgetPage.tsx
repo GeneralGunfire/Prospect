@@ -78,16 +78,13 @@ function SectionCard({ title, icon, children, defaultOpen = true }: {
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 transition-colors"
       >
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white">
-            {icon}
-          </div>
-          <span className="font-black text-sm uppercase tracking-wider text-slate-900">{title}</span>
+          <span className="text-xs font-black uppercase tracking-[0.15em] text-slate-700">{title}</span>
         </div>
         {open ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
       </button>
@@ -98,8 +95,8 @@ function SectionCard({ title, icon, children, defaultOpen = true }: {
 
 function InfoBox({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex gap-2.5 p-3.5 rounded-xl bg-blue-50 border border-blue-100 text-sm text-blue-800">
-      <Info className="w-4 h-4 shrink-0 mt-0.5" />
+    <div className="flex gap-2.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-700">
+      <Info className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
       <span>{children}</span>
     </div>
   );
@@ -135,21 +132,14 @@ function TaxBudgetPage({ user, onNavigate }: AuthedProps) {
   const fmt = (n: number) => `R${Math.round(n).toLocaleString('en-ZA')}`;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="tax-budget" user={user} onNavigate={onNavigate} mode="community" />
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 pb-12 sm:pb-16 space-y-5">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-2">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
-              <Calculator className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="font-black text-xl sm:text-2xl text-slate-900 uppercase tracking-wide">Tax & Budget</h1>
-              <p className="text-xs text-slate-500">Understand your money · 2026 rates</p>
-            </div>
-          </div>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Community</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Tax & Budget</h1>
         </motion.div>
 
         {/* Tax explainer */}

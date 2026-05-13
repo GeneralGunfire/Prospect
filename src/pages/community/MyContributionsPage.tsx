@@ -51,7 +51,7 @@ function PotholeCard({ pothole, onViewOnMap }: { pothole: Pothole; onViewOnMap: 
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-md transition-shadow"
+      className="bg-white rounded-xl border border-slate-200 p-4 hover:border-slate-300 transition-colors"
     >
       {pothole.image_url && (
         <img
@@ -117,7 +117,7 @@ function MyContributionsPageComponent({ user, onNavigate }: MyContributionsPageP
   }, [user.id]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="my-pothole-contributions" user={user} onNavigate={onNavigate} mode="community" />
 
       <div className="pt-20 max-w-2xl mx-auto px-4 py-8 pb-24">
@@ -128,23 +128,17 @@ function MyContributionsPageComponent({ user, onNavigate }: MyContributionsPageP
           <ChevronLeft className="w-4 h-4" /> Back to Map
         </button>
 
-        <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-black text-slate-900">My Contributions</h1>
-            <p className="text-sm text-slate-500 mt-1">Potholes you've reported and flagged</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Community</p>
+            <h1 className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>My Contributions</h1>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => onNavigate('flag-pothole')}
-              className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors"
+              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors"
             >
               <Plus className="w-4 h-4" /> Report
-            </button>
-            <button
-              onClick={() => onNavigate('pothole-map')}
-              className="flex items-center gap-2 border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold px-4 py-2.5 rounded-xl transition-colors"
-            >
-              <Map className="w-4 h-4" /> View All
             </button>
           </div>
         </div>
@@ -157,17 +151,14 @@ function MyContributionsPageComponent({ user, onNavigate }: MyContributionsPageP
           <div className="space-y-10">
             {/* Reported section */}
             <section>
-              <h2 className="text-xs font-black text-slate-700 mb-3 uppercase tracking-wider flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-600" /> Potholes I Reported
-                <span className="font-normal text-slate-400 normal-case tracking-normal">({reported.length})</span>
-              </h2>
+              <h2 className="text-[10px] font-black text-slate-400 mb-3 uppercase tracking-[0.2em]">Potholes I Reported ({reported.length})</h2>
               {reported.length === 0 ? (
-                <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center">
+                <div className="bg-white rounded-xl border border-slate-200 p-8 text-center">
                   <MapPin className="w-8 h-8 text-slate-300 mx-auto mb-3" />
                   <p className="text-sm text-slate-500 mb-3">You haven't reported any potholes yet.</p>
                   <button
                     onClick={() => onNavigate('flag-pothole')}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 mx-auto"
+                    className="text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1 mx-auto"
                   >
                     Start Reporting <Plus className="w-3 h-3" />
                   </button>
@@ -187,17 +178,14 @@ function MyContributionsPageComponent({ user, onNavigate }: MyContributionsPageP
 
             {/* Flagged section */}
             <section>
-              <h2 className="text-xs font-black text-slate-700 mb-3 uppercase tracking-wider flex items-center gap-2">
-                <Flag className="w-4 h-4 text-amber-500" /> Potholes I've Flagged
-                <span className="font-normal text-slate-400 normal-case tracking-normal">({flagged.length})</span>
-              </h2>
+              <h2 className="text-[10px] font-black text-slate-400 mb-3 uppercase tracking-[0.2em]">Potholes I've Flagged</h2>
               {flagged.length === 0 ? (
-                <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center">
+                <div className="bg-white rounded-xl border border-slate-200 p-8 text-center">
                   <Flag className="w-8 h-8 text-slate-300 mx-auto mb-3" />
                   <p className="text-sm text-slate-500 mb-3">You haven't flagged any potholes yet.</p>
                   <button
                     onClick={() => onNavigate('pothole-map')}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 mx-auto"
+                    className="text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1 mx-auto"
                   >
                     Explore Map <Map className="w-3 h-3" />
                   </button>

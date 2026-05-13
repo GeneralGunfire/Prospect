@@ -19,11 +19,11 @@ interface QuizAnswer {
 // ── Quiz Page ─────────────────────────────────────────────────────────────────
 
 const likertOptions = [
-  { label: 'Strongly Dislike', value: 1, color: 'bg-red-500' },
-  { label: 'Dislike', value: 2, color: 'bg-slate-400' },
-  { label: 'Neutral', value: 3, color: 'bg-slate-300' },
-  { label: 'Like', value: 4, color: 'bg-green-400' },
-  { label: 'Strongly Like', value: 5, color: 'bg-green-600' },
+  { label: 'Strongly Dislike', value: 1, color: 'bg-slate-700' },
+  { label: 'Dislike', value: 2, color: 'bg-slate-500' },
+  { label: 'Neutral', value: 3, color: 'bg-slate-400' },
+  { label: 'Like', value: 4, color: 'bg-slate-700' },
+  { label: 'Strongly Like', value: 5, color: 'bg-slate-900' },
 ];
 
 function QuizPhase({
@@ -111,7 +111,7 @@ function QuizPhase({
           <div className="flex justify-between items-end mb-4">
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight mb-1">Career Quiz</h1>
-              <p className="text-secondary text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
+              <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
             </div>
             <div className="flex items-center gap-4">
               {hasSkipped && (
@@ -119,7 +119,7 @@ function QuizPhase({
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   onClick={() => setIsPanelOpen(true)}
-                  className="bg-secondary text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap"
+                  className="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2 whitespace-nowrap"
                 >
                   <SkipForward className="w-3 h-3" />
                   Skipped ({skippedQuestions.length})
@@ -127,7 +127,7 @@ function QuizPhase({
               )}
               <div className="text-right">
                 <span className="text-slate-900 font-bold text-lg">{currentQuestionIndex + 1}</span>
-                <span className="text-secondary text-xs font-medium"> / {quizQuestions.length}</span>
+                <span className="text-slate-500 text-xs font-medium"> / {quizQuestions.length}</span>
               </div>
             </div>
           </div>
@@ -143,7 +143,7 @@ function QuizPhase({
         {/* Question Card */}
         <div className="relative mb-8">
 
-          <div className="bg-white border border-slate-100 rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm relative overflow-hidden">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 md:p-12 relative overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestion.id}
@@ -238,12 +238,9 @@ function QuizPhase({
         </div>
 
         {/* Info Box */}
-        <div className="mt-10 p-5 bg-slate-50 rounded-2xl flex gap-3 border border-slate-100">
-          <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center shrink-0">
-            <Info className="w-4 h-4 text-[#3B5A7F]" />
-          </div>
-          <p className="text-xs text-slate-500 leading-relaxed self-center">
-            <span className="font-bold text-slate-700">Be honest!</span> There are no right or wrong answers. This assessment helps identify your natural interests to match you with careers you'll actually enjoy.
+        <div className="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-100">
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Be honest. There are no right or wrong answers — this matches you with careers you'll actually enjoy.
           </p>
         </div>
         </div>
@@ -272,11 +269,11 @@ function QuizPhase({
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed inset-4 md:inset-auto md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 bg-white rounded-3xl p-8 z-50 max-w-lg shadow-2xl"
+              className="fixed inset-4 md:inset-auto md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2 bg-white rounded-xl p-8 z-50 max-w-lg border border-slate-200"
             >
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/20 rounded-full mb-6">
-                  <SkipForward className="w-8 h-8 text-secondary" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-900/20 rounded-full mb-6">
+                  <SkipForward className="w-8 h-8 text-slate-500" />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-900 mb-2 uppercase tracking-tight">
                   Skipped Questions
@@ -291,7 +288,7 @@ function QuizPhase({
                   onClick={() => {
                     setShowSkipReminder(false);
                   }}
-                  className="w-full bg-secondary text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all"
+                  className="w-full bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:shadow-lg transition-all"
                 >
                   Go Back & Answer
                 </button>
@@ -412,15 +409,12 @@ function ResultsPhase({
       <div className="pt-24 pb-16 px-4">
         <div className="max-w-7xl mx-auto">
         {/* Section 1: Header & RIASEC Profile */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 rounded-full mb-6">
-            <Star className="w-4 h-4 text-secondary fill-secondary" />
-            <span className="text-xs font-bold text-secondary uppercase tracking-widest">Assessment Complete</span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Assessment Complete</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4" style={{ letterSpacing: '-0.025em' }}>
             Your RIASEC Profile
           </h1>
-          <p className="text-base text-slate-900/70 mb-8 max-w-3xl">
+          <p className="text-sm text-slate-500 max-w-2xl leading-relaxed">
             {results.profileDescription}
           </p>
         </motion.div>
@@ -430,9 +424,9 @@ function ResultsPhase({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="bg-white border border-slate-100 rounded-3xl p-5 sm:p-8 md:p-12 shadow-sm mb-20"
+          className="border border-slate-100 rounded-xl p-6 sm:p-8 mb-16"
         >
-          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em] mb-12">Your Scores Across All Dimensions</h3>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8">Scores</p>
           <div className="space-y-8">
             {Object.entries(results.percentages)
               .sort(([, a], [, b]) => b - a)
@@ -467,7 +461,7 @@ function ResultsPhase({
                           {codeLabel}
                         </span>
                       </div>
-                      <span className={`text-sm font-bold ${isTop3 ? 'text-secondary' : 'text-slate-900/60'}`}>
+                      <span className={`text-sm font-bold ${isTop3 ? 'text-slate-500' : 'text-slate-900/60'}`}>
                         {score}%
                       </span>
                     </div>
@@ -486,125 +480,80 @@ function ResultsPhase({
         </motion.div>
 
         {/* Section 3: Top 15 Careers */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mb-20">
-          <div className="mb-10">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Your Best Career Matches</h2>
-            <p className="text-slate-900/70 text-sm">
-              Ranked by compatibility with your profile ({results.topCodes.join(', ')})
-            </p>
-          </div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mb-16">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Career Matches</p>
+          <h2 className="text-2xl font-black text-slate-900 mb-8" style={{ letterSpacing: '-0.02em' }}>Your Best Matches</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {topCareers.map((career, index) => (
               <motion.div
                 key={career.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 + Math.min(index, 7) * 0.04 }}
-                className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-300 transition-colors cursor-pointer"
+                onClick={() => onNavigate('careers')}
               >
-                {/* Compatibility Badge */}
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-1">{career.title}</h3>
-                    <span className="inline-block text-xs font-bold bg-slate-900/10 text-slate-900 px-2 py-1 rounded">
-                      {career.category}
-                    </span>
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-1">{career.category}</p>
+                    <h3 className="text-sm font-bold text-slate-900 leading-snug" style={{ letterSpacing: '-0.01em' }}>{career.title}</h3>
                   </div>
-                  <div className={`text-sm font-bold px-3 py-1 rounded-lg ${compatibilityColor(career.compatibilityScore || 0)}`}>
+                  <span className="shrink-0 ml-3 text-xs font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded-full">
                     {career.compatibilityScore}%
-                  </div>
+                  </span>
                 </div>
-
-                {/* Why It Fits */}
-                <p className="text-sm text-slate-900/70 mb-4 line-clamp-2">{career.whyItFits}</p>
-
-                {/* Job Demand & Path */}
-                <div className="space-y-3 mb-4 pb-4 border-t border-slate-100">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-900/60">Job Demand:</span>
-                    <span className="font-bold text-slate-900">{career.jobDemand}</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-900/60">Path:</span>
-                    <span className="font-bold text-slate-900">{career.educationPath} ({career.studyYears})</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-900/60">Salary:</span>
-                    <span className="font-bold text-secondary">{career.salaryRange}</span>
-                  </div>
+                <p className="text-xs text-slate-500 line-clamp-2 mb-3">{career.whyItFits}</p>
+                <div className="pt-3 border-t border-slate-100 flex items-center gap-3 text-xs text-slate-500">
+                  <span>{career.salaryRange}</span>
+                  <span className="text-slate-200">·</span>
+                  <span>{career.jobDemand} demand</span>
                 </div>
-
-                {/* View Details Button */}
-                <button
-                  onClick={() => onNavigate('careers')}
-                  className="w-full py-2 text-sm font-bold text-slate-900 bg-slate-900/5 hover:bg-slate-900/10 rounded-lg transition-colors flex items-center justify-center gap-2"
-                >
-                  View Details <ArrowRight className="w-4 h-4" />
-                </button>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         {/* Section 4: Subject Recommendations */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mb-20">
-          <div className="mb-10">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">Subjects to Focus On</h2>
-            <p className="text-slate-900/70 text-sm">
-              These subjects will prepare you best for your matched careers
-            </p>
-          </div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mb-16">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Recommended Subjects</p>
+          <h2 className="text-2xl font-black text-slate-900 mb-8" style={{ letterSpacing: '-0.02em' }}>Subjects to Focus On</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Essential */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {subjectsByImportance.Essential.length > 0 && (
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="w-5 h-5 text-green-600" />
-                  <h3 className="font-bold text-green-900 uppercase text-xs tracking-wider">Essential</h3>
-                </div>
+              <div className="border border-slate-200 rounded-xl p-5">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Essential</p>
                 <ul className="space-y-3">
                   {subjectsByImportance.Essential.map((sub) => (
-                    <li key={sub.subject} className="text-sm">
-                      <p className="font-bold text-slate-900 mb-1">{sub.subject}</p>
-                      <p className="text-xs text-slate-900/60">{sub.reason}</p>
+                    <li key={sub.subject}>
+                      <p className="text-sm font-bold text-slate-900">{sub.subject}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-
-            {/* Recommended */}
             {subjectsByImportance.Recommended.length > 0 && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Zap className="w-5 h-5 text-yellow-600" />
-                  <h3 className="font-bold text-yellow-900 uppercase text-xs tracking-wider">Recommended</h3>
-                </div>
+              <div className="border border-slate-200 rounded-xl p-5">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Recommended</p>
                 <ul className="space-y-3">
                   {subjectsByImportance.Recommended.map((sub) => (
-                    <li key={sub.subject} className="text-sm">
-                      <p className="font-bold text-slate-900 mb-1">{sub.subject}</p>
-                      <p className="text-xs text-slate-900/60">{sub.reason}</p>
+                    <li key={sub.subject}>
+                      <p className="text-sm font-bold text-slate-900">{sub.subject}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-
-            {/* Useful */}
             {subjectsByImportance.Useful.length > 0 && (
-              <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Star className="w-5 h-5 text-blue-600" />
-                  <h3 className="font-bold text-blue-900 uppercase text-xs tracking-wider">Useful</h3>
-                </div>
+              <div className="border border-slate-200 rounded-xl p-5">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Useful</p>
                 <ul className="space-y-3">
                   {subjectsByImportance.Useful.map((sub) => (
-                    <li key={sub.subject} className="text-sm">
-                      <p className="font-bold text-slate-900 mb-1">{sub.subject}</p>
-                      <p className="text-xs text-slate-900/60">{sub.reason}</p>
+                    <li key={sub.subject}>
+                      <p className="text-sm font-bold text-slate-900">{sub.subject}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -614,55 +563,22 @@ function ResultsPhase({
         </motion.div>
 
         {/* Section 5: Next Steps */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mb-20">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-10">What's Next?</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <button
-              onClick={() => onNavigate('careers')}
-              className="bg-secondary hover:bg-secondary/90 text-white px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
-            >
-              <ArrowRight className="w-5 h-5" />
-              Explore All Careers
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mb-16">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6">Next Steps</p>
+          <div className="flex flex-wrap gap-3">
+            <button onClick={() => onNavigate('careers')} className="px-5 py-2.5 bg-slate-900 text-white rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors">
+              Explore Careers
             </button>
-            <button
-              onClick={() => onNavigate('bursaries')}
-              className="bg-amber-400 hover:bg-amber-500 text-slate-900 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
-            >
-              <Star className="w-5 h-5" />
+            <button onClick={() => onNavigate('bursaries')} className="px-5 py-2.5 border border-slate-200 text-slate-700 rounded-lg font-bold text-xs uppercase tracking-widest hover:border-slate-400 transition-colors">
               Find Bursaries
             </button>
-            <button
-              onClick={() => onNavigate('library')}
-              className="bg-secondary hover:bg-secondary/90 text-white px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
-            >
-              <ArrowRight className="w-5 h-5" />
+            <button onClick={() => onNavigate('library')} className="px-5 py-2.5 border border-slate-200 text-slate-700 rounded-lg font-bold text-xs uppercase tracking-widest hover:border-slate-400 transition-colors">
               Study Resources
             </button>
-            <button
-              onClick={handleShare}
-              className="bg-amber-400 hover:bg-amber-500 text-slate-900 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:shadow-lg"
-            >
-              <Copy className="w-5 h-5" />
-              Share Results
-            </button>
-            <button
-              onClick={onRetake}
-              className="border-2 border-slate-900 text-slate-900 hover:bg-slate-900/5 px-8 py-6 rounded-2xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all"
-            >
-              <RefreshCw className="w-5 h-5" />
+            <button onClick={onRetake} className="px-5 py-2.5 border border-slate-200 text-slate-500 rounded-lg font-bold text-xs uppercase tracking-widest hover:border-slate-400 transition-colors">
               Retake Quiz
             </button>
           </div>
-        </motion.div>
-
-        {/* Section 6: Disclaimer */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="bg-slate-900/5 border border-slate-900/10 rounded-2xl p-5 sm:p-8 text-center">
-          <p className="text-sm text-slate-900/70 leading-relaxed italic">
-            This assessment is based on Holland's RIASEC model, validated by over 70 years of career research. Your results reflect
-            your current interests — they can change as you grow and learn. Use these insights as a starting point for exploration,
-            not a final verdict. Talk to your teacher, parents, or a career advisor for personalized guidance.
-          </p>
         </motion.div>
         </div>
       </div>

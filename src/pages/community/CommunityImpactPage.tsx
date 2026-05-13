@@ -88,7 +88,7 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
       whileHover={{ y: -2, boxShadow: '0 8px 28px rgba(0,0,0,0.08)' }}
-      className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-shadow group"
+      className="bg-white rounded-xl border border-slate-200  overflow-hidden transition-shadow group"
     >
       <div className="flex items-stretch">
         {/* Left accent bar */}
@@ -309,27 +309,20 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="community-impact" user={user} onNavigate={onNavigate} mode="community" />
 
       <div className="pt-16 sm:pt-20 pb-12 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
 
         {/* Page Header */}
-        <div className="mb-6 sm:mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/5 mb-4">
-            <Users className="w-4 h-4 text-slate-900" />
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Community Impact</span>
-          </div>
-          <h1 className="text-2xl md:text-4xl font-black tracking-tight text-slate-900 mb-2">
-            Opportunities near you
-          </h1>
-          <p className="text-sm text-slate-500 max-w-xl">
-            A student-powered map of real schools, colleges, jobs, and support services across South Africa.
-          </p>
+        <div className="mb-8 pt-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Community</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-1" style={{ letterSpacing: '-0.025em' }}>Opportunities</h1>
+          <p className="text-sm text-slate-500">Schools, colleges, jobs, and support services across South Africa.</p>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 bg-white rounded-xl border border-slate-200 shadow-sm mb-6 sm:mb-8 w-full sm:w-fit overflow-x-auto">
+        <div className="flex gap-1 p-1 bg-white rounded-xl border border-slate-200  mb-6 sm:mb-8 w-full sm:w-fit overflow-x-auto">
           {(['discover', 'add', 'my-contributions'] as Tab[]).map(tab => {
             const labels: Record<Tab, string> = {
               discover: 'Discover',
@@ -343,7 +336,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 onClick={() => handleTabChange(tab)}
                 className={`px-4 py-2.5 min-h-11 rounded-lg text-xs font-black uppercase tracking-widest transition-all shrink-0 ${
                   activeTab === tab
-                    ? 'bg-slate-900 text-white shadow-sm'
+                    ? 'bg-slate-900 text-white '
                     : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
                 }`}
               >
@@ -361,7 +354,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-slate-900 rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+              className="bg-slate-900 rounded-xl p-5 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Missing something?</p>
@@ -379,28 +372,18 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             </motion.div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6 sm:mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-px bg-slate-100 border border-slate-100 rounded-xl overflow-hidden mb-6 sm:mb-8">
               {[
-                { label: 'Total',    value: stats.total,   iconBg: 'bg-slate-900',    iconRing: 'ring-slate-200', icon: <Building2 className="w-4 h-4 text-white" /> },
-                { label: 'Schools',  value: stats.school,  iconBg: 'bg-blue-600',     iconRing: 'ring-blue-100',  icon: <GraduationCap className="w-4 h-4 text-white" /> },
-                { label: 'Colleges', value: stats.college, iconBg: 'bg-blue-600',   iconRing: 'ring-blue-100',icon: <BookOpen className="w-4 h-4 text-white" /> },
-                { label: 'Jobs',     value: stats.job,     iconBg: 'bg-blue-500',  iconRing: 'ring-blue-100',icon: <Briefcase className="w-4 h-4 text-white" /> },
-                { label: 'Services', value: stats.service, iconBg: 'bg-red-500',      iconRing: 'ring-red-100',   icon: <Heart className="w-4 h-4 text-white" /> },
+                { label: 'Total',    value: stats.total   },
+                { label: 'Schools',  value: stats.school  },
+                { label: 'Colleges', value: stats.college },
+                { label: 'Jobs',     value: stats.job     },
+                { label: 'Services', value: stats.service },
               ].map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(0,0,0,0.07)' }}
-                  className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm transition-shadow flex flex-col items-center text-center gap-2"
-                >
-                  <div className={`w-10 h-10 ${s.iconBg} rounded-2xl flex items-center justify-center ring-4 ${s.iconRing}`}>
-                    {s.icon}
-                  </div>
-                  <p className="text-3xl font-black tabular-nums text-slate-900 leading-none">{s.value}</p>
-                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{s.label}</p>
-                </motion.div>
+                <div key={s.label} className="bg-white p-4 text-center">
+                  <p className="text-2xl font-black tabular-nums text-slate-900 leading-none mb-1">{s.value}</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">{s.label}</p>
+                </div>
               ))}
             </div>
 
@@ -463,12 +446,12 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             {isLoading ? (
               <div className="grid gap-3">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="bg-white rounded-2xl border border-slate-100 p-5 h-24 animate-pulse" />
+                  <div key={i} className="bg-white rounded-xl border border-slate-100 p-5 h-24 animate-pulse" />
                 ))}
               </div>
             ) : filteredSubmissions.length === 0 ? (
               <div className="text-center py-16">
-                <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Building2 className="w-6 h-6 text-slate-400" />
                 </div>
                 <p className="text-sm font-black text-slate-700 mb-1">No opportunities found</p>
@@ -513,7 +496,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                         onClick={() => handleTypeSelect(t.value)}
                         whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
                         whileTap={{ scale: 0.98 }}
-                        className={`flex flex-col items-start p-5 rounded-2xl border-2 bg-white text-left transition-all hover:border-slate-300 group ${t.bg}`}
+                        className={`flex flex-col items-start p-5 rounded-xl border-2 bg-white text-left transition-all hover:border-slate-300 group ${t.bg}`}
                       >
                         <span className={`mb-3 ${t.color}`}>{t.icon}</span>
                         <p className={`text-sm font-black mb-1 ${t.color}`}>{t.label}</p>
@@ -723,7 +706,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-8"
                 >
-                  <div className="w-16 h-16 bg-blue-50 border-2 border-blue-200 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <div className="w-16 h-16 bg-blue-50 border-2 border-blue-200 rounded-xl flex items-center justify-center mx-auto mb-5">
                     <CheckCircle2 className="w-8 h-8 text-blue-500" />
                   </div>
                   <h2 className="text-2xl font-black text-slate-900 mb-2">Your contribution is live</h2>
@@ -765,7 +748,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
             {/* If guest and no email yet, prompt */}
             {isGuest && !form.email ? (
               <div className="max-w-sm mx-auto text-center py-12">
-                <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Handshake className="w-6 h-6 text-slate-400" />
                 </div>
                 <h3 className="text-sm font-black text-slate-800 mb-2">Enter your email to see your submissions</h3>
@@ -788,11 +771,11 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
               </div>
             ) : myLoading ? (
               <div className="grid gap-3">
-                {[...Array(3)].map((_, i) => <div key={i} className="bg-white rounded-2xl border border-slate-100 p-5 h-24 animate-pulse" />)}
+                {[...Array(3)].map((_, i) => <div key={i} className="bg-white rounded-xl border border-slate-100 p-5 h-24 animate-pulse" />)}
               </div>
             ) : mySubmissions.length === 0 ? (
               <div className="text-center py-14">
-                <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Handshake className="w-6 h-6 text-slate-400" />
                 </div>
                 <p className="text-sm font-black text-slate-700 mb-1">No contributions yet</p>

@@ -51,7 +51,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
   }, [selectedSubjects]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="subject-selector" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-20 pb-16 px-4 sm:px-6 md:px-8 max-w-7xl mx-auto">

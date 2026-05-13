@@ -1,5 +1,4 @@
 import { motion } from 'motion/react';
-import { CheckCircle, TrendingUp, Clock, Award, Users } from 'lucide-react';
 import { withAuth, type AuthedProps } from '../../lib/withAuth';
 import AppHeader from '../../components/shell/AppHeader';
 import { TVETSubNav } from '../../components/tvet/TVETSubNav';
@@ -11,164 +10,96 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       <TVETSubNav currentPage="overview" onNavigate={onNavigate} />
 
       {/* Hero Section */}
-      <div
-        className="pt-24 pb-32 px-4"
-        style={{ backgroundColor: '#0f172a' }} // slate-900
-      >
-        <div className="max-w-5xl mx-auto text-center text-white">
+      <div className="pt-24 pb-20 px-4 bg-[#0f172a]">
+        <div className="max-w-4xl mx-auto text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Technical Skills.<br />
-              Real Jobs.<br />
-              Real Futures.
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/40 mb-4">Vocational Pathways</p>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight" style={{ letterSpacing: '-0.025em' }}>
+              Technical Skills.<br />Real Jobs.
             </h1>
-            <p className="text-lg md:text-xl mb-8 opacity-95">
-              TVET is not a backup option—it's a direct pathway to high-demand careers with excellent earning potential. Learn a trade, earn money, change your life.
+            <p className="text-sm md:text-base text-white/60 max-w-xl leading-relaxed mb-8">
+              TVET is a direct pathway to high-demand careers with excellent earning potential.
             </p>
-            <button
-              onClick={() => onNavigate('tvet-colleges')}
-              className="inline-block px-8 py-4 bg-white text-slate-900 rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90"
-            >
-              Explore TVET Colleges
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => onNavigate('tvet-colleges')}
+                className="px-5 py-2.5 bg-white text-slate-900 rounded-lg font-bold text-xs uppercase tracking-widest transition-opacity hover:opacity-90"
+              >
+                Explore Colleges
+              </button>
+              <button
+                onClick={() => onNavigate('tvet-funding')}
+                className="px-5 py-2.5 rounded-lg font-bold text-xs uppercase tracking-widest border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
+              >
+                Funding
+              </button>
+            </div>
           </motion.div>
         </div>
       </div>
 
       {/* Why TVET Section */}
-      <div className="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          className="text-3xl md:text-4xl font-black mb-16 text-center text-slate-900 tracking-tight"
-        >
-          Why TVET Is a Smart Career Choice
-        </motion.h2>
+      <div className="py-16 px-4 sm:px-6 max-w-4xl mx-auto">
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8">Why TVET</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+        <div className="divide-y divide-slate-100">
           {[
-            {
-              icon: Clock,
-              title: 'Faster to Qualify',
-              description: '2-3 years of study vs 4-6 years for university degrees. Enter the workforce sooner.',
-            },
-            {
-              icon: TrendingUp,
-              title: 'Job-Ready Skills',
-              description: 'Learn practical, hands-on skills employers actually need. No theory-heavy lectures.',
-            },
-            {
-              icon: Award,
-              title: 'Lower Entry Requirements',
-              description: 'No need for top matric grades. TVET colleges accept average performers who are motivated.',
-            },
-            {
-              icon: Users,
-              title: 'High Demand Careers',
-              description: 'Electricians, plumbers, welders, mechanics earn R20k–R60k+ monthly. Always in demand.',
-            },
-            {
-              icon: CheckCircle,
-              title: 'Multiple Pathways',
-              description: 'Apprenticeships let you earn while learning. Progress to university after if desired.',
-            },
-            {
-              icon: TrendingUp,
-              title: 'Growing Industry',
-              description: 'Construction boom, renewable energy, infrastructure projects create thousands of jobs annually.',
-            },
+            { title: 'Faster to Qualify', description: '2–3 years vs 4–6 for a degree. Enter the workforce sooner.' },
+            { title: 'Job-Ready Skills', description: 'Practical, hands-on skills employers actually need.' },
+            { title: 'Lower Entry Requirements', description: 'No top matric grades needed. Motivated students welcome.' },
+            { title: 'High Demand Careers', description: 'Electricians, plumbers, welders earn R20k–R60k+/mo.' },
+            { title: 'Earn While You Learn', description: 'Apprenticeships pay you while you study.' },
+            { title: 'Growing Industry', description: 'Infrastructure, energy, and construction create thousands of jobs yearly.' },
           ].map((item, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.07, duration: 0.4 }}
-              whileHover={{ y: -3 }}
-              className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 hover:shadow-lg hover:border-slate-200 transition-all duration-200"
+              transition={{ delay: idx * 0.05 }}
+              className="flex gap-6 py-5"
             >
-              <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-5">
-                <item.icon className="w-5 h-5 text-white" />
+              <span className="text-[10px] font-black text-slate-300 mt-0.5 shrink-0 w-4">{String(idx + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 mb-1" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
               </div>
-              <h3 className="font-black text-sm mb-2 text-slate-900" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">{item.description}</p>
             </motion.div>
           ))}
         </div>
       </div>
 
       {/* TVET vs University Comparison */}
-      <div className="py-20 px-4 sm:px-6 bg-slate-50">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="text-3xl md:text-4xl font-black mb-12 text-center text-slate-900 tracking-tight"
-          >
-            TVET vs University: Choose What's Right for You
-          </motion.h2>
+      <div className="py-16 px-4 sm:px-6 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8">TVET vs University</p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="overflow-x-auto"
-          >
-            <table className="w-full bg-white rounded-lg overflow-hidden shadow-md">
-              <thead className="bg-slate-900 text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left font-bold text-sm uppercase tracking-wide">Aspect</th>
-                  <th className="px-6 py-4 text-left font-bold text-sm uppercase tracking-wide">TVET</th>
-                  <th className="px-6 py-4 text-left font-bold text-sm uppercase tracking-wide">University</th>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-200">
+                  <th className="pb-3 text-left text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 pr-6">Aspect</th>
+                  <th className="pb-3 text-left text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 pr-6">TVET</th>
+                  <th className="pb-3 text-left text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">University</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100">
                 {[
-                  ['Duration', '2-3 years', '4-6 years'],
-                  ['Entry Requirements', 'Grade 12 pass (average grades ok)', 'Grade 12 pass + good APS (24-28+)'],
-                  ['Cost', 'R0-10k/year (NSFAS available)', 'R30-80k/year'],
-                  ['Focus', 'Practical, hands-on, job-ready skills', 'Theory, research, academic knowledge'],
-                  ['Work During Study', 'Yes - apprenticeships pay you to learn', 'Rarely - mostly full-time study'],
-                  ['Job Market', 'High demand for trades (electrician, plumber, etc.)', 'Competitive, many graduates'],
-                  ['Starting Salary', 'R15-20k/month', 'R18-35k/month'],
-                  ['Career Path', 'Master trade, own business, earn R50k+/month', 'Corporate roles, management, specializations'],
-                  ['Further Study', 'Can upgrade to university diploma later', 'Advanced degrees and specializations'],
+                  ['Duration', '2–3 years', '4–6 years'],
+                  ['Entry', 'Average grades ok', 'APS 24–28+ required'],
+                  ['Cost', 'R0–10k/year (NSFAS)', 'R30–80k/year'],
+                  ['Focus', 'Hands-on, practical', 'Theory, research'],
+                  ['Starting Salary', 'R15–20k/mo', 'R18–35k/mo'],
                 ].map((row, idx) => (
-                  <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
-                    <td className="px-6 py-4 font-bold text-gray-900">{row[0]}</td>
-                    <td className="px-6 py-4 text-gray-700">{row[1]}</td>
-                    <td className="px-6 py-4 text-gray-700">{row[2]}</td>
+                  <tr key={idx}>
+                    <td className="py-3 text-xs font-bold text-slate-600 pr-6">{row[0]}</td>
+                    <td className="py-3 text-xs text-slate-700 pr-6">{row[1]}</td>
+                    <td className="py-3 text-xs text-slate-500">{row[2]}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </motion.div>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div
-        className="py-20 px-4 sm:px-6"
-        style={{ backgroundColor: '#0f172a' }} // slate-900
-      >
-        <div className="max-w-4xl mx-auto text-center text-white">
-          <h2 className="text-2xl sm:text-4xl font-bold mb-6">Ready to Start Your TVET Journey?</h2>
-          <p className="text-lg mb-8 opacity-95">
-            Find TVET colleges near you, and discover funding options available.
-          </p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <button
-              onClick={() => onNavigate('tvet-colleges')}
-              className="px-8 py-4 bg-white text-slate-900 rounded-full font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90"
-            >
-              Find Colleges
-            </button>
-            <button
-              onClick={() => onNavigate('tvet-funding')}
-              className="px-8 py-4 rounded-full font-bold text-xs uppercase tracking-widest transition-all border-2 border-white text-white hover:bg-white hover:text-slate-900"
-            >
-              Funding Support
-            </button>
-          </div>
         </div>
       </div>
     </div>

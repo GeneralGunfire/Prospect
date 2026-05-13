@@ -196,7 +196,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
         <motion.div
           initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -215,7 +215,7 @@ function FlagPotholePageComponent({ user, onNavigate }: FlagPotholePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="flag-pothole" user={user} onNavigate={onNavigate} mode="community" />
 
       <div className="max-w-2xl mx-auto px-4 pt-20 pb-24">

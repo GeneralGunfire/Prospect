@@ -60,6 +60,8 @@ const WaterDashboardPage = lazy(() => import('./pages/community/WaterDashboardPa
 const TaxBudgetPage      = lazy(() => import('./pages/community/TaxBudgetPage'));
 const CostOfLivingPage   = lazy(() => import('./pages/community/CostOfLivingPage'));
 const CivicsPage         = lazy(() => import('./pages/community/CivicsPage'));
+const CommunityImpactPage = lazy(() => import('./pages/community/CommunityImpactPage'));
+const ImpactAuthPage     = lazy(() => import('./pages/auth/ImpactAuthPage'));
 import LoadingScreen from './components/shell/LoadingScreen';
 import type { AppPage } from './lib/withAuth';
 
@@ -455,7 +457,7 @@ const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }
     { icon: <GraduationCap className="w-5 h-5" />, title: 'TVET Pathways', desc: 'Discover vocational careers and the 50 public TVET colleges across all SA provinces.', cta: 'Explore TVET', page: 'tvet' as Page },
     { icon: <Award className="w-5 h-5" />, title: 'Bursary Finder', desc: '200+ bursaries searchable by career field and province. Includes NSFAS eligibility check.', cta: 'Find Funding', page: 'bursaries' as Page },
     { icon: <MapPin className="w-5 h-5" />, title: 'Job Demand Map', desc: 'See which careers are in demand by province and where employers are hiring across SA.', cta: 'View Map', page: 'map' as Page },
-    { icon: <Target className="w-5 h-5" />, title: 'APS Calculator', desc: 'Enter your report card marks and see which careers and universities you qualify for.', cta: 'Calculate APS', page: 'quiz' as Page },
+    { icon: <Target className="w-5 h-5" />, title: 'Grade 10 Subject Selector', desc: 'Choose your Grade 10 subjects wisely. See how each combination unlocks or closes career doors.', cta: 'Choose Subjects', page: 'subject-selector' as Page },
   ];
 
   return (
@@ -734,6 +736,7 @@ export default function App() {
   const [page, setPage] = useState<Page>('home');
   const [user, setUser] = useState<User | null>(null);
   const [isAssetsLoaded, setIsAssetsLoaded] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     // Preload images in the background — doesn't control when loading screen ends
@@ -759,6 +762,7 @@ export default function App() {
     if (isTestMode && pageParam) {
       setPage(pageParam as Page);
       setUser({ id: 'test-user-' + Math.random().toString(36).substr(2, 9), email: 'test@example.com', email_confirmed_at: new Date().toISOString(), phone: null, last_sign_in_at: new Date().toISOString(), app_metadata: { provider: 'email', providers: ['email'] }, user_metadata: { name: 'Test User' }, identities: null, created_at: new Date().toISOString(), updated_at: new Date().toISOString(), is_anonymous: false } as any);
+      setAuthChecked(true);
       return;
     }
 
@@ -773,6 +777,7 @@ export default function App() {
           if (pageParam) setPage(pageParam as Page); else setPage('dashboard');
         }
       }
+      setAuthChecked(true);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -793,7 +798,7 @@ export default function App() {
         {!isAssetsLoaded && <LoadingScreen onComplete={() => setIsAssetsLoaded(true)} />}
       </AnimatePresence>
 
-      {isAssetsLoaded && (
+      {isAssetsLoaded && authChecked && (
         <div className="relative min-h-screen bg-white">
           <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><div className="w-6 h-6 border-2 border-slate-200 border-t-slate-700 rounded-full animate-spin" /></div>}>
             <AnimatePresence mode="wait">
@@ -825,6 +830,8 @@ export default function App() {
               {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage {...careerPageProps} /></PageTransition>}
               {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage {...careerPageProps} /></PageTransition>}
               {page === 'civics' && <PageTransition pageKey="civics"><CivicsPage {...careerPageProps} /></PageTransition>}
+              {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...careerPageProps} /></PageTransition>}
+              {page === 'impact-auth' && <PageTransition pageKey="impact-auth"><ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
 
               {page === 'home' && (
                 <PageTransition pageKey="home">

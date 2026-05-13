@@ -72,7 +72,7 @@ function AlertCard({ alert, onDismiss }: { alert: WaterAlert; onDismiss: (id: st
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
-      className={`rounded-2xl border ${cfg.border} ${cfg.bg} p-5 relative`}
+      className={`rounded-xl border ${cfg.border} ${cfg.bg} p-5 relative`}
     >
       <button
         onClick={() => onDismiss(alert.id)}
@@ -145,7 +145,7 @@ function MaintenanceCard({ item }: { item: MaintenanceSchedule }) {
   const isUpcoming = item.startDate > new Date();
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-5">
+    <div className="bg-white rounded-xl border border-slate-200 p-5">
       <div className="flex items-start gap-3">
         <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
           <Wrench className="w-4 h-4 text-slate-600" />
@@ -190,7 +190,7 @@ function MaintenanceCard({ item }: { item: MaintenanceSchedule }) {
 
 function EmptyState({ message }: { message: string }) {
   return (
-    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 sm:p-8 text-center">
+    <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-5 sm:p-8 text-center">
       <p className="text-sm text-slate-400 font-medium">{message}</p>
     </div>
   );
@@ -203,7 +203,7 @@ function ProvinceSelector({ selected, onChange }: { selected: string; onChange: 
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/40 transition-all duration-300 group"
+        className="flex items-center gap-3 pl-4 pr-3 py-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/40 transition-all duration-300 group"
       >
         <div className="flex flex-col items-start">
           <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Select Region</span>
@@ -225,7 +225,7 @@ function ProvinceSelector({ selected, onChange }: { selected: string; onChange: 
               animate={{ opacity: 1, y: 4, scale: 1 }}
               exit={{ opacity: 0, y: 4, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute right-0 top-full mt-2 w-56 bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-slate-900/10 p-2 z-50 overflow-hidden"
+              className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl border border-slate-200 shadow-2xl shadow-slate-900/10 p-2 z-50 overflow-hidden"
             >
               <div className="px-3 py-2 mb-1">
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">South African Provinces</p>
@@ -318,7 +318,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
   };
 
   return (
-    <div className="min-h-screen bg-bg-light">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="water-dashboard" user={user} onNavigate={onNavigate} mode="community" />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-20 pb-12 sm:pb-16">
@@ -336,14 +336,9 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
             >
               <ChevronLeft className="w-4 h-4" /> Back
             </button>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
-                <Droplets className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl sm:text-h3 text-text-primary leading-tight">Water Dashboard</h1>
-                <p className="text-sm text-slate-500 font-medium">South Africa water status &amp; dam levels</p>
-              </div>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Community</p>
+              <h1 className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Water Dashboard</h1>
             </div>
           </div>
 
@@ -368,7 +363,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="mb-3 rounded-2xl bg-red-600 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-red-500/20"
+              className="mb-3 rounded-xl bg-red-600 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-red-500/20"
             >
               <AlertTriangle className="w-5 h-5 shrink-0" />
               <p className="text-sm font-bold">
@@ -382,7 +377,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="mb-3 rounded-2xl bg-amber-500 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-amber-400/20"
+              className="mb-3 rounded-xl bg-amber-500 text-white px-5 py-4 flex items-center gap-3 shadow-lg shadow-amber-400/20"
             >
               <Droplets className="w-5 h-5 shrink-0" />
               <p className="text-sm font-bold">
@@ -395,7 +390,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
         {loading ? (
           <div className="space-y-4 mt-6">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-28 rounded-2xl bg-slate-200 animate-pulse" />
+              <div key={i} className="h-28 rounded-xl bg-slate-200 animate-pulse" />
             ))}
           </div>
         ) : (

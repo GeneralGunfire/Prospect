@@ -3,18 +3,20 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowLeft,
   RefreshCw,
-  Sparkles,
   BookOpen,
   GraduationCap,
   Banknote,
   Lightbulb,
   MessageCircle,
   ArrowUp,
-  Mic,
   Paperclip,
   Calculator,
   ChevronRight,
+  X,
+  ImageIcon,
+  AlertCircle,
 } from 'lucide-react';
+import { GoogleGenAI } from '@google/genai';
 import type { AppPage } from '../../lib/withAuth';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
@@ -25,12 +27,38 @@ interface Props {
   onNavigateHome: () => void;
 }
 
+interface AttachedImage {
+  id: string;
+  file: File;
+  previewUrl: string;
+  base64: string;
+  mimeType: string;
+}
+
 interface Message {
   id: string;
   role: 'bot' | 'user';
   text: string;
+  images?: AttachedImage[];
   timestamp: Date;
+  error?: boolean;
 }
+
+const SYSTEM_PROMPT = `You are School Assist, an AI guidance counsellor for South African high school students (Grades 10–12). You help students with:
+- Choosing matric subjects
+- Understanding APS scores and university entry requirements
+- TVET and trade career options
+- NSFAS and bursary applications
+- Study strategies and exam preparation
+- Career direction and decision-making
+- University application process
+- Academic questions (Maths, Science, English, etc.)
+
+If a student uploads an image of their work, homework, or exam paper, help them understand and solve it.
+
+Be warm, encouraging, and practical. Use South African context (NSFAS, CAO, DBE, etc.). Format responses with **bold** for key points and bullet points where helpful. Keep answers focused and clear — students are reading on mobile.`;
+
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
 
 function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; maxHeight?: number }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -51,235 +79,58 @@ function useAutoResizeTextarea({ minHeight, maxHeight }: { minHeight: number; ma
   return { textareaRef, adjustHeight };
 }
 
-// ── Q&A Database ───────────────────────────────────────────────────────────────
-
-const QA_DATABASE = [
-  {
-    keywords: ['subject', 'choose', 'select', 'pick', 'stream', 'which'],
-    answer: `Choosing subjects is one of the most important decisions you'll make. Here's how to approach it:
-
-**Think backwards from your career goal:**
-1. What careers interest you? Work backwards to see which subjects those careers need.
-2. Math is the biggest door-opener — required for Engineering, Science, Accounting, and most tech careers.
-3. Physical Sciences pairs with Math for Engineering and Medicine.
-4. Life Sciences is needed for Medicine, Pharmacy, Nursing, and Veterinary Science.
-5. Accounting is required for CA (Chartered Accountant) and Commerce degrees.
-
-Avoid choosing subjects just because your friends chose them. Choose based on your goals.
-
-Use our Career Quiz to discover which career paths match your personality — that'll help you pick the right subjects.`,
-  },
-  {
-    keywords: ['aps', 'score', 'points', 'university', 'admission', 'entry', 'requirement', 'matric'],
-    answer: `Your APS (Admission Point Score) is calculated from your best 6 matric subjects.
-
-**Mark → Points conversion:**
-• 90–100% = 7 points (Distinction)
-• 80–89% = 6 points
-• 70–79% = 5 points
-• 60–69% = 4 points
-• 50–59% = 3 points
-• 40–49% = 2 points
-• Below 40% = 1 point
-
-Maximum APS = 42 points.
-
-**Typical requirements:**
-• Medicine: 36+ APS
-• Engineering: 30+ APS
-• Commerce / Law: 26–30 APS
-• Education / Social Work: 20–24 APS
-• TVET Diplomas: 14–18 APS (or no minimum)
-
-Use the APS Calculator on this app to see exactly which programmes you qualify for.`,
-  },
-  {
-    keywords: ['tvet', 'college', 'trade', 'practical', 'artisan', 'diploma', 'n1', 'n2', 'n3', 'n4', 'n5', 'n6'],
-    answer: `TVET (Technical and Vocational Education and Training) colleges are an excellent path for students who prefer hands-on, practical careers.
-
-**Why TVET is a great choice:**
-• Shorter programmes (1–3 years) vs university degrees
-• Lower or no APS requirements — some accept Grade 10/11
-• Direct pathways into well-paying trade careers
-• Apprenticeships let you earn while you learn
-• NSFAS funding available for TVET students
-
-**Popular TVET career paths:**
-• Electrician (Electrical Installation — N1 to N6)
-• Plumber (Plumbing — NQF 4)
-• Motor Mechanic (Automotive)
-• Welder / Boilermaker
-• Carpentry & Joinery
-• IT Support, Networking
-• Business Management (N4–N6)
-
-Don't see TVET as a fallback — it's a strong first choice for people who want real-world skills fast.`,
-  },
-  {
-    keywords: ['nsfas', 'bursary', 'funding', 'afford', 'money', 'financial', 'fee', 'free', 'cost', 'pay'],
-    answer: `NSFAS (National Student Financial Aid Scheme) is free money from the South African government for qualifying students.
-
-**You qualify if:**
-• You are a South African citizen
-• You've been accepted to a public university or TVET college
-• Your household earns less than R350,000 per year
-
-**NSFAS covers:**
-• Full tuition fees
-• Accommodation allowance
-• Food / meal allowance (~R3,000/month)
-• Book allowance (~R2,500/semester)
-• Transport allowance (if applicable)
-
-**How to apply:**
-1. Go to nsfas.org.za
-2. Create an account with your ID number
-3. Apply before the deadline (usually September for the following year)
-4. Submit proof of income (payslips or SASSA letter)
-
-Also explore: Eskom, Sasol, MTN, Transnet sector bursaries, and the Bursaries section in this app.`,
-  },
-  {
-    keywords: ['study', 'improve', 'grades', 'marks', 'pass', 'fail', 'better', 'exam', 'test', 'revision'],
-    answer: `Improving grades takes the right system, not just more time. Here's what actually works:
-
-**Proven study habits:**
-• Study in 45-minute blocks, take 15-minute breaks (Pomodoro method)
-• Past exam papers are the most effective study tool — do them timed
-• Teach someone else the content — if you can explain it, you know it
-• Switch off your phone. Even having it nearby reduces focus by 20%
-
-**Subject-specific tips:**
-• Maths: Do problems every day. Watching solutions ≠ doing them.
-• Science: Draw diagrams, write definitions in your own words.
-• Languages: Read articles, write summaries, practise grammar drills.
-• History / Geography: Create timelines and mind maps.
-
-**Free resources:**
-• Khan Academy — free Maths, Science, History videos
-• Siyavula — free Maths & Science textbooks and practice
-• DBE past papers: education.gov.za
-• Study Library in this app (Grades 10–12)
-
-Consistency beats cramming. 1 hour daily outperforms 6 hours before the exam.`,
-  },
-  {
-    keywords: ['work', 'job', 'part-time', 'earn', 'income', 'balance', 'gap year'],
-    answer: `It's possible to work and study at the same time — but you need an honest plan.
-
-**Best options for working students:**
-• UNISA (distance learning) — full flexibility, no fixed class times
-• Part-time programmes at some universities (evenings/weekends)
-• TVET colleges often have day and evening options
-• Learnerships / apprenticeships — earn a monthly stipend while training
-
-**Realistic balance guide:**
-• 20 hrs/week study + 20 hrs/week work = manageable
-• Full-time work + full-time study = very high dropout risk
-• Start with 10 hrs/week part-time; only increase if grades stay stable
-
-**Tips:**
-• Choose flexible gig work (delivery, tutoring, call centre)
-• Communicate with your employer during exam periods
-• Block study time in your calendar like a work shift
-
-Gap year alternative: A structured gap year with work + NSFAS application can be smarter than failing first year.`,
-  },
-  {
-    keywords: ['career', 'unsure', 'confused', 'direction', 'path', 'choice', 'decide', 'not sure'],
-    answer: `Not knowing what you want to do is completely normal — most adults don't either.
-
-**A structured way to find direction:**
-
-Step 1 — Know yourself:
-• What subjects do you enjoy? (Not just what you're good at — what do you like?)
-• What activities make you lose track of time?
-• Do you prefer working with people, things, ideas, or data?
-
-Step 2 — Explore, don't commit:
-• Take the Career Quiz on this app (based on RIASEC psychology)
-• Ask 3 adults about their actual day-to-day work
-• Shadow someone for a day in a career you're curious about
-
-Step 3 — Focus on the path, not the destination:
-• Choose subjects that keep multiple doors open (Maths especially)
-• Most graduates end up working in different fields than their degree
-
-Reminder: Career uncertainty means you're thinking seriously — that's a good sign.`,
-  },
-  {
-    keywords: ['university', 'application', 'apply', 'deadline', 'cau', 'central application'],
-    answer: `Applying to South African universities — key steps:
-
-**The Central Applications Office (CAO):**
-• Handles applications for most universities in one place
-• Website: cao.ac.za
-• Applications typically open April–September each year
-• Apply early — popular programmes fill up fast
-
-**What you'll need:**
-• Grade 11 final results (most offers are based on Grade 11)
-• ID document
-• Application fee (R100–R200 per university; some waive for NSFAS applicants)
-
-**Universities with their own portals:**
-• UCT, Wits, Stellenbosch — direct application systems
-• UP, UJ, UNISA — also have separate systems
-
-**Timeline:**
-• Apply by August/September for the following year
-• Offers go out from October onwards
-• Accept your place by November/December
-
-Tip: Apply to 3–4 universities at different APS levels — a "reach", a "match", and a "safe" option.`,
-  },
-  {
-    keywords: ['hello', 'hi', 'hey', 'start', 'help', 'what can'],
-    answer: `Hello! I'm the School Assist chatbot. I can help you with:
-
-• Choosing matric subjects
-• Understanding APS scores and university entry requirements
-• TVET and trade career options
-• NSFAS and bursary applications
-• Study strategies and exam preparation
-• Working while studying
-• Career direction and decision-making
-• University application process
-
-What would you like to know about?`,
-  },
-];
-
-const FALLBACK_ANSWER = `I don't have a specific answer for that question yet — this chatbot is still growing!
-
-Here's what I can help with:
-• Choosing matric subjects
-• APS scores and university requirements
-• TVET and trade careers
-• NSFAS and bursary funding
-• Study tips and exam prep
-• Work-life-study balance
-• Career direction
-• University applications
-
-Try rephrasing your question, or use the Study Library and Career Quiz for more personalised guidance.`;
-
-function findAnswer(question: string): string {
-  const lower = question.toLowerCase();
-  for (const qa of QA_DATABASE) {
-    if (qa.keywords.some((kw) => lower.includes(kw))) return qa.answer;
-  }
-  return FALLBACK_ANSWER;
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      // Strip the data URL prefix (e.g. "data:image/jpeg;base64,")
+      resolve(result.split(',')[1]);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
-function renderText(text: string) {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
-    }
-    return <span key={i}>{part}</span>;
+async function callGemini(
+  messages: Message[],
+  newText: string,
+  newImages: AttachedImage[]
+): Promise<string> {
+  if (!GEMINI_API_KEY) throw new Error('No Gemini API key configured.');
+
+  const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+
+  // Build conversation history for context (last 10 messages)
+  const history = messages.slice(-10).map((m) => ({
+    role: m.role === 'user' ? 'user' : 'model',
+    parts: [{ text: m.text }],
+  }));
+
+  // Build the new user parts
+  const userParts: Array<{ text?: string; inlineData?: { mimeType: string; data: string } }> = [];
+  if (newText.trim()) userParts.push({ text: newText.trim() });
+  for (const img of newImages) {
+    userParts.push({ inlineData: { mimeType: img.mimeType, data: img.base64 } });
+    userParts.push({ text: '(Image attached above — please help me with this.)' });
+  }
+
+  const contents = [
+    ...history,
+    { role: 'user', parts: userParts },
+  ];
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.0-flash',
+    contents,
+    config: {
+      systemInstruction: SYSTEM_PROMPT,
+      temperature: 0.7,
+      maxOutputTokens: 1024,
+    },
   });
+
+  return response.text ?? 'Sorry, I could not generate a response. Please try again.';
 }
 
 // ── Topic chips ────────────────────────────────────────────────────────────────
@@ -292,8 +143,6 @@ const TOPIC_CHIPS = [
   { icon: Lightbulb,     label: 'Study Tips',   q: 'How can I improve my grades?' },
   { icon: MessageCircle, label: 'Career Quiz',  q: 'How does the career quiz work?' },
 ];
-
-// ── Category cards (hero bottom) ──────────────────────────────────────────────
 
 const CATEGORY_CARDS = [
   { icon: GraduationCap, label: 'Subjects & APS',   q: 'Help me choose my matric subjects and understand APS scores' },
@@ -318,8 +167,6 @@ function TypingDots() {
   );
 }
 
-// ── Prospect logo mark ────────────────────────────────────────────────────────
-
 function ProspectMark({ size = 64 }: { size?: number }) {
   return (
     <div
@@ -338,6 +185,147 @@ function ProspectMark({ size = 64 }: { size?: number }) {
   );
 }
 
+function renderText(text: string) {
+  const lines = text.split('\n');
+  return lines.map((line, li) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={i}>{part}</span>;
+    });
+    return <span key={li}>{rendered}{li < lines.length - 1 && <br />}</span>;
+  });
+}
+
+// ── Chat input box (stable top-level component to prevent remount on every keystroke) ──
+
+interface ChatInputBoxProps {
+  compact: boolean;
+  input: string;
+  setInput: (v: string) => void;
+  attachedImages: AttachedImage[];
+  isTyping: boolean;
+  textareaRef: React.RefObject<HTMLTextAreaElement | null> | undefined;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
+  onSend: () => void;
+  onChipSend: (q: string) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  onAdjustHeight: (reset?: boolean) => void;
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemoveImage: (id: string) => void;
+}
+
+function ChatInputBox({
+  compact,
+  input,
+  setInput,
+  attachedImages,
+  isTyping,
+  textareaRef,
+  fileInputRef,
+  onSend,
+  onChipSend,
+  onKeyDown,
+  onAdjustHeight,
+  onFileChange,
+  onRemoveImage,
+}: ChatInputBoxProps) {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm focus-within:border-blue-300 focus-within:shadow-md transition-all">
+      {/* Image previews */}
+      {attachedImages.length > 0 && (
+        <div className="flex gap-2 px-4 pt-3 flex-wrap">
+          {attachedImages.map((img) => (
+            <div key={img.id} className="relative group">
+              <img src={img.previewUrl} alt="attachment" className="w-14 h-14 object-cover rounded-xl border border-slate-200" />
+              <button
+                type="button"
+                onClick={() => onRemoveImage(img.id)}
+                className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-slate-800 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Textarea */}
+      <div className="px-4 pt-4 pb-1">
+        <textarea
+          ref={textareaRef}
+          value={input}
+          onChange={(e) => { setInput(e.target.value); if (!compact) onAdjustHeight(); }}
+          onKeyDown={onKeyDown}
+          placeholder="Ask me anything… (Shift+Enter for new line)"
+          rows={1}
+          className="w-full resize-none bg-transparent border-none text-slate-800 text-sm focus:outline-none placeholder:text-slate-400 leading-relaxed"
+          style={{ minHeight: compact ? '44px' : '56px', maxHeight: '180px', overflow: 'hidden' }}
+        />
+      </div>
+
+      {/* Pill chips (non-compact only) */}
+      {!compact && (
+        <div className="flex items-center gap-1.5 px-3 pb-2 pt-1">
+          {TOPIC_CHIPS.slice(0, 3).map(({ icon: Icon, label, q }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => onChipSend(q)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50 text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium"
+            >
+              <Icon className="w-3 h-3" />
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Toolbar */}
+      <div className={`flex items-center justify-between px-3 border-t border-slate-100 ${compact ? 'py-2' : 'py-2.5'}`}>
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-blue-500 transition-colors py-1"
+        >
+          <Paperclip className="w-3.5 h-3.5" />
+          <span>Upload Image</span>
+        </button>
+        <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={onFileChange} />
+
+        <div className="flex items-center gap-2">
+          {attachedImages.length > 0 && (
+            <span className="flex items-center gap-1 text-xs text-blue-500">
+              <ImageIcon className="w-3 h-3" />
+              {attachedImages.length}
+            </span>
+          )}
+          <motion.button
+            type="button"
+            onClick={onSend}
+            disabled={(!input.trim() && attachedImages.length === 0) || isTyping}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={[
+              'w-8 h-8 rounded-full flex items-center justify-center transition-all',
+              (input.trim() || attachedImages.length > 0) && !isTyping
+                ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed',
+            ].join(' ')}
+          >
+            {isTyping
+              ? <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              : <ArrowUp className="w-4 h-4" />
+            }
+          </motion.button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Props) {
@@ -352,7 +340,10 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [attachedImages, setAttachedImages] = useState<AttachedImage[]>([]);
+  const [apiError, setApiError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({ minHeight: 52, maxHeight: 180 });
 
   const hasChatStarted = messages.length > 0;
@@ -361,94 +352,96 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  function sendMessage(text: string) {
-    if (!text.trim()) return;
-    const userMsg: Message = { id: Date.now().toString(), role: 'user', text: text.trim(), timestamp: new Date() };
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+
+    const newImages: AttachedImage[] = await Promise.all(
+      files.slice(0, 4).map(async (file) => {
+        const base64 = await fileToBase64(file);
+        return {
+          id: `${Date.now()}-${Math.random()}`,
+          file,
+          previewUrl: URL.createObjectURL(file),
+          base64,
+          mimeType: file.type,
+        };
+      })
+    );
+
+    setAttachedImages((prev) => [...prev, ...newImages].slice(0, 4));
+    // Reset file input so same file can be re-selected
+    e.target.value = '';
+  }
+
+  function removeImage(id: string) {
+    setAttachedImages((prev) => {
+      const img = prev.find((i) => i.id === id);
+      if (img) URL.revokeObjectURL(img.previewUrl);
+      return prev.filter((i) => i.id !== id);
+    });
+  }
+
+  async function sendMessage(text: string, images: AttachedImage[] = attachedImages) {
+    if (!text.trim() && images.length === 0) return;
+
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      text: text.trim(),
+      images: images.length > 0 ? [...images] : undefined,
+      timestamp: new Date(),
+    };
+
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
+    setAttachedImages([]);
     adjustHeight(true);
     setIsTyping(true);
-    setTimeout(() => {
-      const botMsg: Message = { id: (Date.now() + 1).toString(), role: 'bot', text: findAnswer(text), timestamp: new Date() };
+    setApiError(null);
+
+    try {
+      const reply = await callGemini(messages, text, images);
+      const botMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'bot',
+        text: reply,
+        timestamp: new Date(),
+      };
       setMessages((prev) => [...prev, botMsg]);
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : 'Unknown error';
+      const isQuota = errMsg.includes('429') || errMsg.toLowerCase().includes('quota');
+      setApiError(isQuota
+        ? 'The AI quota has been reached. Please try again later or contact support.'
+        : 'Failed to get a response. Please check your connection and try again.'
+      );
+      const botMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'bot',
+        text: isQuota
+          ? "I'm currently unavailable due to high demand. Please try again in a moment!"
+          : "I couldn't connect right now. Please try again.",
+        timestamp: new Date(),
+        error: true,
+      };
+      setMessages((prev) => [...prev, botMsg]);
+    } finally {
       setIsTyping(false);
-    }, 700 + Math.random() * 400);
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); }
   }
 
-  function handleReset() { setMessages([]); setInput(''); adjustHeight(true); }
-
-  // ── Input box ─────────────────────────────────────────────────────────────
-
-  const InputBox = ({ compact = false }: { compact?: boolean }) => (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm focus-within:border-blue-300 focus-within:shadow-md transition-all">
-      {/* Textarea */}
-      <div className="px-4 pt-4 pb-1">
-        <textarea
-          ref={compact ? undefined : textareaRef}
-          value={input}
-          onChange={(e) => { setInput(e.target.value); if (!compact) adjustHeight(); }}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask me anything..."
-          rows={1}
-          className="w-full resize-none bg-transparent border-none text-slate-800 text-sm focus:outline-none placeholder:text-slate-400 leading-relaxed"
-          style={{ minHeight: compact ? '44px' : '56px', maxHeight: '180px', overflow: 'hidden' }}
-        />
-      </div>
-
-      {/* Pill chips row */}
-      {!compact && (
-        <div className="flex items-center gap-1.5 px-3 pb-2 pt-1">
-          {TOPIC_CHIPS.slice(0, 3).map(({ icon: Icon, label, q }) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => sendMessage(q)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50 text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium"
-            >
-              <Icon className="w-3 h-3" />
-              {label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Toolbar */}
-      <div className={`flex items-center justify-between px-3 border-t border-slate-100 ${compact ? 'py-2' : 'py-2.5'}`}>
-        <button type="button" className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-blue-500 transition-colors py-1">
-          <Paperclip className="w-3.5 h-3.5" />
-          <span>Upload Files</span>
-        </button>
-
-        <div className="flex items-center gap-2">
-          <button type="button" className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all">
-            <Mic className="w-4 h-4" />
-          </button>
-          <motion.button
-            type="button"
-            onClick={() => sendMessage(input)}
-            disabled={!input.trim() || isTyping}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={[
-              'w-8 h-8 rounded-full flex items-center justify-center transition-all',
-              input.trim() && !isTyping
-                ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
-                : 'bg-slate-200 text-slate-400 cursor-not-allowed',
-            ].join(' ')}
-          >
-            {isTyping
-              ? <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-              : <ArrowUp className="w-4 h-4" />
-            }
-          </motion.button>
-        </div>
-      </div>
-    </div>
-  );
+  function handleReset() {
+    setMessages([]);
+    setInput('');
+    setAttachedImages([]);
+    setApiError(null);
+    adjustHeight(true);
+  }
 
   return (
     <div className="flex flex-col h-screen bg-white">
@@ -478,6 +471,24 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
         </header>
       )}
 
+      {/* ── API error banner ── */}
+      <AnimatePresence>
+        {apiError && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="shrink-0 mx-4 mt-2 flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5"
+          >
+            <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
+            <p className="text-xs text-amber-700 flex-1">{apiError}</p>
+            <button onClick={() => setApiError(null)} className="text-amber-400 hover:text-amber-600">
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── Hero (no chat yet) ── */}
       <AnimatePresence>
         {!hasChatStarted && (
@@ -504,7 +515,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                     <span className="text-blue-600">assist you</span>
                   </h1>
                   <p className="mt-2 text-sm text-slate-400">
-                    Ask me anything or try one of the suggestions below
+                    Ask anything, upload a photo of your work, or try a suggestion below
                   </p>
                 </div>
               </motion.div>
@@ -516,7 +527,21 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="w-full"
               >
-                <InputBox />
+                <ChatInputBox
+                  compact={false}
+                  input={input}
+                  setInput={setInput}
+                  attachedImages={attachedImages}
+                  isTyping={isTyping}
+                  textareaRef={textareaRef}
+                  fileInputRef={fileInputRef}
+                  onSend={() => sendMessage(input)}
+                  onChipSend={(q) => sendMessage(q, [])}
+                  onKeyDown={handleKeyDown}
+                  onAdjustHeight={adjustHeight}
+                  onFileChange={handleFileChange}
+                  onRemoveImage={removeImage}
+                />
               </motion.div>
 
               {/* Category cards */}
@@ -529,7 +554,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                 {CATEGORY_CARDS.map(({ icon: Icon, label, q }, i) => (
                   <motion.button
                     key={label}
-                    onClick={() => sendMessage(q)}
+                    onClick={() => sendMessage(q, [])}
                     whileHover={{ y: -2, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
                     whileTap={{ scale: 0.97 }}
                     initial={{ opacity: 0, y: 10 }}
@@ -576,13 +601,30 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                       </div>
                     )}
                     <div className={`flex flex-col gap-1 max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-                      <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
-                        msg.role === 'user'
-                          ? 'bg-blue-600 text-white rounded-tr-sm'
-                          : 'bg-slate-50 text-slate-800 border border-slate-100 rounded-tl-sm'
-                      }`}>
-                        {msg.role === 'bot' ? renderText(msg.text) : msg.text}
-                      </div>
+                      {/* Image attachments */}
+                      {msg.images && msg.images.length > 0 && (
+                        <div className="flex gap-1.5 flex-wrap mb-1 justify-end">
+                          {msg.images.map((img) => (
+                            <img
+                              key={img.id}
+                              src={img.previewUrl}
+                              alt="attachment"
+                              className="w-20 h-20 object-cover rounded-xl border border-slate-200"
+                            />
+                          ))}
+                        </div>
+                      )}
+                      {msg.text && (
+                        <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                          msg.role === 'user'
+                            ? 'bg-blue-600 text-white rounded-tr-sm'
+                            : msg.error
+                            ? 'bg-amber-50 text-amber-800 border border-amber-200 rounded-tl-sm'
+                            : 'bg-slate-50 text-slate-800 border border-slate-100 rounded-tl-sm'
+                        }`}>
+                          {msg.role === 'bot' ? renderText(msg.text) : msg.text}
+                        </div>
+                      )}
                       <p className="text-xs text-slate-400 px-1">
                         {msg.timestamp.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })}
                       </p>
@@ -626,12 +668,26 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
             className="shrink-0 bg-white border-t border-slate-100 px-4 py-3"
           >
             <div className="max-w-xl mx-auto">
-              <InputBox compact />
+              <ChatInputBox
+                compact
+                input={input}
+                setInput={setInput}
+                attachedImages={attachedImages}
+                isTyping={isTyping}
+                textareaRef={undefined}
+                fileInputRef={fileInputRef}
+                onSend={() => sendMessage(input)}
+                onChipSend={(q) => sendMessage(q, [])}
+                onKeyDown={handleKeyDown}
+                onAdjustHeight={adjustHeight}
+                onFileChange={handleFileChange}
+                onRemoveImage={removeImage}
+              />
               <div className="flex items-center gap-2 mt-2 overflow-x-auto pb-0.5 scrollbar-hide">
                 {TOPIC_CHIPS.map(({ icon: Icon, label, q }) => (
                   <button
                     key={label}
-                    onClick={() => sendMessage(q)}
+                    onClick={() => sendMessage(q, [])}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium shrink-0 whitespace-nowrap"
                   >
                     <Icon className="w-3 h-3" />

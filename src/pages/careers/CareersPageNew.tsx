@@ -126,27 +126,20 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="mb-12 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-900/5">
-            <Briefcase className="w-4 h-4 text-slate-900" />
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">
-              Career Explorer
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
-            Explore <span className="text-slate-500">Your Future</span>
+        <div className="mb-10 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Career Explorer</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
+            Careers
           </h1>
-          <p className="text-base leading-relaxed text-slate-600">
-            Browse {allFilteredCareers.length} careers. Filter by interest, category, or personality type.
-          </p>
+          <p className="text-sm text-slate-500 mt-2">{allFilteredCareers.length} careers — filter by interest, category, or personality type.</p>
         </div>
 
         {/* Sticky search + filters */}
-        <div className="mb-12 sticky top-16 z-40 py-4 -mx-4 px-4 bg-white/90 backdrop-blur-xl border-b border-slate-100/80">
+        <div className="mb-10 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/95 backdrop-blur-sm border-b border-slate-100">
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="relative grow w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -155,15 +148,15 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                 placeholder="Search careers, skills, or industries..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3 sm:py-4 min-h-12 text-sm font-medium text-slate-900 outline-none shadow-sm focus:border-slate-400 transition-all"
+                className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 min-h-11 text-sm text-slate-900 outline-none focus:border-slate-400 transition-colors"
               />
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 min-h-12 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
+              className={`flex items-center gap-2 px-4 py-2.5 min-h-11 rounded-xl font-bold text-xs uppercase tracking-widest transition-colors border ${
                 isFilterOpen
-                  ? 'bg-slate-900 text-white border-transparent'
-                  : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
               }`}
             >
               <Filter className="w-4 h-4" />
@@ -195,10 +188,10 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={cat}
                             onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border ${
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors border ${
                               selectedCategory === cat
-                                ? 'bg-slate-600 text-white border-slate-600'
-                                : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                                ? 'bg-slate-900 text-white border-slate-900'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
                             }`}
                           >
                             {cat}
@@ -215,10 +208,10 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
                           <button
                             key={type}
                             onClick={() => setSelectedRIASEC(selectedRIASEC === type ? null : type)}
-                            className={`w-10 h-10 rounded-xl text-xs font-bold flex items-center justify-center transition-all border ${
+                            className={`w-9 h-9 rounded-lg text-xs font-bold flex items-center justify-center transition-colors border ${
                               selectedRIASEC === type
                                 ? 'bg-slate-900 text-white border-slate-900'
-                                : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
                             }`}
                           >
                             {type}
@@ -324,7 +317,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
               data-load-more-btn
-              className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-800 flex items-center gap-2 transition-all shadow-sm"
+              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-800 flex items-center gap-2 transition-colors"
             >
               Load More Careers ({remainingCareers} more)
               <ChevronDown className="w-4 h-4" />

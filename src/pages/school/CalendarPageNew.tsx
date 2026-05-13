@@ -906,24 +906,20 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
 
   // ── Page render ───────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="calendar" user={mockUser} onNavigate={onNavigate} mode="school" />
 
       <main className="pt-24 pb-20 px-4 md:px-6 max-w-7xl mx-auto">
 
         {/* ── Page header ── */}
-        <div className="mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/5 mb-3">
-            <CalendarIcon className="w-3.5 h-3.5 text-slate-700" />
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-700">Academic Calendar {ACADEMIC_YEAR}</span>
-          </div>
-          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-800">Study Calendar</h1>
-          <p className="text-sm text-slate-400 mt-1">Track terms, deadlines, and personal events.</p>
+        <div className="mb-8 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Academic Calendar 2026</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Calendar</h1>
         </div>
 
         {/* ── Main tab bar ── */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-          <div className="flex w-full sm:w-fit p-1 bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
+          <div className="flex w-full sm:w-fit p-1 bg-white border border-slate-200 rounded-xl overflow-x-auto">
             {(['calendar','terms','deadlines'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}>

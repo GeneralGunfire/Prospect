@@ -170,7 +170,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-bg-light">
+    <div className="min-h-screen bg-white">
       {user && (
         <AppHeader currentPage="school-assist" user={user} onNavigate={onNavigate} mode="school" />
       )}
@@ -190,7 +190,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
         </div>
         <button
           onClick={() => onNavigate('school-assist-chat')}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-colors"
         >
           <MessageCircle className="w-3.5 h-3.5" />
           Chat
@@ -205,15 +205,10 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8 text-center"
+          className="mb-8"
         >
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-blue-600 mb-2">Your Study Companion</p>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1e293b]" style={{ letterSpacing: '-0.02em' }}>
-            School Assist
-          </h1>
-          <p className="text-slate-500 mt-2 text-sm max-w-md mx-auto">
-            Search study topics or ask a question — get answers from our library and submit anything we haven't covered yet.
-          </p>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Study</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>School Assist</h1>
         </motion.div>
 
         {/* Quick tools */}
@@ -225,7 +220,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
         >
           <button
             onClick={() => onNavigate('school-assist-chat')}
-            className="w-full flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-4 text-left transition-colors"
+            className="w-full flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl p-4 text-left transition-colors"
           >
             <MessageCircle className="w-5 h-5 shrink-0" />
             <div>
@@ -325,7 +320,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-5 flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-2xl px-5 py-4"
+                  className="mb-5 flex items-center gap-3 bg-blue-50 border border-blue-200 rounded-xl px-5 py-4"
                 >
                   <CheckCircle2 className="w-5 h-5 text-blue-500 shrink-0" />
                   <div>
@@ -355,7 +350,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.06 }}
-                          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5"
+                          className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-5"
                         >
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <div className="flex-1 min-w-0">
@@ -407,7 +402,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.06 }}
-                          className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5"
+                          className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-5"
                         >
                           {result.type === 'qa' ? (
                             <>
@@ -651,9 +646,9 @@ function NoResultsCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-8 text-center"
+      className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-8 text-center"
     >
-      <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
         <HelpCircle className="w-6 h-6 text-slate-400" />
       </div>
       <p className="text-sm font-black text-slate-800 mb-1">No answers found</p>

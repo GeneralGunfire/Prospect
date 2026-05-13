@@ -227,12 +227,14 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
             {/* Heading */}
             {mode !== 'forgot' && (
               <div className="mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center mb-5">
-                  <BookOpen className="w-6 h-6 text-slate-700" />
+                <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center mb-5">
+                  <span className="text-white font-black text-sm">P</span>
                 </div>
-                <h1 className="text-2xl font-black text-slate-900 tracking-tight mb-1">School Assist</h1>
+                <h1 className="text-2xl font-black text-slate-900 mb-1" style={{ letterSpacing: '-0.02em' }}>
+                  {mode === 'login' ? 'Welcome back' : 'Create account'}
+                </h1>
                 <p className="text-sm text-slate-500">
-                  {mode === 'login' ? 'Welcome back. Sign in to your study space.' : 'Create a free account to get started.'}
+                  {mode === 'login' ? 'Sign in to your Prospect account.' : 'Free for all South African students.'}
                 </p>
               </div>
             )}
@@ -367,7 +369,6 @@ export default function AuthPage({ onNavigateHome, onAuthSuccess }: AuthPageProp
               )}
             </AnimatePresence>
 
-            <p className="text-center text-xs text-slate-400 mt-8">Free for all South African students · No credit card required</p>
           </motion.div>
         </div>
       </div>

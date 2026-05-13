@@ -14,7 +14,7 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
   return (
     <div className={cn("py-10 bg-white border-y border-slate-100", className)} {...props}>
       <p className="text-center text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-8">
-        Built with industry-leading tools
+        Tools used
       </p>
       <div
         className="relative grid grid-cols-2 border-x border-slate-200 md:grid-cols-4 max-w-5xl mx-auto"
@@ -48,14 +48,14 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
 
         <LogoCard
           className="relative border-r border-b border-slate-200 md:border-b-0"
-          logo={{ src: "https://svgl.app/library/turso-wordmark-light.svg", alt: "Turso" }}
+          logo={{ src: "https://svgl.app/library/vscode.svg", alt: "VS Code" }}
         >
           <PlusIcon className="-right-[12.5px] -bottom-[12.5px] md:-left-[12.5px] absolute z-10 size-6 text-slate-300 md:hidden" strokeWidth={1} />
         </LogoCard>
 
         <LogoCard
           className="border-b border-slate-200 md:border-r md:border-b-0 md:bg-slate-50"
-          logo={{ src: "https://svgl.app/library/clerk-wordmark-light.svg", alt: "Clerk" }}
+          logo={{ src: "https://svgl.app/library/google.svg", alt: "Google" }}
         />
 
         <LogoCard

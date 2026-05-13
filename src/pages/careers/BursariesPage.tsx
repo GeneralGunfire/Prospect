@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Filter, Wallet, Calendar, CheckCircle2, ExternalLink, ArrowRight, Bookmark, X, BookOpen } from 'lucide-react';
+import { Search, Filter, Wallet, CheckCircle2, ExternalLink, Bookmark, X } from 'lucide-react';
 import { bursaries } from '../../data/bursaries';
 import { getUserBookmarks, saveBookmark, removeBookmark } from '../../services/bookmarkService';
 import { withAuth, type AuthedProps } from '../../lib/withAuth';
@@ -108,28 +108,20 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
   const activeFilters = [selectedCategory, selectedField, selectedIncome].filter(Boolean).length;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
 
-      <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-slate-100/60">
-            <Wallet className="w-4 h-4 text-slate-500" />
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Financial Aid</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 uppercase tracking-tight text-slate-900">
-            Fund Your <span className="text-slate-500">Education</span>
+      <div className="pt-24 pb-16 px-4 md:px-8 max-w-5xl mx-auto">
+        <div className="mb-10 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Financial Aid</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
+            Bursaries
           </h1>
-          <p className="text-base leading-relaxed mb-8 text-slate-600">
-            Browse active bursaries, scholarships, and grants for South African students. Find the perfect bursary for your situation.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            
-          </div>
+          <p className="text-sm text-slate-500 mt-2">Active bursaries, scholarships, and grants for South African students.</p>
         </div>
 
         {/* Sticky search and filters */}
-            <div className="mb-12 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/90 backdrop-blur-xl border-b border-slate-100/80">
+            <div className="mb-10 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/95 backdrop-blur-sm border-b border-slate-100">
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="relative grow w-full">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
@@ -138,15 +130,15 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     placeholder="Search bursaries, providers, or fields of study..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3 sm:py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900"
+                    className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 min-h-11 text-sm outline-none focus:border-slate-400 transition-colors text-slate-900"
                   />
                 </div>
                 <button
                   onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className={`flex items-center gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
+                  className={`flex items-center gap-2 px-4 py-2.5 min-h-11 rounded-xl font-bold text-xs uppercase tracking-widest transition-colors border ${
                     isFilterOpen
-                      ? 'bg-slate-900 text-white border-transparent'
-                      : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
+                      ? 'bg-slate-900 text-white border-slate-900'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
                   }`}
                 >
                   <Filter className="w-4 h-4" />
@@ -258,68 +250,34 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(index, 7) * 0.04 }}
-                    className="bg-white border border-slate-100 rounded-3xl p-4 sm:p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer"
+                    className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 hover:border-slate-300 transition-colors group cursor-pointer"
                     onClick={() => handleViewDetail(bursary.id)}
                   >
-                    <div className="flex flex-col md:flex-row gap-8 items-start">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-slate-100 transition-colors bg-slate-900/5">
-                        <Wallet className="w-8 h-8 text-slate-900" />
-                      </div>
-
-                      <div className="grow">
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          <span className="px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full bg-slate-900/5 text-slate-900">
-                            {bursary.category}
-                          </span>
-                          <span className="px-3 py-1 bg-green-50 text-green-600 text-xs font-bold uppercase tracking-widest rounded-full flex items-center gap-1">
-                            <Calendar className="w-3 h-3" /> {bursary.applicationProcess.deadline}
-                          </span>
-                          <div className="flex items-center gap-1 ml-auto">
-                            {[...Array(5)].map((_, i) => (
-                              <span key={i} className={`text-xs ${i < Math.floor(bursary.rating) ? 'text-amber-400' : 'text-slate-200'}`}>★</span>
-                            ))}
-                            <span className="text-xs ml-1 text-slate-500">({bursary.reviews})</span>
-                          </div>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">{bursary.category}</span>
+                          <span className="text-slate-200">·</span>
+                          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">{bursary.applicationProcess.deadline}</span>
                         </div>
-                        <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-slate-600 transition-colors">{bursary.name}</h3>
-                        <p className="text-xs font-bold uppercase tracking-widest mb-4 text-slate-500">Provided by {bursary.provider}</p>
-                        <p className="text-sm leading-relaxed mb-6 text-slate-600">{bursary.description}</p>
-                        <div className="flex flex-wrap gap-4">
-                          <div className="flex items-center gap-2 text-slate-500">
-                            <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                            <span className="text-xs font-bold uppercase tracking-wider">Min marks: {bursary.requirements.minMarks}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-slate-500">
-                            <CheckCircle2 className="w-4 h-4 text-blue-500" />
-                            <span className="text-xs font-bold uppercase tracking-wider">{bursary.studyOptions.fields.slice(0, 2).join(', ')}</span>
-                          </div>
+                        <h3 className="text-base font-bold text-slate-900 mb-1" style={{ letterSpacing: '-0.01em' }}>{bursary.name}</h3>
+                        <p className="text-xs text-slate-500 mb-3">{bursary.provider}</p>
+                        <p className="text-sm leading-relaxed text-slate-600 line-clamp-2">{bursary.description}</p>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                          <span className="text-xs text-slate-500">Min marks: {bursary.requirements.minMarks}</span>
+                          <span className="text-xs text-slate-500">{bursary.studyOptions.fields.slice(0, 2).join(', ')}</span>
                         </div>
                       </div>
-
-                      <div className="flex flex-row md:flex-col gap-3 w-full md:w-auto shrink-0">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleViewDetail(bursary.id);
-                          }}
-                          className="grow md:grow-0 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 sm:px-8 sm:py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-sm"
-                        >
-                          View Details <ArrowRight className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleSave(bursary.id);
-                          }}
-                          className={`p-4 rounded-xl border transition-all flex items-center justify-center ${
-                            savedBursaries.includes(bursary.id)
-                              ? 'bg-slate-600 border-slate-600 text-white'
-                              : 'bg-white border-slate-200 text-slate-900 hover:border-slate-400'
-                          }`}
-                        >
-                          <Bookmark className={`w-4 h-4 ${savedBursaries.includes(bursary.id) ? 'fill-white' : ''}`} />
-                        </button>
-                      </div>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); toggleSave(bursary.id); }}
+                        className={`shrink-0 p-2 rounded-lg border transition-colors ${
+                          savedBursaries.includes(bursary.id)
+                            ? 'bg-slate-900 border-slate-900 text-white'
+                            : 'border-slate-200 text-slate-400 hover:border-slate-400'
+                        }`}
+                      >
+                        <Bookmark className={`w-4 h-4 ${savedBursaries.includes(bursary.id) ? 'fill-white' : ''}`} />
+                      </button>
                     </div>
                   </motion.div>
                 ))
@@ -346,8 +304,8 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
             </div>
 
             {/* NSFAS banner */}
-            <div className="mt-20 p-6 sm:p-8 md:p-12 rounded-3xl text-white relative overflow-hidden bg-slate-900">
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="mt-20 p-6 sm:p-8 md:p-12 rounded-xl text-white bg-slate-900">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <h2 className="text-3xl font-bold mb-6 uppercase tracking-tight">NSFAS Funding</h2>
                   <p className="text-white/70 text-sm leading-relaxed mb-8">
@@ -358,26 +316,25 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       href="https://www.nsfas.org.za"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 text-white bg-amber-400"
+                      className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-80 transition-all flex items-center gap-2 bg-white text-slate-900"
                     >
                       Official Website <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
                 <div className="hidden lg:block">
-                  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 text-amber-500">What NSFAS Covers</h4>
+                  <div className="border border-white/10 rounded-xl p-8">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-slate-400">What NSFAS Covers</h4>
                     <ul className="space-y-4">
                       {['Full Tuition Fees', 'Accommodation & Meals', 'Personal Care Allowance', 'Learning Materials (Books/Laptop)', 'Transport Allowance'].map((item, i) => (
                         <li key={i} className="flex items-center gap-3 text-sm font-medium">
-                          <CheckCircle2 className="w-5 h-5 text-amber-500" /> {item}
+                          <CheckCircle2 className="w-5 h-5 text-white/50" /> {item}
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
               </div>
-              <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -mr-48 -mt-48" />
             </div>
       </div>
     </div>

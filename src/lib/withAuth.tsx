@@ -5,7 +5,7 @@ import { getCurrentUserFromStorage } from './auth';
 
 
 // Add new topic below
-export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'school-assist-chat' | 'learning-algebra-g10-t1-linear-equations' | 'learning-algebra-g10-t1-simultaneous' | 'pothole-map' | 'flag-pothole' | 'my-pothole-contributions' | 'water-dashboard' | 'tax-budget' | 'cost-of-living' | 'civics';
+export type AppPage = 'home' | 'auth' | 'dashboard' | 'quiz' | 'subject-selector' | 'library' | 'careers' | 'bursaries' | 'bursary' | 'map' | 'tvet' | 'tvet-careers' | 'tvet-colleges' | 'tvet-funding' | 'tvet-requirements' | 'calendar' | 'school-assist' | 'school-assist-chat' | 'learning-algebra-g10-t1-linear-equations' | 'learning-algebra-g10-t1-simultaneous' | 'pothole-map' | 'flag-pothole' | 'my-pothole-contributions' | 'water-dashboard' | 'tax-budget' | 'cost-of-living' | 'civics' | 'community-impact' | 'impact-auth';
 
 export interface AuthedProps {
   user: User;
@@ -110,8 +110,10 @@ export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
       });
     }, []);
 
-    // Blank while checking — App-level LoadingScreen already handles initial load
-    if (checking || !user) return null;
+    // Blank skeleton while checking — matches dashboard bg so no flash
+    if (checking || !user) return (
+      <div className="min-h-screen bg-slate-50" aria-hidden="true" />
+    );
 
     return (
       <Component

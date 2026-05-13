@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { Search, MapPin, Phone, Globe } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { tvetColleges } from '../../data/tvetColleges';
 import { withAuth, type AuthedProps } from '../../lib/withAuth';
 import AppHeader from '../../components/shell/AppHeader';
@@ -47,32 +47,28 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
 
       <div className="pt-24 pb-16 px-4 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight text-slate-900">
-            Find <span className="text-slate-500">TVET Colleges</span>
-          </h1>
-          <p className="text-sm leading-relaxed text-slate-600">
-            Browse all {tvetColleges.length} public TVET colleges in South Africa. Filter by province or specialization to find the right college for your TVET career.
-          </p>
+        <div className="mb-10 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">TVET</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Colleges</h1>
         </div>
 
         {/* Search & Filters */}
-        <div className="mb-8 sm:mb-12 space-y-6 bg-slate-50 rounded-xl p-4 sm:p-6">
+        <div className="mb-8 sm:mb-12 space-y-6">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input
               type="text"
               placeholder="Search college name, city, or specialization..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all text-slate-900 min-h-12"
+              className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm outline-none focus:border-slate-400 transition-colors text-slate-900 min-h-11"
               style={{ fontSize: '16px' }}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3 text-slate-900">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-slate-400">
                 Province
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -80,7 +76,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                   <button
                     key={prov}
                     onClick={() => setSelectedProvince(selectedProvince === prov ? null : prov)}
-                    className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
+                    className={`px-3 py-1.5 min-h-11 sm:min-h-0 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border`}
                     style={
                       selectedProvince === prov
                         ? { backgroundColor: '#1e293b', color: 'white', borderColor: '#1e293b' }
@@ -94,7 +90,7 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
             </div>
 
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-3 text-slate-900">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-slate-400">
                 Specialization
               </h3>
               <select
@@ -119,9 +115,9 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Results Info */}
-        <div className="mb-8">
-          <p className="text-sm font-bold text-slate-900">
-            Showing {filteredColleges.length} college{filteredColleges.length !== 1 ? 's' : ''}
+        <div className="mb-6">
+          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
+            {filteredColleges.length} college{filteredColleges.length !== 1 ? 's' : ''}
           </p>
         </div>
 
@@ -134,128 +130,56 @@ function TVETCollegesPage({ user, onNavigate }: AuthedProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className="bg-white border border-slate-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all"
+                className="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-300 transition-colors"
               >
-                {/* Header with demand indicator */}
-                <div
-                  className="h-2"
-                  style={{
-                    backgroundColor: '#1e293b',
-                  }}
-                ></div>
+                  <h3 className="text-sm font-bold text-slate-900 mb-1">{college.name}</h3>
+                  <p className="text-xs text-slate-500 mb-4">{college.city}, {college.province}</p>
 
-                <div className="p-4 sm:p-6">
-                  {/* College Name */}
-                  <h3 className="text-lg font-bold mb-2 text-slate-900">
-                    {college.name}
-                  </h3>
-
-                  {/* Location */}
-                  <div className="flex items-center gap-2 mb-4 text-slate-500">
-                    <MapPin className="w-4 h-4 text-slate-900" />
-                    <span className="text-sm font-medium">{college.city}, {college.province}</span>
-                  </div>
-
-                  {/* District */}
-                  <p className="text-xs uppercase tracking-widest mb-4 text-slate-500">
-                    District: {college.district}
-                  </p>
-
-                  {/* Specializations */}
-                  <div className="mb-4">
-                    <p className="text-xs font-bold uppercase tracking-widest mb-2 text-slate-900">
-                      Specializations
-                    </p>
-                    <div className="flex flex-wrap gap-1">
-                      {college.specializations.slice(0, 4).map((spec) => (
-                        <span
-                          key={spec}
-                          className="px-2 py-1 bg-slate-100 text-xs font-bold rounded text-gray-700"
-                        >
-                          {spec}
-                        </span>
-                      ))}
-                      {college.specializations.length > 4 && (
-                        <span className="px-2 py-1 bg-slate-100 text-xs font-bold rounded text-gray-700">
-                          +{college.specializations.length - 4}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* NSFAS */}
-                  <div className="mb-4 pb-4 border-t border-slate-200 pt-4">
-                    <p className="text-xs font-bold uppercase tracking-widest text-slate-900">
-                      {college.nsfasAccredited ? '✓ NSFAS Accredited' : 'Limited NSFAS Support'}
-                    </p>
-                  </div>
-
-                  {/* Contact Info */}
-                  <div className="space-y-2">
-                    {college.phone && (
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
-                        <Phone className="w-3 h-3 text-slate-900" />
-                        <span>{college.phone}</span>
-                      </div>
-                    )}
-                    {college.website && (
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
-                        <Globe className="w-3 h-3 text-slate-900" />
-                        <span>Website available</span>
-                      </div>
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {college.specializations.slice(0, 3).map((spec) => (
+                      <span key={spec} className="px-2 py-0.5 bg-slate-100 text-[10px] font-bold rounded text-slate-600">
+                        {spec}
+                      </span>
+                    ))}
+                    {college.specializations.length > 3 && (
+                      <span className="px-2 py-0.5 bg-slate-100 text-[10px] font-bold rounded text-slate-600">
+                        +{college.specializations.length - 3}
+                      </span>
                     )}
                   </div>
-                </div>
 
-                {/* CTA */}
-                <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                  <button
-                    className="w-full py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all text-white"
-                    style={{ backgroundColor: '#1e293b' }}
-                  >
-                    Learn More
-                  </button>
-                </div>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
+                      {college.nsfasAccredited ? 'NSFAS Accredited' : 'Limited NSFAS'}
+                    </p>
+                    {college.phone && <p className="text-[10px] text-slate-400">{college.phone}</p>}
+                  </div>
               </motion.div>
             ))
           ) : (
             <div className="col-span-full py-20 text-center">
-              <Search className="w-16 h-16 mx-auto mb-6 text-slate-200" />
-              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight text-slate-900">
-                No Colleges Found
-              </h3>
-              <p className="text-sm text-slate-500">
-                Try adjusting your search filters.
-              </p>
+              <p className="text-sm font-bold text-slate-900 mb-1">No colleges found</p>
+              <p className="text-xs text-slate-400">Try adjusting your search filters.</p>
             </div>
           )}
         </div>
 
         {/* Info Section */}
-        <div
-          className="rounded-xl p-5 sm:p-8 mb-8 sm:mb-12"
-          style={{ backgroundColor: '#1e293b' }}
-        >
-          <h2 className="text-2xl font-bold text-white mb-4">About South African TVET Colleges</h2>
-          <div className="text-white space-y-3 text-sm">
-            <p>
-              • South Africa has <strong>50 public TVET colleges</strong> spread across all 9 provinces
-            </p>
-            <p>
-              • Colleges offer <strong>National Certificates (NC(V))</strong> at NQF Levels 2-4
-            </p>
-            <p>
-              • Most are <strong>NSFAS accredited</strong>, making qualifications accessible to disadvantaged students
-            </p>
-            <p>
-              • <strong>Admission requirements</strong> are flexible - National Senior Certificate (Grade 12) required, no minimum grades for most programs
-            </p>
-            <p>
-              • <strong>Apprenticeships</strong> are available - earn money while learning a trade
-            </p>
-            <p>
-              • <strong>Graduation rates</strong> are high because skills are immediately applicable to jobs
-            </p>
+        <div className="rounded-xl border border-slate-100 p-6 mb-8 sm:mb-12">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">About TVET Colleges</p>
+          <div className="divide-y divide-slate-100">
+            {[
+              '50 public TVET colleges across all 9 provinces',
+              'National Certificates (NC(V)) at NQF Levels 2–4',
+              'Most are NSFAS accredited — low or no cost',
+              'No minimum matric grades required for most programs',
+              'Apprenticeships pay you while you study (R8–15k/mo)',
+            ].map((fact, i) => (
+              <div key={i} className="flex gap-4 py-3">
+                <span className="text-[10px] font-black text-slate-300 shrink-0 w-4">{String(i + 1).padStart(2, '0')}</span>
+                <p className="text-sm text-slate-600">{fact}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

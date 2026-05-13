@@ -202,13 +202,12 @@ export default function AppHeader({
                 <button
                   key={item.page}
                   onClick={(e) => { e.stopPropagation(); onNavigate(item.page); }}
-                  className={`hidden md:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap ${
+                  className={`hidden md:flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-all duration-150 whitespace-nowrap ${
                     isActive
-                      ? 'bg-slate-900 text-white'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'text-slate-900 font-black'
+                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
-                  <span className={isActive ? 'text-white' : 'text-slate-400'}>{item.icon}</span>
                   {item.name}
                 </button>
               );
@@ -235,7 +234,7 @@ export default function AppHeader({
               <div className="relative flex items-center gap-1">
                 <button
                   onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(v => !v); }}
-                  className="w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center ring-2 ring-transparent hover:ring-slate-300 transition-all"
+                  className="w-7 h-7 bg-slate-900 text-white rounded-full flex items-center justify-center hover:opacity-80 transition-opacity"
                   aria-label="User menu"
                 >
                   <User className="w-3.5 h-3.5" />
@@ -265,31 +264,31 @@ export default function AppHeader({
                 className="fixed inset-0 z-[125]"
               />
               <motion.div
-                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                initial={{ opacity: 0, y: -8, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
-                className="absolute right-0 top-[3.5rem] w-52 max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-xl border border-slate-100 z-130 overflow-hidden"
+                exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                transition={{ duration: 0.13, ease: 'easeOut' }}
+                className="absolute right-0 top-13 w-48 max-w-[calc(100vw-2rem)] bg-[#0f172a] rounded-xl shadow-2xl border border-white/10 z-130 overflow-hidden"
               >
-                <div className="p-4 border-b border-slate-50">
-                  <p className="text-xs font-black uppercase tracking-wider text-slate-800">{firstName}</p>
-                  <p className="text-xs truncate mt-0.5 text-slate-500">{email}</p>
+                <div className="px-4 py-3 border-b border-white/10">
+                  <p className="text-[11px] font-black uppercase tracking-widest text-white">{firstName}</p>
+                  <p className="text-[10px] truncate mt-0.5 text-white/40">{email}</p>
                 </div>
-                <div className="p-2">
+                <div className="p-1.5">
                   {mode !== 'career' && (
                     <button
                       onClick={() => { setIsUserMenuOpen(false); onNavigate('dashboard'); }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium hover:bg-slate-50 rounded-xl transition-colors text-left text-slate-800"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all text-left"
                     >
-                      <LayoutDashboard className="w-4 h-4" />
+                      <LayoutDashboard className="w-3.5 h-3.5" />
                       Dashboard
                     </button>
                   )}
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-xs font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors text-left"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-all text-left"
                   >
-                    <LogOut className="w-4 h-4" />
+                    <LogOut className="w-3.5 h-3.5" />
                     Sign Out
                   </button>
                 </div>

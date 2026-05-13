@@ -125,27 +125,14 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-white">
       <AppHeader currentPage="tvet" user={user} onNavigate={onNavigate} mode="career" />
       <TVETSubNav currentPage="careers" onNavigate={onNavigate} />
 
       <div className="pt-24 pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
-        <div className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto">
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-            style={{ background: 'rgba(30,58,95,0.05)' }}
-          >
-            <Briefcase className="w-4 h-4" style={{ color: '#1E3A5F' }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1E3A5F' }}>
-              TVET Career Explorer
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
-            Explore <span style={{ color: '#64748b' }}>TVET Careers</span>
-          </h1>
-          <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
-            Browse {allFilteredCareers.length} TVET careers. Filter by trade type, location, or salary range.
-          </p>
+        <div className="mb-10 pt-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">TVET</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Careers</h1>
         </div>
 
         {/* Sticky search + filters */}
@@ -155,34 +142,24 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
         >
           <div className="flex flex-col md:flex-row gap-4 items-center">
             <div className="relative grow w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" style={{ color: '#64748b' }} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search careers, trades, skills..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-4 text-sm font-medium outline-none shadow-sm focus:border-slate-400 transition-all min-h-12"
-                style={{ color: '#1e293b', fontSize: '16px' }}
+                className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm outline-none focus:border-slate-400 transition-colors min-h-11 text-slate-900"
+                style={{ fontSize: '16px' }}
               />
             </div>
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-sm border ${
-                isFilterOpen ? 'text-white border-transparent' : 'bg-white border-slate-200 hover:border-slate-400'
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors border ${
+                isFilterOpen ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
               }`}
-              style={isFilterOpen ? { backgroundColor: '#1E3A5F', color: 'white' } : { color: '#1E3A5F' }}
             >
               <Filter className="w-4 h-4" />
               Filters
-              {(selectedTradeType ||
-                selectedProvince ||
-                selectedDemand ||
-                salaryRange[0] > 0 ||
-                salaryRange[1] < 70000) && (
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold" style={{ backgroundColor: '#64748b', color: 'white' }}>
-                  {(selectedTradeType ? 1 : 0) + (selectedProvince ? 1 : 0) + (selectedDemand ? 1 : 0) + ((salaryRange[0] > 0 || salaryRange[1] < 70000) ? 1 : 0)}
-                </span>
-              )}
             </button>
           </div>
 
@@ -197,20 +174,17 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                 <div className="pt-6 space-y-6 border-t border-slate-100 mt-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1E3A5F' }}>
-                        Trade Type
-                      </h4>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-slate-400">Trade Type</h4>
                       <div className="flex flex-wrap gap-2">
                         {tradeTypes.map((type) => (
                           <button
                             key={type}
                             onClick={() => setSelectedTradeType(selectedTradeType === type ? null : type)}
-                            className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
-                            style={
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors border ${
                               selectedTradeType === type
-                                ? { backgroundColor: '#1E3A5F', color: 'white', borderColor: '#1E3A5F' }
-                                : { backgroundColor: 'white', color: '#1E3A5F', borderColor: '#e2e8f0' }
-                            }
+                                ? 'bg-slate-900 text-white border-slate-900'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                            }`}
                           >
                             {type}
                           </button>
@@ -218,20 +192,17 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1E3A5F' }}>
-                        Province
-                      </h4>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-slate-400">Province</h4>
                       <div className="flex flex-wrap gap-2">
                         {provinces.map((prov) => (
                           <button
                             key={prov}
                             onClick={() => setSelectedProvince(selectedProvince === prov ? null : prov)}
-                            className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
-                            style={
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors border ${
                               selectedProvince === prov
-                                ? { backgroundColor: '#1E3A5F', color: 'white', borderColor: '#1E3A5F' }
-                                : { backgroundColor: 'white', color: '#1E3A5F', borderColor: '#e2e8f0' }
-                            }
+                                ? 'bg-slate-900 text-white border-slate-900'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                            }`}
                           >
                             {prov}
                           </button>
@@ -242,24 +213,17 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1E3A5F' }}>
-                        Job Demand
-                      </h4>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-slate-400">Job Demand</h4>
                       <div className="flex flex-wrap gap-2">
                         {demandLevels.map((level) => (
                           <button
                             key={level}
                             onClick={() => setSelectedDemand(selectedDemand === level ? null : level)}
-                            className={`px-4 py-2 min-h-11 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border`}
-                            style={
+                            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors border ${
                               selectedDemand === level
-                                ? {
-                                    backgroundColor: level === 'high' ? '#10B981' : level === 'medium' ? '#F59E0B' : '#EF4444',
-                                    color: 'white',
-                                    borderColor: level === 'high' ? '#10B981' : level === 'medium' ? '#F59E0B' : '#EF4444',
-                                  }
-                                : { backgroundColor: 'white', color: '#1E3A5F', borderColor: '#e2e8f0' }
-                            }
+                                ? 'bg-slate-900 text-white border-slate-900'
+                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                            }`}
                           >
                             {level}
                           </button>
@@ -267,9 +231,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                       </div>
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: '#1E3A5F' }}>
-                        Entry Salary Range
-                      </h4>
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 text-slate-400">Entry Salary Range</h4>
                       <div className="space-y-3">
                         <input
                           type="range"
@@ -280,8 +242,8 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                           onChange={(e) => setSalaryRange([salaryRange[0], parseInt(e.target.value)])}
                           className="w-full"
                         />
-                        <p className="text-xs font-bold" style={{ color: '#1E3A5F' }}>
-                          R{salaryRange[0].toLocaleString()} - R{salaryRange[1].toLocaleString()}
+                        <p className="text-xs font-bold text-slate-700">
+                          R{salaryRange[0].toLocaleString()} – R{salaryRange[1].toLocaleString()}
                         </p>
                       </div>
                     </div>
@@ -290,8 +252,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
                 <div className="flex justify-end mt-6">
                   <button
                     onClick={clearFilters}
-                    className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity"
-                    style={{ color: '#64748b' }}
+                    className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity text-slate-400"
                   >
                     <X className="w-4 h-4" /> Clear All Filters
                   </button>
@@ -316,17 +277,10 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
             ))
           ) : (
             <div className="col-span-full py-20 text-center">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(30,58,95,0.05)' }}>
-                <Search className="w-10 h-10 text-slate-200" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight" style={{ color: '#1E3A5F' }}>
-                No TVET Careers Found
-              </h3>
-              <p className="text-sm mb-8" style={{ color: '#64748b' }}>
-                Try adjusting your search or filters.
-              </p>
-              <button onClick={clearFilters} className="text-white px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1E3A5F' }}>
-                Clear All Filters
+              <p className="text-sm font-bold text-slate-900 mb-1">No careers found</p>
+              <p className="text-xs text-slate-400 mb-6">Try adjusting your search or filters.</p>
+              <button onClick={clearFilters} className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-slate-900">
+                Clear filters
               </button>
             </div>
           )}
@@ -339,8 +293,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
-              className="px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2 transition-all hover:opacity-90"
-              style={{ backgroundColor: '#1E3A5F' }}
+              className="px-6 py-2.5 rounded-lg font-bold text-xs uppercase tracking-widest text-white flex items-center gap-2 transition-opacity hover:opacity-90 bg-slate-900"
             >
               Load More Careers ({remainingCareers} more)
               <ChevronDown className="w-4 h-4" />
@@ -366,3 +319,4 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
 }
 
 export default withAuth(TVETCareersPage);
+

@@ -81,11 +81,11 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
     <div
       onClick={onCardClick}
       data-testid="career-card"
-      className="group bg-white border border-slate-100 rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md hover:border-slate-200 hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-full cursor-pointer"
+      className="group bg-white border border-slate-200 rounded-xl p-4 hover:border-slate-300 transition-colors duration-150 flex flex-col h-full cursor-pointer"
     >
-      {/* Top row: category badge + RIASEC chips */}
-      <div className="flex justify-between items-start mb-4">
-        <span className={`px-2.5 py-1 text-xs font-bold uppercase tracking-widest rounded-full leading-none ${categoryClass}`}>
+      {/* Top row: category + RIASEC */}
+      <div className="flex justify-between items-start mb-3">
+        <span className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
           {career.category}
         </span>
         <div className="flex gap-1 shrink-0">
@@ -93,8 +93,7 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
             <span
               key={code}
               title={code}
-              className="w-5 h-5 text-white text-xs font-bold flex items-center justify-center rounded-md"
-              style={{ backgroundColor: RIASEC_COLORS[code] ?? '#64748b' }}
+              className="text-[9px] font-black text-slate-400 leading-none"
             >
               {code}
             </span>
@@ -103,40 +102,36 @@ export function CareerCard({ career, onCardClick }: CareerCardProps) {
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-bold text-slate-900 mb-2 group-hover:text-slate-700 transition-colors leading-snug">
+      <h3 className="text-sm font-bold text-slate-900 mb-2 leading-snug" style={{ letterSpacing: '-0.01em' }}>
         {career.title}
       </h3>
 
       {/* Description */}
-      <p className="text-slate-400 text-xs leading-relaxed mb-4 line-clamp-2 flex-1">
+      <p className="text-slate-500 text-xs leading-relaxed mb-4 line-clamp-2 flex-1">
         {career.description}
       </p>
 
       {/* Meta row */}
       <div className="mt-auto space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-              <Wallet className="w-3.5 h-3.5 text-slate-400" />
-              {salaryDisplay}
-            </span>
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-              <GraduationCap className="w-3.5 h-3.5 text-slate-400" />
-              APS {apsDisplay}+
-            </span>
-          </div>
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-xs font-semibold text-slate-500">{salaryDisplay}/mo</span>
+          <span className="text-slate-200">·</span>
+          <span className="text-xs font-semibold text-slate-500">APS {apsDisplay}+</span>
           {demandCfg && (
-            <span className={`text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-full ${demandCfg.cls}`}>
-              {demandCfg.label}
-            </span>
+            <>
+              <span className="text-slate-200">·</span>
+              <span className={`text-[10px] font-black uppercase tracking-wide ${demandCfg.cls.includes('high') ? 'text-blue-600' : demandCfg.cls.includes('medium') ? 'text-amber-600' : 'text-slate-400'}`}>
+                {demandLevel === 'high' ? 'High demand' : demandLevel === 'medium' ? 'Med demand' : 'Low demand'}
+              </span>
+            </>
           )}
         </div>
 
-        <div className="pt-3 border-t border-slate-100 flex items-center justify-between min-h-11">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-widest group-hover:text-slate-700 transition-colors">
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between min-h-9">
+          <span className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-300 group-hover:text-slate-700 transition-colors">
             View Details
           </span>
-          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all duration-200" />
+          <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all duration-150" />
         </div>
       </div>
     </div>

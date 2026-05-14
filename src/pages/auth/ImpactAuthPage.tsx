@@ -71,7 +71,7 @@ export default function ImpactAuthPage({ onNavigateHome, onNavigate }: Props) {
     try {
       if (mode === 'signup') await signUp(email.trim(), password, name.trim());
       else await signIn(email.trim(), password);
-      if (onNavigate) onNavigate('community-impact');
+      if (onNavigate) onNavigate('community');
       else onNavigateHome();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

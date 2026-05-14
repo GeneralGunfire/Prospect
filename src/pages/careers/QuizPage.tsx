@@ -19,11 +19,11 @@ interface QuizAnswer {
 // ── Quiz Page ─────────────────────────────────────────────────────────────────
 
 const likertOptions = [
-  { label: 'Strongly Dislike', value: 1, color: 'bg-slate-700' },
-  { label: 'Dislike', value: 2, color: 'bg-slate-500' },
-  { label: 'Neutral', value: 3, color: 'bg-slate-400' },
-  { label: 'Like', value: 4, color: 'bg-slate-700' },
-  { label: 'Strongly Like', value: 5, color: 'bg-slate-900' },
+  { label: 'Strongly Dislike', short: 'S. Dislike', value: 1, color: 'bg-slate-700' },
+  { label: 'Dislike', short: 'Dislike', value: 2, color: 'bg-slate-500' },
+  { label: 'Neutral', short: 'Neutral', value: 3, color: 'bg-slate-400' },
+  { label: 'Like', short: 'Like', value: 4, color: 'bg-slate-700' },
+  { label: 'Strongly Like', short: 'S. Like', value: 5, color: 'bg-slate-900' },
 ];
 
 function QuizPhase({
@@ -107,43 +107,43 @@ function QuizPhase({
       <div className="pt-24 pb-16 px-4 flex flex-col items-center">
         <div className="max-w-2xl w-full">
           {/* Header & Progress */}
-          <div className="mb-8 sm:mb-12">
-          <div className="flex justify-between items-end mb-4">
-            <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight mb-1">Career Quiz</h1>
-              <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">RIASEC Assessment</p>
-            </div>
-            <div className="flex items-center gap-4">
-              {hasSkipped && (
-                <motion.button
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  onClick={() => setIsPanelOpen(true)}
-                  className="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2 whitespace-nowrap"
-                >
-                  <SkipForward className="w-3 h-3" />
-                  Skipped ({skippedQuestions.length})
-                </motion.button>
-              )}
-              <div className="text-right">
-                <span className="text-slate-900 font-bold text-lg">{currentQuestionIndex + 1}</span>
-                <span className="text-slate-500 text-xs font-medium"> / {quizQuestions.length}</span>
+          <div className="mb-10">
+            <div className="flex justify-between items-start mb-5">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1.5">RIASEC Assessment</p>
+                <h1 className="text-2xl md:text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>Career Quiz</h1>
+              </div>
+              <div className="flex items-center gap-3 mt-1">
+                {hasSkipped && (
+                  <motion.button
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    onClick={() => setIsPanelOpen(true)}
+                    className="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-1.5 whitespace-nowrap hover:bg-slate-200"
+                  >
+                    <SkipForward className="w-3 h-3" />
+                    {skippedQuestions.length}
+                  </motion.button>
+                )}
+                <div className="text-right">
+                  <span className="text-slate-900 font-black text-2xl" style={{ letterSpacing: '-0.03em' }}>{currentQuestionIndex + 1}</span>
+                  <span className="text-slate-400 text-sm font-medium"> / {quizQuestions.length}</span>
+                </div>
               </div>
             </div>
+            <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                className="h-full bg-slate-900"
+              />
+            </div>
           </div>
-          <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              className="h-full bg-slate-700"
-            />
-          </div>
-        </div>
 
         {/* Question Card */}
         <div className="relative mb-8">
 
-          <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 md:p-12 relative overflow-hidden">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 relative overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestion.id}
@@ -151,44 +151,44 @@ function QuizPhase({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="min-h-30 flex flex-col justify-center"
+              className="min-h-24 flex flex-col justify-center"
             >
-              <h2 className="text-xl md:text-2xl font-medium text-slate-800 leading-tight text-center">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 leading-snug text-center" style={{ letterSpacing: '-0.015em' }}>
                 {currentQuestion.question}
               </h2>
             </motion.div>
           </AnimatePresence>
 
           {/* Likert Scale */}
-          <div className="mt-8 sm:mt-12 grid grid-cols-5 gap-2 md:gap-3">
+          <div className="mt-8 sm:mt-12 grid grid-cols-5 gap-2">
             {likertOptions.map((option) => {
               const isSelected = currentAnswer === option.value;
               return (
                 <button
                   key={option.value}
                   onClick={() => handleAnswer(option.value)}
-                  className={`group flex flex-col items-center gap-2.5 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-700 rounded-2xl p-1 ${
-                    isSelected ? 'scale-105' : 'opacity-55 hover:opacity-90 hover:scale-102'
+                  className={`group flex flex-col items-center gap-3 transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-700 rounded-xl p-2 ${
+                    isSelected ? '' : 'opacity-50 hover:opacity-80'
                   }`}
                 >
                   <div
-                    className={`w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 rounded-2xl flex items-center justify-center transition-all duration-150 ${
+                    className={`w-full aspect-square rounded-xl flex items-center justify-center transition-all duration-150 ${
                       isSelected
-                        ? `${option.color} shadow-md ring-2 ring-offset-2 ring-current/30`
-                        : 'bg-slate-50 border border-slate-200 group-hover:border-slate-300'
+                        ? `${option.color}`
+                        : 'bg-slate-100 border border-slate-200 group-hover:border-slate-300'
                     }`}
                   >
                     {isSelected
-                      ? <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                      ? <CheckCircle2 className="w-5 h-5 text-white" />
                       : <span className="w-2 h-2 rounded-full bg-slate-300 group-hover:bg-slate-400 transition-colors" />
                     }
                   </div>
                   <span
-                    className={`text-[9px] sm:text-xs font-bold uppercase tracking-wider text-center leading-tight transition-colors ${
+                    className={`text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-center leading-tight transition-colors hidden sm:block ${
                       isSelected ? 'text-slate-900' : 'text-slate-400'
                     }`}
                   >
-                    {option.label}
+                    {option.short}
                   </span>
                 </button>
               );
@@ -239,7 +239,7 @@ function QuizPhase({
 
         {/* Info Box */}
         <div className="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-100">
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-sm leading-relaxed text-slate-500">
             Be honest. There are no right or wrong answers — this matches you with careers you'll actually enjoy.
           </p>
         </div>
@@ -365,17 +365,8 @@ function ResultsPhase({
     C: 'Conventional',
   }[topCode] || topCode;
 
-  const scoreColor = (score: number) => {
-    if (score >= 70) return 'bg-green-600';
-    if (score >= 40) return 'bg-yellow-400';
-    return 'bg-blue-400';
-  };
-
-  const compatibilityColor = (score: number) => {
-    if (score >= 80) return 'bg-green-600 text-white';
-    if (score >= 60) return 'bg-yellow-400 text-slate-900';
-    return 'bg-blue-400 text-white';
-  };
+  const scoreColor = (_score: number) => 'bg-slate-700';
+  const compatibilityColor = (_score: number) => 'bg-slate-100 text-slate-900';
 
   const generateShareUrl = () => {
     const encoded = btoa(JSON.stringify({
@@ -389,7 +380,7 @@ function ResultsPhase({
     const url = generateShareUrl();
     try {
       await navigator.clipboard.writeText(url);
-      alert('Share link copied to clipboard! 📋');
+      alert('Share link copied to clipboard.');
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -414,7 +405,7 @@ function ResultsPhase({
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4" style={{ letterSpacing: '-0.025em' }}>
             Your RIASEC Profile
           </h1>
-          <p className="text-sm text-slate-500 max-w-2xl leading-relaxed">
+          <p className="text-[15px] leading-[1.65] text-slate-500 max-w-2xl">
             {results.profileDescription}
           </p>
         </motion.div>
@@ -503,7 +494,7 @@ function ResultsPhase({
                     {career.compatibilityScore}%
                   </span>
                 </div>
-                <p className="text-xs text-slate-500 line-clamp-2 mb-3">{career.whyItFits}</p>
+                <p className="text-sm leading-relaxed text-slate-500 line-clamp-2 mb-3">{career.whyItFits}</p>
                 <div className="pt-3 border-t border-slate-100 flex items-center gap-3 text-xs text-slate-500">
                   <span>{career.salaryRange}</span>
                   <span className="text-slate-200">·</span>
@@ -527,7 +518,7 @@ function ResultsPhase({
                   {subjectsByImportance.Essential.map((sub) => (
                     <li key={sub.subject}>
                       <p className="text-sm font-bold text-slate-900">{sub.subject}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{sub.reason}</p>
+                      <p className="text-sm leading-relaxed text-slate-500 mt-0.5">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -540,7 +531,7 @@ function ResultsPhase({
                   {subjectsByImportance.Recommended.map((sub) => (
                     <li key={sub.subject}>
                       <p className="text-sm font-bold text-slate-900">{sub.subject}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{sub.reason}</p>
+                      <p className="text-sm leading-relaxed text-slate-500 mt-0.5">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>
@@ -553,7 +544,7 @@ function ResultsPhase({
                   {subjectsByImportance.Useful.map((sub) => (
                     <li key={sub.subject}>
                       <p className="text-sm font-bold text-slate-900">{sub.subject}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{sub.reason}</p>
+                      <p className="text-sm leading-relaxed text-slate-500 mt-0.5">{sub.reason}</p>
                     </li>
                   ))}
                 </ul>

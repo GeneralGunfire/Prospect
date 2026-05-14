@@ -28,7 +28,7 @@ function NewsCard({ item }: { item: WaterNewsItem }) {
   const year = item.published_at ? new Date(item.published_at).getFullYear() : '';
 
   return (
-    <div className={`rounded-2xl border ${cfg.border} overflow-hidden`}>
+    <div className={`rounded-xl border ${cfg.border} overflow-hidden`}>
       <button
         onClick={() => setOpen(o => !o)}
         className={`w-full text-left p-4 ${cfg.bg}`}
@@ -158,7 +158,7 @@ export function ResearchSection({ news, province }: Props) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
+        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center">
           <p className="text-sm text-slate-400 font-medium">No results found</p>
         </div>
       ) : (

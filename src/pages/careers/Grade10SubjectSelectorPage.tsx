@@ -72,7 +72,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar - Subject Selection */}
           <div className="lg:col-span-1">
-            <div className="sticky top-28 bg-white border border-slate-100 rounded-2xl p-4 sm:p-6">
+            <div className="sticky top-28 bg-white border border-slate-100 rounded-xl p-4 sm:p-6">
               <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-6 text-slate-900">
                 Select Your Subjects
               </h3>
@@ -124,7 +124,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white border border-dashed border-slate-200 rounded-2xl p-6 sm:p-12 text-center"
+                className="bg-white border border-dashed border-slate-200 rounded-xl p-6 sm:p-12 text-center"
               >
                 <BookOpen className="w-12 h-12 text-slate-200 mx-auto mb-4" />
                 <h3 className="text-lg font-bold mb-2 text-slate-900">
@@ -173,7 +173,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.05 }}
-                          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-slate-300 hover:shadow-md transition-all cursor-pointer group"
+                          className="bg-white border border-slate-100 rounded-xl p-6 hover:border-slate-300 hover:border-slate-300 transition-all cursor-pointer group"
                           onClick={() => onNavigate('careers' as any)}
                         >
                           <div className="flex items-start justify-between mb-3">
@@ -192,7 +192,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                       ))}
                     </div>
                   ) : (
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-8 text-center">
+                    <div className="bg-slate-50 border border-slate-100 rounded-xl p-8 text-center">
                       <p className="text-sm text-slate-500">No matching careers found for your selection</p>
                     </div>
                   )}
@@ -215,7 +215,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.15 + idx * 0.05 }}
-                        className="bg-white border border-slate-100 rounded-2xl p-6"
+                        className="bg-white border border-slate-100 rounded-xl p-6"
                       >
                         <h4 className="text-sm font-bold mb-4 text-slate-900">
                           {item.subject}
@@ -270,7 +270,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.25 + idx * 0.05 }}
-                          className="bg-white border border-slate-100 rounded-2xl p-6 hover:border-slate-300 hover:shadow-md transition-all cursor-pointer group"
+                          className="bg-white border border-slate-100 rounded-xl p-6 hover:border-slate-300 hover:border-slate-300 transition-all cursor-pointer group"
                           onClick={() => onNavigate('tvet-careers' as any)}
                         >
                           <div className="flex items-start justify-between mb-3">
@@ -304,7 +304,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                     <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#1e293b' }} />
                     APS Score Guide
                   </h3>
-                  <div className="bg-white border border-slate-100 rounded-2xl p-6">
+                  <div className="bg-white border border-slate-100 rounded-xl p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {apsScoreGuide.map((guide, idx) => (
                         <div key={idx} className="border-l-4 pl-4" style={{ borderColor: '#1e293b' }}>
@@ -332,7 +332,7 @@ function Grade10SubjectSelectorPage({ user, onNavigate }: AuthedProps) {
                 >
                   <button
                     onClick={() => onNavigate('quiz')}
-                    className="w-full sm:w-auto min-h-12 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all hover:shadow-lg"
+                    className="w-full sm:w-auto min-h-12 px-8 py-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white transition-all"
                     style={{ backgroundColor: '#1e293b' }}
                   >
                     Take Quiz

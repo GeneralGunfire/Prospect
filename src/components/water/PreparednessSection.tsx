@@ -173,7 +173,7 @@ function TipCard({ tip }: { tip: Tip }) {
   const cfg = CATEGORY_CONFIG[tip.category];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full text-left p-4 flex items-start gap-3"

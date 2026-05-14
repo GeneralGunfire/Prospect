@@ -416,7 +416,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
         <motion.div
           initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+          className="w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-lg flex flex-col overflow-hidden"
           // dvh (dynamic viewport height) accounts for mobile browser chrome correctly.
           style={{ maxHeight: '90dvh' }}
         >
@@ -434,7 +434,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
                 )}
               </div>
               {/* Close button in the top-right corner */}
-              <button onClick={onClose} className="shrink-0 w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
+              <button onClick={onClose} aria-label="Close" className="shrink-0 w-11 h-11 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
                 <X size={16} />
               </button>
             </div>
@@ -873,11 +873,11 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
                 {/* Topic 1 card: Intro to Equations — starts the lesson flow on this page */}
                 <motion.div
                   onClick={() => setView('interactive-lesson')}
-                  className="bg-white rounded-4xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-xl transition-all group"
+                  className="bg-white rounded-xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-md transition-all group"
                 >
                   <div className="flex items-center gap-6">
                     {/* Number badge turns green with a tick when the topic is mastered */}
-                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${status === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-xl shadow-slate-900/20'}`}>
+                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${status === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>
                       {status === 'mastered' ? '✓' : '1'}
                     </div>
                     <div>
@@ -896,10 +896,10 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
                 {/* Topic 2 card: Simultaneous Equations — navigates to a different page entirely */}
                 <motion.div
                   onClick={() => onNavigate('learning-algebra-g10-t1-simultaneous' as AppPage)}
-                  className="bg-white rounded-4xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-xl transition-all group"
+                  className="bg-white rounded-xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-md transition-all group"
                 >
                   <div className="flex items-center gap-6">
-                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${simultaneousStatus === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-xl shadow-slate-900/20'}`}>
+                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${simultaneousStatus === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>
                       {simultaneousStatus === 'mastered' ? '✓' : '2'}
                     </div>
                     <div>
@@ -940,7 +940,7 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
                   {view === 'remediation' && (
                     <div className="space-y-6">
                       {/* Encouragement banner shown above the remediation questions */}
-                      <div className="bg-rose-50 border border-rose-200 rounded-4xl p-8 flex gap-5 items-start">
+                      <div className="bg-rose-50 border border-rose-200 rounded-xl p-8 flex gap-5 items-start">
                         <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
                         <div>
                           <p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p>

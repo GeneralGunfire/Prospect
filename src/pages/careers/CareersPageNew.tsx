@@ -131,11 +131,11 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
       <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-10 pt-2">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Career Explorer</p>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Career Explorer</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3" style={{ letterSpacing: '-0.025em' }}>
             Careers
           </h1>
-          <p className="text-sm text-slate-500 mt-2">{allFilteredCareers.length} careers — filter by interest, category, or personality type.</p>
+          <p className="text-[15px] leading-[1.65] text-slate-500">{allFilteredCareers.length} careers — filter by interest, category, or personality type.</p>
         </div>
 
         {/* Sticky search + filters */}
@@ -278,7 +278,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
         </div>
 
         {/* Career Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
           {displayedCareers.length > 0 ? (
             displayedCareers.map((career, index) => (
               <motion.div

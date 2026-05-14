@@ -57,7 +57,9 @@ const WaterDashboardPage = lazy(() => import('./pages/community/WaterDashboardPa
 const TaxBudgetPage      = lazy(() => import('./pages/community/TaxBudgetPage'));
 const CostOfLivingPage   = lazy(() => import('./pages/community/CostOfLivingPage'));
 const CivicsPage         = lazy(() => import('./pages/community/CivicsPage'));
-const CommunityImpactPage = lazy(() => import('./pages/community/CommunityImpactPage'));
+const CommunityImpactPage = lazy(() => import('./pages/community/CommunityPage'));
+const LoadSheddingPage   = lazy(() => import('./pages/community/LoadSheddingPage'));
+const MatricExamDatesPage = lazy(() => import('./pages/school/MatricExamDatesPage'));
 const ImpactAuthPage     = lazy(() => import('./pages/auth/ImpactAuthPage'));
 import LoadingScreen from './components/shell/LoadingScreen';
 import type { AppPage } from './lib/withAuth';
@@ -823,7 +825,9 @@ export default function App() {
               {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage {...careerPageProps} /></PageTransition>}
               {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage {...careerPageProps} /></PageTransition>}
               {page === 'civics' && <PageTransition pageKey="civics"><CivicsPage {...careerPageProps} /></PageTransition>}
-              {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...careerPageProps} /></PageTransition>}
+              {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...protectedPageProps} /></PageTransition>}
+              {page === 'load-shedding' && <PageTransition pageKey="load-shedding"><LoadSheddingPage {...protectedPageProps} /></PageTransition>}
+              {page === 'matric-exam-dates' && <PageTransition pageKey="matric-exam-dates"><MatricExamDatesPage {...protectedPageProps} /></PageTransition>}
               {page === 'impact-auth' && <PageTransition pageKey="impact-auth"><ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
 
               {page === 'home' && (

@@ -30,17 +30,19 @@ interface NavItem {
 }
 
 const SCHOOL_NAV: NavItem[] = [
-  { name: 'Dashboard', page: 'dashboard',         icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
-  { name: 'Library',   page: 'library',           icon: <BookOpen className="w-3.5 h-3.5" /> },
-  { name: 'Calendar',  page: 'calendar',          icon: <Calendar className="w-3.5 h-3.5" /> },
-  { name: 'Chat',      page: 'school-assist-chat', icon: <MessageCircle className="w-3.5 h-3.5" /> },
+  { name: 'Dashboard',    page: 'dashboard',          icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
+  { name: 'Library',      page: 'library',            icon: <BookOpen className="w-3.5 h-3.5" /> },
+  { name: 'Calendar',     page: 'calendar',           icon: <Calendar className="w-3.5 h-3.5" /> },
+  { name: 'Chat',         page: 'school-assist-chat', icon: <MessageCircle className="w-3.5 h-3.5" /> },
+  { name: 'Exam Dates',   page: 'matric-exam-dates',  icon: <BookMarked className="w-3.5 h-3.5" /> },
 ];
 
 const COMMUNITY_NAV: NavItem[] = [
-  { name: 'Water Dashboard',  page: 'water-dashboard',  icon: <Droplets className="w-3.5 h-3.5" /> },
+  { name: 'Load Shedding',    page: 'load-shedding',     icon: <Newspaper className="w-3.5 h-3.5" /> },
+  { name: 'Water Dashboard',  page: 'water-dashboard',   icon: <Droplets className="w-3.5 h-3.5" /> },
   { name: 'Tax & Budget',     page: 'tax-budget',        icon: <Calculator className="w-3.5 h-3.5" /> },
   { name: 'Cost of Living',   page: 'cost-of-living',    icon: <MapPin className="w-3.5 h-3.5" /> },
-  { name: 'Civics',           page: 'civics',             icon: <Building2 className="w-3.5 h-3.5" /> },
+  { name: 'Civics',           page: 'civics',            icon: <Building2 className="w-3.5 h-3.5" /> },
 ];
 
 const CAREER_NAV: NavItem[] = [
@@ -147,7 +149,7 @@ export default function AppHeader({
   return (
     <>
       {/* Floating pill nav */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[9000] max-w-[calc(100vw-2rem)] min-w-0">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100vw-2rem)] min-w-0">
         <motion.nav
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1, width: isExpanded ? 'auto' : '3rem' }}
@@ -169,7 +171,7 @@ export default function AppHeader({
           >
             <button onClick={(e) => { e.stopPropagation(); handleLogoClick(); }} className="flex items-center gap-2 group">
               <div className="w-6 h-6 rounded bg-slate-900 flex items-center justify-center text-white font-black text-xs group-hover:scale-105 transition-transform">P</div>
-              <span className="text-xs font-black uppercase tracking-widest text-slate-900 hidden sm:block">Prospect</span>
+              <span className="text-sm font-black tracking-[0.05em] text-slate-900 hidden sm:block">PROSPECT</span>
             </button>
           </motion.div>
 
@@ -201,10 +203,10 @@ export default function AppHeader({
                 <button
                   key={item.page}
                   onClick={(e) => { e.stopPropagation(); onNavigate(item.page); }}
-                  className={`hidden md:flex items-center text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-all duration-150 whitespace-nowrap ${
+                  className={`hidden md:flex items-center text-sm px-2.5 py-1.5 rounded-lg transition-all duration-150 whitespace-nowrap ${
                     isActive
                       ? 'text-slate-900 font-black'
-                      : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                      : 'text-slate-600 font-medium hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
                   {item.name}
@@ -260,14 +262,14 @@ export default function AppHeader({
               <motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 onClick={(e) => { e.stopPropagation(); setIsUserMenuOpen(false); }}
-                className="fixed inset-0 z-[125]"
+                className="fixed inset-0 z-200"
               />
               <motion.div
                 initial={{ opacity: 0, y: -8, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.97 }}
                 transition={{ duration: 0.13, ease: 'easeOut' }}
-                className="absolute right-0 top-13 w-48 max-w-[calc(100vw-2rem)] bg-[#0f172a] rounded-xl border border-white/10 z-130 overflow-hidden"
+                className="absolute right-0 top-13 w-48 max-w-[calc(100vw-2rem)] bg-[#0f172a] rounded-xl border border-white/10 z-201 overflow-hidden"
               >
                 <div className="px-4 py-3 border-b border-white/10">
                   <p className="text-[11px] font-black uppercase tracking-widest text-white">{firstName}</p>
@@ -305,19 +307,19 @@ export default function AppHeader({
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setIsDrawerOpen(false)}
-              className="fixed inset-0 bg-black/40 z-[9990] backdrop-blur-sm"
+              className="fixed inset-0 bg-black/40 z-200 backdrop-blur-sm"
               aria-hidden="true"
             />
             <motion.div
               initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-              className="fixed inset-y-0 left-0 z-[9999] w-72 bg-white flex flex-col"
+              className="fixed inset-y-0 left-0 z-201 w-72 bg-white flex flex-col"
               role="navigation"
             >
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-sm">P</div>
-                  <span className="text-sm font-black tracking-[0.18em] uppercase text-slate-900">Prospect</span>
+                  <span className="text-sm font-black tracking-[0.05em] text-slate-900">PROSPECT</span>
                 </div>
                 <button onClick={() => setIsDrawerOpen(false)} className="p-2 hover:bg-slate-50 rounded-full transition-colors" aria-label="Close menu">
                   <X className="w-5 h-5 text-slate-700" />
@@ -384,14 +386,14 @@ export default function AppHeader({
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
               onClick={() => setSearchOpen(false)}
-              className="fixed inset-0 bg-black/50 z-[9990] backdrop-blur-sm"
+              className="fixed inset-0 bg-black/50 z-200 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, y: -16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -16, scale: 0.97 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-[9999] px-4"
+              className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-xl z-201 px-4"
             >
               <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
                 <div className="flex gap-1 p-3 border-b border-slate-100">
@@ -407,7 +409,7 @@ export default function AppHeader({
                   >
                     <HelpCircle className="w-3 h-3" /> Questions
                   </button>
-                  <button onClick={() => setSearchOpen(false)} className="ml-auto p-1.5 hover:bg-slate-100 rounded-lg transition-colors">
+                  <button onClick={() => setSearchOpen(false)} aria-label="Close search" className="ml-auto w-10 h-10 flex items-center justify-center hover:bg-slate-100 rounded-lg transition-colors shrink-0">
                     <X className="w-3.5 h-3.5 text-slate-400" />
                   </button>
                 </div>

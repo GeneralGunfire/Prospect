@@ -117,11 +117,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
           <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
             Bursaries
           </h1>
-          <p className="text-sm text-slate-500 mt-2">Active bursaries, scholarships, and grants for South African students.</p>
+          <p className="text-[15px] leading-[1.65] text-slate-500 mt-2">Active bursaries, scholarships, and grants for South African students.</p>
         </div>
 
         {/* Sticky search and filters */}
-            <div className="mb-10 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/95 backdrop-blur-sm border-b border-slate-100">
+            <div className="mb-12 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/95 backdrop-blur-sm border-b border-slate-100">
               <div className="flex flex-col md:flex-row gap-4 items-center">
                 <div className="relative grow w-full">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
@@ -161,13 +161,13 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Category */}
                         <div>
-                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">Category</h4>
+                          <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-4 text-slate-400">Category</h4>
                           <div className="flex flex-wrap gap-2">
                             {categories.map(cat => (
                               <button
                                 key={cat}
                                 onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border ${
+                                className={`px-3 py-1 rounded-lg text-xs leading-normal font-bold uppercase tracking-widest transition-all border ${
                                   selectedCategory === cat
                                     ? 'bg-slate-600 text-white border-slate-600'
                                     : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
@@ -181,13 +181,13 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
 
                         {/* Field of Study */}
                         <div>
-                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">Field of Study</h4>
+                          <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-4 text-slate-400">Field of Study</h4>
                           <div className="flex flex-wrap gap-2">
                             {fields.slice(0, 6).map(field => (
                               <button
                                 key={field}
                                 onClick={() => setSelectedField(selectedField === field ? null : field)}
-                                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border ${
+                                className={`px-3 py-1 rounded-lg text-xs leading-normal font-bold uppercase tracking-widest transition-all border ${
                                   selectedField === field
                                     ? 'bg-slate-600 text-white border-slate-600'
                                     : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
@@ -201,13 +201,13 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
 
                         {/* Income */}
                         <div>
-                          <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">Income Level</h4>
+                          <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-4 text-slate-400">Income Level</h4>
                           <div className="flex flex-wrap gap-2">
                             {incomeRanges.map(range => (
                               <button
                                 key={range.value}
                                 onClick={() => setSelectedIncome(selectedIncome === range.value ? null : range.value)}
-                                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest transition-all border ${
+                                className={`px-3 py-1 rounded-lg text-xs leading-normal font-bold uppercase tracking-widest transition-all border ${
                                   selectedIncome === range.value
                                     ? 'bg-slate-600 text-white border-slate-600'
                                     : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
@@ -261,11 +261,11 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
                           <span className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">{bursary.applicationProcess.deadline}</span>
                         </div>
                         <h3 className="text-base font-bold text-slate-900 mb-1" style={{ letterSpacing: '-0.01em' }}>{bursary.name}</h3>
-                        <p className="text-xs text-slate-500 mb-3">{bursary.provider}</p>
-                        <p className="text-sm leading-relaxed text-slate-600 line-clamp-2">{bursary.description}</p>
+                        <p className="text-sm leading-relaxed text-slate-500 mb-3">{bursary.provider}</p>
+                        <p className="text-[15px] leading-[1.65] text-slate-600 line-clamp-2">{bursary.description}</p>
                         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-                          <span className="text-xs text-slate-500">Min marks: {bursary.requirements.minMarks}</span>
-                          <span className="text-xs text-slate-500">{bursary.studyOptions.fields.slice(0, 2).join(', ')}</span>
+                          <span className="text-sm leading-relaxed text-slate-500">Min marks: {bursary.requirements.minMarks}</span>
+                          <span className="text-sm leading-relaxed text-slate-500">{bursary.studyOptions.fields.slice(0, 2).join(', ')}</span>
                         </div>
                       </div>
                       <button
@@ -308,7 +308,7 @@ function BursariesPage({ user, onNavigate }: AuthedProps) {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <h2 className="text-3xl font-bold mb-6 uppercase tracking-tight">NSFAS Funding</h2>
-                  <p className="text-white/70 text-sm leading-relaxed mb-8">
+                  <p className="text-white/70 text-[15px] leading-[1.65] mb-8">
                     NSFAS provides full funding for South African students from poor and working-class backgrounds. If your household income is less than R350,000 per year, you likely qualify. It's free, government-backed, and covers everything you need.
                   </p>
                   <div className="flex flex-wrap gap-4">

@@ -95,14 +95,14 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 transition={{ delay: 0.1 }}
                 className="mb-8"
               >
-                <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center mx-auto mb-6 shadow-md">
+                <div className="w-14 h-14 rounded-xl bg-slate-900 flex items-center justify-center mx-auto mb-6">
                   <MapIcon size={26} className="text-white" />
                 </div>
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-3">Explore SA</p>
-                <h1 className="text-3xl lg:text-4xl font-black text-slate-900 mb-3" style={{ letterSpacing: '-0.015em' }}>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Explore SA</p>
+                <h1 className="text-3xl lg:text-4xl font-black text-slate-900 mb-4" style={{ letterSpacing: '-0.025em' }}>
                   Job Market Map
                 </h1>
-                <p className="text-sm text-secondary leading-relaxed">
+                <p className="text-[15px] leading-[1.65] text-slate-500">
                   Discover careers, colleges, and opportunities near you.
                 </p>
               </motion.div>
@@ -111,7 +111,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.25, ease: 'easeOut' }}
-                className="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-100"
+                className="bg-white p-5 sm:p-7 rounded-xl border border-slate-100"
               >
                 <LocationInput onLocationSelect={handleLocationSelect} />
               </motion.div>
@@ -123,7 +123,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 className="mt-5 p-4 rounded-xl flex items-center gap-3 bg-slate-900/5 border border-slate-200"
               >
                 <MapPin size={16} className="text-slate-900 shrink-0" />
-                <p className="text-xs text-slate-900 font-medium text-left">
+                <p className="text-sm text-slate-700 font-medium text-left leading-relaxed">
                   Enter your location to see careers, colleges, and job market insights for your area.
                 </p>
               </motion.div>
@@ -153,7 +153,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                     <h2 className="text-xl font-black text-slate-900 leading-tight" style={{ letterSpacing: '-0.01em' }}>
                       {userLocation?.label || 'Unknown'}
                     </h2>
-                    <p className="text-xs font-bold uppercase tracking-widest text-secondary">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
                       Province: {province || 'Loading...'}
                     </p>
                   </div>
@@ -161,7 +161,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                 <motion.button
                   onClick={handleBackClick}
                   whileHover={{ x: -2 }}
-                  className="flex items-center gap-2 px-4 py-2 min-h-9 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-slate-900 hover:bg-slate-700 shrink-0"
+                  className="flex items-center gap-2 px-4 py-2 min-h-11 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-slate-900 hover:bg-slate-700 shrink-0"
                 >
                   <ChevronLeft size={14} />
                   Change
@@ -175,7 +175,7 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1 }}
-                  className="w-full h-64 sm:h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-lg"
+                  className="w-full h-64 sm:h-96 lg:h-[500px] rounded-xl overflow-hidden"
                 >
                   {userLocation && (
                     <MapDisplay

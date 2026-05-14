@@ -69,7 +69,7 @@ export default function SearchBox({ value, onChange, placeholder = 'Search caree
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => value && suggestions.length > 0 && setShowSuggestions(true)}
           placeholder={placeholder}
-          className="w-full pl-12 pr-4 py-3 bg-white border-2 border-slate-200 rounded-2xl focus:outline-none focus:border-slate-900 text-sm transition"
+          className="w-full pl-12 pr-4 py-3 bg-white border-2 border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 text-sm transition"
         />
       </div>
 
@@ -81,7 +81,7 @@ export default function SearchBox({ value, onChange, placeholder = 'Search caree
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-slate-200 rounded-2xl shadow-lg z-50"
+            className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-slate-200 rounded-xl z-50"
           >
             {suggestions.map((item, idx) => (
               <motion.button

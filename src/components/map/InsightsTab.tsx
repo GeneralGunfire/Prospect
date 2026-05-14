@@ -31,7 +31,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl p-5 shadow-sm border-2 border-slate-100 hover:border-slate-900 hover:shadow-md transition"
+      className="bg-white rounded-xl p-5 border-2 border-slate-100 hover:border-slate-900 hover:shadow-md transition"
     >
       <div className="mb-2 text-slate-500">{icon}</div>
       <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">{label}</p>
@@ -60,7 +60,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="mt-4 bg-white rounded-2xl p-5 border-2 border-slate-100"
+            className="mt-4 bg-white rounded-xl p-5 border-2 border-slate-100"
           >
             <p className="text-sm font-semibold text-slate-700 mb-3">Fastest Growing</p>
             <div className="space-y-2">
@@ -103,7 +103,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                 key={item.label}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white rounded-2xl p-4 border-2 border-slate-100"
+                className="bg-white rounded-xl p-4 border-2 border-slate-100"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-slate-900">{item.label}</span>
@@ -129,7 +129,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-gradient-to-r from-slate-900/10 to-slate-100 rounded-2xl p-4 border-2 border-slate-200"
+              className="bg-gradient-to-r from-slate-900/10 to-slate-100 rounded-xl p-4 border-2 border-slate-200"
             >
               <p className="text-xs font-semibold text-slate-700 uppercase tracking-widest mb-1">
                 Monthly Total
@@ -155,7 +155,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                 key={industry.name}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white rounded-2xl p-3 border-2 border-slate-100"
+                className="bg-white rounded-xl p-3 border-2 border-slate-100"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-semibold text-slate-900">{industry.name}</span>
@@ -200,7 +200,7 @@ export default function InsightsTab({ province, city }: InsightsTabProps) {
                 key={employer.name}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white rounded-2xl p-4 border-2 border-slate-100 hover:border-slate-900 transition"
+                className="bg-white rounded-xl p-4 border-2 border-slate-100 hover:border-slate-900 transition"
               >
                 <div className="flex items-center justify-between">
                   <div>

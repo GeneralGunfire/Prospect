@@ -183,7 +183,7 @@ export default function LocationInput({ onLocationSelect, isLoading = false }: L
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-50"
+                className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-lg z-50"
               >
                 {suggestions.map((city) => (
                   <motion.button

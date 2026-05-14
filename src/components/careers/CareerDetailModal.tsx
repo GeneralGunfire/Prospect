@@ -61,7 +61,7 @@ export function CareerDetailModal({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             data-testid="career-modal"
-            className="fixed inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vw] md:h-[90vh] md:max-w-5xl bg-white md:rounded-3xl shadow-2xl z-50 overflow-y-auto"
+            className="fixed inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vw] md:h-[90vh] md:max-w-5xl bg-white md:rounded-xl z-50 overflow-y-auto"
           >
             {/* Header */}
             <div className="sticky top-0 bg-white border-b border-slate-100 p-4 sm:p-5 md:p-8 flex justify-between items-start gap-4">
@@ -80,7 +80,7 @@ export function CareerDetailModal({
                     {career.jobDemand.level} demand
                   </span>
                 </div>
-                <h2 className="text-xl sm:text-2xl md:text-4xl font-bold" style={{ color: '#1e293b' }}>
+                <h2 className="text-2xl md:text-4xl font-black tracking-tight" style={{ color: '#1e293b' }}>
                   {career.title}
                 </h2>
               </div>
@@ -111,14 +111,14 @@ export function CareerDetailModal({
             <div className="p-4 sm:p-5 md:p-8 space-y-8">
               {/* Overview */}
               <section>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: '#475569' }}>
+                <p className="text-[15px] leading-[1.65] mb-4" style={{ color: '#475569' }}>
                   {career.description}
                 </p>
-                <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6">
-                  <h4 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: '#1e293b' }}>
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+                  <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                     A Day in the Life
                   </h4>
-                  <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
+                  <p className="text-[15px] leading-[1.65]" style={{ color: '#475569' }}>
                     {career.dayInTheLife}
                   </p>
                 </div>
@@ -126,7 +126,7 @@ export function CareerDetailModal({
 
               {/* RIASEC Match */}
               <section>
-                <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                   Your RIASEC Match
                 </h3>
                 <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -148,7 +148,7 @@ export function CareerDetailModal({
                   ))}
                 </div>
                 {riasecEntries.length > 0 && (
-                  <p className="text-xs mt-4 leading-relaxed" style={{ color: '#64748b' }}>
+                  <p className="text-sm leading-relaxed mt-4" style={{ color: '#64748b' }}>
                     You scored high in <strong>{riasecEntries.map(([code]) => RIASEC_NAMES[code]).join(', ')}</strong> — this
                     career is an excellent match for your personality and interests.
                   </p>
@@ -157,12 +157,12 @@ export function CareerDetailModal({
 
               {/* Education & Study Path */}
               <section>
-                <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                   How to Get There
                 </h3>
                 <div className="space-y-6">
-                  <div className="bg-slate-50 rounded-2xl p-6">
-                    <h4 className="text-sm font-bold uppercase tracking-wider mb-4" style={{ color: '#1e293b' }}>
+                  <div className="bg-slate-50 rounded-xl p-6">
+                    <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                       Matric Requirements
                     </h4>
                     <div className="space-y-3 text-sm">
@@ -189,8 +189,8 @@ export function CareerDetailModal({
                     )}
                   </div>
 
-                  <div className="bg-slate-50 rounded-2xl p-6">
-                    <h4 className="text-sm font-bold uppercase tracking-wider mb-4" style={{ color: '#1e293b' }}>
+                  <div className="bg-slate-50 rounded-xl p-6">
+                    <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                       Study Options
                     </h4>
                     <div className="space-y-3 text-sm">
@@ -215,8 +215,8 @@ export function CareerDetailModal({
                   </div>
 
                   {career.providers.universities || career.providers.tvetColleges ? (
-                    <div className="bg-slate-50 rounded-2xl p-6 text-sm">
-                      <h4 className="font-bold uppercase tracking-wider mb-4" style={{ color: '#1e293b' }}>
+                    <div className="bg-slate-50 rounded-xl p-6 text-sm">
+                      <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                         Where to Study
                       </h4>
                       {career.providers.universities && (
@@ -238,11 +238,11 @@ export function CareerDetailModal({
 
               {/* Job Market */}
               <section>
-                <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                   Job Market
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="bg-slate-50 rounded-2xl p-6">
+                  <div className="bg-slate-50 rounded-xl p-6">
                     <div className="flex items-start gap-3 mb-4">
                       <TrendingUp className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
                       <div>
@@ -259,7 +259,7 @@ export function CareerDetailModal({
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 rounded-2xl p-6">
+                  <div className="bg-slate-50 rounded-xl p-6">
                     <div className="flex items-start gap-3 mb-4">
                       <MapPin className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
                       <div>
@@ -277,7 +277,7 @@ export function CareerDetailModal({
                   </div>
                 </div>
 
-                <div className="mt-4 bg-slate-50 rounded-2xl p-6 text-sm">
+                <div className="mt-4 bg-slate-50 rounded-xl p-6 text-sm">
                   <p className="font-bold mb-2" style={{ color: '#1e293b' }}>Top Employers:</p>
                   <p style={{ color: '#64748b' }}>{career.topEmployers.join(', ')}</p>
                 </div>
@@ -285,7 +285,7 @@ export function CareerDetailModal({
 
               {/* Salary */}
               <section>
-                <h3 className="text-lg font-bold mb-1 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-1" style={{ color: '#1e293b' }}>
                   Salary Progression
                 </h3>
                 <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Gross (before tax) monthly estimates</p>
@@ -295,12 +295,12 @@ export function CareerDetailModal({
                     { label: 'Mid-Career', sub: '3–6 yrs', value: career.salary.midLevel },
                     { label: 'Senior', sub: '7+ yrs', value: career.salary.senior },
                   ].map((item, i) => (
-                    <div key={i} className="flex-1 min-w-[7rem] bg-gradient-to-br from-slate-900/10 to-slate-100 rounded-2xl p-4 text-center">
+                    <div key={i} className="flex-1 min-w-[7rem] bg-slate-100 rounded-xl p-4 text-center">
                       <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
                         {item.label}
                       </p>
                       <p className="text-xs mb-2" style={{ color: '#94a3b8' }}>{item.sub}</p>
-                      <p className="text-lg sm:text-xl font-bold" style={{ color: '#1e293b' }}>
+                      <p className="text-lg font-black tabular-nums" style={{ color: '#1e293b' }}>
                         R{(item.value / 1000).toFixed(0)}k
                       </p>
                       <p className="text-xs mt-1" style={{ color: '#64748b' }}>
@@ -319,7 +319,7 @@ export function CareerDetailModal({
 
               {/* Skills */}
               <section>
-                <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                   Required Skills
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -337,16 +337,17 @@ export function CareerDetailModal({
               {/* Misconceptions */}
               {career.commonMisconceptions.length > 0 && (
                 <section>
-                  <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                     Common Misconceptions
                   </h3>
                   <div className="space-y-3">
                     {career.commonMisconceptions.map((misconception, i) => (
                       <div key={i} className="flex gap-3 bg-yellow-50 border border-yellow-100 rounded-xl p-4">
                         <AlertCircle className="w-5 h-5 mt-0.5 text-yellow-600 shrink-0" />
-                        <p className="text-sm" style={{ color: '#475569' }}>
+                        <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
                           {misconception}
                         </p>
+
                       </div>
                     ))}
                   </div>
@@ -355,7 +356,7 @@ export function CareerDetailModal({
 
               {/* Career Progression */}
               <section>
-                <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                   Career Growth Path
                 </h3>
                 <div className="space-y-3">
@@ -387,19 +388,19 @@ export function CareerDetailModal({
               {/* Action Plan */}
               {career.actionPlan && career.actionPlan.length > 0 && (
                 <section>
-                  <h3 className="text-lg font-bold mb-1 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-1" style={{ color: '#1e293b' }}>
                     What To Do This Year
                   </h3>
                   <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Grade-by-grade steps to get here</p>
                   <div className="space-y-3">
                     {career.actionPlan.map((step, i) => (
-                      <div key={i} className="border border-slate-100 rounded-2xl overflow-hidden">
+                      <div key={i} className="border border-slate-100 rounded-xl overflow-hidden">
                         <div className="px-4 py-2 font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1e293b', color: '#fff' }}>
                           {step.grade}
                         </div>
                         <ul className="p-4 space-y-2">
                           {step.actions.map((action, j) => (
-                            <li key={j} className="flex gap-2 text-sm" style={{ color: '#475569' }}>
+                            <li key={j} className="flex gap-2 text-sm leading-relaxed" style={{ color: '#475569' }}>
                               <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-slate-900" />
                               {action}
                             </li>
@@ -436,14 +437,14 @@ export function CareerDetailModal({
               {/* Related Careers */}
               {relatedCareers.length > 0 && (
                 <section className="border-t border-slate-100 pt-8">
-                  <h3 className="text-lg font-bold mb-4 uppercase tracking-wide" style={{ color: '#1e293b' }}>
+                  <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
                     Similar Careers
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {relatedCareers.slice(0, 2).map((relatedCareer) => (
                       <div
                         key={relatedCareer.id}
-                        className="p-4 border border-slate-100 rounded-2xl hover:shadow-lg transition-all cursor-pointer hover:border-slate-900"
+                        className="p-4 border border-slate-100 rounded-xl transition-all cursor-pointer hover:border-slate-900"
                       >
                         <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#64748b' }}>
                           {relatedCareer.category}
@@ -451,7 +452,7 @@ export function CareerDetailModal({
                         <p className="text-sm font-bold mb-2" style={{ color: '#1e293b' }}>
                           {relatedCareer.title}
                         </p>
-                        <p className="text-xs mb-3 line-clamp-2" style={{ color: '#64748b' }}>
+                        <p className="text-sm leading-relaxed mb-3 line-clamp-2" style={{ color: '#64748b' }}>
                           {relatedCareer.description}
                         </p>
                         <button

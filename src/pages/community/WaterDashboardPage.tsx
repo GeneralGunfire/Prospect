@@ -76,7 +76,7 @@ function AlertCard({ alert, onDismiss }: { alert: WaterAlert; onDismiss: (id: st
     >
       <button
         onClick={() => onDismiss(alert.id)}
-        className="absolute top-4 right-4 p-1 rounded-lg hover:bg-black/10 transition-colors"
+        className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors"
         aria-label="Dismiss alert"
       >
         <X className="w-4 h-4 text-slate-500" />
@@ -209,7 +209,7 @@ function ProvinceSelector({ selected, onChange }: { selected: string; onChange: 
           <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Select Region</span>
           <span className="text-sm font-black text-slate-900 leading-none">{selected}</span>
         </div>
-        <div className={`ml-2 p-1 rounded-lg bg-slate-50 border border-slate-100 text-slate-400 group-hover:text-slate-900 transition-colors ${isOpen ? 'rotate-180' : ''}`}>
+        <div className={`ml-2 w-7 h-7 flex items-center justify-center rounded-lg bg-slate-50 border border-slate-100 text-slate-400 group-hover:text-slate-900 transition-colors ${isOpen ? 'rotate-180' : ''}`}>
           <ChevronDown className="w-4 h-4 transition-transform duration-300" />
         </div>
       </button>
@@ -225,7 +225,7 @@ function ProvinceSelector({ selected, onChange }: { selected: string; onChange: 
               animate={{ opacity: 1, y: 4, scale: 1 }}
               exit={{ opacity: 0, y: 4, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl border border-slate-200 shadow-2xl shadow-slate-900/10 p-2 z-50 overflow-hidden"
+              className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl border border-slate-200 shadow-md shadow-slate-900/5 p-2 z-50 overflow-hidden"
             >
               <div className="px-3 py-2 mb-1">
                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">South African Provinces</p>
@@ -337,7 +337,7 @@ function WaterDashboardPageComponent({ user, onNavigate, onSignOut }: WaterDashb
               <ChevronLeft className="w-4 h-4" /> Back
             </button>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Community</p>
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Community</p>
               <h1 className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Water Dashboard</h1>
             </div>
           </div>

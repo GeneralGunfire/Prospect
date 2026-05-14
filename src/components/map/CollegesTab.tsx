@@ -66,7 +66,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
             color: activeSubtab === 'universities' ? '#1B5E20' : undefined,
           }}
         >
-          🎓 Universities ({universities.length})
+          Universities ({universities.length})
         </motion.button>
         <motion.button
           onClick={() => setActiveSubtab('tvet')}
@@ -80,7 +80,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
             color: activeSubtab === 'tvet' ? '#1B5E20' : undefined,
           }}
         >
-          🏗️ TVET ({tvetColleges.length})
+          TVET Colleges ({tvetColleges.length})
         </motion.button>
       </div>
 
@@ -97,7 +97,7 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ delay: idx * 0.05 }}
-                className="bg-white border-2 border-slate-100 rounded-2xl p-4 hover:border-slate-900 hover:shadow-lg transition group cursor-pointer"
+                className="bg-white border-2 border-slate-100 rounded-xl p-4 hover:border-slate-900 hover:shadow-lg transition group cursor-pointer"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">

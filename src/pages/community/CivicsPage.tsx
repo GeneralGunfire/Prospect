@@ -130,7 +130,7 @@ function LandingView({ procedures, onBrowse, onSelectCategory, onSelectProcedure
           <span className="text-xs font-black uppercase tracking-wider text-slate-300">SA Civics Guide</span>
         </div>
         <h2 className="font-black text-xl mb-2 leading-tight">Know How to Get Things Done in South Africa</h2>
-        <p className="text-sm text-slate-300 leading-relaxed mb-4">
+        <p className="text-[15px] leading-[1.65] text-slate-300 mb-4">
           Step-by-step guides for government procedures — IDs, grants, licenses, tax returns, and more. In plain language.
         </p>
         <button
@@ -476,7 +476,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
       {/* Overview */}
       <div className={`${cfg.bg} ${cfg.border} border rounded-xl p-4`}>
         <p className={`text-xs font-black uppercase tracking-wider ${cfg.color} mb-2`}>Overview</p>
-        <p className="text-sm text-slate-700 leading-relaxed">{procedure.overview}</p>
+        <p className="text-[15px] leading-[1.65] text-slate-700">{procedure.overview}</p>
       </div>
 
       {/* Steps */}
@@ -506,7 +506,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
                     className="overflow-hidden"
                   >
                     <div className="px-4 pb-4 space-y-3 border-t border-slate-100 pt-3">
-                      <p className="text-sm text-slate-700 leading-relaxed">{step.description}</p>
+                      <p className="text-[15px] leading-[1.65] text-slate-700">{step.description}</p>
 
                       {step.documents_needed.length > 0 && step.documents_needed[0] !== 'No additional documents' && (
                         <div>
@@ -591,7 +591,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
       {/* Timeline */}
       <div className="bg-white border border-slate-200 rounded-xl p-4">
         <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Timeline</h3>
-        <p className="text-sm text-slate-700">{procedure.timeline}</p>
+        <p className="text-[15px] leading-[1.65] text-slate-700">{procedure.timeline}</p>
       </div>
 
       {/* Contacts */}
@@ -637,7 +637,7 @@ function DetailView({ procedure, onBack }: { procedure: Procedure; onBack: () =>
                       exit={{ opacity: 0, height: 0 }}
                       className="overflow-hidden"
                     >
-                      <p className="px-4 pb-4 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">{item.answer}</p>
+                      <p className="px-4 pb-4 text-[15px] leading-[1.65] text-slate-600 border-t border-slate-100 pt-3">{item.answer}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -698,7 +698,7 @@ function CivicsPage({ user, onNavigate }: AuthedProps) {
       <main className="max-w-3xl mx-auto px-4 pt-24 pb-8 sm:pb-12 lg:pb-16">
         {/* Page title */}
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Community</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Community</p>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Civics Guide</h1>
         </motion.div>
 

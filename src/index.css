@@ -88,11 +88,14 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv11", "ss01";
     font-variant-numeric: tabular-nums;
+    font-optical-sizing: auto;
+    font-kerning: normal;
     /* prevent horizontal scroll */
     overflow-x: hidden;
     max-width: 100vw;
-    /* minimum text size on mobile */
+    /* base 16px so rem units are reliable */
     font-size: 16px;
+    line-height: 1.6;
   }
 
   /* All images responsive by default */
@@ -261,26 +264,10 @@ html {
   animation: shimmer 1.4s ease-in-out infinite;
 }
 
-/* Glass card utility */
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-}
-
 /* Demand badge colors */
 .demand-high   { background: #dcfce7; color: #15803d; }
 .demand-medium { background: #fef9c3; color: #a16207; }
 .demand-low    { background: #fee2e2; color: #b91c1c; }
-
-/* Gradient text utility */
-.text-gradient {
-  background: linear-gradient(135deg, #1E3A5F 0%, #3B5A7F 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
 
 /* ─── Animation Utilities ─── */
 
@@ -370,14 +357,41 @@ html {
   min-width: 48px;
 }
 
-/* ─── Typography scale ─── */
-.text-h1 { font-size: 3rem;    font-weight: 900; line-height: 1.1; letter-spacing: -0.025em; }
-.text-h2 { font-size: 2.25rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
-.text-h3 { font-size: 1.5rem;  font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; }
-.text-h4 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
-.text-body { font-size: 1rem;  font-weight: 400; line-height: 1.6; }
-.text-small { font-size: 0.875rem; font-weight: 400; line-height: 1.5; }
-.text-tiny  { font-size: 0.75rem;  font-weight: 600; line-height: 1.4; letter-spacing: 0.05em; }
+/* ─── Typography scale ─────────────────────────────────────────────────────────
+   Modular scale: major-third (1.25) ratio from 1rem base.
+   Product register — fixed rem, not fluid clamp.
+   Bodies must never drop below 0.9375rem (15px).
+──────────────────────────────────────────────────────────────────────────────── */
+
+/* Heading sizes */
+.text-h1 { font-size: 2.25rem;  font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; }
+.text-h2 { font-size: 1.75rem;  font-weight: 900; line-height: 1.15; letter-spacing: -0.025em; }
+.text-h3 { font-size: 1.375rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.015em; }
+.text-h4 { font-size: 1.125rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; }
+
+/* Body scale — all at or above 15px */
+.text-body  { font-size: 0.9375rem; font-weight: 400; line-height: 1.65; color: #475569; }
+.text-small { font-size: 0.875rem;  font-weight: 400; line-height: 1.6;  color: #64748b; }
+
+/* Eyebrow / section label — uppercase small caps treatment */
+.text-eyebrow {
+  font-size: 0.6875rem;   /* 11px */
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+/* Caption — 12px, never used for body content */
+.text-tiny  { font-size: 0.75rem; font-weight: 500; line-height: 1.5; letter-spacing: 0.01em; }
+
+/* Reading container — constrains line length for prose */
+.prose-container { max-width: 65ch; }
+
+/* Section rhythm — consistent vertical breathing */
+.section-gap  { padding-top: 3.5rem; }   /* 56px */
+.section-gap-lg { padding-top: 5rem; }  /* 80px */
 
 /* ─── Safe area support ─── */
 .safe-top    { padding-top:    max(16px, env(safe-area-inset-top)); }
@@ -389,16 +403,6 @@ html {
 .page-container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
-
-/* ─── Card accent borders ─── */
-.card-accent-blue    { border-left: 4px solid #3b82f6; }
-.card-accent-teal    { border-left: 4px solid #14b8a6; }
-.card-accent-amber   { border-left: 4px solid #f59e0b; }
-.card-accent-purple  { border-left: 4px solid #8b5cf6; }
-.card-accent-green   { border-left: 4px solid #10b981; }
-.card-accent-orange  { border-left: 4px solid #f97316; }
-.card-accent-cyan    { border-left: 4px solid #06b6d4; }
-.card-accent-navy    { border-left: 4px solid #1e293b; }
 
 /* ─── Badge variants ─── */
 .badge-success { background: #dcfce7; color: #15803d; }

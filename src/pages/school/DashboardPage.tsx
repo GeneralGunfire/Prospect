@@ -44,7 +44,7 @@ function urgencyStyle(days: number) {
   if (days <= 14)  return { bar: 'bg-red-400',   pill: 'bg-red-50 border-red-200 text-red-700',       dot: 'bg-red-400',   label: `${days}d left`,           status: 'Urgent'      as const };
   if (days <= 60)  return { bar: 'bg-amber-400', pill: 'bg-amber-50 border-amber-200 text-amber-700', dot: 'bg-amber-400', label: `${days}d left`,           status: 'Upcoming'    as const };
   const months = Math.round(days / 30);
-  return           { bar: 'bg-blue-400',  pill: 'bg-blue-50 border-blue-200 text-blue-700',   dot: 'bg-blue-400',  label: `${months} mo`,            status: 'Planned'     as const };
+  return           { bar: 'bg-blue-400',  pill: 'bg-blue-50 border-slate-300 text-blue-700',   dot: 'bg-blue-400',  label: `${months} mo`,            status: 'Planned'     as const };
 }
 
 function formatDateLong(iso: string) {
@@ -69,10 +69,10 @@ type DeadlineStatus = 'Urgent' | 'Upcoming' | 'Planned' | 'Done';
 
 function StatusBadge({ status }: { status: DeadlineStatus }) {
   const styles: Record<DeadlineStatus, string> = {
-    Done:     'bg-blue-50 text-blue-700 border-blue-200',
+    Done:     'bg-blue-50 text-blue-700 border-slate-300',
     Urgent:   'bg-red-50 text-red-700 border-red-200',
     Upcoming: 'bg-amber-50 text-amber-700 border-amber-200',
-    Planned:  'bg-blue-50 text-blue-700 border-blue-200',
+    Planned:  'bg-blue-50 text-blue-700 border-slate-300',
   };
   const dots: Record<DeadlineStatus, string> = {
     Done: 'bg-blue-400', Urgent: 'bg-red-400', Upcoming: 'bg-amber-400', Planned: 'bg-blue-400',
@@ -307,8 +307,8 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
 
             {/* ── Title ──────────────────────────────────────────────────────── */}
             <motion.div variants={item}>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">{todayLabel}</p>
-              <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">{todayLabel}</p>
+              <h1 className="text-2xl md:text-3xl font-black tracking-[-0.025em] text-slate-900">
                 Good {getGreeting()}, {firstName}
               </h1>
             </motion.div>
@@ -323,8 +323,8 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   { label: 'Mastery Rate', value: `${masteryRate}%` },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex flex-col p-4 bg-white">
-                    <p className="text-2xl font-black text-slate-900 leading-none" style={{ letterSpacing: '-0.02em' }}>{value}</p>
-                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mt-1.5">{label}</p>
+                    <p className="text-2xl font-black tabular-nums text-slate-900 leading-none tracking-[-0.02em]">{value}</p>
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mt-1.5">{label}</p>
                   </div>
                 ))}
               </motion.div>
@@ -334,7 +334,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {studyLoaded && studyRows.length > 0 && (
               <motion.div variants={item} className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400">Recently Studied</h2>
+                  <h2 className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">Recently Studied</h2>
                   {studyRows.length > 3 && (
                     <button
                       onClick={() => setRecentlyStudiedExpanded(e => !e)}
@@ -358,12 +358,12 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                             : <Circle className="w-4 h-4 text-slate-400" />}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-slate-800 truncate">{topicLabel(row.topic)}</p>
+                          <p className="text-sm font-bold text-slate-900 truncate">{topicLabel(row.topic)}</p>
                           <p className="text-xs text-slate-400">{row.subject} · Gr {row.grade}</p>
                         </div>
                         <div className="text-right shrink-0">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${
-                            mastered ? 'bg-blue-50 border-blue-200 text-blue-700'
+                            mastered ? 'bg-blue-50 border-slate-300 text-blue-700'
                             : needsPractice ? 'bg-amber-50 border-amber-200 text-amber-700'
                             : 'bg-slate-50 border-slate-200 text-slate-500'
                           }`}>
@@ -386,9 +386,9 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                     <Zap className="w-4 h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-0.5">Recommended Next</p>
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-0.5">Recommended Next</p>
                     <p className="text-sm font-black text-slate-900">{topicLabel(recommendedRow.topic)}</p>
-                    <p className="text-xs text-slate-500">{recommendedRow.subject} · Gr {recommendedRow.grade} · {recommendedRow.mastery_level === 'needs_practice' ? 'Needs more practice' : 'Not yet started'}</p>
+                    <p className="text-sm text-slate-500">{recommendedRow.subject} · Gr {recommendedRow.grade} · {recommendedRow.mastery_level === 'needs_practice' ? 'Needs more practice' : 'Not yet started'}</p>
                   </div>
                   <button
                     onClick={() => onNavigate('library')}
@@ -404,14 +404,14 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-xl overflow-hidden">
               {/* Student */}
               <div className="bg-white p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Student</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Student</p>
                 <p className="text-sm font-bold text-slate-900">{fullName}</p>
                 {email && <p className="text-xs text-slate-400 mt-0.5 truncate">{email}</p>}
               </div>
 
               {/* Next deadline */}
               <div data-testid="dashboard-next-deadline" className="bg-white p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Next Deadline</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Next Deadline</p>
                 {nextDeadline ? (
                   <>
                     <p className="text-sm font-bold text-slate-900 leading-snug">{nextDeadline.title}</p>
@@ -424,11 +424,11 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
 
               {/* RIASEC / Career Type */}
               <div className="bg-white p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Career Type</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Career Type</p>
                 {riasecType ? (
                   <p className="text-2xl font-black text-slate-900 leading-none" style={{ letterSpacing: '-0.02em' }}>{riasecType}</p>
                 ) : (
-                  <button onClick={() => onNavigate('quiz')} className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                  <button onClick={() => onNavigate('quiz')} className="text-xs font-bold text-slate-700 hover:text-blue-700 transition-colors">
                     Take the quiz →
                   </button>
                 )}
@@ -438,7 +438,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {/* ── Learning Paths ────────────────────────────────────────────── */}
             <motion.div variants={item} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400">
+                <h2 className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">
                   Active Learning Paths
                   {subjectProgress.length > 0 && <span className="ml-2 text-slate-300">({subjectProgress.length})</span>}
                 </h2>
@@ -456,14 +456,14 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   return (
                     <div key={sp.subject} className="flex items-start gap-3 p-4 border border-slate-100 rounded-xl bg-white">
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-black text-slate-800 truncate">{sp.subject}</p>
+                        <p className="text-sm font-bold text-slate-900 truncate">{sp.subject}</p>
                         {sp.lastTopic && <p className="text-xs text-slate-400 truncate mt-0.5">Last: {sp.lastTopic}</p>}
-                        <div className="mt-3 h-1 bg-slate-100 rounded-full overflow-hidden">
+                        <div className="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${pct}%` }}
                             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
-                            className="h-full rounded-full bg-slate-900"
+                            className="h-full rounded-full bg-slate-900 h-1.5"
                           />
                         </div>
                         <p className="text-[10px] text-slate-400 mt-1.5">{sp.completed}/{sp.total} topics · {pct}%</p>
@@ -476,7 +476,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 {hasActivePath && nextTopicToStudy ? (
                   <button
                     onClick={() => onNavigate('demo-learning')}
-                    className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-blue-200 rounded-2xl text-blue-600 hover:bg-blue-50 transition-colors group"
+                    className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors group"
                   >
                     <Play className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="text-xs font-black">Resume</span>
@@ -484,7 +484,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 ) : (
                   <button
                     onClick={() => onNavigate('library')}
-                    className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-200 rounded-2xl text-slate-400 hover:bg-slate-50 transition-colors"
+                    className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 hover:bg-slate-50 transition-colors"
                   >
                     <Plus className="w-4 h-4" />
                     <span className="text-xs font-black">New subject</span>
@@ -496,7 +496,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {/* ── Deadlines table ───────────────────────────────────────────── */}
             <motion.div data-testid="dashboard-deadlines" variants={item} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400">Upcoming Deadlines</h2>
+                <h2 className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">Upcoming Deadlines</h2>
                 <button
                   onClick={() => onNavigate('calendar')}
                   className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
@@ -505,13 +505,13 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 </button>
               </div>
 
-              <div className="sm:hidden flex flex-col divide-y divide-slate-100 rounded-2xl border border-slate-100 overflow-hidden">
+              <div className="sm:hidden flex flex-col divide-y divide-slate-100 rounded-xl border border-slate-100 overflow-hidden">
                 {upcomingDeadlines.slice(0, 6).map((d, i) => {
                   const { status } = urgencyStyle(d.days);
                   return (
                     <motion.div key={d.iso} variants={item} className="flex items-center justify-between gap-3 px-4 py-3 bg-white">
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-slate-800 text-xs truncate">{d.title}</p>
+                        <p className="text-sm font-bold text-slate-900 truncate">{d.title}</p>
                         <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                           <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                             d.cat === 'Funding' ? 'bg-blue-50 text-blue-700'
@@ -549,7 +549,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                         >
                           <td className="px-4 py-3 text-slate-400 text-xs">{i + 1}</td>
                           <td className="px-4 py-3">
-                            <span className="font-semibold text-slate-800 text-xs">{d.title}</span>
+                            <span className="text-sm font-bold text-slate-900">{d.title}</span>
                           </td>
                           <td className="px-4 py-3">
                             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
@@ -574,7 +574,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {questionsLoaded && questions.length > 0 && (
               <motion.div variants={item} className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400">
+                  <h2 className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">
                     My Questions {questions.length > 0 && <span className="text-slate-300">({questions.length})</span>}
                   </h2>
                   <button
@@ -601,7 +601,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                             {q.grade && <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Gr {q.grade}</span>}
                             <span className="text-xs text-slate-400">{formatDateShort(q.created_at)}</span>
                           </div>
-                          <p className="text-sm font-semibold text-slate-800 leading-snug">{q.question}</p>
+                          <p className="text-sm font-bold text-slate-900 leading-snug">{q.question}</p>
 
                           {q.status === 'answered' && q.answer_text && (
                             <>
@@ -611,7 +611,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                                     initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
                                     className="overflow-hidden"
                                   >
-                                    <p className="text-xs text-slate-600 leading-relaxed mt-2 bg-blue-50 border border-blue-100 rounded-xl p-3">
+                                    <p className="text-sm text-slate-600 leading-relaxed mt-2 bg-blue-50 border border-blue-100 rounded-xl p-3">
                                       {q.answer_text}
                                     </p>
                                   </motion.div>
@@ -646,19 +646,19 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             {/* ── Saved Careers + Bursaries ────────────────────────────────── */}
             {totalBookmarks > 0 && (
               <motion.div variants={item} className="space-y-4">
-                <h2 className="text-sm font-black uppercase tracking-[0.15em] text-slate-400">Saved Items</h2>
-                <div className="sm:hidden flex flex-col divide-y divide-slate-100 rounded-2xl border border-slate-100 overflow-hidden">
+                <h2 className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">Saved Items</h2>
+                <div className="sm:hidden flex flex-col divide-y divide-slate-100 rounded-xl border border-slate-100 overflow-hidden">
                   {savedCareers.map((career, i) => (
                     <motion.div key={career.id} variants={item} className="flex items-center justify-between gap-3 px-4 py-3 bg-white">
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-slate-800 text-xs truncate">{career.title}</p>
+                        <p className="text-sm font-bold text-slate-900 truncate">{career.title}</p>
                         <div className="flex items-center gap-1.5 mt-1">
                           <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Career</span>
                           <span className="text-xs text-slate-500 truncate">{career.category}</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
-                        <button onClick={() => onNavigate('careers')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                        <button onClick={() => onNavigate('careers')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-blue-800 transition-colors px-2 py-1">View</button>
                         <button onClick={() => handleRemoveCareer(career.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
                       </div>
                     </motion.div>
@@ -666,21 +666,21 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   {savedBursaries.map((bursary, i) => (
                     <motion.div key={bursary.id} variants={item} className="flex items-center justify-between gap-3 px-4 py-3 bg-white">
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-slate-800 text-xs truncate">{bursary.name}</p>
+                        <p className="text-sm font-bold text-slate-900 truncate">{bursary.name}</p>
                         <div className="flex items-center gap-1.5 mt-1">
                           <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Bursary</span>
                           <span className="text-xs text-slate-500 truncate">{bursary.provider}</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
-                        <button onClick={() => onNavigate('bursaries')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                        <button onClick={() => onNavigate('bursaries')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-blue-800 transition-colors px-2 py-1">View</button>
                         <button onClick={() => handleRemoveBursary(bursary.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
                       </div>
                     </motion.div>
                   ))}
                 </div>
 
-                <div className="hidden sm:block overflow-x-auto rounded-2xl border border-slate-100">
+                <div className="hidden sm:block overflow-x-auto rounded-xl border border-slate-100">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/60">
@@ -695,12 +695,12 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                       {savedCareers.map((career, i) => (
                         <motion.tr key={career.id} variants={item} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60 transition-colors">
                           <td className="px-4 py-3 text-slate-400 text-xs">{i + 1}</td>
-                          <td className="px-4 py-3 font-semibold text-slate-800 text-xs">{career.title}</td>
+                          <td className="px-4 py-3 text-sm font-bold text-slate-900">{career.title}</td>
                           <td className="px-4 py-3"><span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Career</span></td>
                           <td className="px-4 py-3 text-xs text-slate-500">{career.category}</td>
                           <td className="px-4 py-3 text-right">
                             <div className="flex items-center justify-end gap-1">
-                              <button onClick={() => onNavigate('careers')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                              <button onClick={() => onNavigate('careers')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-blue-800 transition-colors px-2 py-1">View</button>
                               <button onClick={() => handleRemoveCareer(career.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
                             </div>
                           </td>
@@ -709,12 +709,12 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                       {savedBursaries.map((bursary, i) => (
                         <motion.tr key={bursary.id} variants={item} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60 transition-colors">
                           <td className="px-4 py-3 text-slate-400 text-xs">{savedCareers.length + i + 1}</td>
-                          <td className="px-4 py-3 font-semibold text-slate-800 text-xs">{bursary.name}</td>
+                          <td className="px-4 py-3 text-sm font-bold text-slate-900">{bursary.name}</td>
                           <td className="px-4 py-3"><span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">Bursary</span></td>
                           <td className="px-4 py-3 text-xs text-slate-500">{bursary.provider}</td>
                           <td className="px-4 py-3 text-right">
                             <div className="flex items-center justify-end gap-1">
-                              <button onClick={() => onNavigate('bursaries')} className="text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors px-2 py-1">View</button>
+                              <button onClick={() => onNavigate('bursaries')} className="text-xs font-black uppercase tracking-widest text-slate-700 hover:text-blue-800 transition-colors px-2 py-1">View</button>
                               <button onClick={() => handleRemoveBursary(bursary.id)} className="w-6 h-6 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all"><X className="w-3 h-3" /></button>
                             </div>
                           </td>
@@ -737,12 +737,12 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                   <button
                     key={label}
                     onClick={() => onNavigate(page)}
-                    className={`flex items-center gap-3 p-4 min-h-11 rounded-2xl border text-left hover:opacity-80 transition-opacity ${color}`}
+                    className={`flex items-center gap-3 p-4 min-h-11 rounded-xl border text-left hover:opacity-80 transition-opacity ${color}`}
                   >
                     <div className="shrink-0">{icon}</div>
                     <div>
-                      <p className="text-xs font-black">{label}</p>
-                      <p className="text-xs opacity-70">{desc}</p>
+                      <p className="text-sm font-black">{label}</p>
+                      <p className="text-sm opacity-70">{desc}</p>
                     </div>
                     <ArrowRight className="w-3.5 h-3.5 ml-auto shrink-0 opacity-50" />
                   </button>
@@ -764,7 +764,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
             <motion.div
               initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden"
+              className="w-full max-w-lg bg-white rounded-xl border border-slate-200 overflow-hidden"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-5 pt-5 pb-3">
@@ -779,7 +779,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                     </button>
                   ))}
                 </div>
-                <button onClick={() => setQuickAccessOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
+                <button onClick={() => setQuickAccessOpen(false)} aria-label="Close" className="w-11 h-11 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -813,7 +813,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                             : <Circle className="w-3.5 h-3.5 text-slate-400" />}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-slate-800 truncate">{topicLabel(row.topic)}</p>
+                          <p className="text-sm font-bold text-slate-900 truncate">{topicLabel(row.topic)}</p>
                           <p className="text-xs text-slate-400">{row.subject} · Gr {row.grade}</p>
                         </div>
                         <ChevronRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
@@ -836,21 +836,21 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
               {/* Ask AI tab */}
               {quickAccessTab === 'questions' && (
                 <div className="px-5 pb-5 space-y-3">
-                  <div className="h-56 overflow-y-auto space-y-2 bg-slate-50 rounded-2xl p-3 border border-slate-100">
+                  <div className="h-56 overflow-y-auto space-y-2 bg-slate-50 rounded-xl p-3 border border-slate-100">
                     {chatMessages.length === 0 && (
                       <div className="h-full flex flex-col items-center justify-center gap-3 text-center">
                         <GraduationCap className="w-8 h-8 text-slate-300" />
                         <p className="text-xs text-slate-400 font-semibold">Ask me anything about your studies</p>
                         <div className="flex flex-wrap gap-1.5 justify-center">
                           {['Explain simultaneous equations', 'How do I study better?', 'What is APS?'].map(q => (
-                            <button key={q} onClick={() => { setChatInput(q); }} className="text-xs px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600 transition-colors">{q}</button>
+                            <button key={q} onClick={() => { setChatInput(q); }} className="text-xs px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 hover:text-slate-700 transition-colors">{q}</button>
                           ))}
                         </div>
                       </div>
                     )}
                     {chatMessages.map((m, i) => (
                       <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-xs leading-relaxed ${m.role === 'user' ? 'bg-slate-900 text-white rounded-br-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-bl-sm'}`}>
+                        <div className={`max-w-[85%] px-3 py-2 rounded-xl text-xs leading-relaxed ${m.role === 'user' ? 'bg-slate-900 text-white rounded-br-sm' : 'bg-white border border-slate-200 text-slate-700 rounded-bl-sm'}`}>
                           {m.text}
                         </div>
                       </div>
@@ -868,7 +868,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                     <button
                       onClick={handleChatSend}
                       disabled={!chatInput.trim()}
-                      className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 text-white disabled:opacity-40 hover:bg-slate-800 transition-colors"
+                      className="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-900 text-white disabled:opacity-40 hover:bg-slate-800 transition-colors"
                     >
                       <Send className="w-4 h-4" />
                     </button>
@@ -892,7 +892,7 @@ function getGreeting() {
 
 function QuestionStatusBadge({ status }: { status: UnansweredQuestion['status'] }) {
   if (status === 'pending') return <span className="text-xs font-black uppercase tracking-widest bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full">Pending</span>;
-  if (status === 'answered') return <span className="text-xs font-black uppercase tracking-widest bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full">Answered</span>;
+  if (status === 'answered') return <span className="text-xs font-black uppercase tracking-widest bg-blue-50 text-blue-700 border border-slate-300 px-2 py-0.5 rounded-full">Answered</span>;
   return <span className="text-xs font-black uppercase tracking-widest bg-slate-100 text-slate-500 border border-slate-200 px-2 py-0.5 rounded-full">Resolved</span>;
 }
 

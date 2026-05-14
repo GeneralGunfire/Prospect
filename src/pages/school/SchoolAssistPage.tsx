@@ -225,7 +225,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
             <MessageCircle className="w-5 h-5 shrink-0" />
             <div>
               <p className="text-xs font-black uppercase tracking-wider">Guidance Chat</p>
-              <p className="text-xs text-blue-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
+              <p className="text-sm text-blue-200 mt-0.5">Get answers on APS, subjects, bursaries, TVET & more</p>
             </div>
           </button>
         </motion.div>
@@ -235,7 +235,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-4 sm:p-6 mb-6"
+          className="bg-white rounded-xl border border-slate-200/60 p-4 sm:p-6 mb-6"
         >
           {/* Mode toggle */}
           <div className="flex gap-2 mb-5 p-1 bg-slate-100 rounded-xl w-fit mx-auto">
@@ -243,7 +243,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
               onClick={() => handleModeChange('topic')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200 ${
                 searchMode === 'topic'
-                  ? 'bg-white text-blue-600 shadow-sm'
+                  ? 'bg-white text-blue-600'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -254,7 +254,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
               onClick={() => handleModeChange('question')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all duration-200 ${
                 searchMode === 'question'
-                  ? 'bg-white text-blue-600 shadow-sm'
+                  ? 'bg-white text-blue-600'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -350,7 +350,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.06 }}
-                          className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-5"
+                          className="bg-white rounded-xl border border-slate-200/60 p-5"
                         >
                           <div className="flex items-start justify-between gap-3 mb-2">
                             <div className="flex-1 min-w-0">
@@ -362,10 +362,10 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                   Gr {topic.grade}
                                 </span>
                               </div>
-                              <h3 className="text-sm font-black text-slate-900">{topic.title}</h3>
+                              <h3 className="text-base font-bold text-slate-900">{topic.title}</h3>
                             </div>
                           </div>
-                          <p className="text-xs text-slate-500 leading-relaxed mb-3">{topic.snippet}</p>
+                          <p className="text-[15px] leading-[1.65] text-slate-600 mb-3">{topic.snippet}</p>
                           <button
                             onClick={() => onNavigate('library')}
                             className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-blue-600 hover:text-blue-800 transition-colors"
@@ -402,7 +402,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: i * 0.06 }}
-                          className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-5"
+                          className="bg-white rounded-xl border border-slate-200/60 p-5"
                         >
                           {result.type === 'qa' ? (
                             <>
@@ -421,7 +421,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                   Answered
                                 </span>
                               </div>
-                              <p className="text-sm font-black text-slate-900 mb-2">{result.question}</p>
+                              <p className="text-base font-bold text-slate-900 mb-2">{result.question}</p>
                               {result.answer && (
                                 <>
                                   <AnimatePresence>
@@ -432,7 +432,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                         exit={{ opacity: 0, height: 0 }}
                                         className="overflow-hidden"
                                       >
-                                        <p className="text-xs text-slate-600 leading-relaxed mb-3 bg-slate-50 rounded-xl p-3">
+                                        <p className="text-[15px] leading-[1.65] text-slate-600 mb-3 bg-slate-50 rounded-xl p-3">
                                           {result.answer}
                                         </p>
                                       </motion.div>
@@ -467,9 +467,9 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                                   Topic
                                 </span>
                               </div>
-                              <p className="text-sm font-black text-slate-900 mb-1">{result.title}</p>
+                              <p className="text-base font-bold text-slate-900 mb-1">{result.title}</p>
                               {result.snippet && (
-                                <p className="text-xs text-slate-500 leading-relaxed mb-3">{result.snippet}</p>
+                                <p className="text-[15px] leading-[1.65] text-slate-600 mb-3">{result.snippet}</p>
                               )}
                               <button
                                 onClick={() => onNavigate('library')}
@@ -504,7 +504,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="mt-4 bg-white rounded-3xl border border-blue-100 shadow-sm p-4 sm:p-6"
+                    className="mt-4 bg-white rounded-xl border border-slate-200 p-4 sm:p-6"
                   >
                     <div className="flex items-center justify-between mb-5">
                       <div>
@@ -646,13 +646,13 @@ function NoResultsCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-8 text-center"
+      className="bg-white rounded-xl border border-slate-200/60 p-8 text-center"
     >
       <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-4">
         <HelpCircle className="w-6 h-6 text-slate-400" />
       </div>
       <p className="text-sm font-black text-slate-800 mb-1">No answers found</p>
-      <p className="text-xs text-slate-500 mb-5 max-w-xs mx-auto">
+      <p className="text-sm leading-relaxed text-slate-500 mb-5 max-w-xs mx-auto">
         We couldn't find anything matching "{query}".{' '}
         {searchMode === 'question'
           ? "Submit your question and we'll research it for you."

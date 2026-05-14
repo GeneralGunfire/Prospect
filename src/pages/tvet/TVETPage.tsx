@@ -13,7 +13,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       <div className="pt-24 pb-20 px-4 bg-[#0f172a]">
         <div className="max-w-4xl mx-auto text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-white/40 mb-4">Vocational Pathways</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/40 mb-4">Vocational Pathways</p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight" style={{ letterSpacing: '-0.025em' }}>
               Technical Skills.<br />Real Jobs.
             </h1>
@@ -40,7 +40,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
 
       {/* Why TVET Section */}
       <div className="py-16 px-4 sm:px-6 max-w-4xl mx-auto">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8">Why TVET</p>
+        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-8">Why TVET</p>
 
         <div className="divide-y divide-slate-100">
           {[
@@ -61,8 +61,8 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
             >
               <span className="text-[10px] font-black text-slate-300 mt-0.5 shrink-0 w-4">{String(idx + 1).padStart(2, '0')}</span>
               <div>
-                <h3 className="text-sm font-bold text-slate-900 mb-1" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{item.description}</p>
+                <h3 className="text-base font-bold text-slate-900 mb-1" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
+                <p className="text-[15px] leading-[1.65] text-slate-600">{item.description}</p>
               </div>
             </motion.div>
           ))}
@@ -72,7 +72,7 @@ function TVETPage({ user, onNavigate }: AuthedProps) {
       {/* TVET vs University Comparison */}
       <div className="py-16 px-4 sm:px-6 bg-slate-50 border-y border-slate-100">
         <div className="max-w-4xl mx-auto">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8">TVET vs University</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-8">TVET vs University</p>
 
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="overflow-x-auto">
             <table className="w-full">

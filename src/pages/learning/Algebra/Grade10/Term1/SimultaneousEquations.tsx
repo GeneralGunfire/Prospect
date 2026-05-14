@@ -188,7 +188,7 @@ const InteractiveLesson = ({ onComplete }: { onComplete: () => void }) => {
 
       {/* Navigation button: moves to the next slide, or calls onComplete on the last one */}
       <button onClick={() => isLast ? onComplete() : setCurrent(c => c + 1)}
-        className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl transition-all active:scale-[0.98]">
+        className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-sm transition-all active:scale-[0.98]">
         {isLast ? 'Continue' : 'Next Tip'} <ArrowRight size={18} />
       </button>
     </div>
@@ -247,7 +247,7 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
 
         {/* Button reveals the next step, or ends the guided section on the last step */}
         <button onClick={() => isLast ? onComplete() : setStepIndex(s => s + 1)}
-          className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-xl transition-all active:scale-[0.98]">
+          className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 shadow-sm transition-all active:scale-[0.98]">
           {isLast ? 'Now You Try' : 'Show Next Step'} <ArrowRight size={18} />
         </button>
       </div>
@@ -424,7 +424,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
         <motion.div
           initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="w-full sm:max-w-lg bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+          className="w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-lg flex flex-col overflow-hidden"
           // dvh (dynamic viewport height) accounts for mobile browser chrome correctly.
           style={{ maxHeight: '90dvh' }}
         >
@@ -442,7 +442,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
                 )}
               </div>
               {/* Close button in the top-right corner */}
-              <button onClick={onClose} className="shrink-0 w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
+              <button onClick={onClose} aria-label="Close" className="shrink-0 w-11 h-11 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors">
                 <X size={16} />
               </button>
             </div>
@@ -636,7 +636,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
           {/* Show the next/results button only after an answer is revealed */}
           {revealed && (
             <button onClick={handleNext}
-              className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-3 shadow-xl transition-all active:scale-[0.98]">
+              className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-3 shadow-sm transition-all active:scale-[0.98]">
               {isLast ? 'See Results' : 'Next Question'} <ArrowRight size={18} />
             </button>
           )}
@@ -663,7 +663,7 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
       className="bg-white rounded-[2.5rem] border border-slate-200 p-10 md:p-14 text-center space-y-8 shadow-sm">
 
       {/* Icon badge: trophy for mastered, retry arrow for needs more practice */}
-      <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-white shadow-xl ${mastered ? 'bg-emerald-500' : 'bg-slate-900'}`}>
+      <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto text-white shadow-md ${mastered ? 'bg-emerald-500' : 'bg-slate-900'}`}>
         {mastered ? <Award size={40} /> : <RotateCcw size={40} />}
       </div>
 
@@ -697,7 +697,7 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
           )}
         </div>
         {/* Continue moves the student on to the next topic or overview */}
-        <button onClick={onContinue} className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-3 shadow-xl">
+        <button onClick={onContinue} className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-3 shadow-sm">
           Continue <ArrowRight size={18} />
         </button>
       </div>
@@ -863,7 +863,7 @@ function SimultaneousEquationsPage({ user, onNavigate }: AuthedProps) {
                 {view === 'remediation' && (
                   <div className="space-y-6">
                     {/* Encouragement banner shown above the remediation questions */}
-                    <div className="bg-rose-50 border border-rose-200 rounded-4xl p-8 flex gap-5 items-start">
+                    <div className="bg-rose-50 border border-rose-200 rounded-xl p-8 flex gap-5 items-start">
                       <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
                       <div>
                         <p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p>

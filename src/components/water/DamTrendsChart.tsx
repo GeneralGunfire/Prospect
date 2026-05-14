@@ -49,8 +49,8 @@ function DamProfessionalCard({ dam }: { dam: DamLevel }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -2, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}
-      className={`group relative bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${
-        isCritical ? 'border-red-100 shadow-sm shadow-red-500/5' : 'border-slate-200'
+      className={`group relative bg-white rounded-xl border transition-all duration-300 overflow-hidden ${
+        isCritical ? 'border-red-100 shadow-red-500/5' : 'border-slate-200'
       }`}
     >
       {/* Professional Header Accent */}
@@ -287,7 +287,7 @@ export function DamTrendsChart({ dams }: Props) {
       {/* ── Dashboard Header ── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10">
+          <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center shadow-slate-900/10">
             <Droplets className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -307,7 +307,7 @@ export function DamTrendsChart({ dams }: Props) {
               onClick={() => setView(v)}
               className={`text-[10px] font-black uppercase tracking-widest px-5 py-2.5 rounded-lg transition-all ${
                 view === v
-                  ? 'bg-white text-slate-900 shadow-md ring-1 ring-black/5'
+                  ? 'bg-white text-slate-900 ring-1 ring-black/5'
                   : 'text-slate-500 hover:text-slate-800'
               }`}
             >
@@ -329,7 +329,7 @@ export function DamTrendsChart({ dams }: Props) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex items-center gap-4"
+            className="bg-white border border-slate-200 rounded-xl p-5 flex items-center gap-4"
           >
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${kpi.color}15`, color: kpi.color }}>
               {kpi.icon}
@@ -353,7 +353,7 @@ export function DamTrendsChart({ dams }: Props) {
           className="min-h-[400px]"
         >
           {view === 'chart' ? (
-            <div className="bg-white rounded-3xl border border-slate-200 p-10 shadow-sm overflow-x-auto scrollbar-hide">
+            <div className="bg-white rounded-xl border border-slate-200 p-10 overflow-x-auto scrollbar-hide">
               <BarChart dams={dams} />
             </div>
           ) : (

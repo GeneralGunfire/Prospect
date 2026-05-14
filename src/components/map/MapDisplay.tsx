@@ -214,7 +214,7 @@ export default function MapDisplay({
       </MapContainer>
 
       {/* Layer Controls */}
-      <div className="absolute top-4 right-4 bg-white rounded-xl shadow-lg p-3 z-50 space-y-2">
+      <div className="absolute top-4 right-4 bg-white rounded-xl p-3 z-50 space-y-2">
         <div className="text-xs font-bold text-slate-700 px-2 py-1 uppercase tracking-widest">Layers</div>
 
         <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer hover:bg-slate-50 px-2 py-1 rounded">

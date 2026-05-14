@@ -90,7 +90,7 @@ export function RestrictionLevelGuide({ restrictions, province }: Props) {
           return (
             <div
               key={lvl.level}
-              className={`rounded-2xl border overflow-hidden transition-all ${
+              className={`rounded-xl border overflow-hidden transition-all ${
                 isActive ? `${lvl.border} ring-2 ring-offset-1 ${lvl.border.replace('border-', 'ring-')}` : 'border-slate-200'
               }`}
             >

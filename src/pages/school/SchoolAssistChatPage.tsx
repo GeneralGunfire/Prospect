@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  ArrowLeft,
   RefreshCw,
   BookOpen,
   GraduationCap,
@@ -11,10 +10,10 @@ import {
   ArrowUp,
   Paperclip,
   Calculator,
-  ChevronRight,
   X,
   ImageIcon,
   AlertCircle,
+  Sparkles,
 } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
 import type { AppPage } from '../../lib/withAuth';
@@ -84,7 +83,6 @@ function fileToBase64(file: File): Promise<string> {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      // Strip the data URL prefix (e.g. "data:image/jpeg;base64,")
       resolve(result.split(',')[1]);
     };
     reader.onerror = reject;
@@ -101,13 +99,11 @@ async function callGemini(
 
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-  // Build conversation history for context (last 10 messages)
   const history = messages.slice(-10).map((m) => ({
     role: m.role === 'user' ? 'user' : 'model',
     parts: [{ text: m.text }],
   }));
 
-  // Build the new user parts
   const userParts: Array<{ text?: string; inlineData?: { mimeType: string; data: string } }> = [];
   if (newText.trim()) userParts.push({ text: newText.trim() });
   for (const img of newImages) {
@@ -145,9 +141,24 @@ const TOPIC_CHIPS = [
 ];
 
 const CATEGORY_CARDS = [
-  { icon: GraduationCap, label: 'Subjects & APS',   q: 'Help me choose my matric subjects and understand APS scores' },
-  { icon: Banknote,      label: 'Funding',           q: 'Tell me about NSFAS and bursaries' },
-  { icon: ChevronRight,  label: 'Career Guidance',   q: "I'm not sure what career to choose, help me decide" },
+  {
+    icon: BookOpen,
+    label: 'Subjects & APS',
+    description: 'Subject choices, APS scores, and entry requirements',
+    q: 'Help me choose my matric subjects and understand APS scores',
+  },
+  {
+    icon: Banknote,
+    label: 'Bursaries & NSFAS',
+    description: 'Funding options, application deadlines, eligibility',
+    q: 'Tell me about NSFAS and bursaries I can apply for',
+  },
+  {
+    icon: GraduationCap,
+    label: 'Career Guidance',
+    description: 'Find a path that fits your strengths and interests',
+    q: "I'm not sure what career to choose — help me decide",
+  },
 ];
 
 // ── Typing dots ────────────────────────────────────────────────────────────────
@@ -158,7 +169,7 @@ function TypingDots() {
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          className="w-1.5 h-1.5 rounded-full bg-blue-400"
+          className="w-1.5 h-1.5 rounded-full bg-slate-400"
           animate={{ scale: [0.85, 1.2, 0.85], opacity: [0.4, 1, 0.4] }}
           transition={{ repeat: Infinity, duration: 1.2, delay: i * 0.18, ease: 'easeInOut' }}
         />
@@ -167,20 +178,23 @@ function TypingDots() {
   );
 }
 
+// ── Prospect mark — geometric monogram, no gradient ───────────────────────────
+
 function ProspectMark({ size = 64 }: { size?: number }) {
+  const s = size;
+  const pad = s * 0.22;
   return (
     <div
-      className="rounded-full flex items-center justify-center shrink-0"
-      style={{
-        width: size, height: size,
-        background: 'conic-gradient(from 180deg at 50% 50%, #3b82f6 0deg, #60a5fa 90deg, #93c5fd 180deg, #3b82f6 360deg)',
-        boxShadow: '0 8px 32px rgba(59,130,246,0.25)',
-      }}
+      className="rounded-full flex items-center justify-center shrink-0 bg-slate-900"
+      style={{ width: s, height: s }}
     >
-      <div
-        className="rounded-full bg-white"
-        style={{ width: size * 0.42, height: size * 0.42 }}
-      />
+      <svg width={s - pad * 2} height={s - pad * 2} viewBox="0 0 20 20" fill="none">
+        {/* P lettermark */}
+        <rect x="4" y="3" width="2.5" height="14" rx="1" fill="white" />
+        <rect x="4" y="3" width="10" height="2.5" rx="1" fill="white" />
+        <rect x="4" y="9" width="8" height="2.5" rx="1" fill="white" />
+        <rect x="11.5" y="3" width="2.5" height="8.5" rx="1" fill="white" />
+      </svg>
     </div>
   );
 }
@@ -199,7 +213,7 @@ function renderText(text: string) {
   });
 }
 
-// ── Chat input box (stable top-level component to prevent remount on every keystroke) ──
+// ── Chat input box ─────────────────────────────────────────────────────────────
 
 interface ChatInputBoxProps {
   compact: boolean;
@@ -233,7 +247,7 @@ function ChatInputBox({
   onRemoveImage,
 }: ChatInputBoxProps) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm focus-within:border-blue-300 focus-within:shadow-md transition-all">
+    <div className="bg-white rounded-2xl border border-slate-200 focus-within:border-slate-400 transition-colors shadow-sm">
       {/* Image previews */}
       {attachedImages.length > 0 && (
         <div className="flex gap-2 px-4 pt-3 flex-wrap">
@@ -259,14 +273,14 @@ function ChatInputBox({
           value={input}
           onChange={(e) => { setInput(e.target.value); if (!compact) onAdjustHeight(); }}
           onKeyDown={onKeyDown}
-          placeholder="Ask me anything… (Shift+Enter for new line)"
+          placeholder="Ask anything about your future…"
           rows={1}
           className="w-full resize-none bg-transparent border-none text-slate-800 text-sm focus:outline-none placeholder:text-slate-400 leading-relaxed"
-          style={{ minHeight: compact ? '44px' : '56px', maxHeight: '180px', overflow: 'hidden' }}
+          style={{ minHeight: compact ? '44px' : '60px', maxHeight: '180px', overflow: 'hidden' }}
         />
       </div>
 
-      {/* Pill chips (non-compact only) */}
+      {/* Quick chips (non-compact only) */}
       {!compact && (
         <div className="flex items-center gap-1.5 px-3 pb-2 pt-1">
           {TOPIC_CHIPS.slice(0, 3).map(({ icon: Icon, label, q }) => (
@@ -274,7 +288,7 @@ function ChatInputBox({
               key={label}
               type="button"
               onClick={() => onChipSend(q)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-slate-50 text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-all text-xs font-medium"
             >
               <Icon className="w-3 h-3" />
               {label}
@@ -288,16 +302,16 @@ function ChatInputBox({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-blue-500 transition-colors py-1"
+          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-700 transition-colors py-1"
         >
           <Paperclip className="w-3.5 h-3.5" />
-          <span>Upload Image</span>
+          <span>Upload photo</span>
         </button>
         <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={onFileChange} />
 
         <div className="flex items-center gap-2">
           {attachedImages.length > 0 && (
-            <span className="flex items-center gap-1 text-xs text-blue-500">
+            <span className="flex items-center gap-1 text-xs text-slate-500">
               <ImageIcon className="w-3 h-3" />
               {attachedImages.length}
             </span>
@@ -311,12 +325,12 @@ function ChatInputBox({
             className={[
               'w-8 h-8 rounded-full flex items-center justify-center transition-all',
               (input.trim() || attachedImages.length > 0) && !isTyping
-                ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
-                : 'bg-slate-200 text-slate-400 cursor-not-allowed',
+                ? 'bg-slate-900 text-white'
+                : 'bg-slate-100 text-slate-400 cursor-not-allowed',
             ].join(' ')}
           >
             {isTyping
-              ? <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              ? <span className="w-3 h-3 border-2 border-slate-400/40 border-t-slate-400 rounded-full animate-spin" />
               : <ArrowUp className="w-4 h-4" />
             }
           </motion.button>
@@ -370,7 +384,6 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
     );
 
     setAttachedImages((prev) => [...prev, ...newImages].slice(0, 4));
-    // Reset file input so same file can be re-selected
     e.target.value = '';
   }
 
@@ -420,7 +433,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
         id: (Date.now() + 1).toString(),
         role: 'bot',
         text: isQuota
-          ? "I'm currently unavailable due to high demand. Please try again in a moment!"
+          ? "I'm currently unavailable due to high demand. Please try again in a moment."
           : "I couldn't connect right now. Please try again.",
         timestamp: new Date(),
         error: true,
@@ -444,7 +457,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className="flex flex-col h-screen bg-slate-50">
 
       {/* ── Top nav ── */}
       {user ? (
@@ -453,9 +466,9 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
         <header className="shrink-0 bg-white border-b border-slate-100 px-4 py-3 flex items-center justify-between z-10">
           <button
             onClick={onNavigateHome}
-            className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium"
+            className="text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium"
           >
-            <ArrowLeft className="w-4 h-4" /> Back
+            Back
           </button>
           <div className="flex items-center gap-2">
             <ProspectMark size={28} />
@@ -497,25 +510,24 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
-            className={`flex flex-col items-center justify-center flex-1 px-4 pb-8 ${user ? 'pt-20' : ''}`}
+            className={`flex flex-col items-center justify-center flex-1 px-4 pb-8 ${user ? 'pt-24' : 'pt-8'}`}
           >
-            <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-8">
+            <div className="w-full max-w-xl mx-auto flex flex-col items-center gap-10">
 
-              {/* Logo + heading */}
+              {/* Wordmark + heading */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="flex flex-col items-center gap-4 text-center"
+                className="flex flex-col items-center gap-5 text-center"
               >
-                <ProspectMark size={72} />
+                <ProspectMark size={56} />
                 <div>
-                  <h1 className="text-3xl font-bold text-slate-900">
-                    Ready to{' '}
-                    <span className="text-blue-600">assist you</span>
+                  <h1 className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>
+                    School Assist
                   </h1>
-                  <p className="mt-2 text-sm text-slate-400">
-                    Ask anything, upload a photo of your work, or try a suggestion below
+                  <p className="mt-2 text-sm text-slate-500 max-w-xs mx-auto leading-relaxed">
+                    Ask anything about subjects, bursaries, careers, or university. Upload a photo of your work for help.
                   </p>
                 </div>
               </motion.div>
@@ -544,26 +556,30 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                 />
               </motion.div>
 
-              {/* Category cards */}
+              {/* Category cards — 3-col, distinct, not identical */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="grid grid-cols-3 gap-3 w-full"
+                className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full"
               >
-                {CATEGORY_CARDS.map(({ icon: Icon, label, q }, i) => (
+                {CATEGORY_CARDS.map(({ icon: Icon, label, description, q }, i) => (
                   <motion.button
                     key={label}
                     onClick={() => sendMessage(q, [])}
-                    whileHover={{ y: -2, boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-                    whileTap={{ scale: 0.97 }}
+                    whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 + i * 0.06 }}
-                    className="flex flex-col items-center gap-2.5 py-5 px-3 rounded-2xl border border-slate-200 bg-white text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all"
+                    className="flex flex-col items-start gap-3 p-4 rounded-xl border border-slate-200 bg-white text-left hover:border-slate-400 transition-all"
                   >
-                    <Icon className="w-5 h-5" />
-                    <span className="text-xs font-medium leading-tight text-center">{label}</span>
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                      <Icon className="w-4 h-4 text-slate-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-900">{label}</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">{description}</p>
+                    </div>
                   </motion.button>
                 ))}
               </motion.div>
@@ -581,7 +597,7 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
             animate={{ opacity: 1 }}
             className={`flex-1 overflow-y-auto px-4 py-5 ${user ? 'pt-24' : 'pt-5'}`}
           >
-            <div className="max-w-xl mx-auto space-y-5">
+            <div className="max-w-xl mx-auto space-y-6">
               <AnimatePresence initial={false}>
                 {messages.map((msg) => (
                   <motion.div
@@ -593,14 +609,14 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                   >
                     {msg.role === 'bot' ? (
                       <div className="shrink-0 mt-0.5">
-                        <ProspectMark size={32} />
+                        <ProspectMark size={30} />
                       </div>
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="text-xs font-bold text-slate-500">You</span>
+                      <div className="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-[10px] font-bold text-slate-600">You</span>
                       </div>
                     )}
-                    <div className={`flex flex-col gap-1 max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
+                    <div className={`flex flex-col gap-1 max-w-[82%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                       {/* Image attachments */}
                       {msg.images && msg.images.length > 0 && (
                         <div className="flex gap-1.5 flex-wrap mb-1 justify-end">
@@ -617,15 +633,15 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                       {msg.text && (
                         <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
                           msg.role === 'user'
-                            ? 'bg-blue-600 text-white rounded-tr-sm'
+                            ? 'bg-slate-900 text-white rounded-tr-sm'
                             : msg.error
-                            ? 'bg-amber-50 text-amber-800 border border-amber-200 rounded-tl-sm'
-                            : 'bg-slate-50 text-slate-800 border border-slate-100 rounded-tl-sm'
+                            ? 'bg-white text-slate-700 border border-slate-200 rounded-tl-sm'
+                            : 'bg-white text-slate-800 border border-slate-200 rounded-tl-sm'
                         }`}>
                           {msg.role === 'bot' ? renderText(msg.text) : msg.text}
                         </div>
                       )}
-                      <p className="text-xs text-slate-400 px-1">
+                      <p className="text-[10px] text-slate-400 px-1">
                         {msg.timestamp.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
@@ -641,10 +657,11 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                     className="flex gap-3 items-end"
                   >
                     <div className="shrink-0">
-                      <ProspectMark size={32} />
+                      <ProspectMark size={30} />
                     </div>
-                    <div className="bg-slate-50 border border-slate-100 px-4 py-3.5 rounded-2xl rounded-tl-sm flex items-center gap-2">
-                      <span className="text-xs text-slate-500">Thinking</span>
+                    <div className="bg-white border border-slate-200 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-2">
+                      <Sparkles className="w-3 h-3 text-slate-400" />
+                      <span className="text-xs text-slate-400">Thinking</span>
                       <TypingDots />
                     </div>
                   </motion.div>
@@ -683,12 +700,12 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                 onFileChange={handleFileChange}
                 onRemoveImage={removeImage}
               />
-              <div className="flex items-center gap-2 mt-2 overflow-x-auto pb-0.5 scrollbar-hide">
+              <div className="flex items-center gap-2 mt-2.5 overflow-x-auto pb-0.5 scrollbar-hide">
                 {TOPIC_CHIPS.map(({ icon: Icon, label, q }) => (
                   <button
                     key={label}
                     onClick={() => sendMessage(q, [])}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-500 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 transition-all text-xs font-medium shrink-0 whitespace-nowrap"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-all text-xs font-medium shrink-0 whitespace-nowrap"
                   >
                     <Icon className="w-3 h-3" />
                     {label}

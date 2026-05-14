@@ -173,14 +173,14 @@ function FilterDropdown({ label, options, selected, onToggle, onClear }: {
         className={[
           'flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all',
           selected.length > 0
-            ? 'border-blue-300 bg-blue-50 text-blue-700'
-            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50',
+            ? 'border-slate-900 bg-slate-900 text-white'
+            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400 hover:bg-slate-50',
         ].join(' ')}
       >
         <Filter className="w-3.5 h-3.5" />
         {label}
         {selected.length > 0 && (
-          <span className="bg-blue-600 text-white rounded-full px-1.5 py-0.5 text-xs font-black leading-none">
+          <span className="bg-white/30 text-white rounded-full px-1.5 py-0.5 text-xs font-black leading-none">
             {selected.length}
           </span>
         )}
@@ -196,7 +196,7 @@ function FilterDropdown({ label, options, selected, onToggle, onClear }: {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 4, scale: 0.97 }}
               transition={{ duration: 0.12 }}
-              className="absolute top-full mt-1.5 left-0 z-20 bg-white border border-slate-200 rounded-xl shadow-lg min-w-[160px] overflow-hidden"
+              className="absolute top-full mt-1.5 left-0 z-20 bg-white border border-slate-200 rounded-xl min-w-[160px] overflow-hidden"
             >
               <div className="py-1">
                 {options.map(opt => (
@@ -391,7 +391,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
       <AnimatePresence mode="wait">
         {selectedDay ? (
           <motion.div key="day-detail" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={{ duration: 0.16 }}
-            className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
               <div>
                 <p className="text-[9px] font-black uppercase tracking-widest opacity-60">Selected</p>
@@ -402,7 +402,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   return t ? <span className="text-xs text-blue-200">{t.name}</span> : null;
                 })()}
               </div>
-              <button onClick={() => setSelectedDay(null)} className="p-1.5 hover:bg-white/10 rounded-lg">
+              <button onClick={() => setSelectedDay(null)} aria-label="Close" className="w-11 h-11 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -455,7 +455,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && saveEvent()}
                   data-testid="event-description"
-                  className="w-full px-3 py-2 min-h-[44px] text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
+                  className="w-full px-3 py-2 min-h-11 text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
                   placeholder="e.g. Maths exam..."
                 />
                 <div className="grid grid-cols-4 gap-1">
@@ -467,7 +467,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   ))}
                 </div>
                 <button onClick={saveEvent} disabled={!newEventName.trim()} data-testid="create-event-btn"
-                  className={`w-full flex items-center justify-center gap-1.5 min-h-[44px] py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
+                  className={`w-full flex items-center justify-center gap-1.5 min-h-11 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
                   {savedEvent ? 'Saved ✓' : <><Plus className="w-3.5 h-3.5" /> Add Event</>}
                 </button>
               </div>
@@ -475,7 +475,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           </motion.div>
         ) : (
           <motion.div key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="bg-white border border-slate-100 rounded-2xl p-5 text-center">
+            className="bg-white border border-slate-100 rounded-xl p-5 text-center">
             <CalendarIcon className="w-8 h-8 text-slate-200 mx-auto mb-2" />
             <p className="text-xs font-semibold text-slate-400">Click any day to see details or add an event</p>
           </motion.div>
@@ -506,9 +506,9 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               </div>
             </div>
             {eventsThisWeek > 0 && (
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-blue-50 border border-blue-200 rounded-xl">
-                <CalendarIcon className="w-3.5 h-3.5 text-blue-600" />
-                <p className="text-xs font-bold text-blue-700">{eventsThisWeek} this week</p>
+              <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <CalendarIcon className="w-3.5 h-3.5 text-slate-500" />
+                <p className="text-xs font-bold text-slate-600">{eventsThisWeek} this week</p>
               </div>
             )}
             {currentTerm && (
@@ -519,7 +519,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
             )}
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {WEEK_DAYS.map((d, i) => (
                 <div key={d} className={`py-2 md:py-3 text-center text-[9px] md:text-xs font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -574,7 +574,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     <span className={[
                       'inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-md sm:rounded-lg text-[9px] sm:text-[10px] md:text-xs font-black mb-0.5 md:mb-1.5 transition-all',
                       today
-                        ? 'bg-slate-900 text-white shadow-md shadow-slate-300/50 scale-110'
+                        ? 'bg-slate-900 text-white shadow-slate-300/50 scale-110'
                         : isSelected
                           ? 'bg-slate-200 text-slate-800'
                           : isWeekend
@@ -634,7 +634,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
     return (
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 min-w-0">
-          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {weekDays.map((d, i) => {
                 const todayFlag = isToday(d.getDate(), d.getMonth(), d.getFullYear());
@@ -644,7 +644,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                       {WEEK_DAYS[i]}
                     </p>
                     <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-black mx-auto ${
-                      todayFlag ? 'bg-slate-900 text-white shadow-sm shadow-slate-300/50' : i >= 5 ? 'text-slate-400' : 'text-slate-700'
+                      todayFlag ? 'bg-slate-900 text-white shadow-slate-300/50' : i >= 5 ? 'text-slate-400' : 'text-slate-700'
                     }`}>
                       {d.getDate()}
                     </span>
@@ -710,7 +710,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
     return (
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 min-w-0">
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             {/* Day header */}
             <div className={`px-6 py-5 border-b border-slate-100 flex items-center justify-between ${todayFlag ? 'bg-slate-900 text-white' : 'bg-slate-50'}`}>
               <div>
@@ -725,7 +725,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 </p>
               </div>
               <div className="text-right space-y-1">
-                {todayFlag && <span className="inline-block px-3 py-1 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-full">Today</span>}
+                {todayFlag && <span className="inline-block px-3 py-1 bg-slate-900 text-white text-xs font-black uppercase tracking-widest rounded-full">Today</span>}
                 {term && <p className="text-xs font-bold text-slate-500">{term.name}</p>}
               </div>
             </div>
@@ -771,7 +771,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     <div key={evt.id} className={`flex items-center gap-3 px-4 py-3 rounded-xl ${EVENT_STYLE[evt.category].chip}`}>
                       <span className={`w-3 h-3 rounded-full shrink-0 ${EVENT_STYLE[evt.category].dot}`} />
                       <p className="text-sm font-bold flex-1">{evt.eventName}</p>
-                      <button onClick={() => { calendarStorage.deleteEvent(evt.id); reloadEvents(); }} className="p-1 hover:opacity-60 transition-opacity">
+                      <button onClick={() => { calendarStorage.deleteEvent(evt.id); reloadEvents(); }} aria-label="Delete event" className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors shrink-0">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -786,7 +786,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   <input
                     type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') { setSelectedDay(iso); saveEvent(); } }}
-                    className="flex-1 px-3 py-2 min-h-[44px] text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
+                    className="flex-1 px-3 py-2 min-h-11 text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
                     placeholder="Event name..."
                   />
                   <button
@@ -876,7 +876,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 )}
               </div>
               {item.isUser && !isPast && (
-                <button onClick={() => { calendarStorage.deleteEvent(item.userId!); reloadEvents(); }} className="p-1 hover:opacity-60 ml-1">
+                <button onClick={() => { calendarStorage.deleteEvent(item.userId!); reloadEvents(); }} aria-label="Delete event" className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors shrink-0 ml-1">
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               )}
@@ -922,7 +922,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           <div className="flex w-full sm:w-fit p-1 bg-white border border-slate-200 rounded-xl overflow-x-auto">
             {(['calendar','terms','deadlines'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}>
+                className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}>
                 {tab}
               </button>
             ))}
@@ -932,7 +932,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           {activeTab === 'calendar' && (
             <>
               {/* Desktop button group */}
-              <div className="hidden sm:flex items-center gap-1 p-1 bg-white border border-slate-200 rounded-xl shadow-sm">
+              <div className="hidden sm:flex items-center gap-1 p-1 bg-white border border-slate-200 rounded-xl">
                 <button onClick={() => setCalView('month')}
                   className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'month' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
                   <CalendarIcon className="w-3.5 h-3.5" /> Month
@@ -975,15 +975,15 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 {calView !== 'list' && (
                   <div className="flex items-center gap-1.5">
                     <button onClick={navigatePrev}
-                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all shadow-sm">
+                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all">
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button onClick={goToToday}
-                      className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all shadow-sm">
+                      className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
                       Today
                     </button>
                     <button onClick={navigateNext}
-                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all shadow-sm">
+                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all">
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -1005,10 +1005,10 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   placeholder="Search events & deadlines…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-9 py-2 min-h-[44px] text-base sm:text-sm border border-slate-200 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-400 shadow-sm transition-all"
+                  className="w-full pl-9 pr-9 py-2 min-h-11 text-base sm:text-sm border border-slate-200 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-400 transition-all"
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600">
+                  <button onClick={() => setSearchQuery('')} aria-label="Clear search" className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 )}
@@ -1051,7 +1051,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
-                  className="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden max-h-72 overflow-y-auto"
+                  className="bg-white border border-slate-200 rounded-xl overflow-hidden max-h-72 overflow-y-auto"
                 >
                   {searchResults.length === 0 ? (
                     <div className="px-4 py-6 text-center text-sm text-slate-400">No results for "{searchQuery}"</div>
@@ -1102,7 +1102,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 {TERMS.map((term, i) => (
                   <motion.div key={term.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
                     whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.07)' }}
-                    className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                    className="bg-white border border-slate-200 rounded-xl overflow-hidden">
                     <div className={`h-1.5 bg-linear-to-r ${TERM_GRADIENT[i]}`} />
                     <div className="p-5">
                       <div className="flex justify-between items-start mb-4">
@@ -1115,22 +1115,22 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                       <div className="space-y-2">
                         <div className="flex justify-between py-2 border-b border-slate-50">
                           <span className="text-xs font-bold text-slate-400 uppercase">Start</span>
-                          <span className="text-xs font-bold text-slate-700">{term.start}</span>
+                          <span className="text-sm font-bold text-slate-700">{term.start}</span>
                         </div>
                         <div className="flex justify-between py-2 border-b border-slate-50">
                           <span className="text-xs font-bold text-slate-400 uppercase">End</span>
-                          <span className="text-xs font-bold text-slate-700">{term.end}</span>
+                          <span className="text-sm font-bold text-slate-700">{term.end}</span>
                         </div>
                         <div className="pt-1">
                           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Holidays</p>
-                          <p className="text-xs font-semibold text-slate-600">{term.holidays}</p>
+                          <p className="text-sm leading-relaxed text-slate-500">{term.holidays}</p>
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
-              <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <div className="bg-white border border-slate-200 rounded-xl p-5">
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">2026 Academic Year Timeline</p>
                 <div className="flex gap-0.5 h-7 rounded-xl overflow-hidden">
                   {TERMS.map((t, i) => (

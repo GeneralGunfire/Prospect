@@ -131,7 +131,7 @@ function SubmissionCard({ item, index }: { item: Submission; index: number }) {
               </div>
 
               {item.description && (
-                <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-2">
+                <p className="text-sm leading-relaxed text-slate-500 line-clamp-2 mb-2">
                   {item.description}
                 </p>
               )}
@@ -310,15 +310,15 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <AppHeader currentPage="community-impact" user={user} onNavigate={onNavigate} mode="community" />
+      <AppHeader currentPage="community" user={user} onNavigate={onNavigate} mode="community" />
 
       <div className="pt-16 sm:pt-20 pb-12 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto">
 
         {/* Page Header */}
         <div className="mb-8 pt-4">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Community</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Community</p>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-1" style={{ letterSpacing: '-0.025em' }}>Opportunities</h1>
-          <p className="text-sm text-slate-500">Schools, colleges, jobs, and support services across South Africa.</p>
+          <p className="text-[15px] leading-[1.65] text-slate-600">Schools, colleges, jobs, and support services across South Africa.</p>
         </div>
 
         {/* Tabs */}
@@ -361,7 +361,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 <p className="text-white font-black text-base md:text-lg">
                   Is your school or local opportunity here?
                 </p>
-                <p className="text-slate-400 text-xs mt-1">Add it in under 60 seconds — no account needed.</p>
+                <p className="text-slate-400 text-sm leading-relaxed mt-1">Add it in under 60 seconds — no account needed.</p>
               </div>
               <button
                 onClick={() => handleTabChange('add')}
@@ -487,7 +487,7 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                 >
                   <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Step 1 of 2</p>
                   <h2 className="text-xl font-black text-slate-900 mb-1">What are you adding?</h2>
-                  <p className="text-sm text-slate-500 mb-6">Pick a category to get started.</p>
+                  <p className="text-[15px] leading-[1.65] text-slate-600 mb-6">Pick a category to get started.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {TYPES.map(t => (
                       <motion.button
@@ -710,10 +710,10 @@ function CommunityImpactPage({ user, onNavigate }: AuthedProps) {
                     <CheckCircle2 className="w-8 h-8 text-blue-500" />
                   </div>
                   <h2 className="text-2xl font-black text-slate-900 mb-2">Your contribution is live</h2>
-                  <p className="text-sm text-slate-500 mb-2 max-w-sm mx-auto">
+                  <p className="text-[15px] leading-[1.65] text-slate-600 mb-2 max-w-sm mx-auto">
                     <strong className="text-slate-800">{newSubmission.name}</strong> has been added and is visible to everyone immediately.
                   </p>
-                  <p className="text-xs text-slate-400 mb-8 max-w-xs mx-auto">
+                  <p className="text-sm leading-relaxed text-slate-500 mb-8 max-w-xs mx-auto">
                     It's tagged as Unverified until confirmed. Help others by adding more opportunities in your area.
                   </p>
 

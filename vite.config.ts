@@ -23,10 +23,12 @@ export default defineConfig(({mode}) => {
       rollupOptions: {
         output: {
           manualChunks: {
-            'vendor-react':  ['react', 'react-dom'],
-            'vendor-motion': ['motion/react'],
+            'vendor-react':    ['react', 'react-dom'],
+            'vendor-motion':   ['motion/react'],
             'vendor-supabase': ['@supabase/supabase-js'],
-            'vendor-lucide': ['lucide-react'],
+            'vendor-lucide':   ['lucide-react'],
+            'data-careers':    ['./src/data/careers400Final.ts'],
+            'data-bursaries':  ['./src/data/bursaries.ts'],
           },
         },
       },

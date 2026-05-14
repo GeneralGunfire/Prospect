@@ -131,7 +131,7 @@ function TVETCareersPage({ user, onNavigate }: AuthedProps) {
 
       <div className="pt-24 pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="mb-10 pt-2">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">TVET</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">TVET</p>
           <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Careers</h1>
         </div>
 

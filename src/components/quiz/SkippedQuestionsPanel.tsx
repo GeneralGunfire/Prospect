@@ -33,7 +33,7 @@ export function SkippedQuestionsPanel({
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full md:w-96 bg-white shadow-2xl z-50 flex flex-col"
+            className="fixed right-0 top-0 h-full w-full md:w-96 bg-white z-50 flex flex-col"
           >
             {/* Header */}
             <div className="sticky top-0 bg-white border-b border-slate-200 p-6 flex justify-between items-center">
@@ -63,7 +63,7 @@ export function SkippedQuestionsPanel({
                     >
                       <div className="space-y-2">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-xs font-bold uppercase tracking-widest text-secondary">
+                          <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
                             Q{item.index + 1}
                           </span>
                           <span className="text-xs font-medium text-slate-700 line-clamp-2">
@@ -75,7 +75,7 @@ export function SkippedQuestionsPanel({
                             onSelectQuestion(item.index);
                             onClose();
                           }}
-                          className="w-full flex items-center justify-between px-3 py-2 bg-secondary/10 hover:bg-secondary/20 text-secondary rounded-lg font-bold text-xs uppercase tracking-widest transition-all"
+                          className="w-full flex items-center justify-between px-3 py-2 bg-slate-900/10 hover:bg-slate-900/20 text-slate-500 rounded-lg font-bold text-xs uppercase tracking-widest transition-all"
                         >
                           Go to Question
                           <ArrowRight className="w-3 h-3" />

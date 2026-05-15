@@ -1,0 +1,11 @@
+{
+  "currentStage": 0,
+  "suspended": true,
+  "suspendedSince": "2024-03-26",
+  "statusText": "No Load Shedding",
+  "statusNote": "Eskom suspended load shedding on 26 March 2024. This page will update automatically if it resumes.",
+  "forecast": [],
+  "updatedAt": "2026-05-15T06:00:00.000Z",
+  "source": "loadshedding.eskom.co.za",
+  "scrapedAt": "2026-05-15T06:00:00.000Z"
+}

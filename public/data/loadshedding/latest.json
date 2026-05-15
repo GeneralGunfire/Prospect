@@ -3,9 +3,9 @@
   "suspended": true,
   "suspendedSince": "2024-03-26",
   "statusText": "No Load Shedding",
-  "statusNote": "Eskom suspended load shedding on 26 March 2024. This page will update automatically if it resumes.",
+  "statusNote": "Eskom status page is currently unreachable. Load shedding has been suspended since 26 March 2024. Check loadshedding.eskom.co.za for live status.",
   "forecast": [],
-  "updatedAt": "2026-05-15T06:00:00.000Z",
+  "updatedAt": "2026-05-15T12:33:01.689182+00:00",
   "source": "loadshedding.eskom.co.za",
-  "scrapedAt": "2026-05-15T06:00:00.000Z"
+  "scrapedAt": "2026-05-15T12:33:01.689201+00:00"
 }

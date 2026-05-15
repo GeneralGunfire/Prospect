@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, Map as MapIcon, MapPin, BarChart2, Loader2, GraduationCap } from 'lucide-react';
-import type { User } from '@supabase/supabase-js';
+import { ArrowLeft, Map as MapIcon, MapPin, BarChart2, Loader2, GraduationCap } from 'lucide-react';
 import type { AppPage, AuthedProps } from '../../lib/withAuth';
 import { withAuth } from '../../lib/withAuth';
 import LocationInput, { UserLocation } from '../../components/map/LocationInput';
@@ -13,7 +12,6 @@ import AppHeader from '../../components/shell/AppHeader';
 import { CareerDetailModal } from '../../components/careers/CareerDetailModal';
 import type { CareerFull } from '../../data/careersTypes';
 import { getUniversitiesByProvince, getTVETCollegesByProvince, createUniversityMarkers, createTVETMarkers } from '../../services/mapService';
-import { PROVINCES } from '../../data/mapData';
 
 interface MapPageProps extends AuthedProps {}
 
@@ -45,255 +43,238 @@ function MapPageComponent({ user, onNavigate }: MapPageProps) {
     setSearchQuery('');
   };
 
-  // Get safe province
   const province = userLocation?.province || '';
 
-  // Generate map markers based on active tab
-  const mapMarkers = useMemo(() => {
-    if (!province) {
-      console.warn('No province detected');
-      return [];
-    }
-
-    let markers = [];
-
-    if (activeTab === 'colleges') {
-      try {
+  const mapMarkers = useMemo((): { id: string; lat: number; lng: number; type: 'user' | 'career' | 'university' | 'tvet'; title: string }[] => {
+    if (!province) return [];
+    try {
+      if (activeTab === 'colleges') {
         const unis = getUniversitiesByProvince(province);
         const tvet = getTVETCollegesByProvince(province);
-        markers = [...createUniversityMarkers(unis), ...createTVETMarkers(tvet)];
-      } catch (e) {
-        console.error('Error getting college markers:', e);
+        return [...createUniversityMarkers(unis), ...createTVETMarkers(tvet)] as any;
       }
+    } catch {
+      // ignore
     }
-
-    return markers;
+    return [];
   }, [province, activeTab]);
 
   const tabs = [
-    { id: 'colleges', label: 'Colleges', icon: GraduationCap },
-    { id: 'insights', label: 'Insights', icon: BarChart2 },
-  ] as const;
+    { id: 'colleges' as const, label: 'Colleges', icon: GraduationCap },
+    { id: 'insights' as const, label: 'Insights', icon: BarChart2 },
+  ];
 
   return (
     <div className="min-h-screen w-full bg-white">
       <AppHeader currentPage="map" user={user} onNavigate={onNavigate} mode="career" />
+
       <AnimatePresence mode="wait">
         {step === 'location' ? (
-          // Step 1: Location Input
           <motion.div
             key="location-step"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="min-h-screen flex items-center justify-center px-4 pt-20 bg-slate-50"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.25 }}
+            className="min-h-screen flex items-center justify-center px-4 pt-20 pb-12 bg-slate-50"
           >
-            <div className="text-center max-w-lg w-full">
+            <div className="w-full max-w-md">
+              {/* Icon + heading */}
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="mb-8"
+                transition={{ delay: 0.08 }}
+                className="text-center mb-8"
               >
-                <div className="w-14 h-14 rounded-xl bg-slate-900 flex items-center justify-center mx-auto mb-6">
-                  <MapIcon size={26} className="text-white" />
+                <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mx-auto mb-5">
+                  <MapIcon size={22} className="text-white" />
                 </div>
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Explore SA</p>
-                <h1 className="text-3xl lg:text-4xl font-black text-slate-900 mb-4" style={{ letterSpacing: '-0.025em' }}>
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400 mb-2">
+                  Explore SA
+                </p>
+                <h1
+                  className="text-[28px] font-black text-slate-900 leading-tight mb-3"
+                  style={{ letterSpacing: '-0.025em' }}
+                >
                   Job Market Map
                 </h1>
-                <p className="text-[15px] leading-[1.65] text-slate-500">
-                  Discover careers, colleges, and opportunities near you.
+                <p className="text-[14px] leading-[1.65] text-slate-500">
+                  Discover colleges and job market insights near you.
                 </p>
               </motion.div>
 
+              {/* Location card */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.25, ease: 'easeOut' }}
-                className="bg-white p-5 sm:p-7 rounded-xl border border-slate-100"
+                transition={{ delay: 0.18, ease: 'easeOut' }}
+                className="bg-white rounded-xl border border-slate-200 p-6"
               >
                 <LocationInput onLocationSelect={handleLocationSelect} />
               </motion.div>
 
+              {/* Hint */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.45 }}
-                className="mt-5 p-4 rounded-xl flex items-center gap-3 bg-slate-900/5 border border-slate-200"
+                transition={{ delay: 0.35 }}
+                className="mt-4 flex items-start gap-3 px-1"
               >
-                <MapPin size={16} className="text-slate-900 shrink-0" />
-                <p className="text-sm text-slate-700 font-medium text-left leading-relaxed">
-                  Enter your location to see careers, colleges, and job market insights for your area.
+                <MapPin size={14} className="text-slate-400 mt-0.5 shrink-0" />
+                <p className="text-[12px] leading-[1.6] text-slate-400">
+                  Enter your city or select your province to see nearby colleges, job demand, and market data.
                 </p>
               </motion.div>
             </div>
           </motion.div>
         ) : (
-          // Step 2: Exploring
           <motion.div
             key="exploring-step"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="px-4 pb-8 pt-24"
+            transition={{ duration: 0.2 }}
+            className="pt-20 pb-12"
           >
-            <div className="max-w-7xl mx-auto">
-              {/* Header */}
+            <div className="max-w-7xl mx-auto px-4">
+              {/* Page header */}
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-6 pb-5 border-b border-slate-100 flex items-center justify-between gap-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0">
-                    <MapPin size={18} className="text-white" />
+                  <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center shrink-0">
+                    <MapPin size={16} className="text-white" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-black text-slate-900 leading-tight" style={{ letterSpacing: '-0.01em' }}>
-                      {userLocation?.label || 'Unknown'}
+                    <h2
+                      className="text-[18px] font-black text-slate-900 leading-tight"
+                      style={{ letterSpacing: '-0.018em' }}
+                    >
+                      {userLocation?.label || 'Your Area'}
                     </h2>
-                    <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
-                      Province: {province || 'Loading...'}
+                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                      {province}
                     </p>
                   </div>
                 </div>
+
                 <motion.button
                   onClick={handleBackClick}
-                  whileHover={{ x: -2 }}
-                  className="flex items-center gap-2 px-4 py-2 min-h-11 rounded-xl text-white text-xs font-bold uppercase tracking-wider transition-all bg-slate-900 hover:bg-slate-700 shrink-0"
+                  whileHover={{ x: -1 }}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 text-slate-600 text-[12px] font-bold hover:border-slate-300 hover:text-slate-900 transition-colors"
                 >
-                  <ChevronLeft size={14} />
-                  Change
+                  <ArrowLeft size={13} />
+                  Change location
                 </motion.button>
               </motion.div>
 
-              {/* Two-Row Layout: Map on top, Results below */}
-              <div className="space-y-6">
-                {/* Map - Full width */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1 }}
-                  className="w-full h-64 sm:h-96 lg:h-[500px] rounded-xl overflow-hidden"
-                >
-                  {userLocation && (
-                    <MapDisplay
-                      center={[userLocation.lat, userLocation.lng]}
-                      zoom={9}
-                      userLocation={userLocation}
-                      markers={mapMarkers}
-                      activeLayers={activeLayers}
-                      onLayerToggle={handleLayerToggle}
-                    />
-                  )}
-                </motion.div>
-
-                {/* Results Panel - Full width, scrollable */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="flex flex-col gap-4"
-                >
-                  {/* Search Box */}
-                  <SearchBox
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    placeholder="Search careers, cities..."
-                  />
-
-                  {/* Tab Navigation */}
-                  <div className="flex gap-2 border-b-2 border-slate-200 flex-wrap">
-                    {tabs.map((tab) => (
-                      <motion.button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`px-4 py-3 min-h-11 font-semibold text-sm transition rounded-lg flex-1 min-w-fit sm:flex-none ${
-                          activeTab === tab.id
-                            ? 'text-white'
-                            : 'text-slate-600 hover:text-slate-900'
-                        }`}
-                        style={{
-                          backgroundColor: activeTab === tab.id ? '#0f172a' : 'transparent',
-                        }}
-                      >
-                        <tab.icon size={18} className="inline-block mr-2" />
-                        {tab.label}
-                      </motion.button>
-                    ))}
-                  </div>
-
-                  {/* Tab Content - Scrollable */}
-                  <motion.div
-                    className="bg-white rounded-xl p-4 sm:p-6 border-2 border-slate-100 max-h-96 lg:max-h-full overflow-y-auto"
-                  >
-                    <AnimatePresence mode="wait">
-                      {activeTab === 'colleges' && province && (
-                        <motion.div
-                          key="colleges"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          <CollegesTab
-                            province={province}
-                            searchQuery={searchQuery}
-                          />
-                        </motion.div>
-                      )}
-
-                      {activeTab === 'insights' && province && (
-                        <motion.div
-                          key="insights"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          <InsightsTab
-                            province={province}
-                            city={userLocation?.city}
-                          />
-                        </motion.div>
-                      )}
-
-                      {!province && (
-                        <motion.div
-                          key="loading"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center justify-center py-12"
-                        >
-                          <div className="text-center">
-                            <Loader2 size={48} className="animate-spin mx-auto mb-4 text-slate-400" />
-                            <p className="text-slate-600">Detecting your province...</p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                </motion.div>
-              </div>
-
-              {/* Footer Note */}
+              {/* Map */}
               <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.08 }}
+                className="w-full h-56 sm:h-80 lg:h-[420px] rounded-xl overflow-hidden border border-slate-200 mb-6"
+              >
+                {userLocation && (
+                  <MapDisplay
+                    center={[userLocation.lat, userLocation.lng]}
+                    zoom={9}
+                    userLocation={userLocation}
+                    markers={mapMarkers}
+                    activeLayers={activeLayers}
+                    onLayerToggle={handleLayerToggle}
+                  />
+                )}
+              </motion.div>
+
+              {/* Results panel */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.16 }}
+                className="space-y-4"
+              >
+                {/* Search */}
+                <SearchBox
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  placeholder="Search colleges, careers..."
+                />
+
+                {/* Tabs */}
+                <div className="flex gap-1 border-b border-slate-200">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-2 px-4 py-2.5 text-[12px] font-black uppercase tracking-[0.1em] border-b-2 transition-colors -mb-px ${
+                        activeTab === tab.id
+                          ? 'border-slate-900 text-slate-900'
+                          : 'border-transparent text-slate-400 hover:text-slate-600'
+                      }`}
+                    >
+                      <tab.icon size={14} />
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Tab content */}
+                <AnimatePresence mode="wait">
+                  {!province ? (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center justify-center py-16"
+                    >
+                      <div className="text-center">
+                        <Loader2 size={32} className="animate-spin mx-auto mb-3 text-slate-300" />
+                        <p className="text-[13px] text-slate-400">Detecting province…</p>
+                      </div>
+                    </motion.div>
+                  ) : activeTab === 'colleges' ? (
+                    <motion.div
+                      key="colleges"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <CollegesTab province={province} searchQuery={searchQuery} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="insights"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <InsightsTab province={province} city={userLocation?.city} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              {/* Footer */}
+              <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="text-xs text-center mt-6 font-medium flex items-center justify-center gap-2"
-                style={{ color: '#64748b' }}
+                className="text-[11px] text-slate-400 text-center mt-8 flex items-center justify-center gap-1.5"
               >
-                <BarChart2 size={14} />
-                <p>Data based on 59+ careers, 26 universities, and 50+ TVET colleges across South Africa</p>
-              </motion.div>
+                <BarChart2 size={12} />
+                Data covers 59+ careers, 26 universities, and 50+ TVET colleges across South Africa
+              </motion.p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Career Detail Modal */}
       {selectedCareer && province && (
         <CareerDetailModal
           career={selectedCareer}

@@ -18,6 +18,13 @@ export default defineConfig(({mode}) => {
     server: {
       port: 3000,
       hmr: process.env.DISABLE_HMR !== 'true',
+      proxy: {
+        '/ollama': {
+          target: 'http://localhost:11434',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/ollama/, ''),
+        },
+      },
     },
     build: {
       rollupOptions: {

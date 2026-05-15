@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ArrowRight, Bookmark, Briefcase, GraduationCap, MapPin, TrendingUp, AlertCircle, CheckCircle2, Info } from 'lucide-react';
+import { X, Bookmark, GraduationCap, MapPin, TrendingUp, AlertCircle, CheckCircle2, Info, ArrowRight } from 'lucide-react';
 import type { CareerFull } from '../../data/careersTypes';
 
 interface CareerDetailModalProps {
@@ -13,23 +13,67 @@ interface CareerDetailModalProps {
   onToggleSave?: (careerId: string) => void;
 }
 
-const RIASEC_COLORS: Record<string, string> = {
-  R: '#EF4444', // Realistic - red
-  I: '#3B82F6', // Investigative - blue
-  A: '#A855F7', // Artistic - purple
-  S: '#10B981', // Social - green
-  E: '#F59E0B', // Enterprising - amber
-  C: '#06B6D4', // Conventional - cyan
+// ── Design tokens (consistent with card + quiz) ───────────────────────────────
+
+const categoryLabels: Record<string, string> = {
+  university: 'University',
+  tvet:       'TVET College',
+  trade:      'Trade',
+  digital:    'Digital & Tech',
+  creative:   'Creative',
+  business:   'Business',
 };
 
-const RIASEC_NAMES: Record<string, string> = {
-  realistic: 'Realistic',
-  investigative: 'Investigative',
-  artistic: 'Artistic',
-  social: 'Social',
-  enterprising: 'Enterprising',
-  conventional: 'Conventional',
+const demandBadge: Record<string, { label: string; cls: string }> = {
+  high:   { label: 'High demand',   cls: 'bg-emerald-50 text-emerald-700 border border-emerald-100' },
+  medium: { label: 'Medium demand', cls: 'bg-amber-50 text-amber-700 border border-amber-100' },
+  low:    { label: 'Low demand',    cls: 'bg-red-50 text-red-600 border border-red-100' },
 };
+
+// Bar colour per RIASEC type — same system as quiz results
+const riasecBar: Record<string, string> = {
+  R: 'bg-red-500',
+  I: 'bg-blue-500',
+  A: 'bg-violet-500',
+  S: 'bg-green-500',
+  E: 'bg-amber-500',
+  C: 'bg-slate-500',
+};
+
+const riasecNames: Record<string, string> = {
+  realistic:     'Realistic',
+  investigative: 'Investigative',
+  artistic:      'Artistic',
+  social:        'Social',
+  enterprising:  'Enterprising',
+  conventional:  'Conventional',
+};
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">
+      {children}
+    </p>
+  );
+}
+
+function SubjectTag({ label, type }: { label: string; type: 'required' | 'recommended' }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold border ${
+        type === 'required'
+          ? 'bg-slate-900 text-white border-slate-900'
+          : 'bg-slate-50 text-slate-600 border-slate-200'
+      }`}
+    >
+      {label}
+    </span>
+  );
+}
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export function CareerDetailModal({
   career,
@@ -43,12 +87,15 @@ export function CareerDetailModal({
 }: CareerDetailModalProps) {
   if (!career) return null;
 
-  const riasecEntries = Object.entries(career.riasecMatch).sort(([, a], [, b]) => b - a).slice(0, 3);
+  const badge       = demandBadge[career.jobDemand.level];
+  const catLabel    = categoryLabels[career.category] ?? career.category;
+  const riasecSorted = Object.entries(career.riasecMatch).sort(([, a], [, b]) => b - a);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -56,277 +103,287 @@ export function CareerDetailModal({
             onClick={onClose}
             className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm"
           />
+
+          {/* Modal panel */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            exit={{ opacity: 0, y: 24, scale: 0.97 }}
+            transition={{ ease: 'easeOut', duration: 0.22 }}
             data-testid="career-modal"
-            className="fixed inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vw] md:h-[90vh] md:max-w-5xl bg-white md:rounded-xl z-50 overflow-y-auto"
+            className="fixed inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[92vw] md:h-[90vh] md:max-w-4xl bg-white md:rounded-2xl z-50 overflow-y-auto"
           >
-            {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-slate-100 p-4 sm:p-5 md:p-8 flex justify-between items-start gap-4">
+
+            {/* ── Sticky header ── */}
+            <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-slate-100 px-5 py-4 md:px-8 md:py-5 flex justify-between items-start gap-4 z-10">
               <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 bg-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-widest rounded-full">
-                    {career.category}
+                {/* Category + demand row */}
+                <div className="flex flex-wrap items-center gap-2 mb-3">
+                  <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                    {catLabel}
                   </span>
-                  <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-full ${
-                    career.jobDemand.level === 'high'
-                      ? 'bg-green-50 text-green-700'
-                      : career.jobDemand.level === 'medium'
-                      ? 'bg-yellow-50 text-yellow-700'
-                      : 'bg-red-50 text-red-700'
-                  }`}>
-                    {career.jobDemand.level} demand
-                  </span>
+                  {badge && (
+                    <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${badge.cls}`}>
+                      {badge.label}
+                    </span>
+                  )}
                 </div>
-                <h2 className="text-2xl md:text-4xl font-black tracking-tight" style={{ color: '#1e293b' }}>
+                <h2
+                  className="text-xl md:text-3xl font-black text-slate-900 leading-tight"
+                  style={{ letterSpacing: '-0.025em' }}
+                >
                   {career.title}
                 </h2>
               </div>
-              <div className="flex gap-2 shrink-0">
+
+              {/* Actions */}
+              <div className="flex gap-2 shrink-0 mt-1">
                 <button
                   onClick={() => onToggleSave?.(career.id)}
                   data-testid="bookmark-btn"
-                  className={`min-h-11 min-w-11 p-3 rounded-xl transition-all flex items-center justify-center ${
-                    isSaved
-                      ? 'bg-slate-900 text-white'
-                      : 'bg-slate-100 hover:bg-slate-200'
+                  aria-label={isSaved ? 'Unsave career' : 'Save career'}
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                    isSaved ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
-                  title={isSaved ? 'Unsave' : 'Save'}
                 >
-                  <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-white' : ''}`} />
+                  <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-white' : ''}`} />
                 </button>
                 <button
                   onClick={onClose}
-                  className="min-h-11 min-w-11 p-3 rounded-xl bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center"
-                  title="Close"
+                  aria-label="Close"
+                  className="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all flex items-center justify-center"
                 >
-                  <X className="w-5 h-5" style={{ color: '#1e293b' }} />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            {/* Content */}
-            <div className="p-4 sm:p-5 md:p-8 space-y-8">
+            {/* ── Content ── */}
+            <div className="px-5 py-6 md:px-8 md:py-8 space-y-10">
+
               {/* Overview */}
               <section>
-                <p className="text-[15px] leading-[1.65] mb-4" style={{ color: '#475569' }}>
+                <p className="text-[15px] leading-[1.7] text-slate-600 mb-6">
                   {career.description}
                 </p>
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-                  <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                    A Day in the Life
-                  </h4>
-                  <p className="text-[15px] leading-[1.65]" style={{ color: '#475569' }}>
+                <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
+                  <SectionLabel>A Day in the Life</SectionLabel>
+                  <p className="text-[14px] leading-[1.7] text-slate-500">
                     {career.dayInTheLife}
                   </p>
                 </div>
               </section>
 
-              {/* RIASEC Match */}
+              {/* Subjects Required */}
               <section>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                  Your RIASEC Match
-                </h3>
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                  {Object.entries(career.riasecMatch).map(([code, score]) => (
-                    <div key={code} className="text-center">
-                      <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg mx-auto mb-2"
-                        style={{
-                          backgroundColor: RIASEC_COLORS[code.charAt(0).toUpperCase()],
-                          opacity: score > 50 ? 1 : 0.5,
-                        }}
-                      >
-                        {code.charAt(0).toUpperCase()}
-                      </div>
-                      <div className="text-xs font-bold uppercase tracking-wider" style={{ color: '#1e293b' }}>
-                        {score}%
+                <SectionLabel>Matric Subjects</SectionLabel>
+                <div className="space-y-5">
+                  {/* Required subjects */}
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wider text-slate-700 mb-2.5">
+                      Required
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {career.matricRequirements.requiredSubjects.map((s) => (
+                        <SubjectTag key={s} label={s} type="required" />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Recommended subjects */}
+                  {career.matricRequirements.recommendedSubjects.length > 0 && (
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-wider text-slate-500 mb-2.5">
+                        Recommended
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {career.matricRequirements.recommendedSubjects.map((s) => (
+                          <SubjectTag key={s} label={s} type="recommended" />
+                        ))}
                       </div>
                     </div>
-                  ))}
+                  )}
+
+                  {/* APS */}
+                  <div className="flex items-center gap-3 pt-1">
+                    <div className="px-4 py-2.5 bg-slate-900 text-white rounded-xl">
+                      <span className="text-lg font-black" style={{ letterSpacing: '-0.02em' }}>
+                        {career.matricRequirements.minimumAps}+
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 ml-2">
+                        APS
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Minimum APS score required
+                      {career.apsNote && ` — ${career.apsNote}`}
+                    </p>
+                  </div>
                 </div>
-                {riasecEntries.length > 0 && (
-                  <p className="text-sm leading-relaxed mt-4" style={{ color: '#64748b' }}>
-                    You scored high in <strong>{riasecEntries.map(([code]) => RIASEC_NAMES[code]).join(', ')}</strong> — this
-                    career is an excellent match for your personality and interests.
-                  </p>
+              </section>
+
+              {/* RIASEC match — bars, not boxes */}
+              <section>
+                <SectionLabel>Personality Match</SectionLabel>
+                <div className="space-y-3">
+                  {riasecSorted.map(([code, score]) => {
+                    const key   = code[0].toUpperCase();
+                    const name  = riasecNames[code] ?? code;
+                    const bar   = riasecBar[key] ?? 'bg-slate-400';
+                    const isTop = score >= 60;
+                    return (
+                      <div key={code}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black text-white ${bar}`}
+                            >
+                              {key}
+                            </span>
+                            <span className={`text-sm font-bold ${isTop ? 'text-slate-900' : 'text-slate-400'}`}>
+                              {name}
+                            </span>
+                          </div>
+                          <span className={`text-xs font-bold tabular-nums ${isTop ? 'text-slate-600' : 'text-slate-300'}`}>
+                            {score}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${score}%` }}
+                            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
+                            className={`h-full rounded-full ${isTop ? bar : 'bg-slate-200'}`}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+
+              {/* Study path */}
+              <section>
+                <SectionLabel>How to Get There</SectionLabel>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
+                    <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">
+                      Primary path
+                    </p>
+                    <p className="text-sm font-bold text-slate-900 mb-1">{career.studyPath.primaryOption}</p>
+                    <p className="text-xs text-slate-500">{career.studyPath.timeToQualify} to qualify</p>
+                  </div>
+                  {career.studyPath.secondaryOption && (
+                    <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
+                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">
+                        Alternative path
+                      </p>
+                      <p className="text-sm font-bold text-slate-900">{career.studyPath.secondaryOption}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Where to study — tag list, not a box */}
+                {(career.providers.universities || career.providers.tvetColleges) && (
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">
+                      Where to study
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {career.providers.universities?.map((u) => (
+                        <span key={u} className="px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-medium rounded-lg">
+                          {u}
+                        </span>
+                      ))}
+                      {career.providers.tvetColleges?.map((t) => (
+                        <span key={t} className="px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-medium rounded-lg">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </section>
 
-              {/* Education & Study Path */}
+              {/* Salary progression — large numbers, step connector */}
               <section>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                  How to Get There
-                </h3>
-                <div className="space-y-6">
-                  <div className="bg-slate-50 rounded-xl p-6">
-                    <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                      Matric Requirements
-                    </h4>
-                    <div className="space-y-3 text-sm">
-                      <div>
-                        <p className="font-bold" style={{ color: '#1e293b' }}>Required Subjects:</p>
-                        <p style={{ color: '#64748b' }}>{career.matricRequirements.requiredSubjects.join(', ')}</p>
-                      </div>
-                      {career.matricRequirements.recommendedSubjects.length > 0 && (
-                        <div>
-                          <p className="font-bold" style={{ color: '#1e293b' }}>Recommended Subjects:</p>
-                          <p style={{ color: '#64748b' }}>{career.matricRequirements.recommendedSubjects.join(', ')}</p>
-                        </div>
-                      )}
-                      <div>
-                        <p className="font-bold" style={{ color: '#1e293b' }}>Minimum APS Score:</p>
-                        <p style={{ color: '#64748b' }}>{career.matricRequirements.minimumAps}+</p>
-                      </div>
-                    </div>
-                    {career.apsNote && (
-                      <div className="mt-3 pt-3 border-t border-slate-200 flex gap-2">
-                        <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#94a3b8' }} />
-                        <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{career.apsNote}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-6">
-                    <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                      Study Options
-                    </h4>
-                    <div className="space-y-3 text-sm">
-                      <div>
-                        <p className="font-bold mb-1" style={{ color: '#1e293b' }}>Primary Option</p>
-                        <p style={{ color: '#64748b' }}>{career.studyPath.primaryOption}</p>
-                        {career.studyPath.secondaryOption && (
-                          <>
-                            <p className="font-bold mb-1 mt-3" style={{ color: '#1e293b' }}>
-                              Alternative Option
-                            </p>
-                            <p style={{ color: '#64748b' }}>{career.studyPath.secondaryOption}</p>
-                          </>
-                        )}
-                      </div>
-                      <div className="pt-4 border-t border-slate-200">
-                        <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
-                          Time to Qualify: {career.studyPath.timeToQualify}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {career.providers.universities || career.providers.tvetColleges ? (
-                    <div className="bg-slate-50 rounded-xl p-6 text-sm">
-                      <h4 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                        Where to Study
-                      </h4>
-                      {career.providers.universities && (
-                        <div>
-                          <p className="font-semibold mb-2" style={{ color: '#1e293b' }}>Universities:</p>
-                          <p style={{ color: '#64748b' }}>{career.providers.universities.join(', ')}</p>
-                        </div>
-                      )}
-                      {career.providers.tvetColleges && (
-                        <div className={career.providers.universities ? 'mt-3 pt-3 border-t border-slate-200' : ''}>
-                          <p className="font-semibold mb-2" style={{ color: '#1e293b' }}>TVET Colleges:</p>
-                          <p style={{ color: '#64748b' }}>{career.providers.tvetColleges.join(', ')}</p>
-                        </div>
-                      )}
-                    </div>
-                  ) : null}
-                </div>
-              </section>
-
-              {/* Job Market */}
-              <section>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                  Job Market
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="bg-slate-50 rounded-xl p-6">
-                    <div className="flex items-start gap-3 mb-4">
-                      <TrendingUp className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
-                          Demand & Growth
-                        </p>
-                        <p className="text-sm font-bold mb-1" style={{ color: '#1e293b' }}>
-                          {career.jobDemand.growthOutlook}
-                        </p>
-                        <p className="text-xs" style={{ color: '#64748b' }}>
-                          +{career.jobDemand.growthPercentage}% projected growth
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-6">
-                    <div className="flex items-start gap-3 mb-4">
-                      <MapPin className="w-5 h-5 mt-1" style={{ color: '#1e293b' }} />
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
-                          Top Locations
-                        </p>
-                        <p className="text-sm font-bold mb-1" style={{ color: '#1e293b' }}>
-                          {career.jobLocations.hotspots.slice(0, 3).join(', ')}
-                        </p>
-                        <p className="text-xs" style={{ color: '#64748b' }}>
-                          {career.jobLocations.remoteViable ? 'Remote-friendly' : 'Onsite work required'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 bg-slate-50 rounded-xl p-6 text-sm">
-                  <p className="font-bold mb-2" style={{ color: '#1e293b' }}>Top Employers:</p>
-                  <p style={{ color: '#64748b' }}>{career.topEmployers.join(', ')}</p>
-                </div>
-              </section>
-
-              {/* Salary */}
-              <section>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-1" style={{ color: '#1e293b' }}>
-                  Salary Progression
-                </h3>
-                <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Gross (before tax) monthly estimates</p>
-                <div className="flex flex-wrap gap-4 sm:grid sm:grid-cols-3">
+                <SectionLabel>Salary Progression</SectionLabel>
+                <div className="grid grid-cols-3 gap-px bg-slate-100 rounded-xl overflow-hidden border border-slate-100">
                   {[
-                    { label: 'Entry Level', sub: '0–2 yrs', value: career.salary.entryLevel },
-                    { label: 'Mid-Career', sub: '3–6 yrs', value: career.salary.midLevel },
-                    { label: 'Senior', sub: '7+ yrs', value: career.salary.senior },
+                    { label: 'Entry',      sub: '0–2 yrs', value: career.salary.entryLevel },
+                    { label: 'Mid-career', sub: '3–6 yrs', value: career.salary.midLevel },
+                    { label: 'Senior',     sub: '7+ yrs',  value: career.salary.senior },
                   ].map((item, i) => (
-                    <div key={i} className="flex-1 min-w-[7rem] bg-slate-100 rounded-xl p-4 text-center">
-                      <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#64748b' }}>
+                    <div key={i} className="bg-white px-4 py-5 text-center">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">
                         {item.label}
                       </p>
-                      <p className="text-xs mb-2" style={{ color: '#94a3b8' }}>{item.sub}</p>
-                      <p className="text-lg font-black tabular-nums" style={{ color: '#1e293b' }}>
+                      <p className="text-[11px] text-slate-400 mb-3">{item.sub}</p>
+                      <p
+                        className="font-black text-slate-900 tabular-nums"
+                        style={{ fontSize: i === 2 ? '1.5rem' : i === 1 ? '1.25rem' : '1.1rem', letterSpacing: '-0.02em' }}
+                      >
                         R{(item.value / 1000).toFixed(0)}k
                       </p>
-                      <p className="text-xs mt-1" style={{ color: '#64748b' }}>
-                        /month
-                      </p>
+                      <p className="text-[10px] text-slate-400 mt-0.5">/month</p>
                     </div>
                   ))}
                 </div>
                 {career.salaryNote && (
-                  <div className="mt-3 flex gap-2 bg-slate-50 rounded-xl p-3">
-                    <Info className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#94a3b8' }} />
-                    <p className="text-xs leading-relaxed" style={{ color: '#64748b' }}>{career.salaryNote}</p>
+                  <div className="flex gap-2 mt-3">
+                    <Info className="w-3.5 h-3.5 shrink-0 mt-0.5 text-slate-400" />
+                    <p className="text-xs leading-relaxed text-slate-500">{career.salaryNote}</p>
                   </div>
                 )}
               </section>
 
+              {/* Job market */}
+              <section>
+                <SectionLabel>Job Market</SectionLabel>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <TrendingUp className="w-4 h-4 mt-0.5 text-slate-400 shrink-0" />
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Growth</p>
+                      <p className="text-sm font-bold text-slate-900 mb-0.5">{career.jobDemand.growthOutlook}</p>
+                      <p className="text-xs text-slate-500">+{career.jobDemand.growthPercentage}% projected</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <MapPin className="w-4 h-4 mt-0.5 text-slate-400 shrink-0" />
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Location</p>
+                      <p className="text-sm font-bold text-slate-900 mb-0.5">
+                        {career.jobLocations.hotspots.slice(0, 3).join(', ')}
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        {career.jobLocations.remoteViable ? 'Remote-friendly' : 'Onsite required'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2.5">
+                    Top employers
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {career.topEmployers.map((e) => (
+                      <span key={e} className="px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-medium rounded-lg">
+                        {e}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
               {/* Skills */}
               <section>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                  Required Skills
-                </h3>
+                <SectionLabel>Key Skills</SectionLabel>
                 <div className="flex flex-wrap gap-2">
                   {career.skills.map((skill, i) => (
                     <span
                       key={i}
-                      className="px-4 py-2 bg-slate-900/10 text-slate-900 text-xs font-bold uppercase tracking-wider rounded-full"
+                      className="px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 text-xs font-medium rounded-lg"
                     >
                       {skill}
                     </span>
@@ -334,74 +391,59 @@ export function CareerDetailModal({
                 </div>
               </section>
 
+              {/* Career progression — horizontal steps */}
+              <section>
+                <SectionLabel>Career Growth Path</SectionLabel>
+                <div className="grid grid-cols-3 gap-4 relative">
+                  {/* Connector line */}
+                  <div className="absolute top-5 left-[calc(16.67%+8px)] right-[calc(16.67%+8px)] h-px bg-slate-200 hidden sm:block" />
+                  {[
+                    { stage: 'Entry',      role: career.careerProgression.entryRole },
+                    { stage: 'Mid-career', role: career.careerProgression.midRole },
+                    { stage: 'Senior',     role: career.careerProgression.seniorRole },
+                  ].map((item, i) => (
+                    <div key={i} className="text-center relative">
+                      <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-black text-sm mx-auto mb-3 relative z-10">
+                        {i + 1}
+                      </div>
+                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">
+                        {item.stage}
+                      </p>
+                      <p className="text-xs font-bold text-slate-900 leading-snug">{item.role}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
               {/* Misconceptions */}
               {career.commonMisconceptions.length > 0 && (
                 <section>
-                  <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                    Common Misconceptions
-                  </h3>
+                  <SectionLabel>Common Misconceptions</SectionLabel>
                   <div className="space-y-3">
-                    {career.commonMisconceptions.map((misconception, i) => (
-                      <div key={i} className="flex gap-3 bg-yellow-50 border border-yellow-100 rounded-xl p-4">
-                        <AlertCircle className="w-5 h-5 mt-0.5 text-yellow-600 shrink-0" />
-                        <p className="text-sm leading-relaxed" style={{ color: '#475569' }}>
-                          {misconception}
-                        </p>
-
+                    {career.commonMisconceptions.map((m, i) => (
+                      <div key={i} className="bg-amber-50 border border-amber-100 rounded-xl p-4">
+                        <p className="text-sm leading-relaxed text-slate-700">{m}</p>
                       </div>
                     ))}
                   </div>
                 </section>
               )}
 
-              {/* Career Progression */}
-              <section>
-                <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                  Career Growth Path
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    { stage: 'Entry', role: career.careerProgression.entryRole },
-                    { stage: 'Mid-Career', role: career.careerProgression.midRole },
-                    { stage: 'Senior', role: career.careerProgression.seniorRole },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4">
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                        style={{ backgroundColor: '#1e293b' }}
-                      >
-                        {i + 1}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748b' }}>
-                          {item.stage}
-                        </p>
-                        <p className="text-sm font-bold" style={{ color: '#1e293b' }}>
-                          {item.role}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Action Plan */}
+              {/* Action plan */}
               {career.actionPlan && career.actionPlan.length > 0 && (
                 <section>
-                  <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-1" style={{ color: '#1e293b' }}>
-                    What To Do This Year
-                  </h3>
-                  <p className="text-xs mb-4" style={{ color: '#94a3b8' }}>Grade-by-grade steps to get here</p>
+                  <SectionLabel>What to Do This Year</SectionLabel>
+                  <p className="text-xs text-slate-400 -mt-2 mb-5">Grade-by-grade steps to get here</p>
                   <div className="space-y-3">
                     {career.actionPlan.map((step, i) => (
                       <div key={i} className="border border-slate-100 rounded-xl overflow-hidden">
-                        <div className="px-4 py-2 font-bold text-xs uppercase tracking-widest" style={{ backgroundColor: '#1e293b', color: '#fff' }}>
+                        <div className="px-4 py-2 bg-slate-900 text-white text-xs font-black uppercase tracking-widest">
                           {step.grade}
                         </div>
                         <ul className="p-4 space-y-2">
                           {step.actions.map((action, j) => (
-                            <li key={j} className="flex gap-2 text-sm leading-relaxed" style={{ color: '#475569' }}>
-                              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-slate-900" />
+                            <li key={j} className="flex gap-2.5 text-sm leading-relaxed text-slate-600">
+                              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-slate-400" />
                               {action}
                             </li>
                           ))}
@@ -412,61 +454,49 @@ export function CareerDetailModal({
                 </section>
               )}
 
+              {/* Related careers — flat list, no nested cards */}
+              {relatedCareers.length > 0 && (
+                <section className="border-t border-slate-100 pt-8">
+                  <SectionLabel>Similar Careers</SectionLabel>
+                  <div className="divide-y divide-slate-100">
+                    {relatedCareers.slice(0, 3).map((rc) => (
+                      <button
+                        key={rc.id}
+                        onClick={() => onSelectCareer?.(rc)}
+                        className="w-full flex items-center justify-between gap-4 py-4 text-left group hover:bg-slate-50 -mx-1 px-1 rounded-lg transition-colors"
+                      >
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 mb-0.5">
+                            {categoryLabels[rc.category] ?? rc.category}
+                          </p>
+                          <p className="text-sm font-bold text-slate-900 leading-snug truncate">{rc.title}</p>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              )}
+
               {/* CTAs */}
               <section className="border-t border-slate-100 pt-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <button
                     onClick={() => onNavigate?.('library')}
-                    className="w-full min-h-12 p-4 rounded-xl font-bold text-xs uppercase tracking-widest text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
-                    style={{ backgroundColor: '#1e293b' }}
+                    className="w-full py-3.5 px-5 rounded-xl font-bold text-xs uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-700 flex items-center justify-center gap-2 transition-colors"
                   >
                     <GraduationCap className="w-4 h-4" />
                     Start Studying
                   </button>
                   <button
                     onClick={() => onNavigate?.('bursaries')}
-                    className="w-full min-h-12 p-4 rounded-xl font-bold text-xs uppercase tracking-widest border transition-all"
-                    style={{ backgroundColor: '#F9A825', color: '#1e293b', borderColor: '#F9A825' }}
+                    className="w-full py-3.5 px-5 rounded-xl font-bold text-xs uppercase tracking-widest bg-amber-400 text-slate-900 hover:bg-amber-300 flex items-center justify-center gap-2 transition-colors"
                   >
-                    <Briefcase className="w-4 h-4 inline mr-2" />
                     Find Bursaries
                   </button>
                 </div>
               </section>
 
-              {/* Related Careers */}
-              {relatedCareers.length > 0 && (
-                <section className="border-t border-slate-100 pt-8">
-                  <h3 className="text-[11px] font-black uppercase tracking-[0.18em] mb-3" style={{ color: '#94a3b8' }}>
-                    Similar Careers
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {relatedCareers.slice(0, 2).map((relatedCareer) => (
-                      <div
-                        key={relatedCareer.id}
-                        className="p-4 border border-slate-100 rounded-xl transition-all cursor-pointer hover:border-slate-900"
-                      >
-                        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#64748b' }}>
-                          {relatedCareer.category}
-                        </p>
-                        <p className="text-sm font-bold mb-2" style={{ color: '#1e293b' }}>
-                          {relatedCareer.title}
-                        </p>
-                        <p className="text-sm leading-relaxed mb-3 line-clamp-2" style={{ color: '#64748b' }}>
-                          {relatedCareer.description}
-                        </p>
-                        <button
-                          onClick={() => onSelectCareer?.(relatedCareer)}
-                          className="text-xs font-bold uppercase tracking-widest flex items-center gap-1 hover:gap-2 transition-all"
-                          style={{ color: '#1e293b' }}
-                        >
-                          View <ArrowRight className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
             </div>
           </motion.div>
         </>

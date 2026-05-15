@@ -30,7 +30,6 @@ import {
   Instagram,
   Twitter,
   HelpCircle,
-  Zap,
 } from 'lucide-react';
 
 // Lazy-load all page-level components
@@ -40,6 +39,7 @@ const StudyLibraryPage   = lazy(() => import('./pages/school/StudyLibraryPage'))
 const CalendarPageNew    = lazy(() => import('./pages/school/CalendarPageNew'));
 const SchoolAssistPage   = lazy(() => import('./pages/school/SchoolAssistPage'));
 const SchoolAssistChatPage = lazy(() => import('./pages/school/SchoolAssistChatPage'));
+const Grade10SubjectSelectorPage = lazy(() => import('./pages/careers/Grade10SubjectSelectorPage'));
 const CareersPageNew     = lazy(() => import('./pages/careers/CareersPageNew'));
 const BursariesPage      = lazy(() => import('./pages/careers/BursariesPage'));
 const BursaryDetailPage  = lazy(() => import('./pages/careers/BursaryDetailPage'));
@@ -57,9 +57,7 @@ const WaterDashboardPage = lazy(() => import('./pages/community/WaterDashboardPa
 const TaxBudgetPage      = lazy(() => import('./pages/community/TaxBudgetPage'));
 const CostOfLivingPage   = lazy(() => import('./pages/community/CostOfLivingPage'));
 const CivicsPage         = lazy(() => import('./pages/community/CivicsPage'));
-const CommunityImpactPage = lazy(() => import('./pages/community/CommunityPage'));
-const LoadSheddingPage   = lazy(() => import('./pages/community/LoadSheddingPage'));
-const MatricExamDatesPage = lazy(() => import('./pages/school/MatricExamDatesPage'));
+const CommunityImpactPage = lazy(() => import('./pages/community/CommunityImpactPage'));
 const ImpactAuthPage     = lazy(() => import('./pages/auth/ImpactAuthPage'));
 import LoadingScreen from './components/shell/LoadingScreen';
 import type { AppPage } from './lib/withAuth';
@@ -82,7 +80,7 @@ const AnimatedNav = ({ onNavigate, user }: { onNavigate: (page: Page) => void, u
   const navItems = [
     { name: 'Career Guide', page: 'quiz' as Page },
     { name: 'School Assist', page: user && !user.is_anonymous ? 'dashboard' as Page : 'auth' as Page },
-    { name: 'Community', page: 'community' as Page },
+    { name: 'Community', page: 'community-impact' as Page },
   ];
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -130,7 +128,7 @@ const AnimatedNav = ({ onNavigate, user }: { onNavigate: (page: Page) => void, u
               <button
                 key={item.name}
                 onClick={(e) => { e.stopPropagation(); onNavigate(item.page); }}
-                className="text-[13px] font-bold text-slate-600 hover:text-slate-900 transition-colors px-2 py-1 rounded-lg hover:bg-slate-100 whitespace-nowrap"
+                className="text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors px-2 py-1 rounded-lg hover:bg-slate-100 whitespace-nowrap"
               >
                 {item.name}
               </button>
@@ -173,7 +171,7 @@ const AnimatedNav = ({ onNavigate, user }: { onNavigate: (page: Page) => void, u
                   <button
                     key={item.name}
                     onClick={() => { setMobileOpen(false); onNavigate(item.page); }}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 text-left text-[14px] font-bold text-slate-700 transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 text-left text-sm font-semibold text-slate-700 transition-colors"
                   >
                     {item.name}
                   </button>
@@ -222,7 +220,7 @@ const TutorialDialog = () => {
     <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
       <DialogPrimitive.Trigger asChild>
         <button
-          className="fixed bottom-6 right-6 z-[115] flex items-center gap-2 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest px-4 py-2.5 rounded-xl hover:bg-slate-800 transition-colors"
+          className="fixed bottom-6 right-6 z-[115] flex items-center gap-2 bg-slate-900 text-white text-xs font-bold uppercase tracking-widest px-4 py-2.5 rounded-full shadow-xl hover:bg-slate-700 transition-colors"
           aria-label="How it works"
         >
           <HelpCircle className="w-4 h-4" />
@@ -254,7 +252,7 @@ const TutorialDialog = () => {
               <h2 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">
                 {TUTORIAL_STEPS[step].title}
               </h2>
-              <p className="text-[15px] text-slate-500 leading-[1.65] max-w-md mx-auto">
+              <p className="text-base text-slate-500 leading-relaxed max-w-md mx-auto">
                 {TUTORIAL_STEPS[step].description}
               </p>
             </motion.div>
@@ -275,7 +273,7 @@ const TutorialDialog = () => {
           <div className="flex items-center justify-between mt-8">
             <button
               onClick={handleClose}
-              className="text-[13px] text-slate-400 hover:text-slate-600 font-bold transition-colors"
+              className="text-xs text-slate-400 hover:text-slate-600 font-medium transition-colors"
             >
               Skip
             </button>
@@ -284,7 +282,7 @@ const TutorialDialog = () => {
                 if (step < TUTORIAL_STEPS.length - 1) setStep(step + 1);
                 else handleClose();
               }}
-              className="flex items-center gap-1.5 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest px-5 py-2.5 rounded-xl hover:bg-slate-800 transition-colors"
+              className="flex items-center gap-1.5 bg-slate-900 text-white text-xs font-bold uppercase tracking-widest px-5 py-2.5 rounded-full hover:bg-slate-700 transition-colors"
             >
               {step < TUTORIAL_STEPS.length - 1 ? 'Next' : 'Get Started'}
               <ArrowRight className="w-3.5 h-3.5" />
@@ -299,54 +297,76 @@ const TutorialDialog = () => {
 // ── Features Section ──────────────────────────────────────────────────────────
 
 const FeaturesSection = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: User | null }) => {
-  const isAuth = user && !user.is_anonymous;
-
   const features = [
-    { icon: <Compass className="w-5 h-5" />, title: "Career Guide", sub: "Quiz, careers, bursaries, job map", page: 'quiz' as Page },
-    { icon: <BookOpen className="w-5 h-5" />, title: "School Assist", sub: "Study library, AI tutor, calendar", page: isAuth ? 'dashboard' as Page : 'auth' as Page },
-    { icon: <GraduationCap className="w-5 h-5" />, title: "TVET", sub: "Trade careers, 26 colleges, funding", page: 'tvet' as Page },
-    { icon: <Users className="w-5 h-5" />, title: "Community", sub: "Utilities, costs, civics, impact", page: 'community' as Page },
+    {
+      icon: <Users className="w-7 h-7 text-slate-700" />,
+      title: "Community",
+      description: "Track water outages, explore tax & budget explainers, cost-of-living tools, and civics content.",
+      cta: "Get Involved",
+      page: 'community-impact' as Page,
+    },
+    {
+      icon: <BookOpen className="w-7 h-7 text-slate-700" />,
+      title: "School Assist",
+      description: "Your personal study hub. Access curriculum-aligned content for Grades 10–12, track school terms, and plan your study schedule.",
+      cta: user && !user.is_anonymous ? "Go to Dashboard" : "Start Learning",
+      page: user && !user.is_anonymous ? 'dashboard' as Page : 'auth' as Page,
+    },
+    {
+      icon: <Briefcase className="w-7 h-7 text-slate-700" />,
+      title: "Careers",
+      description: "Explore 400+ South African careers. Take our RIASEC quiz, find bursaries, check APS requirements, and map your path forward.",
+      cta: "Explore Careers",
+      page: 'quiz' as Page,
+    },
   ];
 
   return (
-    <section className="py-24 lg:py-36 px-4 sm:px-6 bg-white border-b border-slate-100">
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-white border-b border-slate-100">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16 lg:mb-20"
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-10 sm:mb-16"
         >
-          <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">Four pillars</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">What we offer</p>
           <h2
-            className="font-black text-slate-900 max-w-2xl"
-            style={{ fontSize: "clamp(2rem, 5.5vw, 3.5rem)", lineHeight: 1.05, letterSpacing: '-0.03em' }}
+            className="font-black text-slate-900 tracking-tighter"
+            style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
           >
-            Everything a South African student needs.
+            Everything you need to thrive.
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-slate-100 border border-slate-100 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-xl overflow-hidden">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: i * 0.06 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
               onClick={() => onNavigate(f.page)}
-              className="group flex flex-col bg-white p-6 sm:p-8 lg:p-10 cursor-pointer hover:bg-slate-900 transition-colors duration-300"
+              className="group flex flex-col bg-white p-6 sm:p-8 md:p-10 cursor-pointer hover:bg-slate-50 transition-colors duration-200 min-h-[44px]"
             >
-              <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center mb-8 group-hover:bg-white/10 transition-colors duration-300 shrink-0 text-slate-500 group-hover:text-white">
-                {f.icon}
+              <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center mb-6 sm:mb-8 group-hover:bg-slate-900 transition-colors duration-300 shrink-0">
+                <span className="text-slate-500 group-hover:text-white transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5">{f.icon}</span>
               </div>
-              <p className="font-black text-slate-900 group-hover:text-white text-[1rem] leading-tight mb-2 transition-colors duration-300" style={{ letterSpacing: '-0.015em' }}>
+
+              <h3 className="font-bold text-slate-900 mb-2 sm:mb-3 tracking-tight text-base sm:text-lg leading-snug">
                 {f.title}
+              </h3>
+
+              <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-6 sm:mb-8">
+                {f.description}
               </p>
-              <p className="text-[13px] text-slate-400 group-hover:text-white/50 leading-snug transition-colors duration-300">
-                {f.sub}
-              </p>
+
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5 mt-auto">
+                {f.cta}
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+              </span>
             </motion.div>
           ))}
         </div>
@@ -402,8 +422,7 @@ const LampSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ delay: 0.2, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
         >
           <blockquote
             className="font-black text-white leading-tight mb-6 sm:mb-8"
@@ -413,11 +432,11 @@ const LampSection = () => {
           </blockquote>
           <footer className="flex flex-col items-center gap-1 mb-6 sm:mb-8">
             <div className="w-8 h-px bg-slate-600 mb-3" />
-            <cite className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 not-italic">
+            <cite className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 not-italic">
               Nelson Mandela
             </cite>
           </footer>
-          <p className="text-[15px] text-slate-400 leading-[1.65] max-w-md mx-auto">
+          <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-md mx-auto">
             Arm yourself with the knowledge to shape your own future.
           </p>
         </motion.div>
@@ -426,163 +445,73 @@ const LampSection = () => {
   );
 };
 
-// ── What's Inside Section ─────────────────────────────────────────────────────
+// ── Career Guide Section ──────────────────────────────────────────────────────
 
 const CareerGuideSection = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
-  const sections = [
-    {
-      eyebrow: 'No sign-in required',
-      heading: 'Career Guide',
-      desc: 'Discover the right path and find the funding to make it happen.',
-      cta: { label: 'Start Career Quiz', page: 'quiz' as Page },
-      tools: [
-        { icon: <Compass className="w-4 h-4" />, title: 'RIASEC Career Quiz', page: 'quiz' as Page },
-        { icon: <Briefcase className="w-4 h-4" />, title: 'Career Browser', page: 'careers' as Page },
-        { icon: <Award className="w-4 h-4" />, title: 'Bursary Finder', page: 'bursaries' as Page },
-        { icon: <MapPin className="w-4 h-4" />, title: 'Job Demand Map', page: 'map' as Page },
-        { icon: <GraduationCap className="w-4 h-4" />, title: 'TVET Pathways', page: 'tvet' as Page },
-      ],
-    },
-    {
-      eyebrow: 'Free account required',
-      heading: 'School Assist',
-      desc: 'Your personal study hub for the South African matric curriculum.',
-      cta: { label: 'Sign in to Access', page: 'auth' as Page },
-      tools: [
-        { icon: <BookOpen className="w-4 h-4" />, title: 'Study Library', page: 'library' as Page },
-        { icon: <Rocket className="w-4 h-4" />, title: 'School Assist AI', page: 'school-assist-chat' as Page },
-        { icon: <CalendarDays className="w-4 h-4" />, title: 'Academic Calendar', page: 'calendar' as Page },
-        { icon: <Navigation className="w-4 h-4" />, title: 'Dashboard', page: 'dashboard' as Page },
-      ],
-    },
-  ];
-
-  return (
-    <section className="py-24 lg:py-36 px-4 sm:px-6 bg-slate-50 border-y border-slate-100">
-      <div className="max-w-6xl mx-auto space-y-24 lg:space-y-32">
-        {sections.map((sec, si) => (
-          <motion.div
-            key={sec.heading}
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: si * 0.05 }}
-            className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-start"
-          >
-            {/* Left: heading + desc + CTA */}
-            <div className="lg:sticky lg:top-28">
-              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-4">{sec.eyebrow}</p>
-              <h2
-                className="font-black text-slate-900 mb-5"
-                style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)", lineHeight: 1.05, letterSpacing: '-0.03em' }}
-              >
-                {sec.heading}
-              </h2>
-              <p className="text-[15px] text-slate-500 leading-[1.65] mb-8 max-w-[38ch]">
-                {sec.desc}
-              </p>
-              <button
-                onClick={() => onNavigate(sec.cta.page)}
-                className="inline-flex items-center gap-2 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-slate-800 transition-colors"
-              >
-                {sec.cta.label} <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            {/* Right: scannable tool list */}
-            <div className="divide-y divide-slate-200">
-              {sec.tools.map((tool, i) => (
-                <motion.button
-                  key={tool.title}
-                  initial={{ opacity: 0, x: 16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: i * 0.05 }}
-                  onClick={() => onNavigate(tool.page)}
-                  className="group w-full flex items-center gap-4 py-4 text-left hover:pl-2 transition-all duration-300"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center shrink-0 text-slate-400 group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 transition-all duration-300">
-                    {tool.icon}
-                  </div>
-                  <span className="font-bold text-slate-700 text-[15px] group-hover:text-slate-900 transition-colors duration-200" style={{ letterSpacing: '-0.01em' }}>
-                    {tool.title}
-                  </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-900 ml-auto shrink-0 transition-colors duration-200" />
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-// ── Community Section ─────────────────────────────────────────────────────────
-
-const CommunitySection = ({ onNavigate }: { onNavigate: (page: Page) => void }) => {
   const tools = [
-    { icon: <Zap className="w-4 h-4" />, title: 'Electricity Status', page: 'load-shedding' as Page },
-    { icon: <Newspaper className="w-4 h-4" />, title: 'Water Dashboard', page: 'water-dashboard' as Page },
-    { icon: <Award className="w-4 h-4" />, title: 'Cost of Living', page: 'cost-of-living' as Page },
-    { icon: <Target className="w-4 h-4" />, title: 'Tax & Budget', page: 'tax-budget' as Page },
-    { icon: <BookOpen className="w-4 h-4" />, title: 'Civics Guide', page: 'civics' as Page },
-    { icon: <Users className="w-4 h-4" />, title: 'Community Impact', page: 'community' as Page },
+    { icon: <Compass className="w-5 h-5" />, title: 'RIASEC Career Quiz', desc: 'Answer 42 questions and get matched to careers that fit your personality and interests.', cta: 'Take the Quiz', page: 'quiz' as Page },
+    { icon: <Briefcase className="w-5 h-5" />, title: 'Career Browser', desc: 'Browse 200+ SA careers with salary ranges, APS requirements, and university pathways.', cta: 'Explore Careers', page: 'careers' as Page },
+    { icon: <GraduationCap className="w-5 h-5" />, title: 'TVET Pathways', desc: 'Discover vocational careers and the 50 public TVET colleges across all SA provinces.', cta: 'Explore TVET', page: 'tvet' as Page },
+    { icon: <Award className="w-5 h-5" />, title: 'Bursary Finder', desc: '200+ bursaries searchable by career field and province. Includes NSFAS eligibility check.', cta: 'Find Funding', page: 'bursaries' as Page },
+    { icon: <MapPin className="w-5 h-5" />, title: 'Job Demand Map', desc: 'See which careers are in demand by province and where employers are hiring across SA.', cta: 'View Map', page: 'map' as Page },
+    { icon: <Target className="w-5 h-5" />, title: 'Grade 10 Subject Selector', desc: 'Choose your Grade 10 subjects wisely. See how each combination unlocks or closes career doors.', cta: 'Choose Subjects', page: 'subject-selector' as Page },
   ];
 
   return (
-    <section className="py-24 lg:py-36 px-4 sm:px-6 bg-slate-900">
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-slate-50 border-y border-slate-100">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-12 lg:gap-20 items-start"
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-10 sm:mb-16 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8"
         >
-          {/* Left */}
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500 mb-4">No sign-in required</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">No sign-in required</p>
             <h2
-              className="font-black text-white mb-5"
-              style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)", lineHeight: 1.05, letterSpacing: '-0.03em' }}
+              className="font-black text-slate-900 tracking-tighter"
+              style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
             >
-              Community
+              Career Guide
             </h2>
-            <p className="text-[15px] text-slate-400 leading-[1.65] mb-8 max-w-[38ch]">
-              Understand the systems that shape your opportunities — utilities, costs, rights, and civic participation.
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed mt-4 sm:mt-5 max-w-md">
+              Discover the right path, understand how to get there, and find the funding to make it happen.
             </p>
-            <button
-              onClick={() => onNavigate('community')}
-              className="inline-flex items-center gap-2 bg-white text-slate-900 text-[11px] font-black uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-slate-100 transition-colors"
-            >
-              Open Community <ArrowRight className="w-3.5 h-3.5" />
-            </button>
           </div>
-
-          {/* Right: tool list */}
-          <div className="divide-y divide-slate-800">
-            {tools.map((tool, i) => (
-              <motion.button
-                key={tool.title}
-                initial={{ opacity: 0, x: 16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: i * 0.05 }}
-                onClick={() => onNavigate(tool.page)}
-                className="group w-full flex items-center gap-4 py-4 text-left hover:pl-2 transition-all duration-300"
-              >
-                <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 text-slate-400 group-hover:bg-white group-hover:text-slate-900 group-hover:border-white transition-all duration-300">
-                  {tool.icon}
-                </div>
-                <span className="font-bold text-slate-300 text-[15px] group-hover:text-white transition-colors duration-200" style={{ letterSpacing: '-0.01em' }}>
-                  {tool.title}
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-white ml-auto shrink-0 transition-colors duration-200" />
-              </motion.button>
-            ))}
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+            onClick={() => onNavigate('quiz')}
+            className="flex items-center justify-center gap-2.5 w-full lg:w-auto bg-slate-900 text-white text-[11px] font-semibold uppercase tracking-[0.15em] px-7 py-4 rounded-xl hover:bg-slate-800 transition-colors shrink-0 min-h-[48px]"
+          >
+            Start Career Quiz <ArrowRight className="w-3.5 h-3.5" />
+          </motion.button>
         </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {tools.map((tool, i) => (
+            <motion.button
+              key={tool.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              onClick={() => onNavigate(tool.page)}
+              className="group flex flex-col items-start text-left p-5 sm:p-6 rounded-xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-200 min-h-[44px]"
+            >
+              <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center mb-4 sm:mb-5 text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-all duration-200 shrink-0">
+                {tool.icon}
+              </div>
+              <h3 className="font-bold text-slate-900 mb-2 tracking-tight text-sm sm:text-[0.9375rem]">
+                {tool.title}
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed flex-1">{tool.desc}</p>
+              <span className="mt-4 sm:mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 group-hover:text-slate-900 transition-colors inline-flex items-center gap-1.5">
+                {tool.cta} <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </motion.button>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -592,62 +521,44 @@ const CommunitySection = ({ onNavigate }: { onNavigate: (page: Page) => void }) 
 
 const HowItWorks = () => {
   const steps = [
-    {
-      number: 1,
-      title: 'Find your direction',
-      desc: 'Take the free RIASEC quiz. In 10 minutes you get a list of careers matched to your personality and interests — no account needed.',
-    },
-    {
-      number: 2,
-      title: 'Understand your options',
-      desc: 'Dig into any career: what it pays, which provinces are hiring, what APS score you need, which university or TVET college to target, and how to fund it.',
-    },
-    {
-      number: 3,
-      title: 'Build toward it',
-      desc: 'Create a free account to access the study library, track your academic calendar, use the AI tutor, and save the careers and bursaries that matter to you.',
-    },
+    { number: 1, title: 'Take the Career Quiz', desc: 'Answer our RIASEC quiz questions about your interests and strengths to discover which career paths suit your personality best.' },
+    { number: 2, title: 'Explore Your Options', desc: 'Browse 400+ South African careers with salary data, job demand by province, university requirements, and TVET pathways.' },
+    { number: 3, title: 'Secure Your Future', desc: 'Find bursaries and scholarships that match your field, then use our study resources to achieve the marks you need.' },
   ];
 
   return (
-    <section className="py-24 lg:py-36 px-4 sm:px-6 bg-white border-b border-slate-100">
+    <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-white border-b border-slate-100">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16 lg:mb-20"
-        >
-          <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-4">How it works</p>
+        <div className="mb-12 sm:mb-16 sm:mb-20">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">The process</p>
           <h2
-            className="font-black text-slate-900"
-            style={{ fontSize: "clamp(1.75rem, 5vw, 3rem)", lineHeight: 1.05, letterSpacing: '-0.03em' }}
+            className="font-black tracking-tighter text-slate-900"
+            style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
           >
-            Three steps, one free app.
+            How does it work?
           </h2>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 lg:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 md:gap-8">
           {steps.map((step, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
               className="flex flex-col items-start"
             >
               <span
-                className="font-black text-slate-100 mb-6 select-none"
-                style={{ fontSize: "clamp(3rem, 7vw, 5rem)", lineHeight: 1, letterSpacing: "-0.04em" }}
+                className="font-black text-slate-200 mb-5 sm:mb-6 select-none"
+                style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", lineHeight: 1, letterSpacing: "-0.04em" }}
               >
                 {String(step.number).padStart(2, "0")}
               </span>
-              <h3 className="font-black text-slate-900 mb-3 text-[1.0625rem]" style={{ letterSpacing: '-0.01em' }}>
+              <h3 className="font-bold text-slate-900 mb-2 sm:mb-3 tracking-tight text-base sm:text-[1.0625rem]">
                 {step.title}
               </h3>
-              <p className="text-[15px] text-slate-500 leading-[1.65]">
+              <p className="text-sm text-slate-500 leading-relaxed">
                 {step.desc}
               </p>
             </motion.div>
@@ -673,21 +584,21 @@ const DiscoveryGrid = () => {
     <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 bg-slate-50 border-b border-slate-100">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
           className="mb-8 sm:mb-12"
         >
-          <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-4">Career paths</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-3 sm:mb-4">Career Library</p>
           <h2
-            className="font-black text-slate-900"
-            style={{ fontSize: "clamp(1.75rem, 5vw, 3rem)", lineHeight: 1.05, letterSpacing: '-0.03em' }}
+            className="font-black text-slate-900 tracking-tighter"
+            style={{ fontSize: "clamp(1.75rem, 5vw, 3.5rem)", lineHeight: 1.1 }}
           >
-            Every path has a place to start.
+            Explore Top SA Careers
           </h2>
-          <p className="text-[15px] text-slate-500 mt-4 leading-[1.65]" style={{ maxWidth: "42ch" }}>
-            Engineering, healthcare, education, trades — explore the careers South Africa needs, with real salary and demand data.
+          <p className="text-slate-500 text-sm sm:text-base mt-4 sm:mt-5 leading-relaxed" style={{ maxWidth: "42ch" }}>
+            Salary ranges, job demand by province, and entry requirements for the careers South Africa needs most.
           </p>
         </motion.div>
 
@@ -695,12 +606,12 @@ const DiscoveryGrid = () => {
           {items.map((item, index) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 28 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: index * 0.07 }}
-              whileHover={{ y: -5 }}
-              className="relative rounded-xl overflow-hidden cursor-pointer group aspect-4/3 sm:aspect-3/4 will-change-transform"
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="relative rounded-xl overflow-hidden cursor-pointer group aspect-4/3 sm:aspect-3/4 shadow-sm hover:shadow-xl transition-shadow duration-300 will-change-transform"
             >
               <picture>
                 <source srcSet={item.webp} type="image/webp" />
@@ -714,8 +625,8 @@ const DiscoveryGrid = () => {
               </picture>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="font-black text-[14px] leading-tight" style={{ letterSpacing: '-0.01em' }}>{item.title}</h3>
-                <p className="text-white/60 text-[12px] mt-1 leading-snug hidden sm:block">{item.description}</p>
+                <h3 className="font-black text-sm lg:text-base leading-tight tracking-tight">{item.title}</h3>
+                <p className="text-white/60 text-xs mt-1 leading-snug hidden sm:block">{item.description}</p>
               </div>
             </motion.div>
           ))}
@@ -733,50 +644,43 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
     {
       title: 'Career Guide',
       links: [
-        { label: 'Career Quiz', page: 'quiz' },
-        { label: 'Explore Careers', page: 'careers' },
-        { label: 'Bursary Finder', page: 'bursaries' },
-        { label: 'Job Demand Map', page: 'map' },
-        { label: 'TVET Pathways', page: 'tvet' },
+        { label: 'Career Quiz', page: 'quiz' }, { label: 'Explore Careers', page: 'careers' },
+        { label: 'TVET Pathways', page: 'tvet' }, { label: 'Bursary Finder', page: 'bursaries' }, { label: 'Job Map', page: 'map' },
       ],
     },
     {
       title: 'School Assist',
       links: [
-        { label: isAuth ? 'Dashboard' : 'Sign In / Register', page: isAuth ? 'dashboard' : 'auth' },
+        { label: isAuth ? 'Dashboard' : 'Sign In / Register', page: isAuth ? 'dashboard' : 'auth' }, 
         { label: 'Study Library', page: isAuth ? 'library' : 'auth' },
-        { label: 'Academic Calendar', page: isAuth ? 'calendar' : 'auth' },
-        { label: 'School Assist AI', page: 'school-assist-chat' },
+        { label: 'School Calendar', page: isAuth ? 'calendar' : 'auth' }, 
+        { label: 'Grade 10 Tools', page: 'subject-selector' },
       ],
     },
     {
       title: 'Community',
       links: [
-        { label: 'Electricity Status', page: 'load-shedding' },
-        { label: 'Water Dashboard', page: 'water-dashboard' },
-        { label: 'Cost of Living', page: 'cost-of-living' },
-        { label: 'Tax & Budget', page: 'tax-budget' },
-        { label: 'Civics Guide', page: 'civics' },
-        { label: 'Community Impact', page: 'community' },
+        { label: 'Water Dashboard', page: 'water-dashboard' }, { label: 'Tax & Budget', page: 'tax-budget' },
+        { label: 'Cost of Living', page: 'cost-of-living' }, { label: 'Civics', page: 'civics' },
       ],
     },
   ];
 
   return (
-    <footer className="bg-white text-slate-500 py-20 lg:py-24 px-4 sm:px-6 border-t border-slate-100">
+    <footer className="bg-white text-slate-500 py-16 sm:py-20 lg:py-24 px-4 sm:px-6 border-t border-slate-100">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 sm:gap-12 mb-12 sm:mb-16">
           <div className="sm:col-span-2 lg:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center text-white font-black text-lg">P</div>
-              <span className="text-xl font-black text-slate-900" style={{ letterSpacing: '-0.02em' }}>Prospect SA</span>
+            <div className="flex items-center gap-4 mb-6 sm:mb-8">
+              <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-xl shadow-sm">P</div>
+              <span className="text-2xl font-black text-slate-900 tracking-tight">Prospect</span>
             </div>
-            <p className="text-[15px] text-slate-500 leading-[1.65] max-w-[30ch] mb-8">
-              Free career discovery, matric study support, and civic tools — built for South African students.
+            <p className="text-slate-500 text-sm leading-relaxed max-w-[32ch] mb-8">
+              South Africa's free platform for career discovery, matric study resources, and civic guidance — built for students, by South Africans.
             </p>
-            <div className="flex gap-3">
-              {[{ icon: <Facebook size={16} />, label: 'Facebook' }, { icon: <Instagram size={16} />, label: 'Instagram' }, { icon: <Twitter size={16} />, label: 'Twitter' }].map((social, i) => (
-                <button key={i} className="w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all" aria-label={social.label}>
+            <div className="flex gap-4">
+              {[{ icon: <Facebook size={18} />, label: 'Facebook' }, { icon: <Instagram size={18} />, label: 'Instagram' }, { icon: <Twitter size={18} />, label: 'Twitter' }].map((social, i) => (
+                <button key={i} className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all duration-300" aria-label={social.label}>
                   {social.icon}
                 </button>
               ))}
@@ -784,11 +688,11 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
           </div>
           {sections.map((section) => (
             <div key={section.title}>
-              <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-5">{section.title}</h4>
-              <ul className="space-y-3">
+              <h4 className="font-black text-slate-900 text-xs uppercase tracking-widest mb-6">{section.title}</h4>
+              <ul className="space-y-4">
                 {section.links.map((link) => (
                   <li key={link.label}>
-                    <button onClick={() => onNavigate(link.page as Page)} className="text-[14px] text-slate-500 hover:text-slate-900 transition-colors text-left">
+                    <button onClick={() => onNavigate(link.page as Page)} className="text-sm text-slate-500 hover:text-slate-900 transition-colors text-left py-1 min-h-9 flex items-center">
                       {link.label}
                     </button>
                   </li>
@@ -797,9 +701,13 @@ const Footer = ({ onNavigate, user }: { onNavigate: (page: Page) => void, user: 
             </div>
           ))}
         </div>
-        <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[13px] text-slate-400">© 2026 Prospect South Africa. Free, always.</p>
-          <p className="text-[13px] text-slate-400">Built for Grade 10–12 students across all 9 provinces.</p>
+        <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p className="text-slate-400 text-xs">© 2026 Prospect South Africa. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <button onClick={() => onNavigate('home')} className="text-slate-400 hover:text-slate-900 text-xs transition-colors">Accessibility</button>
+            <button onClick={() => onNavigate('home')} className="text-slate-400 hover:text-slate-900 text-xs transition-colors">Cookie Settings</button>
+            <button onClick={() => onNavigate('home')} className="text-slate-400 hover:text-slate-900 text-xs transition-colors">South Africa (EN)</button>
+          </div>
         </div>
       </div>
     </footer>
@@ -903,19 +811,19 @@ export default function App() {
               {page === 'tvet-colleges' && <PageTransition pageKey="tvet-colleges"><TVETCollegesPage {...careerPageProps} /></PageTransition>}
               {page === 'tvet-funding' && <PageTransition pageKey="tvet-funding"><TVETFundingPage {...careerPageProps} /></PageTransition>}
               {page === 'tvet-requirements' && <PageTransition pageKey="tvet-requirements"><TVETRequirementsPage {...careerPageProps} /></PageTransition>}
+              {page === 'subject-selector' && <PageTransition pageKey="subject-selector"><Grade10SubjectSelectorPage {...careerPageProps} /></PageTransition>}
               {page === 'library' && <PageTransition pageKey="library"><StudyLibraryPage {...protectedPageProps} /></PageTransition>}
               {page === 'calendar' && <PageTransition pageKey="calendar"><CalendarPageNew {...protectedPageProps} /></PageTransition>}
               {page === 'school-assist' && <PageTransition pageKey="school-assist"><SchoolAssistPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'school-assist-chat' && <PageTransition pageKey="school-assist-chat"><SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-linear-equations' && <PageTransition pageKey="learning-algebra-g10-t1-linear-equations"><LinearEquationsPage {...protectedPageProps} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-simultaneous' && <PageTransition pageKey="learning-algebra-g10-t1-simultaneous"><SimultaneousEquationsPage {...protectedPageProps} /></PageTransition>}
-              {page === 'water-dashboard' && <PageTransition pageKey="water-dashboard"><WaterDashboardPage onNavigate={navigate} /></PageTransition>}
-              {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage onNavigate={navigate} /></PageTransition>}
-              {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage onNavigate={navigate} /></PageTransition>}
-              {page === 'civics' && <PageTransition pageKey="civics"><CivicsPage onNavigate={navigate} /></PageTransition>}
-              {page === 'community' && <PageTransition pageKey="community-impact"><CommunityImpactPage onNavigate={navigate} /></PageTransition>}
-              {page === 'load-shedding' && <PageTransition pageKey="load-shedding"><LoadSheddingPage onNavigate={navigate} /></PageTransition>}
-              {page === 'matric-exam-dates' && <PageTransition pageKey="matric-exam-dates"><MatricExamDatesPage {...protectedPageProps} /></PageTransition>}
+              {page === 'water-dashboard' && <PageTransition pageKey="water-dashboard"><WaterDashboardPage {...protectedPageProps} /></PageTransition>}
+
+              {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage {...careerPageProps} /></PageTransition>}
+              {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage {...careerPageProps} /></PageTransition>}
+              {page === 'civics' && <PageTransition pageKey="civics"><CivicsPage {...careerPageProps} /></PageTransition>}
+              {page === 'community-impact' && <PageTransition pageKey="community-impact"><CommunityImpactPage {...careerPageProps} /></PageTransition>}
               {page === 'impact-auth' && <PageTransition pageKey="impact-auth"><ImpactAuthPage onNavigateHome={() => setPage('home')} onNavigate={navigate} /></PageTransition>}
 
               {page === 'home' && (
@@ -928,7 +836,6 @@ export default function App() {
                       <FeaturesSection onNavigate={setPage} user={user} />
                       <LogoCloud />
                       <CareerGuideSection onNavigate={setPage} />
-                      <CommunitySection onNavigate={setPage} />
                       <HowItWorks />
                       <DiscoveryGrid />
                       <LampSection />

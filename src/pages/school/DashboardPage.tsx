@@ -475,7 +475,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 {/* Start new / resume CTA card */}
                 {hasActivePath && nextTopicToStudy ? (
                   <button
-                    onClick={() => onNavigate('demo-learning')}
+                    onClick={() => onNavigate('library')}
                     className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors group"
                   >
                     <Play className="w-4 h-4 group-hover:scale-110 transition-transform" />

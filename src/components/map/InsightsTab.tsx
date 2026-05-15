@@ -9,210 +9,171 @@ import {
   getAverageSalaryByProvince,
   getHighDemandCareers,
   getCostOfLivingByCity,
+  getBursariesByProvince,
 } from '../../services/mapService';
-import { getBursariesByProvince } from '../../services/mapService';
 
 interface InsightsTabProps {
   province: string;
   city?: string;
 }
 
-export default function InsightsTab({ province, city }: InsightsTabProps) {
-  const careerCount = countCareersInProvince(province);
-  const collegeCount = countCollegesInProvince(province);
-  const topDemandCareers = getHighDemandCareers(province).slice(0, 3);
-  const avgSalary = getAverageSalaryByProvince(province);
-  const industryBreakdown = getIndustryBreakdown(province);
-  const topEmployers = getTopEmployersByProvince(province);
-  const bursaries = getBursariesByProvince(province);
-  const costOfLiving = city ? getCostOfLivingByCity(city) : null;
-
-  const StatCard = ({ icon, label, value }: { icon: ReactNode; label: string; value: string }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl p-5 border-2 border-slate-100 hover:border-slate-900 hover:shadow-md transition"
-    >
-      <div className="mb-2 text-slate-500">{icon}</div>
-      <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest">{label}</p>
-      <p className="text-xl font-bold text-slate-900 mt-1">{value}</p>
-    </motion.div>
+function StatCard({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
+  return (
+    <div className="border border-slate-100 rounded-lg p-4">
+      <div className="text-slate-400 mb-2">{icon}</div>
+      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{label}</p>
+      <p className="text-[18px] font-black text-slate-900 mt-1" style={{ letterSpacing: '-0.018em' }}>{value}</p>
+    </div>
   );
+}
+
+function SectionHeader({ icon, label }: { icon: ReactNode; label: string }) {
+  return (
+    <div className="flex items-center gap-2 mb-3">
+      <span className="text-slate-400">{icon}</span>
+      <h3 className="text-[13px] font-black uppercase tracking-widest text-slate-500">{label}</h3>
+    </div>
+  );
+}
+
+export default function InsightsTab({ province, city }: InsightsTabProps) {
+  const careerCount      = countCareersInProvince(province);
+  const collegeCount     = countCollegesInProvince(province);
+  const topDemandCareers = getHighDemandCareers(province).slice(0, 4);
+  const avgSalary        = getAverageSalaryByProvince(province);
+  const industryBreakdown = getIndustryBreakdown(province);
+  const topEmployers     = getTopEmployersByProvince(province);
+  const bursaries        = getBursariesByProvince(province);
+  const costOfLiving     = city ? getCostOfLivingByCity(city) : null;
 
   return (
     <div className="space-y-8">
-      {/* Job Market Summary */}
+
+      {/* ── Job Market summary ── */}
       <section>
-        <div className="flex items-center gap-2 mb-4">
-          <BarChart2 className="w-5 h-5 text-slate-600" />
-          <h3 className="text-lg font-bold text-slate-900">Job Market</h3>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard icon={<Briefcase className="w-6 h-6" />} label="Careers" value={`${careerCount}+`} />
-          <StatCard icon={<Building2 className="w-6 h-6" />} label="Colleges" value={`${collegeCount}`} />
-          <StatCard icon={<Banknote className="w-6 h-6" />} label="Avg Salary" value={`R${(avgSalary / 1000).toFixed(0)}k`} />
-          <StatCard icon={<TrendingUp className="w-6 h-6" />} label="Hot Roles" value={`${topDemandCareers.length}+`} />
+        <SectionHeader icon={<BarChart2 size={14} />} label="Job Market" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <StatCard icon={<Briefcase size={18} />} label="Careers"    value={`${careerCount}+`} />
+          <StatCard icon={<Building2 size={18} />} label="Colleges"   value={`${collegeCount}`} />
+          <StatCard icon={<Banknote  size={18} />} label="Avg Salary" value={`R${(avgSalary / 1000).toFixed(0)}k`} />
+          <StatCard icon={<TrendingUp size={18} />} label="Hot Roles" value={`${topDemandCareers.length}`} />
         </div>
 
-        {/* Top Demand Careers */}
         {topDemandCareers.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="mt-4 bg-white rounded-xl p-5 border-2 border-slate-100"
-          >
-            <p className="text-sm font-semibold text-slate-700 mb-3">Fastest Growing</p>
-            <div className="space-y-2">
+          <div className="mt-4 border border-slate-100 rounded-lg overflow-hidden">
+            <div className="px-4 py-2.5 border-b border-slate-100">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Fastest growing</p>
+            </div>
+            <div className="divide-y divide-slate-100">
               {topDemandCareers.map((career) => (
-                <div
-                  key={career.id}
-                  className="flex items-center justify-between py-2 border-b border-slate-100 last:border-b-0"
-                >
-                  <span className="text-sm font-medium text-slate-900">{career.title}</span>
-                  <span
-                    className="text-xs font-bold px-2 py-1 rounded flex items-center gap-1"
-                    style={{
-                      backgroundColor: '#EF4444',
-                      color: 'white',
-                    }}
-                  >
-                    <TrendingUp className="w-3 h-3" /> High
+                <div key={career.id} className="flex items-center justify-between px-4 py-3">
+                  <span className="text-[13px] font-bold text-slate-900">{career.title}</span>
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center gap-1">
+                    <TrendingUp size={10} />
+                    High demand
                   </span>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
       </section>
 
-      {/* Cost of Living */}
+      {/* ── Cost of Living ── */}
       {costOfLiving && (
         <section>
-          <div className="flex items-center gap-2 mb-4">
-          <Wallet className="w-5 h-5 text-slate-600" />
-          <h3 className="text-lg font-bold text-slate-900">Cost of Living in {city}</h3>
-        </div>
-          <div className="space-y-3">
+          <SectionHeader icon={<Wallet size={14} />} label={`Cost of Living — ${city}`} />
+          <div className="space-y-2">
             {[
-              { label: 'Housing', value: costOfLiving.rent, max: 10000 },
-              { label: 'Transport', value: costOfLiving.transport, max: 2000 },
-              { label: 'Food', value: costOfLiving.food, max: 5000 },
-            ].map((item) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-white rounded-xl p-4 border-2 border-slate-100"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold text-slate-900">{item.label}</span>
-                  <span className="font-bold text-slate-900">
-                    R{Array.isArray(item.value) ? `${item.value[0]}-${item.value[1]}` : item.value}
-                  </span>
+              { label: 'Housing',   value: costOfLiving.rent,      max: 10000 },
+              { label: 'Transport', value: costOfLiving.transport,  max: 2000 },
+              { label: 'Food',      value: costOfLiving.food,       max: 5000 },
+            ].map((item) => {
+              const displayVal = Array.isArray(item.value)
+                ? `R${item.value[0]}–R${item.value[1]}`
+                : `R${item.value}`;
+              const barPct = Math.min(
+                100,
+                ((Array.isArray(item.value) ? item.value[1] : item.value) / item.max) * 100
+              );
+              return (
+                <div key={item.label} className="border border-slate-100 rounded-lg px-4 py-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[13px] font-bold text-slate-700">{item.label}</span>
+                    <span className="text-[13px] font-black text-slate-900">{displayVal}</span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-1.5">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${barPct}%` }}
+                      transition={{ duration: 0.5 }}
+                      className="bg-slate-400 h-1.5 rounded-full"
+                    />
+                  </div>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2">
-                  <div
-                    className="bg-slate-900 h-2 rounded-full"
-                    style={{
-                      width: `${Math.min(
-                        100,
-                        ((Array.isArray(item.value) ? item.value[1] : item.value) / item.max) * 100
-                      )}%`,
-                    }}
-                  ></div>
-                </div>
-              </motion.div>
-            ))}
+              );
+            })}
 
-            {/* Monthly Total */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="bg-gradient-to-r from-slate-900/10 to-slate-100 rounded-xl p-4 border-2 border-slate-200"
-            >
-              <p className="text-xs font-semibold text-slate-700 uppercase tracking-widest mb-1">
-                Monthly Total
+            <div className="bg-slate-900 text-white rounded-lg px-4 py-3 flex items-center justify-between">
+              <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Monthly total</p>
+              <p className="text-[17px] font-black" style={{ letterSpacing: '-0.018em' }}>
+                R{costOfLiving.monthly_total[0]}–R{costOfLiving.monthly_total[1]}
               </p>
-              <p className="text-2xl font-bold text-slate-900">
-                R{costOfLiving.monthly_total[0]} - R{costOfLiving.monthly_total[1]}
-              </p>
-            </motion.div>
+            </div>
           </div>
         </section>
       )}
 
-      {/* Industry Breakdown */}
+      {/* ── Industry Breakdown ── */}
       {industryBreakdown && (
         <section>
-          <div className="flex items-center gap-2 mb-4">
-          <BarChart2 className="w-5 h-5 text-slate-600" />
-          <h3 className="text-lg font-bold text-slate-900">Industry Breakdown</h3>
-        </div>
-          <div className="space-y-3">
+          <SectionHeader icon={<BarChart2 size={14} />} label="Industry Breakdown" />
+          <div className="space-y-2">
             {industryBreakdown.industries.map((industry) => (
-              <motion.div
-                key={industry.name}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-white rounded-xl p-3 border-2 border-slate-100"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-slate-900">{industry.name}</span>
-                  <span className="text-xs font-bold text-slate-600">{industry.percentage}%</span>
+              <div key={industry.name} className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-[13px] font-bold text-slate-700">{industry.name}</span>
+                  <span className="text-[11px] font-black text-slate-500">{industry.percentage}%</span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2">
+                <div className="w-full bg-slate-100 rounded-full h-1.5">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${industry.percentage}%` }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="bg-slate-900 h-2 rounded-full"
-                  ></motion.div>
+                    transition={{ duration: 0.5, delay: 0.05 }}
+                    className="bg-slate-700 h-1.5 rounded-full"
+                  />
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
       )}
 
-      {/* Education Landscape */}
+      {/* ── Education ── */}
       <section>
-        <div className="flex items-center gap-2 mb-4">
-          <GraduationCap className="w-5 h-5 text-slate-600" />
-          <h3 className="text-lg font-bold text-slate-900">Education Landscape</h3>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <StatCard icon={<Building2 className="w-6 h-6" />} label="Universities" value={collegeCount.toString()} />
-          <StatCard icon={<Lightbulb className="w-6 h-6" />} label="Bursaries" value={`${bursaries.length}`} />
+        <SectionHeader icon={<GraduationCap size={14} />} label="Education" />
+        <div className="grid grid-cols-2 gap-3">
+          <StatCard icon={<Building2 size={18} />} label="Universities" value={collegeCount.toString()} />
+          <StatCard icon={<Lightbulb  size={18} />} label="Bursaries"   value={`${bursaries.length}`} />
         </div>
       </section>
 
-      {/* Top Employers */}
+      {/* ── Top Employers ── */}
       {topEmployers.length > 0 && (
         <section>
-          <div className="flex items-center gap-2 mb-4">
-          <Building2 className="w-5 h-5 text-slate-600" />
-          <h3 className="text-lg font-bold text-slate-900">Top Employers</h3>
-        </div>
-          <div className="space-y-3">
+          <SectionHeader icon={<Building2 size={14} />} label="Top Employers" />
+          <div className="divide-y divide-slate-100 border border-slate-100 rounded-lg overflow-hidden">
             {topEmployers.slice(0, 5).map((employer) => (
-              <motion.div
-                key={employer.name}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-white rounded-xl p-4 border-2 border-slate-100 hover:border-slate-900 transition"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-semibold text-slate-900">{employer.name}</p>
-                    <p className="text-xs text-slate-600">{employer.city}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-slate-900">{employer.openRoles}+ roles</p>
-                    <p className="text-xs text-slate-600">{employer.industry}</p>
-                  </div>
+              <div key={employer.name} className="flex items-center justify-between px-4 py-3">
+                <div>
+                  <p className="text-[13px] font-black text-slate-900">{employer.name}</p>
+                  <p className="text-[11px] text-slate-400">{employer.city}</p>
                 </div>
-              </motion.div>
+                <div className="text-right">
+                  <p className="text-[13px] font-bold text-slate-900">{employer.openRoles}+ roles</p>
+                  <p className="text-[11px] text-slate-400">{employer.industry}</p>
+                </div>
+              </div>
             ))}
           </div>
         </section>

@@ -12,12 +12,8 @@ import {
   Wallet,
   BookOpen,
   Flag,
-  Search,
   Grid3x3,
-  Clock,
   List,
-  Filter,
-  ChevronDown,
 } from 'lucide-react';
 import AppHeader from '../../components/shell/AppHeader';
 import type { AppPage } from '../../lib/withAuth';
@@ -30,53 +26,34 @@ interface CalendarPageProps {
 
 const ACADEMIC_YEAR = 2026;
 
-// ── Design tokens ─────────────────────────────────────────────────────────────
-
-const CHIP = {
-  deadline: 'bg-slate-900 text-white',
-  school:   'bg-blue-100 text-blue-800',
-  holiday:  'bg-transparent text-slate-500',
-  personal: 'bg-slate-200 text-slate-800',
-  exam:     'bg-slate-700 text-white',
-} as const;
-
-const DOT = {
-  deadline: 'bg-slate-400',
-  school:   'bg-blue-500',
-  holiday:  'bg-slate-400',
-  personal: 'bg-slate-300',
-  exam:     'bg-slate-400',
-} as const;
-
-const EVENT_STYLE: Record<UserCalendarEvent['category'], { chip: string; dot: string; label: string }> = {
-  exam:     { chip: CHIP.exam,     dot: DOT.exam,     label: 'Exam' },
-  deadline: { chip: CHIP.deadline, dot: DOT.deadline, label: 'Deadline' },
-  holiday:  { chip: CHIP.holiday,  dot: DOT.holiday,  label: 'Holiday' },
-  other:    { chip: CHIP.personal, dot: DOT.personal, label: 'Event' },
+const EVENT_STYLE: Record<UserCalendarEvent['category'], { dot: string; label: string }> = {
+  exam:     { dot: 'bg-slate-700', label: 'Exam' },
+  deadline: { dot: 'bg-slate-500', label: 'Deadline' },
+  holiday:  { dot: 'bg-slate-400', label: 'Holiday' },
+  other:    { dot: 'bg-slate-300', label: 'Event' },
 };
 
-function deadlineChip(category: string): string {
-  if (category === 'Exams') return CHIP.exam;
-  if (category === 'Funding') return CHIP.holiday;
-  return CHIP.school;
-}
-function deadlineDot(category: string): string {
-  if (category === 'Exams') return DOT.exam;
-  if (category === 'Funding') return DOT.holiday;
-  return DOT.school;
+function deadlineDot(category: string) {
+  if (category === 'Exams')   return 'bg-slate-700';
+  if (category === 'Funding') return 'bg-amber-400';
+  if (category === 'University') return 'bg-blue-400';
+  return 'bg-slate-400';
 }
 
-// ── Term data ─────────────────────────────────────────────────────────────────
+function deadlineBadgeCls(category: string) {
+  if (category === 'Exams')      return 'bg-slate-900 text-white';
+  if (category === 'Funding')    return 'bg-amber-100 text-amber-800';
+  if (category === 'University') return 'bg-blue-50 text-blue-800';
+  return 'bg-slate-100 text-slate-600';
+}
+
 const TERMS = [
-  { id: 1, name: 'Term 1', start: '14 Jan', end: '27 Mar', weeks: 11, holidays: '28 Mar – 7 Apr', startMonth: 0, startDay: 14, endMonth: 2, endDay: 27 },
-  { id: 2, name: 'Term 2', start: '8 Apr',  end: '26 Jun', weeks: 12, holidays: '27 Jun – 20 Jul', startMonth: 3, startDay: 8,  endMonth: 5, endDay: 26 },
-  { id: 3, name: 'Term 3', start: '21 Jul', end: '2 Oct',  weeks: 11, holidays: '3 Oct – 12 Oct',  startMonth: 6, startDay: 21, endMonth: 9, endDay: 2  },
+  { id: 1, name: 'Term 1', start: '14 Jan', end: '27 Mar', weeks: 11, holidays: '28 Mar – 7 Apr',    startMonth: 0, startDay: 14, endMonth: 2, endDay: 27 },
+  { id: 2, name: 'Term 2', start: '8 Apr',  end: '26 Jun', weeks: 12, holidays: '27 Jun – 20 Jul',   startMonth: 3, startDay: 8,  endMonth: 5, endDay: 26 },
+  { id: 3, name: 'Term 3', start: '21 Jul', end: '2 Oct',  weeks: 11, holidays: '3 Oct – 12 Oct',    startMonth: 6, startDay: 21, endMonth: 9, endDay: 2  },
   { id: 4, name: 'Term 4', start: '13 Oct', end: '9 Dec',  weeks: 9,  holidays: '10 Dec – Jan 2027', startMonth: 9, startDay: 13, endMonth: 11, endDay: 9 },
 ];
 
-const TERM_GRADIENT = ['from-slate-700 to-slate-900', 'from-slate-800 to-black', 'from-blue-800 to-slate-900', 'from-blue-900 to-black'];
-
-// ── Deadlines ─────────────────────────────────────────────────────────────────
 interface DeadlineEvent {
   title: string; shortTitle: string; date: string; isoDate: string;
   category: string; icon: 'university' | 'funding' | 'exam';
@@ -109,7 +86,6 @@ const PUBLIC_HOLIDAY_MAP: Record<string, string> = {
 const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WEEK_DAYS   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 function pad(n: number) { return String(n).padStart(2, '0'); }
 function toIso(y: number, m: number, d: number) { return `${y}-${pad(m + 1)}-${pad(d)}`; }
 
@@ -123,7 +99,7 @@ function buildEventMap(events: UserCalendarEvent[]) {
 }
 
 function daysUntil(iso: string) {
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
   return Math.ceil((new Date(iso).getTime() - today.getTime()) / 86400000);
 }
 
@@ -136,19 +112,22 @@ function getTermForDate(month: number, day: number) {
   return null;
 }
 
-function daysInMonth(y: number, m: number)  { return new Date(y, m + 1, 0).getDate(); }
-function firstDayOffset(y: number, m: number) {
-  const d = new Date(y, m, 1).getDay();
-  return d === 0 ? 6 : d - 1;
-}
+function daysInMonth(y: number, m: number)    { return new Date(y, m + 1, 0).getDate(); }
+function firstDayOffset(y: number, m: number) { const d = new Date(y, m, 1).getDay(); return d === 0 ? 6 : d - 1; }
 
 function getWeekStart(date: Date) {
   const d = new Date(date);
   const day = d.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  d.setDate(d.getDate() + diff);
+  d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day));
   d.setHours(0, 0, 0, 0);
   return d;
+}
+
+function formatDaysAway(n: number) {
+  if (n === 0) return 'Today';
+  if (n === 1) return 'Tomorrow';
+  if (n < 0)  return `${Math.abs(n)}d ago`;
+  return `${n}d`;
 }
 
 const DeadlineIcon = ({ icon, className = 'w-4 h-4' }: { icon: DeadlineEvent['icon']; className?: string }) => {
@@ -157,90 +136,9 @@ const DeadlineIcon = ({ icon, className = 'w-4 h-4' }: { icon: DeadlineEvent['ic
   return <GraduationCap className={className} />;
 };
 
-// ── Filter dropdown ────────────────────────────────────────────────────────────
-function FilterDropdown({ label, options, selected, onToggle, onClear }: {
-  label: string;
-  options: { value: string; label: string; dot?: string }[];
-  selected: string[];
-  onToggle: (v: string) => void;
-  onClear: () => void;
-}) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setOpen(o => !o)}
-        className={[
-          'flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all',
-          selected.length > 0
-            ? 'border-slate-900 bg-slate-900 text-white'
-            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400 hover:bg-slate-50',
-        ].join(' ')}
-      >
-        <Filter className="w-3.5 h-3.5" />
-        {label}
-        {selected.length > 0 && (
-          <span className="bg-white/30 text-white rounded-full px-1.5 py-0.5 text-xs font-black leading-none">
-            {selected.length}
-          </span>
-        )}
-        <ChevronDown className={`w-3 h-3 transition-transform ${open ? 'rotate-180' : ''}`} />
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <>
-            <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-            <motion.div
-              initial={{ opacity: 0, y: 4, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 4, scale: 0.97 }}
-              transition={{ duration: 0.12 }}
-              className="absolute top-full mt-1.5 left-0 z-20 bg-white border border-slate-200 rounded-xl min-w-[160px] overflow-hidden"
-            >
-              <div className="py-1">
-                {options.map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => onToggle(opt.value)}
-                    className={[
-                      'w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors text-left',
-                      selected.includes(opt.value)
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'text-slate-700 hover:bg-slate-50',
-                    ].join(' ')}
-                  >
-                    {opt.dot && <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${opt.dot}`} />}
-                    <span className="flex-1">{opt.label}</span>
-                    {selected.includes(opt.value) && (
-                      <span className="text-blue-500 font-bold text-xs">✓</span>
-                    )}
-                  </button>
-                ))}
-                {selected.length > 0 && (
-                  <>
-                    <div className="border-t border-slate-100 my-1" />
-                    <button
-                      onClick={() => { onClear(); setOpen(false); }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
-                    >
-                      <X className="w-3 h-3" /> Clear filter
-                    </button>
-                  </>
-                )}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-// ── Component ─────────────────────────────────────────────────────────────────
 export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageProps) {
   const [activeTab, setActiveTab]     = useState<'calendar' | 'terms' | 'deadlines'>('calendar');
-  const [calView, setCalView]         = useState<'month' | 'week' | 'day' | 'list'>('month');
+  const [calView, setCalView]         = useState<'month' | 'week' | 'list'>('month');
   const [viewDate, setViewDate]       = useState(new Date(ACADEMIC_YEAR, new Date().getMonth(), 1));
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [userEventsByDate, setUserEventsByDate] = useState<Map<string, UserCalendarEvent[]>>(
@@ -249,13 +147,9 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   const [newEventName,     setNewEventName]     = useState('');
   const [newEventCategory, setNewEventCategory] = useState<UserCalendarEvent['category']>('other');
   const [savedEvent,       setSavedEvent]       = useState(false);
-  const [searchQuery,      setSearchQuery]      = useState('');
-
-  // Filter state
-  const [showDeadlines, setShowDeadlines] = useState(true);
-  const [showHolidays,  setShowHolidays]  = useState(true);
-  const [showPersonal,  setShowPersonal]  = useState(true);
-  const [filterCategories, setFilterCategories] = useState<string[]>([]);
+  const [showHolidays,     setShowHolidays]     = useState(true);
+  const [showPersonal,     setShowPersonal]     = useState(true);
+  const [showDeadlines,    setShowDeadlines]    = useState(true);
 
   const reloadEvents = () => setUserEventsByDate(buildEventMap(calendarStorage.getEvents()));
 
@@ -264,25 +158,13 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
 
   const prevMonth = useCallback(() => setViewDate(new Date(year, month - 1, 1)), [year, month]);
   const nextMonth = useCallback(() => setViewDate(new Date(year, month + 1, 1)), [year, month]);
-
   const prevWeek  = useCallback(() => setViewDate(d => { const n = new Date(d); n.setDate(n.getDate() - 7); return n; }), []);
   const nextWeek  = useCallback(() => setViewDate(d => { const n = new Date(d); n.setDate(n.getDate() + 7); return n; }), []);
 
-  const prevDay   = useCallback(() => setViewDate(d => { const n = new Date(d); n.setDate(n.getDate() - 1); return n; }), []);
-  const nextDay   = useCallback(() => setViewDate(d => { const n = new Date(d); n.setDate(n.getDate() + 1); return n; }), []);
-
   const goToToday = () => setViewDate(new Date(ACADEMIC_YEAR, new Date().getMonth(), new Date().getDate()));
 
-  const navigatePrev = () => {
-    if (calView === 'month') prevMonth();
-    else if (calView === 'week') prevWeek();
-    else if (calView === 'day') prevDay();
-  };
-  const navigateNext = () => {
-    if (calView === 'month') nextMonth();
-    else if (calView === 'week') nextWeek();
-    else if (calView === 'day') nextDay();
-  };
+  const navigatePrev = () => { if (calView === 'month') prevMonth(); else if (calView === 'week') prevWeek(); };
+  const navigateNext = () => { if (calView === 'month') nextMonth(); else if (calView === 'week') nextWeek(); };
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -301,25 +183,15 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   };
 
   const getDeadlinesForIso = (iso: string) => showDeadlines ? DEADLINES.filter(d => d.isoDate === iso) : [];
-  const getHoliday = (iso: string) => showHolidays ? (PUBLIC_HOLIDAY_MAP[iso] ?? null) : null;
+  const getHoliday         = (iso: string) => showHolidays  ? (PUBLIC_HOLIDAY_MAP[iso] ?? null) : null;
 
   const nextDeadline = useMemo(() => {
     const today = new Date();
     return DEADLINES.find(d => new Date(d.isoDate) >= today) ?? DEADLINES[DEADLINES.length - 1];
   }, []);
 
-  const eventsThisWeek = useMemo(() => {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const start = new Date(today); start.setDate(today.getDate() - today.getDay() + 1);
-    const end   = new Date(start); end.setDate(start.getDate() + 6);
-    let count = 0;
-    for (const [iso, evts] of userEventsByDate) { if (new Date(iso) >= start && new Date(iso) <= end) count += evts.length; }
-    for (const dl of DEADLINES) { if (new Date(dl.isoDate) >= start && new Date(dl.isoDate) <= end) count++; }
-    return count;
-  }, [userEventsByDate]);
-
-  const daysUntilNext = nextDeadline ? daysUntil(nextDeadline.isoDate) : null;
-  const currentTerm   = getTermForDate(month, 15);
+  const daysUntilNext  = nextDeadline ? daysUntil(nextDeadline.isoDate) : null;
+  const currentTerm    = getTermForDate(month, 15);
 
   const selectedDayLabel = useMemo(() => {
     if (!selectedDay) return '';
@@ -329,11 +201,10 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
 
   const saveEvent = () => {
     if (!newEventName.trim() || !selectedDay) return;
-    const evt: UserCalendarEvent = {
+    calendarStorage.saveEvent({
       id: `evt-${Date.now()}`, eventName: newEventName.trim(),
       eventDate: selectedDay, category: newEventCategory, createdAt: new Date().toISOString(),
-    };
-    calendarStorage.saveEvent(evt);
+    });
     reloadEvents(); setSavedEvent(true); setNewEventName('');
     setTimeout(() => setSavedEvent(false), 1500);
   };
@@ -346,87 +217,68 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
     ];
   }, []);
 
-  // ── Filtered search results ────────────────────────────────────────────────
-  const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return null;
-    const q = searchQuery.toLowerCase();
-    const results: { iso: string; label: string; type: string; chip: string }[] = [];
-    for (const dl of DEADLINES) {
-      if (dl.title.toLowerCase().includes(q) || dl.category.toLowerCase().includes(q)) {
-        results.push({ iso: dl.isoDate, label: dl.title, type: dl.category, chip: deadlineChip(dl.category) });
-      }
-    }
-    for (const [iso, evts] of userEventsByDate) {
-      for (const e of evts) {
-        if (e.eventName.toLowerCase().includes(q)) {
-          results.push({ iso, label: e.eventName, type: EVENT_STYLE[e.category].label, chip: EVENT_STYLE[e.category].chip });
-        }
-      }
-    }
-    for (const [iso, name] of Object.entries(PUBLIC_HOLIDAY_MAP)) {
-      if (name.toLowerCase().includes(q)) {
-        results.push({ iso, label: name, type: 'Holiday', chip: CHIP.holiday });
-      }
-    }
-    return results.sort((a, b) => a.iso.localeCompare(b.iso));
-  }, [searchQuery, userEventsByDate]);
-
-  const mockUser = { id: 'user', email: 'student@prospect.co.za', user_metadata: { full_name: 'Prospect Student' } } as any;
-
-  // ── Calendar nav title ────────────────────────────────────────────────────
   const navTitle = useMemo(() => {
     if (calView === 'month') return `${MONTH_NAMES[month]} ${year}`;
     if (calView === 'week') {
       const ws = getWeekStart(viewDate);
       const we = new Date(ws); we.setDate(ws.getDate() + 6);
-      return `${ws.getDate()} ${MONTH_NAMES[ws.getMonth()].slice(0,3)} – ${we.getDate()} ${MONTH_NAMES[we.getMonth()].slice(0,3)}`;
+      return `${ws.getDate()} ${MONTH_NAMES[ws.getMonth()].slice(0, 3)} – ${we.getDate()} ${MONTH_NAMES[we.getMonth()].slice(0, 3)}`;
     }
-    if (calView === 'day') return viewDate.toLocaleDateString('en-ZA', { weekday: 'long', day: 'numeric', month: 'long' });
     return 'All Events';
   }, [calView, month, year, viewDate]);
 
-  // ── Shared side panel ─────────────────────────────────────────────────────
+  const mockUser = { id: 'user', email: 'student@prospect.co.za', user_metadata: { full_name: 'Prospect Student' } } as any;
+
+  // ── Side panel ────────────────────────────────────────────────────────────
+
   const renderSidePanel = () => (
-    <div className="lg:w-72 shrink-0 space-y-4">
+    <div className="lg:w-64 shrink-0">
       <AnimatePresence mode="wait">
         {selectedDay ? (
-          <motion.div key="day-detail" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }} transition={{ duration: 0.16 }}
-            className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
+          <motion.div
+            key="day-detail"
+            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.18 }}
+            className="border border-slate-200 rounded-xl overflow-hidden"
+          >
+            <div className="flex items-center justify-between px-5 py-4 bg-slate-900 text-white">
               <div>
-                <p className="text-[9px] font-black uppercase tracking-widest opacity-60">Selected</p>
-                <h4 className="text-sm font-black">{selectedDayLabel}</h4>
+                <p className="text-[11px] font-black uppercase tracking-widest text-white/40 mb-0.5">Selected</p>
+                <p className="text-[15px] font-black">{selectedDayLabel}</p>
                 {(() => {
                   const [, m, d] = selectedDay.split('-').map(Number);
                   const t = getTermForDate(m - 1, d);
-                  return t ? <span className="text-xs text-blue-200">{t.name}</span> : null;
+                  return t ? <p className="text-[11px] text-white/40 mt-0.5">{t.name}</p> : null;
                 })()}
               </div>
-              <button onClick={() => setSelectedDay(null)} aria-label="Close" className="w-11 h-11 flex items-center justify-center hover:bg-white/10 rounded-lg transition-colors">
-                <X className="w-4 h-4" />
+              <button
+                onClick={() => setSelectedDay(null)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="p-4 space-y-3 max-h-[52vh] overflow-y-auto">
+            <div className="divide-y divide-slate-100 max-h-[60vh] overflow-y-auto">
               {(() => {
                 const dls = getDeadlinesForIso(selectedDay);
                 const hol = getHoliday(selectedDay);
                 if (!dls.length && !hol) return null;
                 return (
-                  <div className="space-y-1.5">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Key Dates</p>
+                  <div className="px-5 py-4 space-y-3">
+                    <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">Key Dates</p>
                     {hol && (
-                      <div className={`flex items-center gap-2 px-3 py-2 rounded-xl ${CHIP.holiday}`}>
-                        <span className={`w-2 h-2 rounded-full shrink-0 ${DOT.holiday}`} />
-                        <p className="text-xs font-bold">{hol}</p>
+                      <div className="flex items-center gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-300 shrink-0" />
+                        <p className="text-[13px] text-slate-600">{hol}</p>
                       </div>
                     )}
                     {dls.map((dl, i) => (
-                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-xl ${deadlineChip(dl.category)}`}>
-                        <DeadlineIcon icon={dl.icon} className="w-3.5 h-3.5 shrink-0" />
-                        <div className="min-w-0">
-                          <p className="text-[9px] font-black uppercase tracking-widest opacity-60">{dl.category}</p>
-                          <p className="text-xs font-bold truncate">{dl.title}</p>
+                      <div key={i} className="flex items-start gap-3">
+                        <DeadlineIcon icon={dl.icon} className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">{dl.category}</p>
+                          <p className="text-[13px] font-bold text-slate-800">{dl.title}</p>
                         </div>
                       </div>
                     ))}
@@ -435,13 +287,16 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               })()}
 
               {(userEventsByDate.get(selectedDay) ?? []).length > 0 && (
-                <div className="space-y-1.5">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Your Events</p>
+                <div className="px-5 py-4 space-y-2">
+                  <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">Your Events</p>
                   {(userEventsByDate.get(selectedDay) ?? []).map(evt => (
-                    <div key={evt.id} className={`flex items-center gap-2 px-3 py-2 rounded-xl ${EVENT_STYLE[evt.category].chip}`}>
-                      <span className={`w-2 h-2 rounded-full shrink-0 ${EVENT_STYLE[evt.category].dot}`} />
-                      <p className="text-xs font-bold flex-1">{evt.eventName}</p>
-                      <button onClick={() => { calendarStorage.deleteEvent(evt.id); reloadEvents(); }} className="p-0.5 hover:opacity-60">
+                    <div key={evt.id} className="flex items-center gap-3">
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${EVENT_STYLE[evt.category].dot}`} />
+                      <p className="text-[13px] text-slate-700 flex-1">{evt.eventName}</p>
+                      <button
+                        onClick={() => { calendarStorage.deleteEvent(evt.id); reloadEvents(); }}
+                        className="p-1.5 text-slate-300 hover:text-slate-600 transition-colors"
+                      >
                         <Trash2 className="w-3 h-3" />
                       </button>
                     </div>
@@ -449,35 +304,50 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 </div>
               )}
 
-              <div className="space-y-2 pt-1 border-t border-slate-100">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Add Event</p>
+              <div className="px-5 py-4 space-y-3">
+                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">Add Event</p>
                 <input
-                  type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
+                  type="text"
+                  value={newEventName}
+                  onChange={e => setNewEventName(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && saveEvent()}
                   data-testid="event-description"
-                  className="w-full px-3 py-2 min-h-11 text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
                   placeholder="e.g. Maths exam..."
+                  className="w-full px-3 py-2.5 text-[14px] border border-slate-200 rounded-lg focus:outline-none focus:border-slate-400 placeholder:text-slate-300 transition-colors"
+                  style={{ fontSize: '16px' }}
                 />
                 <div className="grid grid-cols-4 gap-1">
                   {(['exam','deadline','holiday','other'] as const).map(cat => (
-                    <button key={cat} onClick={() => setNewEventCategory(cat)}
-                      className={`py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all ${newEventCategory === cat ? EVENT_STYLE[cat].chip : 'bg-slate-50 border border-slate-100 text-slate-400 hover:bg-slate-100'}`}>
+                    <button
+                      key={cat}
+                      onClick={() => setNewEventCategory(cat)}
+                      className={`py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-colors ${
+                        newEventCategory === cat ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                      }`}
+                    >
                       {EVENT_STYLE[cat].label}
                     </button>
                   ))}
                 </div>
-                <button onClick={saveEvent} disabled={!newEventName.trim()} data-testid="create-event-btn"
-                  className={`w-full flex items-center justify-center gap-1.5 min-h-11 py-2.5 text-xs font-bold uppercase tracking-widest rounded-xl transition-all ${savedEvent ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed'}`}>
-                  {savedEvent ? 'Saved ✓' : <><Plus className="w-3.5 h-3.5" /> Add Event</>}
+                <button
+                  onClick={saveEvent}
+                  disabled={!newEventName.trim()}
+                  data-testid="create-event-btn"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-lg transition-colors bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  {savedEvent ? 'Saved' : <><Plus className="w-3.5 h-3.5" /> Add</>}
                 </button>
               </div>
             </div>
           </motion.div>
         ) : (
-          <motion.div key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="bg-white border border-slate-100 rounded-xl p-5 text-center">
-            <CalendarIcon className="w-8 h-8 text-slate-200 mx-auto mb-2" />
-            <p className="text-xs font-semibold text-slate-400">Click any day to see details or add an event</p>
+          <motion.div
+            key="hint"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="border border-slate-100 rounded-xl p-6 text-center"
+          >
+            <CalendarIcon className="w-7 h-7 text-slate-200 mx-auto mb-3" />
+            <p className="text-[13px] text-slate-400">Click any day to view details or add an event</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -485,6 +355,7 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   );
 
   // ── Month view ────────────────────────────────────────────────────────────
+
   const renderMonth = () => {
     const offset = firstDayOffset(year, month);
     const days   = daysInMonth(year, month);
@@ -492,159 +363,129 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
     return (
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 min-w-0">
-          {/* Stats bar */}
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap mb-5">
-            <div className="col-span-2 sm:col-span-1 sm:flex-1 flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl min-w-0">
-              <Bell className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-              <div className="min-w-0">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Next Deadline</p>
-                <p className="text-xs font-bold text-white truncate">
-                  {nextDeadline?.shortTitle}
-                  {daysUntilNext != null && daysUntilNext > 0 && <span className="ml-1.5 font-normal text-slate-400">· {daysUntilNext}d</span>}
-                  {daysUntilNext === 0 && <span className="ml-1.5 font-black text-white">· Today!</span>}
-                </p>
-              </div>
-            </div>
-            {eventsThisWeek > 0 && (
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl">
-                <CalendarIcon className="w-3.5 h-3.5 text-slate-500" />
-                <p className="text-xs font-bold text-slate-600">{eventsThisWeek} this week</p>
-              </div>
-            )}
-            {currentTerm && (
-              <div className="flex items-center gap-1.5 px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl">
-                <Flag className="w-3 h-3 text-slate-500" />
-                <p className="text-xs font-bold text-slate-600">{currentTerm.name}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+          <div className="border border-slate-200 rounded-xl overflow-hidden">
+            {/* Day headers */}
             <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {WEEK_DAYS.map((d, i) => (
-                <div key={d} className={`py-2 md:py-3 text-center text-[9px] md:text-xs font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-400' : 'text-slate-600'}`}>
+                <div key={d} className={`py-2.5 text-center text-[11px] font-black uppercase tracking-widest ${i >= 5 ? 'text-slate-300' : 'text-slate-400'}`}>
                   <span className="hidden sm:inline">{d}</span>
-                  <span className="sm:hidden">{d.slice(0, 1)}</span>
+                  <span className="sm:hidden">{d[0]}</span>
                 </div>
               ))}
             </div>
 
             <div className="grid grid-cols-7">
               {Array.from({ length: offset }).map((_, i) => (
-                <div key={`e-${i}`} className="h-24 md:h-28 bg-slate-50/40 border-b border-r border-slate-100" />
+                <div key={`e-${i}`} className="min-h-20 sm:min-h-24 md:min-h-28 bg-slate-50/50 border-b border-r border-slate-100" />
               ))}
 
               {Array.from({ length: days }).map((_, i) => {
-                const day        = i + 1;
-                const iso        = toIso(year, month, day);
-                const colIndex   = (offset + i) % 7;
-                const isWeekend  = colIndex >= 5;
-                const today      = isToday(day);
-                const dlList     = getDeadlinesForIso(iso);
-                const holiday    = getHoliday(iso);
-                const userEvts   = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
-                const inTerm     = getTermForDate(month, day) !== null;
+                const day       = i + 1;
+                const iso       = toIso(year, month, day);
+                const colIndex  = (offset + i) % 7;
+                const isWeekend = colIndex >= 5;
+                const today     = isToday(day);
+                const dlList    = getDeadlinesForIso(iso);
+                const holiday   = getHoliday(iso);
+                const userEvts  = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
                 const isSelected = selectedDay === iso;
-                const hasDeadline = dlList.length > 0;
 
-                type Chip = { key: string; label: string; chip: string; dot: string };
-                const chips: Chip[] = [];
-                for (const dl of dlList) chips.push({ key: dl.isoDate + dl.title, label: dl.shortTitle, chip: deadlineChip(dl.category), dot: deadlineDot(dl.category) });
-                for (const e of userEvts)  chips.push({ key: e.id, label: e.eventName, chip: EVENT_STYLE[e.category].chip, dot: EVENT_STYLE[e.category].dot });
-                if (holiday && chips.length < 2) chips.push({ key: 'hol', label: holiday.split(' ')[0], chip: CHIP.holiday, dot: DOT.holiday });
-                const visible  = chips.slice(0, 4);
-                const overflow = chips.length - 4;
+                type Chip = { key: string; dot: string };
+                const dots: Chip[] = [];
+                for (const dl of dlList) dots.push({ key: dl.isoDate + dl.title, dot: deadlineDot(dl.category) });
+                for (const e of userEvts)  dots.push({ key: e.id, dot: EVENT_STYLE[e.category].dot });
+                if (holiday && dots.length < 3) dots.push({ key: 'hol', dot: 'bg-slate-300' });
+                const visibleDots = dots.slice(0, 3);
+
+                const isLastCol = (offset + i) % 7 === 6;
 
                 return (
-                  <motion.button
+                  <button
                     key={day}
                     data-testid="calendar-day"
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
-                    whileHover={{ backgroundColor: isSelected ? undefined : hasDeadline ? 'rgba(15,23,42,0.03)' : 'rgba(15,23,42,0.02)' }}
                     className={[
-                      'relative min-h-[3.5rem] sm:min-h-[4.5rem] md:min-h-[7rem] p-0.5 sm:p-1 md:p-2 text-left border-b border-r border-slate-100 transition-colors',
-                      isWeekend  ? 'bg-slate-50/70' : 'bg-white',
-                      hasDeadline && !isSelected ? 'bg-slate-50/60' : '',
-                      holiday && !hasDeadline && !isSelected ? 'bg-slate-50/30' : '',
-                      isSelected ? 'bg-slate-100 ring-2 ring-inset ring-slate-900 z-10' : '',
-                      (offset + i) % 7 === 6 ? 'border-r-0' : '',
+                      'relative min-h-20 sm:min-h-24 md:min-h-28 p-1.5 sm:p-2 text-left border-b border-slate-100 transition-colors',
+                      isLastCol ? '' : 'border-r border-slate-100',
+                      isWeekend ? 'bg-slate-50/60' : 'bg-white',
+                      isSelected ? 'bg-blue-50' : 'hover:bg-slate-50',
                     ].filter(Boolean).join(' ')}
                   >
-                    {inTerm && <div className="absolute top-0 left-0 right-0 h-[2px] bg-slate-300/60" />}
+                    {isSelected && (
+                      <span className="absolute inset-0 border-2 border-slate-900 pointer-events-none rounded-sm" />
+                    )}
+
                     <span className={[
-                      'inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-md sm:rounded-lg text-[9px] sm:text-[10px] md:text-xs font-black mb-0.5 md:mb-1.5 transition-all',
-                      today
-                        ? 'bg-slate-900 text-white shadow-slate-300/50 scale-110'
-                        : isSelected
-                          ? 'bg-slate-200 text-slate-800'
-                          : isWeekend
-                            ? 'text-slate-400'
-                            : 'text-slate-700',
-                    ].filter(Boolean).join(' ')}>
+                      'inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-md text-[11px] font-black mb-1.5 transition-colors',
+                      today      ? 'bg-slate-900 text-white'  :
+                      isSelected ? 'text-slate-900'           :
+                      isWeekend  ? 'text-slate-300'           :
+                                   'text-slate-600',
+                    ].join(' ')}>
                       {day}
                     </span>
-                    <div className="flex flex-col gap-[2px] mt-0.5 w-full overflow-hidden">
-                      {visible.map(c => (
-                        <div key={c.key} className={`hidden sm:block text-[9px] md:text-[10px] font-medium leading-[13px] px-1 py-0.5 rounded-[3px] truncate whitespace-nowrap text-left ${c.chip}`}>
-                          {c.label}
-                        </div>
-                      ))}
-                      {visible.length > 0 && (
-                        <div className={`sm:hidden w-1.5 h-1.5 rounded-full mt-0.5 ${visible[0].dot}`} />
-                      )}
-                      {overflow > 0 && <div className="text-[9px] font-medium text-slate-500 pl-1 leading-none mt-0.5">+{overflow} more</div>}
-                    </div>
-                  </motion.button>
+
+                    {visibleDots.length > 0 && (
+                      <div className="flex gap-0.5 mt-auto">
+                        {visibleDots.map(c => (
+                          <span key={c.key} className={`w-1.5 h-1.5 rounded-full shrink-0 ${c.dot}`} />
+                        ))}
+                      </div>
+                    )}
+                  </button>
                 );
               })}
             </div>
           </div>
 
           {/* Legend */}
-          <div className="mt-4 flex flex-wrap gap-2 px-1">
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 px-1">
             <div className="flex items-center gap-1.5">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-md bg-slate-900 text-[8px] font-black text-white">17</span>
-              <span className="text-xs font-bold text-slate-500">Today</span>
+              <span className="w-5 h-5 rounded-md bg-slate-900 inline-flex items-center justify-center text-[10px] font-black text-white">·</span>
+              <span className="text-[12px] text-slate-500">Today</span>
             </div>
-            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.deadline}`}>Deadline</span>
-            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.exam}`}>Exam</span>
-            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.school}`}>University</span>
-            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.personal}`}>Your Event</span>
-            <span className={`text-[9px] font-semibold px-2 py-1 rounded-[3px] ${CHIP.holiday}`}>Holiday</span>
-            <div className="flex items-center gap-1.5 ml-1">
-              <div className="w-4 h-[2px] bg-slate-300 rounded" />
-              <span className="text-xs font-bold text-slate-400">In term</span>
-            </div>
-            <span className="text-xs text-slate-300 ml-auto hidden md:block">← → keys to navigate</span>
+            {[
+              { dot: 'bg-slate-700', label: 'Exam' },
+              { dot: 'bg-blue-400',  label: 'University' },
+              { dot: 'bg-amber-400', label: 'Funding' },
+              { dot: 'bg-slate-300', label: 'Holiday' },
+            ].map(({ dot, label }) => (
+              <div key={label} className="flex items-center gap-1.5">
+                <span className={`w-2 h-2 rounded-full ${dot}`} />
+                <span className="text-[12px] text-slate-500">{label}</span>
+              </div>
+            ))}
+            <span className="text-[11px] text-slate-300 ml-auto hidden md:block">← → to navigate</span>
           </div>
         </div>
+
         {renderSidePanel()}
       </div>
     );
   };
 
   // ── Week view ─────────────────────────────────────────────────────────────
+
   const renderWeek = () => {
     const weekStart = getWeekStart(viewDate);
     const weekDays  = Array.from({ length: 7 }, (_, i) => {
-      const d = new Date(weekStart); d.setDate(weekStart.getDate() + i);
-      return d;
+      const d = new Date(weekStart); d.setDate(weekStart.getDate() + i); return d;
     });
 
     return (
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 min-w-0">
-          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+          <div className="border border-slate-200 rounded-xl overflow-hidden">
             <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
               {weekDays.map((d, i) => {
                 const todayFlag = isToday(d.getDate(), d.getMonth(), d.getFullYear());
                 return (
                   <div key={i} className="py-3 text-center">
-                    <p className={`text-xs font-black uppercase tracking-widest mb-1 ${i >= 5 ? 'text-slate-400' : 'text-slate-500'}`}>
+                    <p className={`text-[11px] font-black uppercase tracking-widest mb-1.5 ${i >= 5 ? 'text-slate-300' : 'text-slate-400'}`}>
                       {WEEK_DAYS[i]}
                     </p>
-                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-black mx-auto ${
-                      todayFlag ? 'bg-slate-900 text-white shadow-slate-300/50' : i >= 5 ? 'text-slate-400' : 'text-slate-700'
+                    <span className={`inline-flex items-center justify-center w-7 h-7 rounded-lg text-[13px] font-black mx-auto transition-colors ${
+                      todayFlag ? 'bg-slate-900 text-white' : i >= 5 ? 'text-slate-300' : 'text-slate-700'
                     }`}>
                       {d.getDate()}
                     </span>
@@ -653,12 +494,12 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
               })}
             </div>
 
-            <div className="grid grid-cols-7 divide-x divide-slate-100 min-h-[200px] sm:min-h-[360px]">
+            <div className="grid grid-cols-7 divide-x divide-slate-100 min-h-64">
               {weekDays.map((d, i) => {
-                const iso       = toIso(d.getFullYear(), d.getMonth(), d.getDate());
-                const dlList    = getDeadlinesForIso(iso);
-                const holiday   = getHoliday(iso);
-                const userEvts  = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
+                const iso      = toIso(d.getFullYear(), d.getMonth(), d.getDate());
+                const dlList   = getDeadlinesForIso(iso);
+                const holiday  = getHoliday(iso);
+                const userEvts = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
                 const isSelected = selectedDay === iso;
 
                 return (
@@ -666,146 +507,32 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                     key={i}
                     onClick={() => setSelectedDay(iso === selectedDay ? null : iso)}
                     className={[
-                      'p-1 sm:p-2 text-left transition-colors hover:bg-slate-50 min-h-[200px] sm:min-h-[360px] flex flex-col gap-1',
+                      'relative p-1.5 text-left transition-colors flex flex-col gap-1 min-h-64',
                       i >= 5 ? 'bg-slate-50/50' : 'bg-white',
-                      isSelected ? 'bg-slate-50 ring-2 ring-inset ring-slate-900' : '',
+                      isSelected ? 'bg-blue-50' : 'hover:bg-slate-50',
                     ].join(' ')}
                   >
+                    {isSelected && (
+                      <span className="absolute inset-0 border-2 border-slate-900 pointer-events-none" />
+                    )}
                     {holiday && (
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate ${CHIP.holiday}`}>
-                        {holiday.split(' ')[0]}
-                      </span>
+                      <span className="text-[10px] font-bold text-slate-400 px-1 truncate">{holiday.split(' ')[0]}</span>
                     )}
                     {dlList.map(dl => (
-                      <span key={dl.isoDate + dl.title} className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate ${deadlineChip(dl.category)}`}>
-                        {dl.shortTitle}
-                      </span>
+                      <div key={dl.isoDate + dl.title} className="flex items-center gap-1">
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${deadlineDot(dl.category)}`} />
+                        <span className="text-[10px] font-medium text-slate-600 truncate">{dl.shortTitle}</span>
+                      </div>
                     ))}
                     {userEvts.map(e => (
-                      <span key={e.id} className={`text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate ${EVENT_STYLE[e.category].chip}`}>
-                        {e.eventName}
-                      </span>
+                      <div key={e.id} className="flex items-center gap-1">
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${EVENT_STYLE[e.category].dot}`} />
+                        <span className="text-[10px] font-medium text-slate-600 truncate">{e.eventName}</span>
+                      </div>
                     ))}
                   </button>
                 );
               })}
-            </div>
-          </div>
-        </div>
-        {renderSidePanel()}
-      </div>
-    );
-  };
-
-  // ── Day view ──────────────────────────────────────────────────────────────
-  const renderDay = () => {
-    const iso      = toIso(viewDate.getFullYear(), viewDate.getMonth(), viewDate.getDate());
-    const dlList   = getDeadlinesForIso(iso);
-    const holiday  = getHoliday(iso);
-    const userEvts = showPersonal ? (userEventsByDate.get(iso) ?? []) : [];
-    const term     = getTermForDate(viewDate.getMonth(), viewDate.getDate());
-    const todayFlag = isToday(viewDate.getDate(), viewDate.getMonth(), viewDate.getFullYear());
-    const hasItems = dlList.length > 0 || !!holiday || userEvts.length > 0;
-
-    return (
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="flex-1 min-w-0">
-          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-            {/* Day header */}
-            <div className={`px-6 py-5 border-b border-slate-100 flex items-center justify-between ${todayFlag ? 'bg-slate-900 text-white' : 'bg-slate-50'}`}>
-              <div>
-                <p className={`text-xs font-black uppercase tracking-widest mb-1 ${todayFlag ? 'text-slate-400' : 'text-slate-400'}`}>
-                  {viewDate.toLocaleDateString('en-ZA', { weekday: 'long' })}
-                </p>
-                <h3 className={`text-3xl font-black ${todayFlag ? 'text-white' : 'text-slate-800'}`}>
-                  {viewDate.getDate()}
-                </h3>
-                <p className={`text-sm ${todayFlag ? 'text-slate-300' : 'text-slate-500'}`}>
-                  {MONTH_NAMES[viewDate.getMonth()]} {viewDate.getFullYear()}
-                </p>
-              </div>
-              <div className="text-right space-y-1">
-                {todayFlag && <span className="inline-block px-3 py-1 bg-slate-900 text-white text-xs font-black uppercase tracking-widest rounded-full">Today</span>}
-                {term && <p className="text-xs font-bold text-slate-500">{term.name}</p>}
-              </div>
-            </div>
-
-            <div className="p-6 space-y-4">
-              {!hasItems && (
-                <div className="text-center py-12">
-                  <CalendarIcon className="w-10 h-10 text-slate-200 mx-auto mb-3" />
-                  <p className="text-sm font-semibold text-slate-400">No events on this day</p>
-                  <p className="text-xs text-slate-300 mt-1">Click a day in month view to add one</p>
-                </div>
-              )}
-
-              {holiday && (
-                <div className={`flex items-center gap-3 px-4 py-3 rounded-xl ${CHIP.holiday}`}>
-                  <span className={`w-3 h-3 rounded-full shrink-0 ${DOT.holiday}`} />
-                  <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest opacity-60">Public Holiday</p>
-                    <p className="text-sm font-bold">{holiday}</p>
-                  </div>
-                </div>
-              )}
-
-              {dlList.length > 0 && (
-                <div className="space-y-2">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Deadlines &amp; Key Dates</p>
-                  {dlList.map((dl, i) => (
-                    <div key={i} className={`flex items-center gap-3 px-4 py-3 rounded-xl ${deadlineChip(dl.category)}`}>
-                      <DeadlineIcon icon={dl.icon} className="w-4 h-4 shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[9px] font-black uppercase tracking-widest opacity-60">{dl.category}</p>
-                        <p className="text-sm font-bold">{dl.title}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {userEvts.length > 0 && (
-                <div className="space-y-2">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Your Events</p>
-                  {userEvts.map(evt => (
-                    <div key={evt.id} className={`flex items-center gap-3 px-4 py-3 rounded-xl ${EVENT_STYLE[evt.category].chip}`}>
-                      <span className={`w-3 h-3 rounded-full shrink-0 ${EVENT_STYLE[evt.category].dot}`} />
-                      <p className="text-sm font-bold flex-1">{evt.eventName}</p>
-                      <button onClick={() => { calendarStorage.deleteEvent(evt.id); reloadEvents(); }} aria-label="Delete event" className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-black/10 transition-colors shrink-0">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Add event inline */}
-              <div className="pt-2 border-t border-slate-100 space-y-2">
-                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Add Event to This Day</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text" value={newEventName} onChange={e => setNewEventName(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter') { setSelectedDay(iso); saveEvent(); } }}
-                    className="flex-1 px-3 py-2 min-h-11 text-base sm:text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-300 transition-all"
-                    placeholder="Event name..."
-                  />
-                  <button
-                    onClick={() => { setSelectedDay(iso); saveEvent(); }}
-                    disabled={!newEventName.trim()}
-                    className="px-3 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 disabled:opacity-40 transition-all"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-                <div className="flex gap-1">
-                  {(['exam','deadline','holiday','other'] as const).map(cat => (
-                    <button key={cat} onClick={() => setNewEventCategory(cat)}
-                      className={`flex-1 py-1.5 text-[9px] font-black uppercase tracking-widest rounded-lg transition-all ${newEventCategory === cat ? EVENT_STYLE[cat].chip : 'bg-slate-50 border border-slate-100 text-slate-400 hover:bg-slate-100'}`}>
-                      {EVENT_STYLE[cat].label}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -815,88 +542,85 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   };
 
   // ── List view ─────────────────────────────────────────────────────────────
+
   const renderList = () => {
-    type ListItem = { iso: string; label: string; category: string; icon?: DeadlineEvent['icon']; chip: string; dot: string; daysAway: number; isUser?: boolean; userId?: string };
+    type ListItem = { iso: string; label: string; category: string; icon?: DeadlineEvent['icon']; daysAway: number; isUser?: boolean; userId?: string };
     const items: ListItem[] = [];
 
     if (showDeadlines) {
-      for (const dl of DEADLINES) {
-        items.push({ iso: dl.isoDate, label: dl.title, category: dl.category, icon: dl.icon, chip: deadlineChip(dl.category), dot: deadlineDot(dl.category), daysAway: daysUntil(dl.isoDate) });
-      }
+      for (const dl of DEADLINES)
+        items.push({ iso: dl.isoDate, label: dl.title, category: dl.category, icon: dl.icon, daysAway: daysUntil(dl.isoDate) });
     }
     if (showHolidays) {
-      for (const [iso, name] of Object.entries(PUBLIC_HOLIDAY_MAP)) {
-        items.push({ iso, label: name, category: 'Holiday', chip: CHIP.holiday, dot: DOT.holiday, daysAway: daysUntil(iso) });
-      }
+      for (const [iso, name] of Object.entries(PUBLIC_HOLIDAY_MAP))
+        items.push({ iso, label: name, category: 'Holiday', daysAway: daysUntil(iso) });
     }
     if (showPersonal) {
-      for (const [iso, evts] of userEventsByDate) {
-        for (const e of evts) {
-          items.push({ iso, label: e.eventName, category: EVENT_STYLE[e.category].label, chip: EVENT_STYLE[e.category].chip, dot: EVENT_STYLE[e.category].dot, daysAway: daysUntil(iso), isUser: true, userId: e.id });
-        }
-      }
+      for (const [iso, evts] of userEventsByDate)
+        for (const e of evts)
+          items.push({ iso, label: e.eventName, category: EVENT_STYLE[e.category].label, daysAway: daysUntil(iso), isUser: true, userId: e.id });
     }
 
-    const sorted = items.sort((a, b) => a.iso.localeCompare(b.iso));
+    const sorted   = items.sort((a, b) => a.iso.localeCompare(b.iso));
     const upcoming = sorted.filter(i => i.daysAway >= 0);
     const past     = sorted.filter(i => i.daysAway < 0);
 
     const renderGroup = (group: ListItem[], isPast = false) => (
-      <div className="space-y-2">
+      <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
         {group.map((item, i) => (
-          <motion.div
+          <div
             key={`${item.iso}-${i}`}
-            initial={{ opacity: 0, x: -6 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.02 }}
-            className={[
-              'flex items-center gap-3 p-3.5 rounded-xl border transition-all',
-              isPast ? 'opacity-40 bg-slate-50 border-slate-100' : item.chip,
-            ].join(' ')}
+            className={`flex items-center gap-4 px-5 py-4 ${isPast ? 'opacity-40' : 'hover:bg-slate-50'} transition-colors`}
           >
-            <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-white/60`}>
-              {item.icon
-                ? <DeadlineIcon icon={item.icon} className="w-4 h-4" />
-                : <span className={`w-2.5 h-2.5 rounded-full ${item.dot}`} />
-              }
+            <div className="shrink-0 w-10 text-center">
+              <p className="text-[13px] font-black text-slate-900 leading-none">
+                {new Date(item.iso).toLocaleDateString('en-ZA', { day: 'numeric' })}
+              </p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-0.5">
+                {new Date(item.iso).toLocaleDateString('en-ZA', { month: 'short' })}
+              </p>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[9px] font-black uppercase tracking-[0.15em] opacity-60">{item.category}</p>
-              <h4 className={`text-sm font-bold truncate ${isPast ? 'line-through text-slate-400' : ''}`}>{item.label}</h4>
+              <p className={`text-[14px] font-bold text-slate-800 leading-snug ${isPast ? 'line-through text-slate-400' : ''}`}>
+                {item.label}
+              </p>
+              <p className="text-[11px] text-slate-400 mt-0.5">{item.category}</p>
             </div>
-            <div className="text-right shrink-0 flex items-center gap-2">
-              <div>
-                <div className="text-xs font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">
-                  {new Date(item.iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short' })}
-                </div>
-                {!isPast && (
-                  <div className={`text-xs font-black text-right ${item.daysAway === 0 ? 'text-red-600' : item.daysAway <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
-                    {item.daysAway === 0 ? 'Today!' : `${item.daysAway}d`}
-                  </div>
-                )}
-              </div>
-              {item.isUser && !isPast && (
-                <button onClick={() => { calendarStorage.deleteEvent(item.userId!); reloadEvents(); }} aria-label="Delete event" className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors shrink-0 ml-1">
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          </motion.div>
+            {!isPast && (
+              <span className={`text-[11px] font-black shrink-0 tabular-nums ${
+                item.daysAway === 0 ? 'text-red-600' :
+                item.daysAway <= 14 ? 'text-amber-600' :
+                'text-slate-400'
+              }`}>
+                {formatDaysAway(item.daysAway)}
+              </span>
+            )}
+            {item.isUser && !isPast && (
+              <button
+                onClick={() => { calendarStorage.deleteEvent(item.userId!); reloadEvents(); }}
+                className="p-1.5 text-slate-300 hover:text-slate-600 transition-colors shrink-0"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
         ))}
       </div>
     );
 
     return (
-      <div className="max-w-2xl space-y-6">
+      <div className="max-w-2xl space-y-8">
         {upcoming.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Upcoming · {upcoming.length} events</p>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">
+              Upcoming — {upcoming.length} events
+            </p>
             {renderGroup(upcoming)}
           </div>
         )}
         {past.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Past</p>
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Past</p>
             {renderGroup(past, true)}
           </div>
         )}
@@ -905,243 +629,196 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
   };
 
   // ── Page render ───────────────────────────────────────────────────────────
+
   return (
     <div className="min-h-screen bg-white">
       <AppHeader currentPage="calendar" user={mockUser} onNavigate={onNavigate} mode="school" />
 
-      <main className="pt-24 pb-20 px-4 md:px-6 max-w-7xl mx-auto">
+      <main className="pt-24 pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
 
-        {/* ── Page header ── */}
-        <div className="mb-8 pt-2">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Academic Calendar 2026</p>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Calendar</h1>
+        {/* Page header */}
+        <div className="pt-4 mb-8">
+          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-3">Academic Calendar 2026</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Calendar</h1>
         </div>
 
-        {/* ── Main tab bar ── */}
+        {/* Summary strip */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          <div className="flex items-center gap-3 px-4 py-3 bg-slate-900 text-white rounded-xl">
+            <Bell className="w-4 h-4 text-white/50 shrink-0" />
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-widest text-white/40 mb-0.5">Next deadline</p>
+              <p className="text-[13px] font-bold leading-none">
+                {nextDeadline?.shortTitle}
+                {daysUntilNext != null && daysUntilNext > 0 && (
+                  <span className="ml-2 font-normal text-white/50">{daysUntilNext}d</span>
+                )}
+                {daysUntilNext === 0 && <span className="ml-2 font-black">Today</span>}
+              </p>
+            </div>
+          </div>
+          {currentTerm && (
+            <div className="flex items-center gap-2.5 px-4 py-3 border border-slate-200 rounded-xl">
+              <Flag className="w-4 h-4 text-slate-400 shrink-0" />
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Current term</p>
+                <p className="text-[13px] font-bold text-slate-800 leading-none">{currentTerm.name}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Tab bar + controls */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-          <div className="flex w-full sm:w-fit p-1 bg-white border border-slate-200 rounded-xl overflow-x-auto">
-            {(['calendar','terms','deadlines'] as const).map(tab => (
-              <button key={tab} onClick={() => setActiveTab(tab)}
-                className={`flex-1 sm:flex-none px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab ? 'bg-slate-900 text-white' : 'text-slate-500 hover:text-slate-900'}`}>
+          <div className="flex p-1 bg-slate-100 rounded-xl w-fit">
+            {(['calendar', 'terms', 'deadlines'] as const).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
+                  activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-700'
+                }`}
+              >
                 {tab}
               </button>
             ))}
           </div>
 
-          {/* View switcher — only in calendar tab */}
           {activeTab === 'calendar' && (
-            <>
-              {/* Desktop button group */}
-              <div className="hidden sm:flex items-center gap-1 p-1 bg-white border border-slate-200 rounded-xl">
-                <button onClick={() => setCalView('month')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'month' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
-                  <CalendarIcon className="w-3.5 h-3.5" /> Month
-                </button>
-                <button onClick={() => setCalView('week')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'week' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
-                  <Grid3x3 className="w-3.5 h-3.5" /> Week
-                </button>
-                <button onClick={() => setCalView('day')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'day' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
-                  <Clock className="w-3.5 h-3.5" /> Day
-                </button>
-                <button onClick={() => setCalView('list')}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${calView === 'list' ? 'bg-slate-100 text-slate-800' : 'text-slate-400 hover:text-slate-700'}`}>
-                  <List className="w-3.5 h-3.5" /> List
-                </button>
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex p-1 bg-slate-100 rounded-xl">
+                {([
+                  { v: 'month', icon: CalendarIcon, label: 'Month' },
+                  { v: 'week',  icon: Grid3x3,      label: 'Week'  },
+                  { v: 'list',  icon: List,          label: 'List'  },
+                ] as const).map(({ v, icon: Icon, label }) => (
+                  <button
+                    key={v}
+                    onClick={() => setCalView(v)}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${
+                      calView === v ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-700'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">{label}</span>
+                  </button>
+                ))}
               </div>
 
-              {/* Mobile select */}
-              <select
-                value={calView}
-                onChange={e => setCalView(e.target.value as any)}
-                className="sm:hidden px-3 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
-              >
-                <option value="month">Month View</option>
-                <option value="week">Week View</option>
-                <option value="day">Day View</option>
-                <option value="list">List View</option>
-              </select>
-            </>
+              <div className="flex items-center gap-1">
+                {([
+                  { label: 'Deadlines', state: showDeadlines, toggle: () => setShowDeadlines(s => !s) },
+                  { label: 'Holidays',  state: showHolidays,  toggle: () => setShowHolidays(s => !s)  },
+                  { label: 'My Events', state: showPersonal,  toggle: () => setShowPersonal(s => !s)  },
+                ]).map(({ label, state, toggle }) => (
+                  <button
+                    key={label}
+                    onClick={toggle}
+                    className={`px-3 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-colors border ${
+                      state
+                        ? 'bg-slate-900 text-white border-slate-900'
+                        : 'bg-white text-slate-400 border-slate-200 hover:border-slate-400'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 
-        {/* ── Calendar sub-header (nav + search + filters) ── */}
-        {activeTab === 'calendar' && (
-          <div className="flex flex-col gap-3 mb-6">
-            {/* Nav row */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                {calView !== 'list' && (
-                  <div className="flex items-center gap-1.5">
-                    <button onClick={navigatePrev}
-                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all">
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <button onClick={goToToday}
-                      className="px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
-                      Today
-                    </button>
-                    <button onClick={navigateNext}
-                      className="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 flex items-center justify-center transition-all">
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
-                {calView !== 'list' && (
-                  <div>
-                    <h3 className="text-xl font-black text-slate-800 tracking-tight leading-none">{navTitle}</h3>
-                  </div>
-                )}
-              </div>
+        {/* Calendar nav */}
+        {activeTab === 'calendar' && calView !== 'list' && (
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-1">
+              <button
+                onClick={navigatePrev}
+                className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={goToToday}
+                className="px-3 py-1.5 rounded-lg border border-slate-200 text-[11px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-colors"
+              >
+                Today
+              </button>
+              <button
+                onClick={navigateNext}
+                className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
-
-            {/* Search + filter row */}
-            <div className="flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-1 max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search events & deadlines…"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-9 py-2 min-h-11 text-base sm:text-sm border border-slate-200 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 placeholder:text-slate-400 transition-all"
-                />
-                {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} aria-label="Clear search" className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
-                <div className="shrink-0">
-                  <FilterDropdown
-                    label="Deadlines"
-                    options={[
-                      { value: 'University', label: 'University', dot: DOT.school },
-                      { value: 'Funding', label: 'Funding', dot: DOT.holiday },
-                      { value: 'Exams', label: 'Exams', dot: DOT.exam },
-                      { value: 'TVET', label: 'TVET', dot: DOT.school },
-                    ]}
-                    selected={filterCategories}
-                    onToggle={v => setFilterCategories(prev => prev.includes(v) ? prev.filter(x => x !== v) : [...prev, v])}
-                    onClear={() => setFilterCategories([])}
-                  />
-                </div>
-                <button
-                  onClick={() => setShowHolidays(s => !s)}
-                  className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${showHolidays ? `${CHIP.holiday}` : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50'}`}
-                >
-                  Holidays
-                </button>
-                <button
-                  onClick={() => setShowPersonal(s => !s)}
-                  className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${showPersonal ? `${CHIP.personal}` : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50'}`}
-                >
-                  My Events
-                </button>
-              </div>
-            </div>
-
-            {/* Search results dropdown */}
-            <AnimatePresence>
-              {searchResults && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  className="bg-white border border-slate-200 rounded-xl overflow-hidden max-h-72 overflow-y-auto"
-                >
-                  {searchResults.length === 0 ? (
-                    <div className="px-4 py-6 text-center text-sm text-slate-400">No results for "{searchQuery}"</div>
-                  ) : (
-                    <div className="divide-y divide-slate-50">
-                      {searchResults.map((r, i) => (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            const [y, m] = r.iso.split('-').map(Number);
-                            setViewDate(new Date(y, m - 1, 1));
-                            setSelectedDay(r.iso);
-                            setSearchQuery('');
-                            setCalView('month');
-                          }}
-                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-left"
-                        >
-                          <span className={`w-2.5 h-2.5 rounded-full shrink-0 bg-current`} style={{ backgroundColor: '' }} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold text-slate-700 truncate">{r.label}</p>
-                            <p className="text-xs text-slate-400">{r.type} · {new Date(r.iso).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-                          </div>
-                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${r.chip}`}>{r.type}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <h3 className="text-[18px] font-black text-slate-900" style={{ letterSpacing: '-0.02em' }}>
+              {navTitle}
+            </h3>
           </div>
         )}
 
-        {/* ── Tab content ── */}
+        {/* Tab content */}
         <AnimatePresence mode="wait">
           {activeTab === 'calendar' && (
-            <motion.div key={`cal-${calView}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+            <motion.div key={`cal-${calView}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
               {calView === 'month' && renderMonth()}
               {calView === 'week'  && renderWeek()}
-              {calView === 'day'   && renderDay()}
               {calView === 'list'  && renderList()}
             </motion.div>
           )}
 
           {activeTab === 'terms' && (
-            <motion.div key="terms" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-5">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <motion.div key="terms" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }} className="max-w-2xl">
+              <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
                 {TERMS.map((term, i) => (
-                  <motion.div key={term.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
-                    whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.07)' }}
-                    className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-                    <div className={`h-1.5 bg-linear-to-r ${TERM_GRADIENT[i]}`} />
-                    <div className="p-5">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Term {term.id}</p>
-                          <h3 className="text-xl font-black text-slate-800">{term.name}</h3>
-                        </div>
-                        <span className="text-xs font-bold text-slate-400 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-lg">{term.weeks}w</span>
+                  <motion.div
+                    key={term.id}
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.05 }}
+                    className="px-6 py-6"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Term {term.id}</p>
+                        <h3 className="text-[20px] font-black text-slate-900" style={{ letterSpacing: '-0.02em' }}>{term.name}</h3>
                       </div>
-                      <div className="space-y-2">
-                        <div className="flex justify-between py-2 border-b border-slate-50">
-                          <span className="text-xs font-bold text-slate-400 uppercase">Start</span>
-                          <span className="text-sm font-bold text-slate-700">{term.start}</span>
-                        </div>
-                        <div className="flex justify-between py-2 border-b border-slate-50">
-                          <span className="text-xs font-bold text-slate-400 uppercase">End</span>
-                          <span className="text-sm font-bold text-slate-700">{term.end}</span>
-                        </div>
-                        <div className="pt-1">
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Holidays</p>
-                          <p className="text-sm leading-relaxed text-slate-500">{term.holidays}</p>
-                        </div>
+                      <span className="text-[11px] font-black uppercase tracking-widest px-2.5 py-1 border border-slate-200 rounded-full text-slate-500">
+                        {term.weeks}w
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Start</p>
+                        <p className="text-[14px] font-bold text-slate-800">{term.start}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">End</p>
+                        <p className="text-[14px] font-bold text-slate-800">{term.end}</p>
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Holidays</p>
+                        <p className="text-[13px] text-slate-600 leading-snug">{term.holidays}</p>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
-              <div className="bg-white border border-slate-200 rounded-xl p-5">
-                <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-3">2026 Academic Year Timeline</p>
-                <div className="flex gap-0.5 h-7 rounded-xl overflow-hidden">
+
+              <div className="mt-8">
+                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">2026 Year Timeline</p>
+                <div className="flex gap-1 h-6 rounded-lg overflow-hidden border border-slate-100">
                   {TERMS.map((t, i) => (
-                    <div key={t.id} className={`bg-linear-to-r ${TERM_GRADIENT[i]} flex items-center justify-center`} style={{ flexGrow: t.weeks }}>
-                      <span className="text-xs font-black text-white/90 hidden sm:block">{t.name}</span>
+                    <div
+                      key={t.id}
+                      className={`flex items-center justify-center ${['bg-slate-800','bg-slate-700','bg-slate-600','bg-slate-500'][i]}`}
+                      style={{ flexGrow: t.weeks }}
+                    >
+                      <span className="text-[10px] font-black text-white/80 hidden sm:block">{t.name}</span>
                     </div>
                   ))}
                 </div>
-                <div className="flex justify-between mt-1.5">
-                  {['Jan','Apr','Jul','Oct','Dec'].map(m => (
-                    <span key={m} className="text-xs text-slate-400">{m}</span>
+                <div className="flex justify-between mt-1.5 px-0.5">
+                  {['Jan', 'Apr', 'Jul', 'Oct', 'Dec'].map(m => (
+                    <span key={m} className="text-[11px] text-slate-400">{m}</span>
                   ))}
                 </div>
               </div>
@@ -1149,34 +826,49 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
           )}
 
           {activeTab === 'deadlines' && (
-            <motion.div key="deadlines" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl space-y-2">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">All Key Dates · Sorted by Date</p>
-              {sortedDeadlines.map((item, i) => {
-                const days   = daysUntil(item.isoDate);
-                const isPast = days < 0;
-                const chip   = deadlineChip(item.category);
+            <motion.div key="deadlines" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }} className="max-w-2xl">
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-5">
+                All Key Dates · {DEADLINES.length} events
+              </p>
+              <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
+                {sortedDeadlines.map((item, i) => {
+                  const days   = daysUntil(item.isoDate);
+                  const isPast = days < 0;
 
-                return (
-                  <motion.div key={i} initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }}
-                    className={`flex items-center gap-3 p-3.5 rounded-xl border transition-all ${isPast ? 'opacity-40 bg-slate-50 border-slate-100' : chip}`}>
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-white/60">
-                      <DeadlineIcon icon={item.icon} className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[9px] font-black uppercase tracking-[0.15em] opacity-60">{item.category}</p>
-                      <h4 className={`text-sm font-bold truncate ${isPast ? 'line-through text-slate-400' : ''}`}>{item.title}</h4>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <div className="text-xs font-black px-2 py-0.5 rounded-lg bg-white/60 mb-0.5">{item.date}</div>
+                  return (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-4 px-5 py-4 transition-colors ${isPast ? 'opacity-40' : 'hover:bg-slate-50'}`}
+                    >
+                      <div className="shrink-0 w-10 text-center">
+                        <p className="text-[14px] font-black text-slate-900 leading-none">
+                          {new Date(item.isoDate).toLocaleDateString('en-ZA', { day: 'numeric' })}
+                        </p>
+                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-0.5">
+                          {new Date(item.isoDate).toLocaleDateString('en-ZA', { month: 'short' })}
+                        </p>
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[14px] font-bold text-slate-800 leading-snug ${isPast ? 'line-through text-slate-400' : ''}`}>
+                          {item.title}
+                        </p>
+                        <span className={`inline-block text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full mt-1 ${deadlineBadgeCls(item.category)}`}>
+                          {item.category}
+                        </span>
+                      </div>
+
                       {!isPast && (
-                        <div className={`text-xs font-black ${days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-500' : 'opacity-60'}`}>
-                          {days === 0 ? 'Today!' : `${days}d`}
-                        </div>
+                        <span className={`text-[12px] font-black tabular-nums shrink-0 ${
+                          days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-600' : 'text-slate-400'
+                        }`}>
+                          {formatDaysAway(days)}
+                        </span>
                       )}
                     </div>
-                  </motion.div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -23,8 +23,9 @@ interface WrapperProps {
 
 export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
   return function ProtectedPage(props: Omit<P, keyof AuthedProps> & WrapperProps) {
-    const [user, setUser] = useState<User | null>(null);
-    const [checking, setChecking] = useState(true);
+    const storedUserSync = getCurrentUserFromStorage();
+    const [user, setUser] = useState<User | null>(storedUserSync as unknown as User | null);
+    const [checking, setChecking] = useState(!storedUserSync);
 
     useEffect(() => {
       // Check if we're in test mode - allow tests to bypass auth
@@ -71,15 +72,12 @@ export function withAuth<P extends AuthedProps>(Component: ComponentType<P>) {
         }
       }
 
-      // Normal auth flow — check localStorage first for a fast synchronous result
-      const storedUser = getCurrentUserFromStorage();
-
+      // Normal auth flow — verify session in background, storedUserSync already applied
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session?.user) {
-          if (storedUser) {
+          if (storedUserSync) {
             // localStorage has a user — session restore is in progress via App.tsx
-            // Use stored user to avoid flickering to login
-            setUser(storedUser as unknown as User);
+            setUser(storedUserSync as unknown as User);
             setChecking(false);
             return;
           }

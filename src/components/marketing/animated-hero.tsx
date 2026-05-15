@@ -42,7 +42,7 @@ function TypingWord() {
       <motion.span
         animate={{ opacity: [1, 0, 1] }}
         transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-        className="ml-[2px] inline-block w-[4px] h-[0.8em] rounded-[2px] bg-slate-900 align-baseline translate-y-[0.05em]"
+        className="ml-0.5 inline-block w-1 h-[0.8em] rounded-xs bg-slate-900 align-baseline translate-y-[0.05em]"
       />
     </span>
   );
@@ -127,9 +127,10 @@ function Hero({ onNavigate }: HeroProps) {
             className="flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-10 gap-y-4 mb-12 sm:mb-14"
           >
             {[
-              { value: "400+", label: "Careers listed" },
-              { value: "100%", label: "Free to use" },
-              { value: "Gr 10–12", label: "Study content" },
+              { value: "400+", label: "SA careers" },
+              { value: "26", label: "TVET colleges" },
+              { value: "9", label: "Provinces covered" },
+              { value: "100%", label: "Free, always" },
             ].map(({ value, label }) => (
               <div key={label} className="flex flex-col items-center gap-1">
                 <span
@@ -138,7 +139,7 @@ function Hero({ onNavigate }: HeroProps) {
                 >
                   {value}
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                <span className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400">
                   {label}
                 </span>
               </div>
@@ -161,7 +162,7 @@ function Hero({ onNavigate }: HeroProps) {
                 <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </motion.div>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+            <span className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400">
               Scroll to explore
             </span>
           </motion.div>

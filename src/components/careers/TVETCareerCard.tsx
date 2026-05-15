@@ -1,5 +1,5 @@
 import type { Key } from 'react';
-import { ArrowRight, Zap, Briefcase, DollarSign } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import type { CareerFull } from '../../data/careersTypes';
 
 interface TVETCareerCardProps {
@@ -8,67 +8,90 @@ interface TVETCareerCardProps {
   onCardClick?: () => void;
 }
 
-const DEMAND_COLORS: Record<string, string> = {
-  high: '#10B981',
-  medium: '#F59E0B',
-  low: '#EF4444',
+const demandConfig: Record<string, {
+  label: string;
+  badgeCls: string;
+  footerCls: string;
+}> = {
+  high:   {
+    label:    'High demand',
+    badgeCls: 'bg-emerald-50 text-emerald-700 border border-emerald-100',
+    footerCls: 'bg-emerald-50/60',
+  },
+  medium: {
+    label:    'Medium demand',
+    badgeCls: 'bg-amber-50 text-amber-700 border border-amber-100',
+    footerCls: 'bg-slate-50',
+  },
+  low:    {
+    label:    'Low demand',
+    badgeCls: 'bg-red-50 text-red-600 border border-red-100',
+    footerCls: 'bg-slate-50',
+  },
 };
 
 export function TVETCareerCard({ career, onCardClick }: TVETCareerCardProps) {
-  const demandColor = DEMAND_COLORS[career.jobDemand.level] || '#64748b';
-
-  // Extract qualification duration from studyPath
+  const config   = demandConfig[career.jobDemand.level];
+  const salary   = `R${(career.salary.entryLevel / 1000).toFixed(0)}k`;
   const duration = career.studyPath.timeToQualify;
-
-  // Format salary range
-  const salaryDisplay = `R${(career.salary.entryLevel / 1000).toFixed(0)}k - R${(career.salary.midLevel / 1000).toFixed(0)}k`;
 
   return (
     <div
       onClick={onCardClick}
-      className="group bg-white border border-slate-100 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-[#1E3A5F] transition-all duration-300 flex flex-col h-full cursor-pointer"
+      data-testid="career-card"
+      className="group relative bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-400 hover:shadow-sm transition-all duration-200 flex flex-col cursor-pointer"
     >
-      <div className="flex justify-between items-start mb-4">
-        <span className="px-3 py-1 bg-[#1E3A5F]/10 text-[#1E3A5F] text-xs font-bold uppercase tracking-widest rounded-full">
-          TVET Career
-        </span>
-        <div
-          className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest"
-          style={{ backgroundColor: demandColor + '20', color: demandColor }}
-        >
-          {career.jobDemand.level} Demand
+      {/* Card body */}
+      <div className="p-5 flex flex-col flex-1">
+        {/* Top row */}
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400 leading-none mt-0.5">
+            TVET Career
+          </p>
+          {config && (
+            <span className={`shrink-0 text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-full ${config.badgeCls}`}>
+              {config.label}
+            </span>
+          )}
         </div>
+
+        {/* Title */}
+        <h3
+          className="text-[17px] font-black text-slate-900 leading-snug mb-2.5 line-clamp-2 group-hover:text-slate-700 transition-colors duration-150"
+          style={{ letterSpacing: '-0.022em' }}
+        >
+          {career.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-[13px] leading-[1.6] text-slate-500 line-clamp-2 flex-1">
+          {career.description}
+        </p>
       </div>
 
-      <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-[#1E3A5F] transition-colors">
-        {career.title}
-      </h3>
+      {/* Footer — demand-tinted */}
+      <div className={`px-5 py-4 border-t border-slate-100 ${config?.footerCls ?? 'bg-white'}`}>
+        <div className="flex items-end justify-between gap-2">
+          <div>
+            <p className="text-[15px] font-black text-slate-900 leading-none" style={{ letterSpacing: '-0.015em' }}>
+              {salary}
+              <span className="text-[11px] font-medium text-slate-400 ml-1">/ month to start</span>
+            </p>
+            <div className="flex items-center gap-1.5 mt-1 text-slate-400">
+              <Clock size={10} />
+              <span className="text-[11px] font-medium">{duration}</span>
+            </div>
+          </div>
 
-      <p className="text-sm leading-relaxed text-slate-500 mb-6 line-clamp-2">
-        {career.description}
-      </p>
-
-      <div className="mt-auto space-y-3">
-        <div className="flex items-center gap-3" style={{ color: '#1E3A5F' }}>
-          <DollarSign className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">{salaryDisplay}/month</span>
-        </div>
-
-        <div className="flex items-center gap-3" style={{ color: '#1E3A5F' }}>
-          <Briefcase className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">{duration}</span>
-        </div>
-
-        <div className="flex items-center gap-3" style={{ color: '#1E3A5F' }}>
-          <Zap className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">
-            {career.jobDemand.growthPercentage}% growth
-          </span>
-        </div>
-
-        <div className="pt-4 border-t border-slate-50 flex items-center justify-between min-h-11">
-          <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">View Details</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" style={{ color: '#1E3A5F' }} />
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-[11px] font-black text-slate-400">
+              {career.jobDemand.growthPercentage}% growth
+            </span>
+            <ArrowRight
+              className="w-4 h-4 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all duration-150"
+              aria-hidden="true"
+            />
+          </div>
         </div>
       </div>
     </div>

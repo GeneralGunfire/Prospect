@@ -7,6 +7,7 @@ import {
   Target, Heart, Droplets,
   Search, BookText, HelpCircle, ArrowRight, Loader2,
   Newspaper, Calculator, MapPin, Building2, MessageCircle,
+  ChevronDown,
 } from 'lucide-react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
@@ -15,7 +16,7 @@ import { searchTopics, searchQuestion, type TopicResult, type QuestionResult } f
 
 interface AppHeaderProps {
   currentPage: AppPage;
-  user: SupabaseUser;
+  user?: SupabaseUser | null;
   onNavigate: (page: AppPage) => void;
   /** 'school' = Dashboard/Library/Calendar. 'career' = Quiz/Careers/etc. 'community' = Impact/Water/Tax/Civics. Defaults to 'school'. */
   mode?: 'school' | 'career' | 'community';
@@ -62,13 +63,14 @@ export default function AppHeader({
   mode = 'school',
   onNavigateAuth,
 }: AppHeaderProps) {
-  const isGuest = user?.id === 'guest' || user?.is_anonymous === true;
+  const isGuest = !user || user?.id === 'guest' || user?.is_anonymous === true;
 
   const NAV = mode === 'career' ? CAREER_NAV : mode === 'community' ? COMMUNITY_NAV : SCHOOL_NAV;
 
   const [isExpanded, setExpanded] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isTvetMenuOpen, setIsTvetMenuOpen] = useState(false);
 
   const { scrollY } = useScroll();
   const lastScrollY = useRef(0);
@@ -139,11 +141,12 @@ export default function AppHeader({
 
   const handleLogoClick = () => onNavigate('home' as AppPage);
 
-  const firstName = user.user_metadata?.full_name?.split(' ')[0] ?? 'Student';
-  const email = user.email ?? '';
+  const firstName = user?.user_metadata?.full_name?.split(' ')[0] ?? 'Student';
+  const email = user?.email ?? '';
 
   const handlePillClick = (e: React.MouseEvent) => {
     if (!isExpanded) { e.preventDefault(); setExpanded(true); }
+    setIsTvetMenuOpen(false);
   };
 
   return (
@@ -198,7 +201,33 @@ export default function AppHeader({
 
             {/* Desktop nav items */}
             {NAV.map((item) => {
-              const isActive = currentPage === item.page;
+              const isActive = currentPage === item.page ||
+                (item.page === 'tvet' && ['tvet-careers','tvet-colleges','tvet-funding','tvet-requirements'].includes(currentPage as string));
+
+              if (item.page === 'tvet') {
+                return (
+                  <div key={item.page} className="hidden md:flex items-center relative">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onNavigate(item.page); }}
+                      className={`flex items-center text-sm px-2.5 py-1.5 rounded-l-lg transition-all duration-150 whitespace-nowrap ${
+                        isActive ? 'text-slate-900 font-black' : 'text-slate-600 font-medium hover:text-slate-900 hover:bg-slate-100'
+                      }`}
+                    >
+                      {item.name}
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setIsTvetMenuOpen(v => !v); setIsUserMenuOpen(false); }}
+                      className={`flex items-center px-1 py-1.5 rounded-r-lg transition-all duration-150 ${
+                        isTvetMenuOpen ? 'text-slate-900 bg-slate-100' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+                      }`}
+                      aria-label="TVET sub-pages"
+                    >
+                      <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isTvetMenuOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                  </div>
+                );
+              }
+
               return (
                 <button
                   key={item.page}
@@ -254,6 +283,55 @@ export default function AppHeader({
             </motion.div>
           </div>
         </motion.nav>
+
+        {/* TVET Sub-menu Dropdown */}
+        <AnimatePresence>
+          {isTvetMenuOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={(e) => { e.stopPropagation(); setIsTvetMenuOpen(false); }}
+                className="fixed inset-0 z-200"
+              />
+              <motion.div
+                initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                transition={{ duration: 0.13, ease: 'easeOut' }}
+                className="absolute left-1/2 -translate-x-1/2 top-13 w-52 bg-[#0f172a] rounded-xl border border-white/10 z-201 overflow-hidden"
+              >
+                <div className="px-4 py-3 border-b border-white/10">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40">TVET</p>
+                </div>
+                <div className="p-1.5">
+                  {[
+                    { label: 'Overview',     page: 'tvet' },
+                    { label: 'Careers',      page: 'tvet-careers' },
+                    { label: 'Colleges',     page: 'tvet-colleges' },
+                    { label: 'Funding',      page: 'tvet-funding' },
+                    { label: 'Requirements', page: 'tvet-requirements' },
+                  ].map(({ label, page }) => {
+                    const isActive = currentPage === page;
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => { setIsTvetMenuOpen(false); onNavigate(page as AppPage); }}
+                        className={`w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all text-left ${
+                          isActive
+                            ? 'text-white bg-white/10'
+                            : 'text-white/60 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        {label}
+                        {isActive && <span className="w-1 h-1 rounded-full bg-white/60" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
         {/* User Menu Dropdown placed outside nav to escape overflow-hidden */}
         <AnimatePresence>

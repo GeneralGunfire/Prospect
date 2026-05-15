@@ -13,8 +13,8 @@ type LogoCloudProps = React.ComponentProps<"div">;
 export function LogoCloud({ className, ...props }: LogoCloudProps) {
   return (
     <div className={cn("py-10 bg-white border-y border-slate-100", className)} {...props}>
-      <p className="text-center text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-8">
-        Tools used
+      <p className="text-center text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-8">
+        Built with
       </p>
       <div
         className="relative grid grid-cols-2 border-x border-slate-200 md:grid-cols-4 max-w-5xl mx-auto"
@@ -49,6 +49,7 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
         <LogoCard
           className="relative border-r border-b border-slate-200 md:border-b-0"
           logo={{ src: "https://svgl.app/library/vscode.svg", alt: "VS Code" }}
+          iconSize
         >
           <PlusIcon className="-right-[12.5px] -bottom-[12.5px] md:-left-[12.5px] absolute z-10 size-6 text-slate-300 md:hidden" strokeWidth={1} />
         </LogoCard>
@@ -56,6 +57,7 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
         <LogoCard
           className="border-b border-slate-200 md:border-r md:border-b-0 md:bg-slate-50"
           logo={{ src: "https://svgl.app/library/google.svg", alt: "Google" }}
+          iconSize
         />
 
         <LogoCard
@@ -76,9 +78,10 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
 
 type LogoCardProps = React.ComponentProps<"div"> & {
   logo: Logo;
+  iconSize?: boolean;
 };
 
-function LogoCard({ logo, className, children, ...props }: LogoCardProps) {
+function LogoCard({ logo, className, children, iconSize, ...props }: LogoCardProps) {
   return (
     <div
       className={cn("flex items-center justify-center bg-white px-4 py-8 md:p-8", className)}
@@ -86,7 +89,7 @@ function LogoCard({ logo, className, children, ...props }: LogoCardProps) {
     >
       <img
         alt={logo.alt}
-        className="pointer-events-none h-4 select-none md:h-5"
+        className={cn("pointer-events-none select-none", iconSize ? "h-8 md:h-10" : "h-4 md:h-5")}
         height={logo.height || "auto"}
         src={logo.src}
         width={logo.width || "auto"}

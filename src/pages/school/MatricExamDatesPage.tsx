@@ -43,18 +43,8 @@ const NOV_EXAMS: Array<{ date: string; subject: string; time: string; paper: str
 const KEY_DATES = [
   { label: 'June trial exams begin', date: '2026-06-03' },
   { label: 'June trial exams end', date: '2026-06-18' },
-  { label: 'November final exams begin', date: '2026-10-26' },
-  { label: 'November final exams end', date: '2026-11-20' },
-];
-
-const STUDY_TIPS = [
-  'Start with a timetable: assign each subject a study slot and stick to it.',
-  'Work through past NSC exam papers — they are the best indicator of what to expect.',
-  'Practice under timed conditions so exam pressure does not catch you off guard.',
-  'Focus on your weaker subjects earlier; strong subjects need maintenance, not panic.',
-  'Sleep 7–8 hours during the exam period — exhaustion hurts performance.',
-  'Form a small study group for difficult topics, but do solo practice too.',
-  'Visit the DoE website to download official marking guidelines and exemplars.',
+  { label: 'NSC final exams begin', date: '2026-10-26' },
+  { label: 'NSC final exams end', date: '2026-11-20' },
 ];
 
 function formatDate(dateStr: string, showYear = false): string {
@@ -103,21 +93,21 @@ function MatricExamDatesPageInner({ onNavigate, user }: AuthedProps) {
 
           {/* Back */}
           <button
-            onClick={() => onNavigate('school-assist' as any)}
+            onClick={() => onNavigate('dashboard')}
             className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 transition-colors mb-8 min-h-11"
           >
-            <ChevronLeft className="w-3.5 h-3.5" /> Back to School Assist
+            <ChevronLeft className="w-3.5 h-3.5" /> Back to Dashboard
           </button>
 
           {/* Header */}
           <div className="mb-10">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-400 mb-2">Community</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-2">School Assist</p>
             <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3 mb-4">
               <Calendar className="w-7 h-7 text-slate-700" />
               Matric Exam Schedule 2026
             </h1>
             <p className="text-sm text-slate-500 leading-relaxed">
-              Official NSC examination timetable for the 2026 academic year. Confirm final dates with the Department of Basic Education.
+              NSC examination timetable for the 2026 academic year. Confirm final dates at <span className="font-semibold">education.gov.za</span>.
             </p>
           </div>
 
@@ -139,7 +129,7 @@ function MatricExamDatesPageInner({ onNavigate, user }: AuthedProps) {
             </div>
 
             <div className="border border-slate-200 rounded-xl p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1">Final (NSC) Exams</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 mb-1">NSC Final Exams</p>
               <div className="flex items-baseline gap-2 mb-1">
                 {daysToNov !== null && daysToNov > 0 ? (
                   <>
@@ -166,7 +156,7 @@ function MatricExamDatesPageInner({ onNavigate, user }: AuthedProps) {
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
-                {t === 'june' ? 'June Trials' : 'November Finals'}
+                {t === 'june' ? 'June Trials' : 'Oct / Nov Finals'}
               </button>
             ))}
           </div>
@@ -210,23 +200,8 @@ function MatricExamDatesPageInner({ onNavigate, user }: AuthedProps) {
             </div>
           </div>
 
-          {/* Study tips */}
-          <div className="border border-slate-200 rounded-xl p-6">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Study Tips</h2>
-            <ul className="space-y-3">
-              {STUDY_TIPS.map((tip, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                  <span className="font-black text-slate-300 text-xs mt-0.5 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <p className="mt-8 text-xs text-slate-400 text-center leading-relaxed">
-            This timetable is indicative and based on historical DoE scheduling patterns for 2026.
-            Always confirm official dates at{' '}
-            <span className="font-semibold">www.education.gov.za</span>.
+          <p className="mt-2 text-xs text-slate-400 text-center">
+            Dates are based on historical DoE patterns. Always confirm at <span className="font-semibold">education.gov.za</span>.
           </p>
 
         </div>

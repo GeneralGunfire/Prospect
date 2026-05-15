@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Filter, X, Briefcase, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import { allCareersComplete } from '../../data/careers400Final';
 import { CareerCard } from '../../components/careers/CareerCard';
 import { CareerDetailModal } from '../../components/careers/CareerDetailModal';
@@ -10,12 +10,47 @@ import { findSimilarCareers } from '../../lib/careersService';
 import { getUserBookmarks, saveBookmark, removeBookmark } from '../../services/bookmarkService';
 import type { CareerFull } from '../../data/careersTypes';
 
+// ── Constants ─────────────────────────────────────────────────────────────────
+
+const categoryLabels: Record<string, string> = {
+  university: 'University',
+  tvet: 'TVET College',
+  trade: 'Trade',
+  digital: 'Digital & Tech',
+  creative: 'Creative',
+  business: 'Business',
+};
+
+const riasecTypes = [
+  { code: 'R', label: 'Realistic', description: 'Hands-on, practical' },
+  { code: 'I', label: 'Investigative', description: 'Analytical, curious' },
+  { code: 'A', label: 'Artistic', description: 'Creative, expressive' },
+  { code: 'S', label: 'Social', description: 'People-focused' },
+  { code: 'E', label: 'Enterprising', description: 'Leadership, business' },
+  { code: 'C', label: 'Conventional', description: 'Organised, detail-oriented' },
+];
+
+// Demand filter colours — emerald/amber/red, consistent with quiz results
+const demandConfig: Record<string, { label: string; activeCls: string }> = {
+  high:   { label: 'High demand',   activeCls: 'bg-emerald-600 text-white border-emerald-600' },
+  medium: { label: 'Medium demand', activeCls: 'bg-amber-500 text-white border-amber-500' },
+  low:    { label: 'Low demand',    activeCls: 'bg-red-500 text-white border-red-500' },
+};
+
+const SALARY_MAX = 100000;
+const SALARY_STEP = 5000;
+const LOAD_MORE_INCREMENT = 25;
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 function CareersPageNew({ user, onNavigate }: AuthedProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedRIASEC, setSelectedRIASEC] = useState<string | null>(null);
   const [selectedDemand, setSelectedDemand] = useState<string | null>(null);
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([0, 100000]);
+  // Both bounds adjustable
+  const [salaryMin, setSalaryMin] = useState(0);
+  const [salaryMax, setSalaryMax] = useState(SALARY_MAX);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedCareer, setSelectedCareer] = useState<CareerFull | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -23,23 +58,27 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
   const [savedCareers, setSavedCareers] = useState<string[]>([]);
   const [displayCount, setDisplayCount] = useState(25);
   const [isLoadingSaves, setIsLoadingSaves] = useState(true);
-  const LOAD_MORE_INCREMENT = 25;
 
-  // Fetch saved careers from Supabase on mount
   useEffect(() => {
-    const loadSavedCareers = async () => {
+    const load = async () => {
       setIsLoadingSaves(true);
       const bookmarks = await getUserBookmarks(user.id);
       setSavedCareers(bookmarks.careers);
       setIsLoadingSaves(false);
     };
-
-    loadSavedCareers();
+    load();
   }, [user.id]);
 
-  const categories = useMemo(() => Array.from(new Set(allCareersComplete.map((c) => c.category))).sort(), []);
-  const riasecTypes = ['R', 'I', 'A', 'S', 'E', 'C'];
-  const demandLevels = ['high', 'medium', 'low'];
+  const categories = useMemo(
+    () => Array.from(new Set(allCareersComplete.map((c) => c.category))).sort(),
+    [],
+  );
+
+  const activeFilterCount =
+    (selectedCategory ? 1 : 0) +
+    (selectedRIASEC ? 1 : 0) +
+    (selectedDemand ? 1 : 0) +
+    (salaryMin > 0 || salaryMax < SALARY_MAX ? 1 : 0);
 
   const allFilteredCareers = useMemo(() => {
     let results = allCareersComplete;
@@ -50,7 +89,7 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
         (c) =>
           c.title.toLowerCase().includes(q) ||
           c.description.toLowerCase().includes(q) ||
-          c.keywords.some((k) => k.toLowerCase().includes(q))
+          c.keywords.some((k) => k.toLowerCase().includes(q)),
       );
     }
 
@@ -58,35 +97,36 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
     if (selectedRIASEC) {
       results = results.filter((c) => {
-        const codeKey = selectedRIASEC.toLowerCase() as keyof typeof c.riasecMatch;
-        return c.riasecMatch[codeKey] > 50;
+        const key = selectedRIASEC.toLowerCase() as keyof typeof c.riasecMatch;
+        return c.riasecMatch[key] > 50;
       });
     }
 
-    if (selectedDemand) {
-      results = results.filter((c) => c.jobDemand.level === selectedDemand);
-    }
+    if (selectedDemand) results = results.filter((c) => c.jobDemand.level === selectedDemand);
 
-    results = results.filter((c) => c.salary.entryLevel >= salaryRange[0] && c.salary.entryLevel <= salaryRange[1]);
+    results = results.filter(
+      (c) => c.salary.entryLevel >= salaryMin && c.salary.entryLevel <= salaryMax,
+    );
 
     return results;
-  }, [searchQuery, selectedCategory, selectedRIASEC, selectedDemand, salaryRange]);
+  }, [searchQuery, selectedCategory, selectedRIASEC, selectedDemand, salaryMin, salaryMax]);
 
-  // Display only the first `displayCount` careers (lazy loading)
-  const displayedCareers = useMemo(() => {
-    return allFilteredCareers.slice(0, displayCount);
-  }, [allFilteredCareers, displayCount]);
+  const displayedCareers = useMemo(
+    () => allFilteredCareers.slice(0, displayCount),
+    [allFilteredCareers, displayCount],
+  );
 
-  const hasMoreCareers = allFilteredCareers.length > displayCount;
-  const remainingCareers = allFilteredCareers.length - displayCount;
+  const hasMore = allFilteredCareers.length > displayCount;
+  const remaining = allFilteredCareers.length - displayCount;
 
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategory(null);
     setSelectedRIASEC(null);
     setSelectedDemand(null);
-    setSalaryRange([0, 100000]);
-    setDisplayCount(25); // Reset to initial display count
+    setSalaryMin(0);
+    setSalaryMax(SALARY_MAX);
+    setDisplayCount(25);
   };
 
   const handleCareerClick = async (career: CareerFull) => {
@@ -98,25 +138,17 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
 
   const toggleSaveCareer = async (careerId: string) => {
     if (savedCareers.includes(careerId)) {
-      // Remove from saved
-      const success = await removeBookmark(user.id, 'career', careerId);
-      if (success) {
-        setSavedCareers(savedCareers.filter((s) => s !== careerId));
-      }
+      const ok = await removeBookmark(user.id, 'career', careerId);
+      if (ok) setSavedCareers((prev) => prev.filter((s) => s !== careerId));
     } else {
-      // Add to saved
-      const success = await saveBookmark(user.id, 'career', careerId);
-      if (success) {
-        setSavedCareers([...savedCareers, careerId]);
-      }
+      const ok = await saveBookmark(user.id, 'career', careerId);
+      if (ok) setSavedCareers((prev) => [...prev, careerId]);
     }
   };
 
   const handleModalNavigate = (page: string) => {
     setShowDetailModal(false);
-    if (page === 'library' || page === 'bursaries') {
-      onNavigate(page as any);
-    }
+    if (page === 'library' || page === 'bursaries') onNavigate(page as any);
   };
 
   const handleSelectRelatedCareer = async (career: CareerFull) => {
@@ -130,210 +162,313 @@ function CareersPageNew({ user, onNavigate }: AuthedProps) {
       <AppHeader currentPage="careers" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
+
+        {/* Page header */}
         <div className="mb-10 pt-2">
-          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">Career Explorer</p>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3" style={{ letterSpacing: '-0.025em' }}>
+          <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-3">
+            Career Explorer
+          </p>
+          <h1
+            className="text-3xl md:text-4xl font-black text-slate-900 mb-3"
+            style={{ letterSpacing: '-0.025em' }}
+          >
             Careers
           </h1>
-          <p className="text-[15px] leading-[1.65] text-slate-500">{allFilteredCareers.length} careers — filter by interest, category, or personality type.</p>
+          <p className="text-[15px] leading-[1.65] text-slate-500">
+            {allFilteredCareers.length} careers — filter by interest, category, or personality type.
+          </p>
         </div>
 
-        {/* Sticky search + filters */}
+        {/* Sticky search + filter bar */}
         <div className="mb-10 sticky top-20 z-40 py-4 -mx-4 px-4 bg-white/95 backdrop-blur-sm border-b border-slate-100">
-          <div className="flex flex-col md:flex-row gap-4 items-center">
-            <div className="relative grow w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+            {/* Search */}
+            <div className="relative grow">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search careers, skills, or industries..."
+                placeholder="Search careers, skills, industries..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-4 py-3 min-h-11 text-sm text-slate-900 outline-none focus:border-slate-400 transition-colors"
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setDisplayCount(25);
+                }}
+                className="w-full bg-white border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-slate-400 transition-colors"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
+
+            {/* Filter toggle */}
             <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`flex items-center gap-2 px-4 py-2.5 min-h-11 rounded-xl font-bold text-xs uppercase tracking-widest transition-colors border ${
+              onClick={() => setIsFilterOpen((v) => !v)}
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-colors border whitespace-nowrap ${
                 isFilterOpen
                   ? 'bg-slate-900 text-white border-slate-900'
                   : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
               }`}
             >
-              <Filter className="w-4 h-4" />
+              <SlidersHorizontal className="w-4 h-4" />
               Filters
-              {(selectedCategory || selectedRIASEC || selectedDemand || (salaryRange[0] > 0 || salaryRange[1] < 100000)) && (
-                <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold bg-slate-500 text-white">
-                  {(selectedCategory ? 1 : 0) + (selectedRIASEC ? 1 : 0) + (selectedDemand ? 1 : 0) + ((salaryRange[0] > 0 || salaryRange[1] < 100000) ? 1 : 0)}
+              {activeFilterCount > 0 && (
+                <span
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black ${
+                    isFilterOpen ? 'bg-white text-slate-900' : 'bg-slate-900 text-white'
+                  }`}
+                >
+                  {activeFilterCount}
                 </span>
               )}
             </button>
           </div>
 
+          {/* Expanded filter panel */}
           <AnimatePresence>
             {isFilterOpen && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
+                transition={{ ease: 'easeOut', duration: 0.2 }}
                 className="overflow-hidden"
               >
-                <div className="pt-6 space-y-6 border-t border-slate-100 mt-6">
+                <div className="pt-6 mt-4 border-t border-slate-100 space-y-8">
+
+                  {/* Row 1: Categories + RIASEC */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Categories */}
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
-                        Career Categories
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
+                        Career Category
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {categories.map((cat) => (
-                          <button
-                            key={cat}
-                            onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors border ${
-                              selectedCategory === cat
-                                ? 'bg-slate-900 text-white border-slate-900'
-                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
-                            }`}
-                          >
-                            {cat}
-                          </button>
-                        ))}
+                        {categories.map((cat) => {
+                          const isActive = selectedCategory === cat;
+                          return (
+                            <button
+                              key={cat}
+                              onClick={() => {
+                                setSelectedCategory(isActive ? null : cat);
+                                setDisplayCount(25);
+                              }}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-colors border ${
+                                isActive
+                                  ? 'bg-slate-900 text-white border-slate-900'
+                                  : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
+                              }`}
+                            >
+                              {categoryLabels[cat] ?? cat}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
+
+                    {/* RIASEC — full names with description */}
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
-                        RIASEC Interests
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
+                        Personality Type
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {riasecTypes.map((type) => (
-                          <button
-                            key={type}
-                            onClick={() => setSelectedRIASEC(selectedRIASEC === type ? null : type)}
-                            className={`w-9 h-9 rounded-lg text-xs font-bold flex items-center justify-center transition-colors border ${
-                              selectedRIASEC === type
-                                ? 'bg-slate-900 text-white border-slate-900'
-                                : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
-                            }`}
-                          >
-                            {type}
-                          </button>
-                        ))}
+                        {riasecTypes.map(({ code, label }) => {
+                          const isActive = selectedRIASEC === code;
+                          return (
+                            <button
+                              key={code}
+                              onClick={() => {
+                                setSelectedRIASEC(isActive ? null : code);
+                                setDisplayCount(25);
+                              }}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors border ${
+                                isActive
+                                  ? 'bg-slate-900 text-white border-slate-900'
+                                  : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
+                              }`}
+                            >
+                              <span className="font-black">{code}</span>
+                              <span className="ml-1 tracking-normal normal-case font-medium text-[11px]">
+                                {label}
+                              </span>
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
 
+                  {/* Row 2: Demand + Salary */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Job demand */}
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
                         Job Demand
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {demandLevels.map((level) => (
-                          <button
-                            key={level}
-                            onClick={() => setSelectedDemand(selectedDemand === level ? null : level)}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border ${
-                              selectedDemand === level
-                                ? level === 'high'
-                                  ? 'bg-blue-500 text-white border-blue-500'
-                                  : level === 'medium'
-                                    ? 'bg-amber-500 text-white border-amber-500'
-                                    : 'bg-red-500 text-white border-red-500'
-                                : 'bg-white text-slate-900 border-slate-200 hover:border-slate-400'
-                            }`}
-                          >
-                            {level}
-                          </button>
-                        ))}
+                        {Object.entries(demandConfig).map(([level, { label, activeCls }]) => {
+                          const isActive = selectedDemand === level;
+                          return (
+                            <button
+                              key={level}
+                              onClick={() => {
+                                setSelectedDemand(isActive ? null : level);
+                                setDisplayCount(25);
+                              }}
+                              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all border ${
+                                isActive
+                                  ? activeCls
+                                  : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
+
+                    {/* Salary range — dual sliders */}
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 text-slate-900">
+                      <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
                         Entry Salary Range
                       </h4>
                       <div className="space-y-3">
-                        <input
-                          type="range"
-                          min="0"
-                          max="100000"
-                          step="5000"
-                          value={salaryRange[1]}
-                          onChange={(e) => setSalaryRange([salaryRange[0], parseInt(e.target.value)])}
-                          className="w-full"
-                        />
-                        <p className="text-xs font-bold text-slate-900">
-                          R{salaryRange[0].toLocaleString()} - R{salaryRange[1].toLocaleString()}
-                        </p>
+                        <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+                          <span>R{salaryMin.toLocaleString()}</span>
+                          <span>R{salaryMax.toLocaleString()}</span>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
+                            <span className="w-8 shrink-0">Min</span>
+                            <input
+                              type="range"
+                              min={0}
+                              max={SALARY_MAX}
+                              step={SALARY_STEP}
+                              value={salaryMin}
+                              onChange={(e) => {
+                                const v = parseInt(e.target.value);
+                                setSalaryMin(Math.min(v, salaryMax - SALARY_STEP));
+                                setDisplayCount(25);
+                              }}
+                              className="w-full accent-slate-900"
+                            />
+                          </div>
+                          <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
+                            <span className="w-8 shrink-0">Max</span>
+                            <input
+                              type="range"
+                              min={0}
+                              max={SALARY_MAX}
+                              step={SALARY_STEP}
+                              value={salaryMax}
+                              onChange={(e) => {
+                                const v = parseInt(e.target.value);
+                                setSalaryMax(Math.max(v, salaryMin + SALARY_STEP));
+                                setDisplayCount(25);
+                              }}
+                              className="w-full accent-slate-900"
+                            />
+                          </div>
+                        </div>
+                        {(salaryMin > 0 || salaryMax < SALARY_MAX) && (
+                          <p className="text-[10px] text-slate-400">
+                            Showing careers with R{salaryMin.toLocaleString()}–R{salaryMax.toLocaleString()} entry salary
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex justify-end mt-6">
-                  <button onClick={clearFilters} className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity text-slate-500">
-                    <X className="w-4 h-4" /> Clear All Filters
-                  </button>
+
+                  {/* Clear filters */}
+                  {activeFilterCount > 0 && (
+                    <div className="flex justify-end pt-2 border-t border-slate-50">
+                      <button
+                        onClick={clearFilters}
+                        className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-700 transition-colors"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                        Clear {activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Career Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+        {/* Career cards grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
           {displayedCareers.length > 0 ? (
             displayedCareers.map((career, index) => (
               <motion.div
                 key={career.id}
                 data-career-card
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(index, 7) * 0.04 }}
+                transition={{ delay: Math.min(index, 7) * 0.04, ease: 'easeOut' }}
               >
                 <CareerCard career={career} onCardClick={() => handleCareerClick(career)} />
               </motion.div>
             ))
           ) : (
-            <div className="col-span-full py-20 text-center">
-              <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6">
-                <Search className="w-10 h-10 text-slate-200" />
+            /* Empty state */
+            <div className="col-span-full py-24 flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-6">
+                <Search className="w-7 h-7 text-slate-300" />
               </div>
-              <h3 className="text-xl font-bold mb-2 uppercase tracking-tight text-slate-900">
-                No Careers Found
+              <h3
+                className="text-lg font-black text-slate-900 mb-2"
+                style={{ letterSpacing: '-0.02em' }}
+              >
+                No careers match
               </h3>
-              <p className="text-sm mb-8 text-slate-500">
-                Try adjusting your search or filters.
+              <p className="text-sm text-slate-500 mb-8 max-w-xs leading-relaxed">
+                {searchQuery
+                  ? `Nothing found for "${searchQuery}". Try a different word or clear your filters.`
+                  : 'Try loosening your filters to see more options.'}
               </p>
-              <button onClick={clearFilters} className="text-white bg-slate-900 hover:bg-slate-800 px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all">
-                Clear All Filters
+              <button
+                onClick={clearFilters}
+                className="px-6 py-2.5 bg-slate-900 text-white rounded-lg font-bold text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors"
+              >
+                Clear all filters
               </button>
             </div>
           )}
         </div>
 
-        {/* Load More Button */}
-        {hasMoreCareers && (
+        {/* Load more */}
+        {hasMore && (
           <div className="flex justify-center mb-8">
             <motion.button
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              onClick={() => setDisplayCount(displayCount + LOAD_MORE_INCREMENT)}
+              onClick={() => setDisplayCount((prev) => prev + LOAD_MORE_INCREMENT)}
               data-load-more-btn
-              className="px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-800 flex items-center gap-2 transition-colors"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-700 transition-colors"
             >
-              Load More Careers ({remainingCareers} more)
+              Show {Math.min(remaining, LOAD_MORE_INCREMENT)} more
               <ChevronDown className="w-4 h-4" />
             </motion.button>
           </div>
         )}
 
-        {/* All careers loaded */}
-        {!hasMoreCareers && allFilteredCareers.length > 0 && (
-          <div className="text-center mb-8 text-sm text-slate-400">
+        {!hasMore && allFilteredCareers.length > 0 && (
+          <p className="text-center mb-8 text-sm text-slate-400">
             Showing all {allFilteredCareers.length} careers
-          </div>
+          </p>
         )}
       </div>
 
-      {/* Career Detail Modal */}
+      {/* Career detail modal */}
       <CareerDetailModal
         career={selectedCareer}
         isOpen={showDetailModal}

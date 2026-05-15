@@ -34,99 +34,88 @@ export default function CollegesTab({ province, searchQuery }: CollegesTabProps)
 
   if (universities.length === 0 && tvetColleges.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Building2 className="w-10 h-10 text-slate-300 mb-4" />
-        <p className="text-lg font-semibold text-slate-900">No colleges found</p>
-        <p className="text-sm text-slate-600 mt-2">This province has limited educational institutions</p>
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <Building2 className="w-8 h-8 text-slate-200 mb-3" />
+        <p className="text-[14px] font-black text-slate-900">No colleges found</p>
+        <p className="text-[12px] text-slate-400 mt-1">This province has limited data</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <div>
-        <h3 className="text-xl font-bold text-slate-900 mb-1">
-          Universities & Colleges in {province}
+        <h3
+          className="text-[16px] font-black text-slate-900"
+          style={{ letterSpacing: '-0.016em' }}
+        >
+          Institutions in {province}
         </h3>
-        <p className="text-sm text-slate-600">Find institutions and explore programs</p>
+        <p className="text-[12px] text-slate-400 mt-0.5">
+          {universities.length} universities · {tvetColleges.length} TVET colleges
+        </p>
       </div>
 
       {/* Sub-tabs */}
-      <div className="flex gap-2 border-b-2 border-slate-200">
-        <motion.button
-          onClick={() => setActiveSubtab('universities')}
-          className={`px-4 py-3 font-semibold text-sm transition ${
-            activeSubtab === 'universities'
-              ? 'border-b-2 border-slate-900 text-slate-900'
-              : 'text-slate-600 hover:text-slate-900'
-          }`}
-          style={{
-            borderBottom: activeSubtab === 'universities' ? '2px solid #1B5E20' : 'none',
-            color: activeSubtab === 'universities' ? '#1B5E20' : undefined,
-          }}
-        >
-          Universities ({universities.length})
-        </motion.button>
-        <motion.button
-          onClick={() => setActiveSubtab('tvet')}
-          className={`px-4 py-3 font-semibold text-sm transition ${
-            activeSubtab === 'tvet'
-              ? 'border-b-2 border-slate-900 text-slate-900'
-              : 'text-slate-600 hover:text-slate-900'
-          }`}
-          style={{
-            borderBottom: activeSubtab === 'tvet' ? '2px solid #1B5E20' : 'none',
-            color: activeSubtab === 'tvet' ? '#1B5E20' : undefined,
-          }}
-        >
-          TVET Colleges ({tvetColleges.length})
-        </motion.button>
+      <div className="flex gap-1 border-b border-slate-200">
+        {([
+          { id: 'universities' as const, label: `Universities (${universities.length})` },
+          { id: 'tvet' as const,         label: `TVET (${tvetColleges.length})` },
+        ]).map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setActiveSubtab(t.id)}
+            className={`px-3 py-2 text-[11px] font-black uppercase tracking-widest border-b-2 transition-colors -mb-px ${
+              activeSubtab === t.id
+                ? 'border-slate-900 text-slate-900'
+                : 'border-transparent text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
       </div>
 
-      {/* College List */}
-      <motion.div className="space-y-3">
+      {/* List */}
+      <div className="divide-y divide-slate-100">
         <AnimatePresence mode="popLayout">
           {activeList.length === 0 ? (
-            <p className="text-center text-slate-600 py-8">No results match your search</p>
+            <p className="py-8 text-center text-[13px] text-slate-400">No results match your search</p>
           ) : (
             activeList.map((college, idx) => (
               <motion.div
                 key={`${college.name}-${idx}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ delay: idx * 0.05 }}
-                className="bg-white border-2 border-slate-100 rounded-xl p-4 hover:border-slate-900 hover:shadow-lg transition group cursor-pointer"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: Math.min(idx * 0.04, 0.3) }}
+                className="flex items-center justify-between gap-4 py-3.5 group"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-slate-900 group-hover:text-slate-900 transition line-clamp-2">
-                      {college.name}
-                    </h4>
-                    <div className="flex items-center gap-2 mt-2 text-sm text-slate-600">
-                      <MapPin size={14} />
-                      <span>{college.city}</span>
-                    </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[14px] font-black text-slate-900 leading-snug group-hover:text-slate-700 transition-colors" style={{ letterSpacing: '-0.012em' }}>
+                    {college.name}
+                  </p>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <MapPin size={11} className="text-slate-400 shrink-0" />
+                    <span className="text-[11px] text-slate-400">{college.city}</span>
                   </div>
-
-                  {/* Directions Link */}
-                  <motion.a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(college.name)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-lg bg-slate-100 hover:bg-slate-900 hover:text-white transition shrink-0"
-                  >
-                    <ExternalLink size={16} />
-                  </motion.a>
                 </div>
+
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(college.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors shrink-0"
+                  title="Open in Google Maps"
+                >
+                  <ExternalLink size={14} />
+                </a>
               </motion.div>
             ))
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -54,43 +54,37 @@ If a student uploads an image of their work, homework, or exam paper, help them 
 
 Be warm, encouraging, and practical. Use South African context (NSFAS, CAO, DBE, etc.). Format responses with **bold** for key points and bullet points where helpful. Keep answers focused and clear — students are reading on mobile.`;
 
-const OLLAMA_URL = '/ollama/api/chat';
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY as string | undefined;
 
-async function callOllama(messages: Message[], newText: string, images: AttachedImage[] = []): Promise<string> {
-  const hasImages = images.length > 0;
-  const model = hasImages ? 'llava' : 'llama3.2';
+async function callGroq(messages: Message[], newText: string): Promise<string> {
+  if (!GROQ_API_KEY) throw new Error('No Groq API key configured.');
 
   const history = messages.slice(-10).map((m) => ({
     role: m.role === 'user' ? 'user' : 'assistant',
     content: m.text,
   }));
 
-  const userMessage: Record<string, unknown> = {
-    role: 'user',
-    content: newText || (hasImages ? 'Please help me with this image.' : ''),
-  };
-  if (hasImages) {
-    userMessage.images = images
-      .filter((img) => img.mimeType.startsWith('image/'))
-      .map((img) => img.base64);
-  }
-
-  const response = await fetch(OLLAMA_URL, {
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${GROQ_API_KEY}`,
+    },
     body: JSON.stringify({
-      model,
+      model: 'llama-3.3-70b-versatile',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         ...history,
-        userMessage,
+        { role: 'user', content: newText },
       ],
-      stream: false,
+      temperature: 0.7,
+      max_tokens: 1024,
     }),
   });
-  if (!response.ok) throw new Error(`Ollama ${response.status}`);
+
+  if (!response.ok) throw new Error(`Groq ${response.status}`);
   const data = await response.json();
-  return data.message?.content ?? 'Sorry, I could not generate a response.';
+  return data.choices?.[0]?.message?.content ?? 'Sorry, I could not generate a response.';
 }
 
 // ── Topic chips ────────────────────────────────────────────────────────────────
@@ -331,23 +325,22 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
     if (predefined) {
       setMessages((prev) => [...prev, { id: botId, role: 'bot', text: predefined, timestamp: new Date() }]);
       // Upgrade silently in background
-      callOllama([...messages, userMsg], text, []).then((aiReply) => {
+      callGroq([...messages, userMsg], text).then((aiReply) => {
         setMessages((prev) => prev.map((m) => m.id === botId ? { ...m, text: aiReply } : m));
       }).catch(() => {});
       return;
     }
 
-    const hasImageAttachment = images.some((img) => img.mimeType.startsWith('image/'));
     setIsTyping(true);
-    setProcessingLabel(hasImageAttachment ? 'Analysing image — this may take a moment' : 'Thinking');
+    setProcessingLabel('Thinking');
 
     try {
-      const reply = await callOllama(messages, text, images);
+      const reply = await callGroq(messages, text);
       setMessages((prev) => [...prev, { id: botId, role: 'bot', text: reply, timestamp: new Date() }]);
     } catch {
       setMessages((prev) => [...prev, {
         id: botId, role: 'bot', timestamp: new Date(), error: true,
-        text: "Couldn't reach the AI. Make sure Ollama is running, or try one of the suggested questions.",
+        text: "The AI assistant isn't available right now. Try one of the suggested questions above — those work instantly without a connection.",
       }]);
     } finally {
       setIsTyping(false);

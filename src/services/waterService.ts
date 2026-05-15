@@ -1,5 +1,24 @@
 import { supabase } from '../lib/supabase';
 
+// ── Static JSON (written by GitHub Actions scraper) ───────────────────────────
+
+const WATER_DATA_URL = '/data/water/latest.json';
+let _jsonCache: { data: any; ts: number } | null = null;
+const JSON_CACHE_TTL = 15 * 60 * 1000; // 15 min
+
+async function fetchWaterJson(): Promise<any | null> {
+  if (_jsonCache && Date.now() - _jsonCache.ts < JSON_CACHE_TTL) return _jsonCache.data;
+  try {
+    const res = await fetch(`${WATER_DATA_URL}?_=${Date.now()}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    _jsonCache = { data, ts: Date.now() };
+    return data;
+  } catch {
+    return null;
+  }
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface WaterAlert {
@@ -294,6 +313,37 @@ async function fetchLiveMaintenance(province: string): Promise<MaintenanceSchedu
 // ── Public API ─────────────────────────────────────────────────────────────────
 
 export async function getWaterDataByProvince(province: string): Promise<WaterProvinceData> {
+  // 1. Try static JSON file (written by GitHub Actions scraper)
+  const json = await fetchWaterJson();
+  if (json) {
+    const filterProvince = (arr: any[]) => arr.filter((x: any) => x.province === province);
+    return {
+      alerts: filterProvince(json.alerts ?? []).map((a: any) => ({
+        ...a,
+        startDate: new Date(a.startDate),
+        endDate: a.endDate ? new Date(a.endDate) : undefined,
+        fetchedAt: new Date(a.fetchedAt ?? json.fetched_at),
+      })),
+      damLevels: filterProvince(json.dams ?? []).map((d: any) => ({
+        ...d,
+        lastUpdated: new Date(d.lastUpdated ?? json.fetched_at),
+      })),
+      restrictions: filterProvince(json.restrictions ?? []).map((r: any) => ({
+        ...r,
+        effective_from: new Date(r.effective_from),
+        effective_until: r.effective_until ? new Date(r.effective_until) : undefined,
+      })),
+      maintenance: filterProvince(json.maintenance ?? []).map((m: any) => ({
+        ...m,
+        startDate: new Date(m.startDate),
+        endDate: new Date(m.endDate),
+      })),
+      lastFetched: new Date(json.fetched_at),
+      source: 'live',
+    };
+  }
+
+  // 2. Fall back to Supabase
   const [liveOutages, liveDams, liveRestrictions, liveMaintenance] = await Promise.all([
     fetchLiveOutages(province),
     fetchLiveDams(province),

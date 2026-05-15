@@ -246,7 +246,7 @@ def run():
     }
 
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    out_dir   = os.path.join(repo_root, "landingpage", "public", "data", "water")
+    out_dir   = os.path.join(repo_root, "public", "data", "water")
     os.makedirs(out_dir, exist_ok=True)
     out_path  = os.path.join(out_dir, "latest.json")
 

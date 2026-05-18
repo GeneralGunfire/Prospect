@@ -31,11 +31,47 @@ const SUBJECT_META: Record<string, SubjectMeta> = {
   'default':           { Icon: BookOpen,     accentCls: 'bg-slate-100 text-slate-500', labelCls: 'text-slate-400' },
 };
 
-const subjectsWithContent = new Set(['algebra', 'geometry', 'phys-sci', 'accounting']);
+const subjectsWithContent = new Set(['algebra', 'phys-sci', 'life-sci', 'accounting']);
 
 const ALGEBRA_G10_TOPICS: Record<number, string[]> = {
-  1: ['Linear Equations', 'Number Systems', 'Exponents'],
+  1: ['Linear Equations', 'Simultaneous Equations'],
 };
+
+const PHYSCI_G10_TOPICS: Record<number, string[]> = {
+  1: ['Waves, Sound & Light', 'Atoms & Subatomic Particles', 'Classification of Matter', 'Periodic Table Trends', 'Chemical Bonding'],
+};
+
+const LIFESCI_G10_TOPICS: Record<number, string[]> = {
+  1: ['Biodiversity & Classification', 'Five Kingdoms', 'Taxonomy & Binomial Nomenclature', 'The Species Concept'],
+};
+
+const ACCOUNTING_G10_TOPICS: Record<number, string[]> = {
+  1: ['Introduction to Accounting', 'The Accounting Equation', 'Double-Entry System', 'Source Documents', 'Journals in Accounting', 'The General Ledger'],
+};
+
+const PHYSCI_G10_T1_PAGES: AppPage[] = [
+  'learning-physci-g10-t1-waves',
+  'learning-physci-g10-t1-atoms',
+  'learning-physci-g10-t1-classification',
+  'learning-physci-g10-t1-periodic-table',
+  'learning-physci-g10-t1-bonding',
+];
+
+const LIFESCI_G10_T1_PAGES: AppPage[] = [
+  'learning-lifesci-g10-t1-biodiversity',
+  'learning-lifesci-g10-t1-five-kingdoms',
+  'learning-lifesci-g10-t1-taxonomy',
+  'learning-lifesci-g10-t1-species',
+];
+
+const ACCOUNTING_G10_T1_PAGES: AppPage[] = [
+  'learning-accounting-g10-t1-intro',
+  'learning-accounting-g10-t1-equation',
+  'learning-accounting-g10-t1-double-entry',
+  'learning-accounting-g10-t1-source-documents',
+  'learning-accounting-g10-t1-journals',
+  'learning-accounting-g10-t1-ledger',
+];
 
 function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -259,19 +295,27 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
 
               <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
                 {[1, 2, 3, 4].map((term) => {
-                  const isLive = selectedSubject === 'algebra' && selectedGrade === 10 && term === 1;
-                  const topics = isLive ? (ALGEBRA_G10_TOPICS[term] ?? []) : [];
+                  const isLive =
+                    (selectedSubject === 'algebra' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'phys-sci' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'life-sci' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'accounting' && selectedGrade === 10 && term === 1);
+
+                  let topics: string[] = [];
+                  if (selectedSubject === 'algebra' && selectedGrade === 10) topics = ALGEBRA_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'phys-sci' && selectedGrade === 10) topics = PHYSCI_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'life-sci' && selectedGrade === 10) topics = LIFESCI_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'accounting' && selectedGrade === 10) topics = ACCOUNTING_G10_TOPICS[term] ?? [];
+
+                  const handleTermClick = () => {
+                    setSelectedTerm(term);
+                    setStep('content');
+                  };
+
                   return (
                     <button
                       key={term}
-                      onClick={() => {
-                        if (isLive) {
-                          onNavigate('learning-algebra-g10-t1-linear-equations' as AppPage);
-                        } else {
-                          setSelectedTerm(term);
-                          setStep('content');
-                        }
-                      }}
+                      onClick={handleTermClick}
                       className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors group"
                     >
                       <div className="flex-1">
@@ -299,7 +343,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
             </motion.div>
           )}
 
-          {/* ── Content / coming soon ── */}
+          {/* ── Content / topic list or coming soon ── */}
           {step === 'content' && (
             <motion.div
               key="content"
@@ -316,40 +360,88 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                 <ChevronLeft className="w-3.5 h-3.5" /> Term {selectedTerm}
               </button>
 
-              <div className="mb-12">
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-2">
-                  {currentSubjectName} · Grade {selectedGrade} · Term {selectedTerm}
-                </p>
-                <h2
-                  className="text-3xl font-black text-slate-900"
-                  style={{ letterSpacing: '-0.025em' }}
-                >
-                  Coming soon
-                </h2>
-              </div>
+              {(() => {
+                // Determine if we have a live topic list for this combination
+                let topicNames: string[] = [];
+                let topicPages: AppPage[] = [];
+                if (selectedSubject === 'phys-sci' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = PHYSCI_G10_TOPICS[1]; topicPages = PHYSCI_G10_T1_PAGES;
+                } else if (selectedSubject === 'life-sci' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = LIFESCI_G10_TOPICS[1]; topicPages = LIFESCI_G10_T1_PAGES;
+                } else if (selectedSubject === 'accounting' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = ACCOUNTING_G10_TOPICS[1]; topicPages = ACCOUNTING_G10_T1_PAGES;
+                } else if (selectedSubject === 'algebra' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = ALGEBRA_G10_TOPICS[1];
+                  topicPages = ['learning-algebra-g10-t1-linear-equations', 'learning-algebra-g10-t1-simultaneous'];
+                }
 
-              <div className="border border-slate-100 rounded-xl p-8">
-                <p className="text-[15px] text-slate-600 leading-[1.65] mb-6">
-                  Study materials for {currentSubjectName} Grade {selectedGrade} Term {selectedTerm} are being developed. Check back soon.
-                </p>
-                <div className="flex flex-col gap-2">
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-1">While you wait</p>
-                  <button
-                    onClick={() => onNavigate('school-assist-chat' as AppPage)}
-                    className="flex items-center justify-between px-5 py-3 border border-slate-200 rounded-lg hover:border-slate-400 transition-colors group text-left"
-                  >
-                    <span className="text-[13px] font-bold text-slate-700 group-hover:text-slate-900">Ask School Assist for help</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 transition-colors" />
-                  </button>
-                  <button
-                    onClick={() => setStep('subject')}
-                    className="flex items-center justify-between px-5 py-3 border border-slate-200 rounded-lg hover:border-slate-400 transition-colors group text-left"
-                  >
-                    <span className="text-[13px] font-bold text-slate-700 group-hover:text-slate-900">Browse other subjects</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 transition-colors" />
-                  </button>
-                </div>
-              </div>
+                if (topicNames.length > 0) {
+                  return (
+                    <>
+                      <div className="mb-10">
+                        <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-2">
+                          {currentSubjectName} · Grade {selectedGrade} · Term {selectedTerm}
+                        </p>
+                        <h2 className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
+                          Topics
+                        </h2>
+                      </div>
+                      <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
+                        {topicNames.map((name, i) => (
+                          <button
+                            key={i}
+                            onClick={() => onNavigate(topicPages[i])}
+                            className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-slate-50 transition-colors group"
+                          >
+                            <div>
+                              <p className="text-[11px] font-black uppercase tracking-[0.14em] text-slate-400 mb-0.5">
+                                Topic {i + 1}
+                              </p>
+                              <p className="text-[15px] font-bold text-slate-900">{name}</p>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 transition-colors shrink-0 ml-4" />
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  );
+                }
+
+                return (
+                  <>
+                    <div className="mb-12">
+                      <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-2">
+                        {currentSubjectName} · Grade {selectedGrade} · Term {selectedTerm}
+                      </p>
+                      <h2 className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>
+                        Coming soon
+                      </h2>
+                    </div>
+                    <div className="border border-slate-100 rounded-xl p-8">
+                      <p className="text-[15px] text-slate-600 leading-[1.65] mb-6">
+                        Study materials for {currentSubjectName} Grade {selectedGrade} Term {selectedTerm} are being developed. Check back soon.
+                      </p>
+                      <div className="flex flex-col gap-2">
+                        <p className="text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 mb-1">While you wait</p>
+                        <button
+                          onClick={() => onNavigate('school-assist-chat' as AppPage)}
+                          className="flex items-center justify-between px-5 py-3 border border-slate-200 rounded-lg hover:border-slate-400 transition-colors group text-left"
+                        >
+                          <span className="text-[13px] font-bold text-slate-700 group-hover:text-slate-900">Ask School Assist for help</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 transition-colors" />
+                        </button>
+                        <button
+                          onClick={() => setStep('subject')}
+                          className="flex items-center justify-between px-5 py-3 border border-slate-200 rounded-lg hover:border-slate-400 transition-colors group text-left"
+                        >
+                          <span className="text-[13px] font-bold text-slate-700 group-hover:text-slate-900">Browse other subjects</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 transition-colors" />
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </motion.div>
           )}
 

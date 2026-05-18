@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Abstract</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+  }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+
+  /* page shell */
+  .page {
+    width: 100%; min-height: 100vh;
+    padding: 72px 88px 80px;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .bottom-rule { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--slate-100); }
+
+  /* header */
+  .wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 48px; }
+  .doc-tag { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 3px 10px; display: inline-block; margin-bottom: 16px; }
+  .title { font-size: 40px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.05; margin-bottom: 8px; }
+  .title-sub { font-size: 14px; font-weight: 400; color: var(--slate-500); margin-bottom: 40px; line-height: 1.5; }
+  .divider { width: 40px; height: 2px; background: var(--navy); margin-bottom: 40px; }
+
+  /* two-column layout */
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; flex: 1; }
+
+  /* left col — narrative sections */
+  .left-col { display: flex; flex-direction: column; gap: 28px; }
+
+  .narrative-section {}
+  .section-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 8px; }
+  .section-text { font-size: 13.5px; color: var(--slate-700); line-height: 1.8; }
+  .section-text p { margin-bottom: 12px; }
+  .section-text p:last-child { margin-bottom: 0; }
+
+  /* right col — feature cards */
+  .right-col { display: flex; flex-direction: column; gap: 10px; }
+
+  .pillar-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 6px; margin-top: 8px; }
+  .pillar-label:first-child { margin-top: 0; }
+
+  .feature-card { border: 1px solid var(--slate-200); padding: 12px 14px; }
+  .feature-name { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .feature-desc { font-size: 11.5px; color: var(--slate-500); line-height: 1.55; }
+
+  /* footer */
+  .footer-row { display: flex; gap: 0; border: 1px solid var(--slate-200); margin-top: 36px; }
+  .footer-cell { padding: 14px 18px; border-right: 1px solid var(--slate-200); flex: 1; }
+  .footer-cell:last-child { border-right: none; }
+  .footer-label { font-size: 9px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 3px; }
+  .footer-value { font-size: 12px; font-weight: 600; color: var(--navy); line-height: 1.35; }
+
+  /* keywords */
+  .keyword-row { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--slate-200); }
+  .keyword-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 10px; }
+  .keyword-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .keyword { font-size: 10.5px; font-weight: 600; color: var(--slate-700); border: 1px solid var(--slate-300); padding: 2px 10px; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); min-height: 1123px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="top-rule"></div>
+
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Science Expo 2026</div>
+
+  <div class="doc-tag">Abstract</div>
+  <h1 class="title">Securing South Africa's Students</h1>
+  <p class="title-sub">A unified digital platform for career guidance, bursary access, study support, and life context for Grade 8–12 learners.</p>
+  <div class="divider"></div>
+
+  <div class="layout">
+
+    <!-- LEFT: Narrative -->
+    <div class="left-col">
+
+      <div class="narrative-section">
+        <div class="section-label">The Problem</div>
+        <div class="section-text">
+          <p>South African high school students are making decisions about their subjects and careers without enough information to make them properly. Not because they aren't trying — the information exists. It's just scattered across dozens of websites, written for administrators rather than students, and almost never in one place. A student trying to figure out whether dropping Mathematics would close off a career had to visit multiple platforms for a partial answer, if they could find it at all.</p>
+        </div>
+      </div>
+
+      <div class="narrative-section">
+        <div class="section-label">What Was Built</div>
+        <div class="section-text">
+          <p>Prospect started as a career and education guidance platform and expanded as the research pointed to a bigger problem. South Africa's infrastructure realities — load shedding, high data costs, water supply issues — directly affect a student's ability to study. So the platform grew to address those too. Every feature that ended up in the final product is there because research showed it needed to be. The two features that couldn't justify themselves — pothole reporting and a community impact page — were removed.</p>
+        </div>
+      </div>
+
+      <div class="narrative-section">
+        <div class="section-label">Technical Decisions</div>
+        <div class="section-text">
+          <p>The original framework — Next.js — was replaced with React and Vite after one week because server-side rendering added complexity the project didn't need. Three AI backends were tried before one worked: Google Gemini hit its rate limit on day one of live testing, Ollama only runs on localhost so it's useless on a hosted site, and Groq worked. The platform is free, mobile-first, and has a data saver mode for students on limited prepaid data. All 31 automated tests passed before launch.</p>
+        </div>
+      </div>
+
+      <div class="narrative-section">
+        <div class="section-label">Outcome</div>
+        <div class="section-text">
+          <p>The platform launched on 15 May 2026. It's a working answer to the question of whether a single free platform can close the information gap South African learners face. The version that launched is a foundation — it covers the core problems identified in the research, and the infrastructure is in place to expand from here.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Feature Cards -->
+    <div class="right-col">
+
+      <div class="pillar-label">Careers and Guidance</div>
+
+      <div class="feature-card">
+        <div class="feature-name">Career Explorer</div>
+        <div class="feature-desc">400 South African career profiles, each with locally sourced salary ranges, required subjects, minimum APS scores, provincial job demand, and what a student should be doing in Grades 10, 11, and 12 to get there. Searchable and filterable by subject, sector, and qualification level.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">Career Quiz</div>
+        <div class="feature-desc">A multi-step questionnaire where a student selects their current subjects and interests. The quiz returns a ranked list of career matches with direct links to the full career profiles. Shows the connection between today's subject choice and tomorrow's options.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">Career Roadmap</div>
+        <div class="feature-desc">A visual step-by-step path from a student's current grade to a specific career — showing what subjects are needed, what qualification comes next, and roughly how long each stage takes.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">TVET Section</div>
+        <div class="feature-desc">Full listings of TVET colleges with course offerings, career outcomes, and funding options — presented as a first-choice pathway alongside universities, not a fallback. Built this way deliberately because the research showed guidance materials consistently misrepresent TVET.</div>
+      </div>
+
+      <div class="pillar-label">Bursaries and Funding</div>
+
+      <div class="feature-card">
+        <div class="feature-name">Bursary Finder</div>
+        <div class="feature-desc">245 verified bursary listings with provider, field of study, eligibility criteria, funding amount, deadline, and direct application link. Filterable by field, province, and status. Each listing spells out exactly what the bursary covers and what it doesn't.</div>
+      </div>
+
+      <div class="pillar-label">School Assist</div>
+
+      <div class="feature-card">
+        <div class="feature-name">AI School Assistant</div>
+        <div class="feature-desc">A chat interface powered by Groq's llama-3.3-70b-versatile model. Answers questions about subjects, NSC requirements, TVET pathways, and study guidance in under 3 seconds. Seven common questions return instantly from local storage without any API call. Supports image uploads.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">Study Library</div>
+        <div class="feature-desc">24 study topics across 11 school subjects. Two interactive Grade 10 Algebra modules with mastery tracking — when a topic is completed, progress is saved to the database so it persists between sessions.</div>
+      </div>
+
+      <div class="pillar-label">Community and Life Context</div>
+
+      <div class="feature-card">
+        <div class="feature-name">Load Shedding Tracker</div>
+        <div class="feature-desc">Live Eskom stage data pulled automatically via a scheduled GitHub Actions scraper. Lets students plan study sessions around power cuts rather than being caught off guard by them.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">NSC Exam Countdown</div>
+        <div class="feature-desc">The full 2026 matric exam timetable with a live countdown showing days remaining until each exam period. Visible in the same platform where students are studying.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">Water Dashboard</div>
+        <div class="feature-desc">Provincial dam level and water availability data, updated automatically via a scheduled scraper. Shows current conditions by province so students in affected areas know what to expect.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-name">Cost of Living and Civics</div>
+        <div class="feature-desc">Cost of living data by city to help students evaluate bursary offers realistically. A civics guide covering South African rights, systems, and structures that school doesn't always teach clearly.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer meta -->
+  <div class="footer-row">
+    <div class="footer-cell">
+      <div class="footer-label">Platform</div>
+      <div class="footer-value">prospect-lemon-seven.vercel.app</div>
+    </div>
+    <div class="footer-cell">
+      <div class="footer-label">Built In</div>
+      <div class="footer-value">55 days (Mar–May 2026)</div>
+    </div>
+    <div class="footer-cell">
+      <div class="footer-label">Data at Launch</div>
+      <div class="footer-value">400 careers · 245 bursaries · 24 topics</div>
+    </div>
+    <div class="footer-cell">
+      <div class="footer-label">Tests Passing</div>
+      <div class="footer-value">31 / 31 end-to-end</div>
+    </div>
+  </div>
+
+  <!-- Keywords -->
+  <div class="keyword-row">
+    <div class="keyword-label">Keywords</div>
+    <div class="keyword-list">
+      <span class="keyword">South African Education</span>
+      <span class="keyword">Career Guidance</span>
+      <span class="keyword">EdTech</span>
+      <span class="keyword">TVET</span>
+      <span class="keyword">Bursaries</span>
+      <span class="keyword">Load Shedding</span>
+      <span class="keyword">AI School Assistant</span>
+      <span class="keyword">Mobile-First Design</span>
+      <span class="keyword">Grade 8–12 Learners</span>
+      <span class="keyword">Information Access</span>
+      <span class="keyword">React</span>
+      <span class="keyword">Groq</span>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+</body>
+</html>

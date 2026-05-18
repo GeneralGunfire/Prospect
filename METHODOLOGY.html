@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Methodology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    width: 100%; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 60px;
+    page-break-after: always; break-after: page;
+    position: relative;
+  }
+  .cover-top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .cover-wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 48px; }
+  .cover-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 4px 12px; display: inline-block; margin-bottom: 24px; }
+  .cover-title { font-size: 56px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; color: var(--navy); text-align: center; margin-bottom: 20px; }
+  .cover-subtitle { font-size: 17px; font-weight: 400; color: var(--slate-500); text-align: center; margin-bottom: 64px; max-width: 520px; line-height: 1.6; }
+  .cover-divider { width: 48px; height: 2px; background: var(--navy); margin: 0 auto 64px; }
+  .cover-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--slate-200); width: 100%; max-width: 560px; }
+  .cover-meta-cell { padding: 20px 24px; border-right: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200); }
+  .cover-meta-cell:nth-child(even) { border-right: none; }
+  .cover-meta-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .cover-meta-label { font-size: 9px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px; }
+  .cover-meta-value { font-size: 13px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+  .cover-bottom { position: absolute; bottom: 48px; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-400); }
+
+  /* ── Section pages ── */
+  .section-page {
+    width: 100%; min-height: 100vh;
+    padding: 64px 80px 80px;
+    page-break-after: always; break-after: page;
+    display: flex; flex-direction: column;
+  }
+  .section-eyebrow { font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 10px; }
+  .section-number { font-size: 80px; font-weight: 900; letter-spacing: -0.05em; color: var(--slate-100); line-height: 1; margin-bottom: -20px; }
+  .section-title { font-size: 30px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.15; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--slate-200); }
+
+  .section-body { font-size: 14px; color: var(--slate-700); line-height: 1.8; flex: 1; }
+  .section-body p { margin-bottom: 18px; }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  .sub-heading { font-size: 11px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); margin: 32px 0 12px; }
+  .sub-heading:first-child { margin-top: 0; }
+
+  /* callout */
+  .callout { padding: 18px 22px; background: var(--slate-50); border-left: 3px solid var(--navy); margin: 24px 0; font-size: 14px; color: var(--slate-700); line-height: 1.7; }
+  .callout strong { color: var(--navy); font-weight: 700; }
+
+  /* tool/platform cards */
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .tool-card { border: 1px solid var(--slate-200); padding: 16px 18px; }
+  .tool-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .tool-role { font-size: 9px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 2px 8px; white-space: nowrap; }
+  .tool-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .tool-desc { font-size: 12.5px; color: var(--slate-500); line-height: 1.6; }
+  .tool-goal { font-size: 11px; font-weight: 600; color: var(--slate-400); margin-top: 6px; }
+
+  /* design criteria table */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 20px 0; }
+  thead tr { background: var(--navy); color: var(--white); }
+  thead th { padding: 10px 14px; text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 11px 14px; color: var(--slate-700); line-height: 1.5; vertical-align: top; }
+  tbody td:first-child { font-weight: 600; color: var(--navy); width: 160px; }
+  tbody td:nth-child(2) { width: 120px; }
+
+  /* prototype timeline */
+  .proto-list { list-style: none; padding: 0; margin: 0; }
+  .proto-item { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--slate-100); }
+  .proto-item:last-child { border-bottom: none; }
+  .proto-num-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
+  .proto-num { width: 32px; height: 32px; background: var(--navy); color: var(--white); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .proto-line { width: 1px; flex: 1; background: var(--slate-200); min-height: 20px; }
+  .proto-item:last-child .proto-line { display: none; }
+  .proto-content { flex: 1; padding-top: 4px; }
+  .proto-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); margin-bottom: 3px; }
+  .proto-date { font-size: 10px; font-weight: 600; color: var(--slate-400); letter-spacing: 0.06em; margin-bottom: 6px; }
+  .proto-text { font-size: 13.5px; color: var(--slate-700); line-height: 1.65; }
+  .proto-outcome { display: inline-block; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; }
+  .outcome-kept { background: #dcfce7; color: #15803d; }
+  .outcome-discarded { background: #fee2e2; color: #b91c1c; }
+  .outcome-revised { background: #fef9c3; color: #92400e; }
+
+  /* procedure steps */
+  .procedure-list { list-style: none; padding: 0; margin: 0; counter-reset: proc-counter; }
+  .procedure-list li { counter-increment: proc-counter; display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--slate-100); }
+  .procedure-list li:last-child { border-bottom: none; }
+  .proc-num { font-size: 11px; font-weight: 900; color: var(--slate-400); letter-spacing: 0.06em; flex-shrink: 0; padding-top: 2px; min-width: 28px; }
+  .proc-content { flex: 1; }
+  .proc-step { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .proc-detail { font-size: 13px; color: var(--slate-700); line-height: 1.65; }
+
+  /* closing block */
+  .closing-block { margin-top: 40px; padding: 28px 32px; background: var(--navy); }
+  .closing-block p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .cover, .section-page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .cover { min-height: 1123px; }
+    .section-page { min-height: 1123px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top-rule"></div>
+  <div class="cover-wordmark">Prospect Platform</div>
+  <div class="cover-tag">Science Expo Research Report</div>
+  <div class="cover-title">Methodology</div>
+  <div class="cover-subtitle">Design criteria, tools, platforms, procedure, prototypes, and how the engineering goals shaped every technical decision.</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta-grid">
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Document Type</div>
+      <div class="cover-meta-value">Methodology — Section 8</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Platform</div>
+      <div class="cover-meta-value">Prospect — prospect-lemon-seven.vercel.app</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Development Period</div>
+      <div class="cover-meta-value">22 March — 15 May 2026</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Prototype Iterations</div>
+      <div class="cover-meta-value">6 major versions across 55 days</div>
+    </div>
+  </div>
+  <div class="cover-bottom">South Africa &nbsp;·&nbsp; 2026</div>
+</div>
+
+
+<!-- SECTION 1: DESIGN CRITERIA -->
+<div class="section-page">
+  <div class="section-eyebrow">Methodology — Section 1</div>
+  <div class="section-number">01</div>
+  <h2 class="section-title">Design Criteria</h2>
+  <div class="section-body">
+    <p>Before any code was written, a set of design criteria were established to keep decisions grounded in the research rather than in personal preference. Each criterion maps directly to one or more of the engineering goals from the research report. They were used throughout development as a filter: any feature or design choice that could not satisfy the relevant criteria was either changed or removed.</p>
+
+    <div class="sub-heading">Criteria Table</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th>Type</th>
+          <th>Measure</th>
+          <th>Links to Goal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>South African specificity</td>
+          <td>Content</td>
+          <td>All career salary, APS, subject, and demand data must be sourced from or verified against South African sources — not generic international data</td>
+          <td>Goal 1, 2</td>
+        </tr>
+        <tr>
+          <td>Data completeness</td>
+          <td>Content</td>
+          <td>No career profile or bursary entry may be published with empty required fields; audit trail maintained in BURSARY-REVIEW.md</td>
+          <td>Goal 1</td>
+        </tr>
+        <tr>
+          <td>Mobile usability</td>
+          <td>Design</td>
+          <td>All pages must be fully functional on a 375px viewport; minimum touch target size of 48px for all interactive elements</td>
+          <td>Goal 7</td>
+        </tr>
+        <tr>
+          <td>Low-data performance</td>
+          <td>Technical</td>
+          <td>Large data files (careers, bursaries) code-split from main bundle; data saver toggle must disable animations; initial load under 200KB JS for landing page</td>
+          <td>Goal 7</td>
+        </tr>
+        <tr>
+          <td>Free access</td>
+          <td>Access</td>
+          <td>No paywalls, no subscription tiers, no content behind login except progress tracking features that require a user account to function</td>
+          <td>Goal 7</td>
+        </tr>
+        <tr>
+          <td>TVET parity</td>
+          <td>Design</td>
+          <td>TVET section must have equal visual prominence, equal depth of data, and equal navigation priority to university information — never a secondary page</td>
+          <td>Goal 3</td>
+        </tr>
+        <tr>
+          <td>AI reliability</td>
+          <td>Technical</td>
+          <td>AI chat must have a local fallback for the 7 most common questions; must not display a blank error state; timeout handling required for all requests</td>
+          <td>Goal 4</td>
+        </tr>
+        <tr>
+          <td>Live data currency</td>
+          <td>Technical</td>
+          <td>Load shedding and water dashboard data must update automatically on a schedule — not require manual commits to stay current</td>
+          <td>Goal 6</td>
+        </tr>
+        <tr>
+          <td>Test coverage</td>
+          <td>Technical</td>
+          <td>All critical user flows (auth, career browse, quiz, bursary search, chat) must have a passing Playwright end-to-end test before deployment</td>
+          <td>Goal 8</td>
+        </tr>
+        <tr>
+          <td>Accessibility</td>
+          <td>Design</td>
+          <td>Font sizes no smaller than 14px for body text; colour contrast meeting WCAG AA minimum; active page indicator present in all navigation contexts</td>
+          <td>Goal 7</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>How criteria were applied in practice:</strong> During development, features that failed a criterion were not patched around — they were fixed properly or removed. The pothole reporting feature was removed in May because it failed the South African specificity criterion for the target audience: it did not directly serve a Grade 8–12 learner's education or career decisions. Community Impact was removed for the same reason.
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 2: TOOLS, PLATFORMS AND CODING ENVIRONMENTS -->
+<div class="section-page">
+  <div class="section-eyebrow">Methodology — Section 2</div>
+  <div class="section-number">02</div>
+  <h2 class="section-title">Tools, Platforms, and Coding Environments</h2>
+  <div class="section-body">
+    <p>Every tool used in this project was chosen for a specific reason tied to the design criteria. The choices below were not arbitrary — each one was evaluated against at least one alternative before being adopted. Where alternatives were tried and discarded, this is noted.</p>
+
+    <div class="sub-heading">Frontend Framework and Build Tool</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Framework</span>
+          <span class="tool-name">React 19</span>
+        </div>
+        <div class="tool-desc">Component-based JavaScript framework used to build all UI in the application. Chosen for its component model, wide ecosystem, and suitability for single-page applications where server-side rendering is not needed.</div>
+        <div class="tool-goal">Supports Goals 2, 4, 7 — interactive quiz, AI chat, mobile-responsive layouts</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Build Tool</span>
+          <span class="tool-name">Vite 6</span>
+        </div>
+        <div class="tool-desc">Development server and production bundler. Chosen over Create React App for its significantly faster hot module replacement and native support for code splitting via rollupOptions — which was required to meet the low-data performance criterion.</div>
+        <div class="tool-goal">Supports Goal 7 — careers and bursaries data files are split into separate chunks, not loaded until needed</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Alternative Tried</span>
+          <span class="tool-name">Next.js (Discarded)</span>
+        </div>
+        <div class="tool-desc">The project was initially scaffolded in Next.js. It was removed after 6 days because server-side rendering added complexity with no benefit — Prospect is fully client-side. Next.js routing conventions, API routes, and deployment behavior were all overhead that the project did not need.</div>
+        <div class="tool-goal">Discarded 28 March — see Prototype 1</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Styling</span>
+          <span class="tool-name">Tailwind CSS v4</span>
+        </div>
+        <div class="tool-desc">Utility-first CSS framework. Used for all component styling. Tailwind v4 uses a Vite plugin rather than a PostCSS step, which simplified the build pipeline. The design system tokens (colors, spacing, shadows, radius) are defined in index.css and consumed throughout the app.</div>
+        <div class="tool-goal">Supports Goal 7 — consistent responsive design across all screen sizes without separate media query stylesheets</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">Backend and Database</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Database + Auth</span>
+          <span class="tool-name">Supabase</span>
+        </div>
+        <div class="tool-desc">Provides PostgreSQL database, authentication (email/password with session persistence), and real-time subscriptions. Used for user accounts, profile data, forum posts, saved items, and study progress tracking. Free tier is sufficient for the project's current scale.</div>
+        <div class="tool-goal">Supports Goals 5, 8 — progress tracking persistence; auth flows covered by end-to-end tests</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">AI Backend</span>
+          <span class="tool-name">Groq API</span>
+        </div>
+        <div class="tool-desc">Cloud inference API for the llama-3.3-70b-versatile model. Chosen after two other AI backends failed (see AI Backend Trials in Section 4). Groq's speed — typically under 3 seconds for text responses — and free tier made it suitable for a student-facing tool. Uses the OpenAI-compatible endpoint format.</div>
+        <div class="tool-goal">Supports Goal 4 — AI school assistant with sub-5-second response target</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">Deployment and Automation</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Hosting</span>
+          <span class="tool-name">Vercel</span>
+        </div>
+        <div class="tool-desc">Static site and serverless deployment platform. Deploys automatically on every push to the main Git branch. Environment variables (Supabase URL, Supabase anon key, Groq API key) are stored in Vercel's encrypted environment config and injected at build time via Vite's import.meta.env system.</div>
+        <div class="tool-goal">Supports Goal 7 — free hosting; supports Goal 6 — auto-deploys updated scraped data files</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Automation</span>
+          <span class="tool-name">GitHub Actions</span>
+        </div>
+        <div class="tool-desc">CI/CD and scheduled task runner. Two scheduled workflows run automatically: one scrapes live Eskom load shedding stage data, another pulls current dam level data for the water dashboard. Both commit updated JSON files to the repository, which triggers a Vercel redeploy — keeping live data current without any manual steps.</div>
+        <div class="tool-goal">Supports Goal 6 — live infrastructure data stays current automatically</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">Testing</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Testing</span>
+          <span class="tool-name">Playwright</span>
+        </div>
+        <div class="tool-desc">End-to-end browser testing framework. Tests run against a live local dev server and cover all critical user journeys. A test mode bypass (?__test_mode=true) was implemented in the auth system so tests can access auth-gated pages without needing real Supabase credentials in the CI environment.</div>
+        <div class="tool-goal">Supports Goal 8 — 31 tests passing at launch covering auth, careers, quiz, bursaries, and chat</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Type Safety</span>
+          <span class="tool-name">TypeScript</span>
+        </div>
+        <div class="tool-desc">Statically typed superset of JavaScript. Used throughout the codebase. TypeScript caught several category of bugs during development that would otherwise have only appeared at runtime — particularly around the career and bursary data structures, which are large typed objects that are transformed in multiple places.</div>
+        <div class="tool-goal">Supports Goal 8 — reduces runtime errors across the data-heavy career and bursary features</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">Animation and Motion</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Animation</span>
+          <span class="tool-name">Motion / React (Framer Motion)</span>
+        </div>
+        <div class="tool-desc">Used for entrance animations, the AI processing status bar shimmer, page transitions, and the loading screen morphing text. All animations are disabled when the user activates the data saver toggle, and the library respects the prefers-reduced-motion media query for accessibility.</div>
+        <div class="tool-goal">Supports Goal 7 — animations are progressive enhancement, not required for functionality</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-header">
+          <span class="tool-role">Routing</span>
+          <span class="tool-name">React Router v6</span>
+        </div>
+        <div class="tool-desc">Client-side routing library. Manages all page navigation within the single-page application. All routes are lazy-loaded — a page's JavaScript bundle is only downloaded when a user navigates to that page, rather than upfront on first load. This is a direct requirement of the low-data performance criterion.</div>
+        <div class="tool-goal">Supports Goal 7 — lazy loading reduces initial data transfer for users on limited bundles</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 3: PROCEDURE -->
+<div class="section-page">
+  <div class="section-eyebrow">Methodology — Section 3</div>
+  <div class="section-number">03</div>
+  <h2 class="section-title">Procedure</h2>
+  <div class="section-body">
+    <p>The development followed a research-driven iterative process: identify a problem, establish criteria, build to meet them, test, and revise. No feature was added because it seemed like a good idea in isolation — each one had to connect to a documented user need and pass the design criteria. The procedure below covers the sequence in which major work happened and why it happened in that order.</p>
+
+    <div class="sub-heading">Phase 1 — Research and Data Foundation (22–25 March)</div>
+    <ol class="procedure-list">
+      <li>
+        <span class="proc-num">01</span>
+        <div class="proc-content">
+          <div class="proc-step">Competitor analysis</div>
+          <div class="proc-detail">Reviewed four existing South African platforms (Yenza, Gradesmatch, NCAP, Reslocate) across six criteria: career data, SA specificity, bursaries, TVET, study resources, and life context. Documented gaps in a comparison table. This determined what Prospect needed to do that others did not.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">02</span>
+        <div class="proc-content">
+          <div class="proc-step">Bursary database construction</div>
+          <div class="proc-detail">Sourced bursary data from university websites, government portals, and private company pages. Normalized all entries to a common schema: name, field, eligibility, amount, deadline, province. 245 entries verified and audited. A BURSARY-REVIEW.md file was maintained as an audit trail for incomplete entries.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">03</span>
+        <div class="proc-content">
+          <div class="proc-step">Career data cleaning</div>
+          <div class="proc-detail">Reviewed the initial career dataset for duplicates and inconsistencies. Removed two duplicate entries (AI/ML Engineer, Solar Installer). Defined the data schema that all 400 career profiles would follow: title, sector, salary range, required subjects, APS score, provincial demand, and grade-by-grade preparation notes.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">04</span>
+        <div class="proc-content">
+          <div class="proc-step">Roadmap definition</div>
+          <div class="proc-detail">Drafted a 7-phase development roadmap based on the competitor gaps and the data collected. Phases were prioritized by dependency: data before UI, core guidance features before community features, testing before deployment.</div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="sub-heading">Phase 2 — Core Platform Build (27 March – 21 April)</div>
+    <ol class="procedure-list">
+      <li>
+        <span class="proc-num">05</span>
+        <div class="proc-content">
+          <div class="proc-step">Framework selection and scaffold</div>
+          <div class="proc-detail">Next.js was tried first and removed after 6 days. React and Vite were set up as the replacement. React context was chosen over Redux for global state: the app was small enough that a simpler pattern worked, and avoiding Redux reduced bundle size and complexity.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">06</span>
+        <div class="proc-content">
+          <div class="proc-step">Authentication setup</div>
+          <div class="proc-detail">Supabase Auth wired up with email/password sign-up and sign-in. Persistent sessions enabled so users stay logged in across tabs. Human-readable error messages implemented for all auth failure states (rate limit, invalid credentials, unverified email).</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">07</span>
+        <div class="proc-content">
+          <div class="proc-step">Career explorer, quiz, and bursary search built</div>
+          <div class="proc-detail">Career explorer with search and filter by subject, sector, and qualification level. Career quiz: multi-step questionnaire matching subject and interest selections to ranked career results. Bursary search with filter by field, province, and deadline status. All data loaded from typed TypeScript files; large files code-split to meet the low-data criterion.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">08</span>
+        <div class="proc-content">
+          <div class="proc-step">TVET section built</div>
+          <div class="proc-detail">Built with full navigation parity to the university section. College listings, course detail, funding options, and career outcomes all present. Navigation designed so TVET is visible at the top level — not buried as a sub-page. Confirmed against the TVET parity design criterion before sign-off.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">09</span>
+        <div class="proc-content">
+          <div class="proc-step">Career data expanded to 400 profiles</div>
+          <div class="proc-detail">A small set of 10 careers was built to the full schema first and verified in the UI before expanding. Once the data structure and display were confirmed correct, all 400 careers were built to the same standard. This prevented schema problems from only appearing after hundreds of entries had already been written.</div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="sub-heading">Phase 3 — Community, AI, and Infrastructure (25 April – 15 May)</div>
+    <ol class="procedure-list">
+      <li>
+        <span class="proc-num">10</span>
+        <div class="proc-content">
+          <div class="proc-step">Community and civic pages built</div>
+          <div class="proc-detail">Load shedding tracker, water dashboard, cost of living tool, NSC exam countdown, and civics guide added. Each was evaluated against the design criteria before being included — specifically whether it directly served a Grade 8–12 learner's ability to plan their education. Two features that did not meet this bar (pothole reporting, Community Impact submissions) were removed after build.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">11</span>
+        <div class="proc-content">
+          <div class="proc-step">Automated scrapers deployed</div>
+          <div class="proc-detail">GitHub Actions workflows written for load shedding and water data. Each workflow: fetches data from a public source, formats it into the required JSON schema, commits the updated file, and pushes to the repository. Vercel detects the push and redeploys automatically. Tested by verifying that data changed between scheduled runs.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">12</span>
+        <div class="proc-content">
+          <div class="proc-step">AI chat backend — three attempts</div>
+          <div class="proc-detail">Google Gemini was tried first (429 rate limit on free tier). Ollama was tried second (worked locally, failed on live site because it runs on localhost). Groq was adopted third and confirmed working end-to-end on the live URL. See Section 4 for full trial documentation.</div>
+        </div>
+      </li>
+      <li>
+        <span class="proc-num">13</span>
+        <div class="proc-content">
+          <div class="proc-step">End-to-end testing suite built and verified</div>
+          <div class="proc-detail">31 Playwright tests written covering all critical user journeys. A test mode URL parameter (?__test_mode=true) was added to the auth system so the test suite could access protected pages without real credentials. All 31 tests confirmed passing before launch.</div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
+
+
+<!-- SECTION 4: PROTOTYPES AND TRIALS -->
+<div class="section-page">
+  <div class="section-eyebrow">Methodology — Section 4</div>
+  <div class="section-number">04</div>
+  <h2 class="section-title">Prototypes, Trials, and Iterations</h2>
+  <div class="section-body">
+    <p>The platform went through six major prototype versions over 55 days, plus three separate trials for the AI backend alone. Each prototype was tested against the design criteria before the next one was started. Where a prototype failed a criterion, the decision was either to revise it or discard it — not to carry the failure forward and patch it later.</p>
+
+    <div class="sub-heading">Platform Prototypes</div>
+    <ul class="proto-list">
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">P1</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Next.js Scaffold</div>
+          <div class="proto-date">22–27 March 2026</div>
+          <div class="proto-text">First scaffold built in Next.js with a basic landing page and signup flow. The framework added server-side rendering, API routes, and a deployment model that the project did not need. Build configuration was more complex than necessary for a fully client-side app, and the routing conventions conflicted with how the app's navigation was intended to work. Tested against the low-data criterion — the Next.js bundle structure did not allow the same level of code splitting that Vite provides.</div>
+          <span class="proto-outcome outcome-discarded">Discarded — replaced with React + Vite</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">P2</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">React + Vite — First Build</div>
+          <div class="proto-date">28–31 March 2026</div>
+          <div class="proto-text">Landing page, signup, and basic study library rebuilt on React and Vite. Data saver toggle added. LocalStorage introduced for progress persistence. Accessibility audit run — font size violations corrected, touch target sizes verified, active page indicator added to header. Animation stagger delays capped for lists with 100+ items. This prototype passed the mobile usability and low-data criteria for the first time.</div>
+          <span class="proto-outcome outcome-revised">Revised and carried forward</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">P3</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Full Feature Build — Three Pillars</div>
+          <div class="proto-date">3–17 April 2026</div>
+          <div class="proto-text">Platform restructured into three pillars (School Assist, Careers, Community). Dashboard rebuilt from a feature directory into a daily-focus view. Career data expanded to 400 profiles with full SA-specific schema. TVET section built to parity with university section. 11 UI components standardized. A full visual redesign was attempted on 17 April covering every page simultaneously — this broke the school assist layouts, the quiz, and the career card display. 30 tests written; all passing before the redesign attempt.</div>
+          <span class="proto-outcome outcome-revised">Partially reverted — redesign broke 3 areas; those areas rolled back, rest kept</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">P4</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Post-Revert Stable Build</div>
+          <div class="proto-date">18–27 April 2026</div>
+          <div class="proto-text">The three broken areas from P3 were reverted. Images compressed to WebP format with fallback — meaningful load weight reduction on mobile, particularly on the landing page. Persistent login implemented so sessions survive tab close. New pages added: Civics, Tax and Budget Calculator, Cost of Living, School Assist Chat shell. Loading screen with animated text added. Login and signup pages redesigned to match landing page visual language. Color palette audit run — stray colors across sections brought back to the defined system.</div>
+          <span class="proto-outcome outcome-kept">Kept and extended</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">P5</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Community, Scrapers, and Study Library</div>
+          <div class="proto-date">1–13 May 2026</div>
+          <div class="proto-text">Grade 10 Algebra learning modules built with Supabase-backed mastery tracking. Study library consolidated into one location. Community section rebuilt: Load shedding tracker and NSC exam countdown added. Automated GitHub Actions scrapers deployed for both load shedding and water data. Codebase reorganized from a flat structure into domain folders (school, careers, community, home). Pothole reporting and Community Impact submissions removed after failing the audience relevance criterion. 31 end-to-end tests confirmed passing after reorganization.</div>
+          <span class="proto-outcome outcome-revised">Revised — two features removed; rest kept</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">P6</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Launch Build</div>
+          <div class="proto-date">14–15 May 2026</div>
+          <div class="proto-text">Groq AI backend integrated and confirmed working on the live URL. Auth requirement removed from informational community pages (load shedding, water, cost of living, civics) — these contain no user-specific data and the auth wall served no purpose. Grade 10 Subject Selector removed from landing page navigation — feature was not built to a shippable standard. Final design pass across TVET, library, calendar, and community pages. All 31 tests passing. Site redeployed and verified on the production URL.</div>
+          <span class="proto-outcome outcome-kept">Launch version</span>
+        </div>
+      </li>
+
+    </ul>
+
+    <div class="sub-heading">AI Backend Trials</div>
+    <ul class="proto-list">
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">A1</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Google Gemini API</div>
+          <div class="proto-date">13 May 2026</div>
+          <div class="proto-text">The chat feature was originally built to call Google Gemini. API key configured, system prompt written for South African education context, basic integration tested locally. Tested on the live site — returned HTTP 429 (Too Many Requests). The free tier quota for the API key had been exhausted between development testing and live traffic. Gemini's free tier rate limits are per-day and cannot be reset. A local predefined answer system was built immediately as a fallback for the seven most common student questions — these return instantly without any API call.</div>
+          <span class="proto-outcome outcome-discarded">Discarded — rate limited, free tier insufficient</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">A2</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Ollama (Local LLM)</div>
+          <div class="proto-date">15 May 2026</div>
+          <div class="proto-text">Ollama is a tool for running large language models on a local machine. The llama3.2 model (2.0GB) and llava model (4.7GB, for image support) were downloaded and tested. Response quality was good and latency was acceptable on the development machine. Tested against the live site — all requests failed with a network error. Ollama runs as a server on localhost:11434. From the live Vercel deployment, every user's browser was attempting to connect to localhost on their own device, which was not running Ollama. Ollama is a local development tool; it cannot function as a cloud API backend.</div>
+          <span class="proto-outcome outcome-discarded">Discarded — localhost-only, not usable on hosted site</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="proto-num-wrap"><div class="proto-num">A3</div><div class="proto-line"></div></div>
+        <div class="proto-content">
+          <div class="proto-label">Groq Cloud API</div>
+          <div class="proto-date">15 May 2026</div>
+          <div class="proto-text">Groq provides cloud inference for the llama3 model family. The llama-3.3-70b-versatile model was selected for its balance of response quality and speed. API key generated, added to .env.local for development and to Vercel environment variables for production. Chat updated to call https://api.groq.com/openai/v1/chat/completions using the OpenAI-compatible format. System prompt configured for South African education context: NSC subjects, APS requirements, TVET pathways, matric exam structure. The predefined answer layer was kept — 7 common questions still return instantly from local storage, with Groq's response replacing them silently in the background if different. Tested end-to-end on the live URL. Working.</div>
+          <span class="proto-outcome outcome-kept">Adopted — working at launch</span>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+
+<!-- SECTION 5: MEASUREMENTS AND UNITS -->
+<div class="section-page">
+  <div class="section-eyebrow">Methodology — Section 5</div>
+  <div class="section-number">05</div>
+  <h2 class="section-title">Measurements, Variables, and Units</h2>
+  <div class="section-body">
+    <p>Software engineering does not have physical measurements in the way that chemistry or electronics do, but it has precise, quantifiable performance and quality metrics that serve the same function: they make it possible to say whether a design decision worked or not. The measurements below were used throughout development to evaluate whether the platform was meeting its design criteria.</p>
+
+    <div class="sub-heading">Performance Metrics</div>
+
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Unit</th><th>Target</th><th>Criterion</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Initial JS bundle size (landing page)</td>
+          <td>Kilobytes (KB)</td>
+          <td>Under 200 KB before gzip compression</td>
+          <td>Low-data performance</td>
+        </tr>
+        <tr>
+          <td>AI chat response time (text)</td>
+          <td>Seconds (s)</td>
+          <td>Under 5 seconds from send to first token rendered</td>
+          <td>AI reliability</td>
+        </tr>
+        <tr>
+          <td>Predefined answer response time</td>
+          <td>Milliseconds (ms)</td>
+          <td>Under 100ms — returned from local memory, no network call</td>
+          <td>AI reliability</td>
+        </tr>
+        <tr>
+          <td>Minimum touch target size</td>
+          <td>CSS pixels (px)</td>
+          <td>48px × 48px for all interactive elements on mobile</td>
+          <td>Mobile usability, Accessibility</td>
+        </tr>
+        <tr>
+          <td>Minimum body font size</td>
+          <td>CSS pixels (px)</td>
+          <td>14px minimum for all body and label text</td>
+          <td>Accessibility</td>
+        </tr>
+        <tr>
+          <td>Data scraper update frequency</td>
+          <td>Hours (h)</td>
+          <td>Load shedding data updated at least every 6 hours via GitHub Actions</td>
+          <td>Live data currency</td>
+        </tr>
+        <tr>
+          <td>Test suite pass rate</td>
+          <td>Percentage (%)</td>
+          <td>100% — all 31 Playwright tests must pass before deployment</td>
+          <td>Test coverage</td>
+        </tr>
+        <tr>
+          <td>Bursary database completeness</td>
+          <td>Count (entries)</td>
+          <td>245 entries, all with required fields populated (verified in BURSARY-REVIEW.md)</td>
+          <td>Data completeness</td>
+        </tr>
+        <tr>
+          <td>Career database size</td>
+          <td>Count (profiles)</td>
+          <td>400 career profiles, each with full SA-specific data schema</td>
+          <td>SA specificity, Data completeness</td>
+        </tr>
+        <tr>
+          <td>Minimum viewport support</td>
+          <td>CSS pixels (px)</td>
+          <td>375px — all pages must be fully functional at this width without horizontal scroll</td>
+          <td>Mobile usability</td>
+        </tr>
+        <tr>
+          <td>AI request timeout (text)</td>
+          <td>Seconds (s)</td>
+          <td>30 seconds — AbortController cancels the request if no response within this time</td>
+          <td>AI reliability</td>
+        </tr>
+        <tr>
+          <td>AI request timeout (image)</td>
+          <td>Seconds (s)</td>
+          <td>120 seconds — image processing takes longer; extended timeout prevents false failures</td>
+          <td>AI reliability</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">Variables</div>
+    <p>In the context of this project, the independent variable is the design and technical choices made during development — which framework was used, how data was structured, whether a feature was included or removed. The dependent variable is whether the platform meets its design criteria as measured by the metrics above. The control is the set of criteria themselves, which remained fixed from the start of development and were not changed to accommodate features that were struggling to meet them.</p>
+
+    <div class="callout">
+      <strong>Note on unit type:</strong> Traditional engineering measurements (grams, newtons, volts, metres) do not apply to software development. The equivalent in this field is the combination of size, time, count, and percentage metrics listed above — all of which are equally precise, repeatable, and verifiable. The Playwright test suite provides the equivalent of a repeatable controlled experiment: the same 31 tests run against the same codebase and either pass or fail, with no ambiguity.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

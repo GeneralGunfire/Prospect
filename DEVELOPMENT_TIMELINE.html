@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Development Timeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    width: 100%; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 60px;
+    page-break-after: always; break-after: page;
+    position: relative;
+  }
+  .cover-top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .cover-wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 48px; }
+  .cover-title { font-size: 64px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; color: var(--navy); text-align: center; margin-bottom: 16px; }
+  .cover-subtitle { font-size: 18px; font-weight: 400; color: var(--slate-500); text-align: center; margin-bottom: 64px; }
+  .cover-divider { width: 48px; height: 2px; background: var(--navy); margin: 0 auto 64px; }
+  .cover-stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--slate-200); width: 100%; max-width: 680px; }
+  .cover-stat { padding: 28px 24px; text-align: center; border-right: 1px solid var(--slate-200); }
+  .cover-stat:last-child { border-right: none; }
+  .cover-stat-number { font-size: 32px; font-weight: 900; letter-spacing: -0.04em; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+  .cover-stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate-400); }
+  .cover-description { margin-top: 64px; font-size: 15px; color: var(--slate-500); text-align: center; max-width: 480px; line-height: 1.7; }
+  .cover-bottom { position: absolute; bottom: 48px; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-400); }
+
+  /* ── Day page ── */
+  .day-page {
+    width: 100%; min-height: 100vh;
+    padding: 64px 80px 80px;
+    page-break-after: always; break-after: page;
+    display: flex; flex-direction: column;
+  }
+  .day-page:last-of-type { page-break-after: avoid; break-after: avoid; }
+
+  .day-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--slate-200); }
+  .day-date { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); white-space: nowrap; }
+  .day-title { font-size: 26px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.15; }
+  .day-summary { font-size: 13px; font-weight: 600; color: var(--slate-500); margin-bottom: 36px; padding: 14px 18px; background: var(--slate-50); border-left: 3px solid var(--navy); line-height: 1.5; }
+  .day-body { font-size: 14px; color: var(--slate-700); line-height: 1.75; flex: 1; }
+  .day-body p { margin-bottom: 16px; }
+  .day-body p:last-child { margin-bottom: 0; }
+
+  .sub-heading { font-size: 11px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); margin: 28px 0 10px; }
+  .sub-heading:first-child { margin-top: 0; }
+
+  /* attempt blocks */
+  .attempt-block { margin-bottom: 20px; padding: 16px 20px; border: 1px solid var(--slate-200); }
+  .attempt-label { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 6px; }
+  .attempt-outcome { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; display: inline-block; margin-bottom: 10px; }
+  .outcome-fail { background: #fee2e2; color: #b91c1c; }
+  .outcome-pass { background: #dcfce7; color: #15803d; }
+  .attempt-block p { font-size: 13px; color: var(--slate-700); line-height: 1.65; margin-bottom: 0 !important; }
+
+  /* ── Summary page ── */
+  .summary-page { width: 100%; min-height: 100vh; padding: 64px 80px 80px; page-break-before: always; break-before: page; }
+  .summary-page-title { font-size: 11px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 12px; }
+  .summary-page-heading { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); margin-bottom: 40px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--navy); color: var(--white); }
+  thead th { padding: 12px 16px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 12px 16px; color: var(--slate-700); line-height: 1.5; vertical-align: top; }
+  tbody td:first-child { font-weight: 600; color: var(--navy); white-space: nowrap; width: 160px; }
+
+  .closing-block { margin-top: 48px; padding: 28px 32px; background: var(--navy); }
+  .closing-block p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.85); }
+
+  /* ── Print ── */
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+
+  /* ── Screen preview ── */
+  @media screen {
+    body { background: #e5e7eb; }
+    .cover, .day-page, .summary-page {
+      max-width: 794px; margin: 32px auto; background: white;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+    .cover { min-height: 1123px; }
+    .day-page { min-height: 1123px; }
+    .summary-page { min-height: 1123px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top-rule"></div>
+  <div class="cover-wordmark">Prospect Platform</div>
+  <div class="cover-title">Development<br>Timeline</div>
+  <div class="cover-subtitle">22 March — 15 May 2026</div>
+  <div class="cover-divider"></div>
+  <div class="cover-stats">
+    <div class="cover-stat"><div class="cover-stat-number">55</div><div class="cover-stat-label">Days</div></div>
+    <div class="cover-stat"><div class="cover-stat-number">400</div><div class="cover-stat-label">Careers</div></div>
+    <div class="cover-stat"><div class="cover-stat-number">245</div><div class="cover-stat-label">Bursaries</div></div>
+    <div class="cover-stat"><div class="cover-stat-number">3</div><div class="cover-stat-label">Pillars</div></div>
+  </div>
+  <div class="cover-description">A full account of how Prospect was built — what was done each day, what broke, how it was fixed, and why decisions were made the way they were.</div>
+  <div class="cover-bottom">South African Career &amp; Education Guidance Platform &nbsp;·&nbsp; Grade 8–12</div>
+</div>
+
+<!-- 22 MARCH -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">22 March 2026</span>
+    <h1 class="day-title">Research and Data Foundation</h1>
+  </div>
+  <div class="day-summary">No code written. The first priority was the data the platform would run on — bursaries, careers, and a clear picture of the South African edtech landscape.</div>
+  <div class="day-body">
+    <div class="sub-heading">Bursary Database</div>
+    <p>South African bursary information is scattered across university websites, government departments, and private companies, all published in different formats with inconsistent detail. The initial migration pulled 200 bursaries into a consistent data structure: name, field of study, eligibility criteria, funding amount, application deadline, and which provinces the bursary applied to. From there, 19 more were added, then another 26, bringing the total to 245 entries.</p>
+    <p>Getting the fields consistent was more work than the numbers suggest. Deadline formats varied — some entries listed a calendar date, others said "rolling" or "contact the institution." Province lists were written differently across sources. Eligibility descriptions used different terminology for the same requirements. Everything had to be normalized by hand so the search and filter features would actually work.</p>
+    <p>A document called BURSARY-REVIEW.md was created as an audit trail, tracking which entries had gaps and which had been verified. This mattered because the data would be shown directly to students — an incomplete or misleading entry is worse than no entry at all.</p>
+    <div class="sub-heading">Career Data Cleaning</div>
+    <p>Two duplicate career entries were found during an import check — one for AI/ML Engineer and one for Solar Installer, both added twice through different import passes. These were removed before the data was used anywhere in the app.</p>
+    <div class="sub-heading">Competitor Research</div>
+    <p>The rest of the day covered market research: looking at what existed in the South African edtech space — Yenza, Gradesmatch, NCAP, Reslocate — what each did well, and where students were being underserved. The analysis found a specific gap: most platforms focused solely on university applications or provided generic career advice without connecting it to the subject choices students were actually making in Grades 10–12. A 7-phase project roadmap was drafted from these findings and the v1 feature requirements were written down. The product direction was clear from the outset: make the connection between subject choice and career outcome visible and concrete.</p>
+  </div>
+</div>
+
+<!-- 25 MARCH -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">25 March 2026</span>
+    <h1 class="day-title">Project Scaffold and Planning</h1>
+  </div>
+  <div class="day-summary">Project configuration initialized. Architecture decisions locked in for shared state management and folder structure.</div>
+  <div class="day-body">
+    <div class="sub-heading">Phase 0 Plan</div>
+    <p>The project configuration was initialized and a Phase 0 plan was written covering how the app scaffold would be structured. The first architecture decision was how shared state across the application would work. The choice was React context rather than a more complex state management library like Redux. The reasoning: the app was small enough that a simpler approach worked fine, and introducing Redux would add overhead in file size and developer complexity without paying for itself at this scale. React context handles auth state, user preferences, and navigation state cleanly without additional tooling.</p>
+    <div class="sub-heading">Folder Structure</div>
+    <p>The project folder structure was established to support the three major sections the app would eventually have: school-related features, career features, and community features. Getting this right early was intended to avoid the reorganization pain that comes from adding features to a flat folder structure for months and then having to sort it out later. A partial reorganization still happened in May, but having a domain-based structure from the start reduced how much had to be moved.</p>
+    <div class="sub-heading">Roadmap</div>
+    <p>The 7-phase roadmap drafted on 22 March was formalized into planning documentation covering what each phase would deliver, the dependencies between phases, and the success criteria for each. Having this written down made it possible to track progress and make deliberate decisions about what to build next rather than reacting to whatever seemed most urgent on a given day.</p>
+  </div>
+</div>
+
+<!-- 27 MARCH -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">27 March 2026</span>
+    <h1 class="day-title">First Visual Pass — Landing Page and Auth</h1>
+  </div>
+  <div class="day-summary">First working UI. Black and white palette with a translucent navbar. Signup wired up. Error messaging for rate-limited auth fixed immediately.</div>
+  <div class="day-body">
+    <div class="sub-heading">Landing Page — First Build</div>
+    <p>The landing page was built for the first time. The initial design used black and white as the primary colors, with a translucent navbar that blurred content behind it on scroll. It was a starting point — it would be rebuilt entirely the following day when the framework decision changed — but it established the visual direction: clean, high-contrast, text-forward.</p>
+    <div class="sub-heading">Signup Page and Error Handling</div>
+    <p>The signup page was wired up with form validation. During testing, an issue appeared immediately. When the same email address is submitted too many times in quick succession — which happens constantly during development — Supabase's auth service rate-limits the request and returns an error. The message being shown to the user was raw technical text: something like "Email rate limit exceeded." That's meaningless to a student who just tried to create an account. This was fixed to show a human-readable message explaining what happened and what to do next. A small fix, but the kind that determines whether a user retries or leaves.</p>
+    <div class="sub-heading">Hero Section Redesign</div>
+    <p>The hero section was redesigned to take up more of the screen. The original version was modest in size and didn't communicate the platform's purpose on first glance. For a platform competing with established edtech products, the landing page has to earn attention in the first few seconds — the hero is where that happens.</p>
+  </div>
+</div>
+
+<!-- 28 MARCH -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">28 March 2026</span>
+    <h1 class="day-title">Framework Switch and Landing Page Rebuild</h1>
+  </div>
+  <div class="day-summary">Next.js scrapped. Rebuilt on React and Vite. Premium animations added. Data saver toggle introduced for users on limited mobile data.</div>
+  <div class="day-body">
+    <div class="sub-heading">Why Next.js Was Dropped</div>
+    <p>The project was initially built in Next.js. This was scrapped on 28 March. The reason was straightforward: Prospect is a client-side application. None of the pages needed server-side rendering, there were no SEO-critical dynamic routes that required pre-rendering at request time, and there was no backend API layer that made sense to host as Next.js API routes. Next.js adds real complexity around build configuration, routing conventions, hydration behavior, and deployment — none of which was paying for itself here. The switch was made to a standard React and Vite setup: simpler to configure, faster to build, and straightforward to deploy to Vercel.</p>
+    <div class="sub-heading">Landing Page Rebuild</div>
+    <p>The landing page was rebuilt from scratch on the new foundation. This rebuild introduced premium animations that the first version didn't have: glassmorphism effects (translucent panels with backdrop blur over content), a logo animation that ran on page load, and entrance animations for each section. The visual direction became more premium — the kind of design that signals the platform is worth spending time with.</p>
+    <div class="sub-heading">Data Saver Toggle</div>
+    <p>A data saver toggle was added — a control that let users reduce or disable animations and heavy effects. This was a deliberate decision given the South African context. Mobile data costs in South Africa are among the highest in the world relative to income, and many students browse on limited prepaid bundles. A landing page full of glassmorphism and entrance animations can be beautiful on WiFi and painful on 50MB of remaining data. The toggle let users make that call for themselves.</p>
+  </div>
+</div>
+
+<!-- 30 MARCH -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">30 March 2026</span>
+    <h1 class="day-title">Core App Features Launch</h1>
+  </div>
+  <div class="day-summary">First full working React application. Study library functional. Data persistence solved with localStorage. Subject selector built. Navigation bugs fixed.</div>
+  <div class="day-body">
+    <div class="sub-heading">Study Library</div>
+    <p>The study library was cleaned up and made functional. Before this it existed as a skeleton — pages were there but content and navigation weren't working correctly. Study material was now accessible and browsable for the first time.</p>
+    <div class="sub-heading">Data Persistence — LocalStorage</div>
+    <p>Data persistence was the most significant problem solved on this day. User progress, bookmarks, and quiz results were all being stored in memory only, which meant they disappeared on every page refresh. For an educational app where students need to pick up where they left off, this was a fundamental failure. LocalStorage was introduced as the storage layer: every piece of user data that needed to survive a page reload was written there on change and read back on app initialization.</p>
+    <div class="sub-heading">Subject Selector</div>
+    <p>The Subject Selector for Grade 10 was implemented. A student could select the subjects they were taking and the app would surface which careers those subjects made accessible. This was one of the core value propositions of the platform — making the connection between subject choice and career outcome visible and concrete rather than abstract.</p>
+    <div class="sub-heading">Navigation and Loading Animation</div>
+    <p>Several navigation problems were fixed. The hamburger menu on mobile wasn't opening and closing correctly. There were z-index conflicts causing the navigation bar to appear behind other elements on certain pages. A back button was added on the map page, which had no obvious way to return from it. The loading animation went through multiple iterations before settling on a 5-second display on app load — longer than typical, but chosen deliberately to give the app's initial data load time to complete before rendering the dashboard, avoiding a flash of empty content.</p>
+  </div>
+</div>
+
+<!-- 31 MARCH -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">31 March 2026</span>
+    <h1 class="day-title">Polish and Accessibility</h1>
+  </div>
+  <div class="day-summary">Full accessibility audit. Font size violations corrected. Active page indicator added to the header. Animation stagger delays capped for long lists.</div>
+  <div class="day-body">
+    <div class="sub-heading">Accessibility Audit</div>
+    <p>A full accessibility review was run across the entire app. The most common violation was font sizes — several text elements were below a comfortable readable size. These were corrected across all pages. Touch target sizes were also verified to meet the 48px minimum required for reliable mobile use.</p>
+    <div class="sub-heading">Active Page Indicator</div>
+    <p>The header was updated with an active page indicator so users could see at a glance which section they were in. This had been missing from the first build. Without it, navigating between sections left users with no visual confirmation of where they'd landed.</p>
+    <div class="sub-heading">Animation Stagger Cap</div>
+    <p>Animation stagger delays were capped across the app. The way stagger animations work is that each item in a list is delayed slightly more than the previous one, creating a cascading reveal effect. On short lists this looks good. On longer lists — like the bursary list with 245 entries — the accumulated delay was still running several seconds after the page had fully loaded because items near the end of the list had delays that stacked to unreasonable lengths. A cap was introduced so that no item waited beyond a fixed maximum regardless of its position in the list.</p>
+  </div>
+</div>
+
+<!-- 3–7 APRIL -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">3–7 April 2026</span>
+    <h1 class="day-title">Component Library, Architecture, and Bug Triage</h1>
+  </div>
+  <div class="day-summary">11 UI components integrated. Bookmark persistence fixed. TVET section expanded. Map page blank-screen traced and resolved. Event scheduler crash found.</div>
+  <div class="day-body">
+    <div class="sub-heading">Component Library</div>
+    <p>Eleven UI components were integrated into a shared design system over these days. Cards, buttons, and form elements were standardized so they looked and behaved consistently across the app. Before this, each section had been styled independently and the inconsistencies had started to accumulate.</p>
+    <div class="sub-heading">Bookmark Persistence Fix</div>
+    <p>Bookmark persistence was still broken in some cases despite the localStorage work on 30 March. The issue was a timing problem: a read would happen before a write had completed, causing the app to treat bookmarks as if they didn't exist. Fixed with a more explicit read/write pattern that ensured writes resolved before any dependent reads occurred.</p>
+    <div class="sub-heading">TVET Section Expansion</div>
+    <p>The TVET (Technical and Vocational Education and Training) section was expanded significantly. TVET colleges represent a major pathway for South African students who won't attend a traditional university — they offer practical qualifications in engineering, business, IT, hospitality, and dozens of other fields. The platform had underrepresented this pathway in its initial data.</p>
+    <div class="sub-heading">Map Page Bug — Blank Screen</div>
+    <p>A critical bug was found: selecting a location on the map page caused the page to go completely blank. The root cause was a routing state issue — the component wasn't handling the state transition correctly after a selection, causing it to render nothing. Fixing this also required restoring a heatmap animation accidentally removed during an earlier edit. The footer was also overflowing on small screens and was corrected.</p>
+    <div class="sub-heading">Event Scheduler Crash — 7 April</div>
+    <p>A crash was found in the event scheduler. The cause was a dropdown component receiving an empty string as the value for one of its items. The component library in use (Radix UI) does not accept empty strings as item values — it requires either a real value or explicit null. The component was silently failing when it encountered the empty string during render. The fix was replacing the empty string with a proper placeholder value.</p>
+  </div>
+</div>
+
+<!-- 15–17 APRIL -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">15–17 April 2026</span>
+    <h1 class="day-title">Product Rethink, Restructure, and Dashboard Rebuild</h1>
+  </div>
+  <div class="day-summary">Major restructure into 3 pillars. Landing page rebuilt to reflect them. Dashboard rebuilt from feature directory to daily-focus view. Community Impact feature built. 30 tests written and passing.</div>
+  <div class="day-body">
+    <div class="sub-heading">Three Pillars — 15 April</div>
+    <p>A significant rethink happened about how the product was organized. The original structure had everything loosely connected. The decision was made to separate the app into three distinct pillars: School Assist (study tools and guidance), Career Guide (career exploration and the quiz), and Community (civic awareness and utilities). The landing page was rebuilt to communicate these three pillars clearly. Routing was updated to reflect the new organization and navigation that had accumulated inconsistencies over the previous weeks was fixed throughout.</p>
+    <div class="sub-heading">Dashboard Rebuild — 17 April</div>
+    <p>The dashboard was completely rebuilt. The original version was essentially a feature directory — it told you what the app contained and let you navigate to different sections. That is not particularly useful once a user knows the app. The new dashboard was rebuilt as an actionable daily-focus view, surfacing information relevant to where the student was in the school year: next deadline, next subject to study, recommended session. Everything else was secondary to that primary block.</p>
+    <div class="sub-heading">Community Impact Feature — 17 April</div>
+    <p>Community Impact was built as a new feature: a page where students could share how Prospect had helped them, with a public submissions feed and aggregate stats. The first version had authentication stubs that didn't actually talk to the database — this was caught when a submission appeared to succeed but nothing was written anywhere. Real authentication was connected and the submission flow was verified end to end. A navigation error was also found: the page had been accidentally included inside the school navigation menu, which didn't make contextual sense. It was moved to a standalone page.</p>
+    <div class="sub-heading">Testing</div>
+    <p>30 end-to-end tests were written covering the dashboard, community impact, and authentication pages. All 30 were passing by end of day. This was the first meaningful test coverage the project had.</p>
+  </div>
+</div>
+
+<!-- 18 APRIL -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">18 April 2026</span>
+    <h1 class="day-title">Reverts After Visual Overhaul</h1>
+  </div>
+  <div class="day-summary">The full visual redesign from 17 April broke three areas. Selective revert applied. Images compressed to WebP. TVET hero improved with diagonal gradient.</div>
+  <div class="day-body">
+    <div class="sub-heading">What Broke</div>
+    <p>The visual redesign attempted on 17 April — design tokens, a component library overhaul, consistent spacing and color applied everywhere — caused problems in three places: the school assist pages had their layouts disrupted, the quiz page broke entirely, and the career card design was changed in a way that conflicted with the existing data structure for career information.</p>
+    <div class="sub-heading">The Decision to Revert</div>
+    <p>Rather than patching each issue individually, those three areas were reverted to their state before the redesign. The landing page changes were kept because they were working correctly. This was the right call. Trying to patch multiple breaking changes simultaneously tends to produce more breaking changes, and the cost of selective reverts is always lower than the cost of debugging a cascade of failures introduced all at once.</p>
+    <div class="sub-heading">Image Compression</div>
+    <p>All images across the site were compressed to WebP format, with a fallback for browsers that didn't support it. The reduction in page load weight was meaningful on mobile — PNG and JPEG files that had been several hundred kilobytes were replaced with WebP equivalents a fraction of that size, with no visible quality difference.</p>
+    <div class="sub-heading">TVET Hero</div>
+    <p>The TVET section hero background was improved with a diagonal gradient. It had been using a flat color that felt static compared to the rest of the landing page's visual language.</p>
+  </div>
+</div>
+
+<!-- 19 APRIL -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">19 April 2026</span>
+    <h1 class="day-title">Persistent Login and School Assist Improvements</h1>
+  </div>
+  <div class="day-summary">Users now stay logged in across tabs and sessions. School Assist search upgraded to dual-mode. Pothole reporting and water dashboard started.</div>
+  <div class="day-body">
+    <div class="sub-heading">Persistent Login</div>
+    <p>Persistent login was implemented so users stayed signed in across browser tabs and after closing and reopening the browser. Before this, closing a tab would sign a user out — frustrating for students using the platform across multiple study sessions. Supabase handles session persistence natively when configured correctly. The fix was ensuring session refresh logic ran on tab focus and app initialization, not only on explicit login actions.</p>
+    <div class="sub-heading">School Assist Search</div>
+    <p>The School Assist section got better search — a dual-mode search that could find study library topics by name and also return relevant content snippets from within topics. This was added to the navigation bar for the school assist section so it was accessible from any page within that section without needing to navigate to the library first.</p>
+    <div class="sub-heading">Pothole Reporting — Started</div>
+    <p>A pothole reporting feature was started as part of the Community section. Users could flag potholes by location, view other reports, and track whether they'd been fixed. The backend was connected to Supabase with proper authentication. The location input originally tried to use GPS — browser geolocation — but this wasn't working reliably across different devices. The input was replaced with a hierarchical dropdown: Province, then City, then Suburb, then a free-text Street field. More reliable and easier to use than asking someone to share GPS coordinates.</p>
+    <div class="sub-heading">Water Dashboard — Started</div>
+    <p>The water dashboard was started: a page showing dam levels by province, active water alerts, and maintenance updates. The initial version used static placeholder data, which would later be replaced with live scraped data via GitHub Actions.</p>
+  </div>
+</div>
+
+<!-- 20–21 APRIL -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">20–21 April 2026</span>
+    <h1 class="day-title">Career Data Expansion to 400 Careers</h1>
+  </div>
+  <div class="day-summary">Major data build. Every career given a full South African profile. Small set verified first, then expanded to 400 total.</div>
+  <div class="day-body">
+    <div class="sub-heading">What Changed</div>
+    <p>The career cards were redesigned to be substantially more informative. The previous version showed a title, sector, and a brief description. The new version gave each career a full South African profile: salary ranges specific to South Africa (not imported from US or UK sources), job demand by province, required subjects and minimum APS scores, what a student in Grades 10, 11, and 12 should be doing to work toward that career, and real South African examples — companies hiring in that field, internship programs, and bursaries specific to that discipline.</p>
+    <div class="sub-heading">Build Approach</div>
+    <p>The approach was to build a small set of careers thoroughly first, wire them up, and verify the data was displaying correctly before expanding. This avoided the situation where a structural problem with the data format only appeared after 400 entries had already been written to that format. Once the structure was confirmed — the right fields showing, filtering working, detail pages rendering correctly — the remaining careers were updated to the same standard.</p>
+    <div class="sub-heading">Result</div>
+    <p>The final count reached 400 careers. Every entry had comprehensive South African-specific data rather than generic descriptions. Routing and card presentation were verified working across the full dataset before moving to the next phase of development.</p>
+  </div>
+</div>
+
+<!-- 25–27 APRIL -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">25–27 April 2026</span>
+    <h1 class="day-title">Bug Fixes, New Pages, and Navigation Overhaul</h1>
+  </div>
+  <div class="day-summary">Quiz completion fixed. Animated loading screen added. Login pages redesigned to match landing page. Civics, Tax calculator, Cost of Living, and Chat page added.</div>
+  <div class="day-body">
+    <div class="sub-heading">Bug Fixes — 25 April</div>
+    <p>A dedicated session cleared a backlog of persistent bugs. The quiz completion button wasn't working correctly in some states — the final question could be answered but the results page wasn't triggering. Career cards rebuilt in the data expansion needed to replace the old routing, which still pointed to the previous card format. Various mobile layout issues were addressed across multiple pages.</p>
+    <div class="sub-heading">Loading Screen and Landing Page — 26 April</div>
+    <p>A loading screen with animated morphing text was added: the words Discover, Plan, Elevate, and Succeed cycling through on app load. The first version had a bug — it only showed the first two words before ending because the timing logic didn't account for the full cycle. Several iterations were needed. The login and signup pages were redesigned to match the landing page's color scheme — they had been using their own unrelated styling that made the transition from landing to auth feel like a different product. The navbar spinning animation when opening the mobile menu was also fixed; it had been rotating in a way that looked like a rendering error.</p>
+    <div class="sub-heading">New Pages — 27 April</div>
+    <p>Four new pages were added: the Civics page (a guide to South African civics relevant to students), the Tax and Budget Calculator, the Cost of Living tracker, and the School Assist Chat page. Routing was updated for all four. The chat page was a shell at this point — the structure was there but the AI backend wasn't wired yet. The dashboard was cleaned up to remove sections showing placeholder data, and the navigation bar was updated to use the same design as the landing page across all feature sections. A color palette audit was also run — the site had accumulated too many stray colors from different sessions and everything was brought back to blacks, greys, and whites.</p>
+  </div>
+</div>
+
+<!-- 1–3 MAY -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">1–3 May 2026</span>
+    <h1 class="day-title">Learning Modules and Study Library Consolidation</h1>
+  </div>
+  <div class="day-summary">Two Grade 10 Algebra modules built with mastery tracking. Study library consolidated into a single location. Progress tracking bug fixed. Water dashboard redesigned with province selector.</div>
+  <div class="day-body">
+    <div class="sub-heading">Grade 10 Algebra Modules</div>
+    <p>Two interactive learning modules were built for Grade 10 Term 1: Introduction to Equations and Simultaneous Linear Equations. These were structured as guided lessons with worked examples, practice questions, and mastery tracking. When a student completed a topic, that progress was recorded in Supabase so it persisted between sessions — a student could close the browser, come back the next day, and see which topics they'd already covered.</p>
+    <div class="sub-heading">Study Library Consolidation</div>
+    <p>The study library was consolidated so all learning material lived in one place. Content had accumulated in different locations as features were added across March and April — some material accessible through one navigation path, some through another. Pulling everything into one unified section cleaned up both the codebase and the user experience.</p>
+    <div class="sub-heading">Progress Tracking Bug</div>
+    <p>A bug appeared in progress tracking during testing: the mastery state for the first algebra topic was displaying correctly in the library but not on the dashboard. The dashboard was showing the topic as incomplete even after it had been marked complete. The cause was a data-fetching timing issue — the dashboard was reading from local state before the database response had returned, so it was rendering stale data. Fixed by making the dashboard wait for the correct data source before rendering the progress section.</p>
+    <div class="sub-heading">Mobile Display and Water Dashboard</div>
+    <p>The algebra content had a display issue on mobile: equations that were too long for a small screen would wrap mid-expression in a way that made them unreadable. The equations were reformatted to handle small screens gracefully without reducing text size. On 2 May, the water dashboard was redesigned — the original showed all provinces simultaneously in one crowded chart, replaced with a province selector so users could focus on one at a time. On 3 May, a broad polish pass was run across all pages: spacing, typography, card padding, layout rhythm. The kind of work that makes an app feel finished rather than assembled.</p>
+  </div>
+</div>
+
+<!-- 7–8 MAY -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">7–8 May 2026</span>
+    <h1 class="day-title">Testing, Code Cleanup, and Pothole Improvements</h1>
+  </div>
+  <div class="day-summary">Pothole feature improved with fake report detection. Ambiguous database column error traced and fixed. Codebase reorganized by domain. All 31 end-to-end tests confirmed passing.</div>
+  <div class="day-body">
+    <div class="sub-heading">Pothole Feature Improvements</div>
+    <p>The pothole reporting feature received improvements on 7 May: a fake report detection system and a user-flagging mechanism so other users could mark reports they believed were inaccurate. Flagged reports were queued for review before being shown prominently. This was a reasonable approach to the spam problem without requiring manual moderation of every submission.</p>
+    <div class="sub-heading">Database Error — Ambiguous Column</div>
+    <p>A database error appeared during development: an ambiguous column reference after a schema update. A query was referencing a column name that existed in multiple tables being joined, and the database engine couldn't determine which table's version was intended. Fixed by making all column references in the query fully qualified — specifying both the table name and the column name for every field in the select and where clauses.</p>
+    <div class="sub-heading">Codebase Reorganization — 8 May</div>
+    <p>A complete codebase audit was run. Pages and components added to a flat folder structure over two months were reorganized into subfolders by feature domain: school, community, careers, home. Dead code, stale routes, and files left over from earlier experiments were removed. The flat structure had made it difficult to find files and had resulted in some components being created twice in different locations. All 31 end-to-end tests were confirmed passing after the reorganization — the reorganization had changed import paths in several places and these were updated and verified with Playwright before moving on.</p>
+  </div>
+</div>
+
+<!-- 11 MAY -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">11 May 2026</span>
+    <h1 class="day-title">Community Impact Removed, Declutter Pass</h1>
+  </div>
+  <div class="day-summary">Community Impact removed after reassessing its value for the core audience. School assist and calendar decluttered on mobile. FEATURES.md and CODEBASE_MAP.md written.</div>
+  <div class="day-body">
+    <div class="sub-heading">Community Impact Removed</div>
+    <p>The Community Impact feature — built in April as a page where students could share how Prospect had helped them — was removed on this date. The reasoning was about audience fit. Students in Grades 10–12 are not the primary audience for a community impact reporting tool. The feature required its own authenticated submission flow, its own database tables, and its own maintenance. That overhead wasn't justified by the value it actually provided to the core user. Removing it simplified the platform and made the remaining features easier to maintain and explain to new users.</p>
+    <div class="sub-heading">Mobile Declutter — School Assist and Calendar</div>
+    <p>The school assist dashboard and calendar pages were decluttered on mobile. Both had accumulated content across multiple development sessions and were showing too much information in too small a space on phone-sized screens. Elements that weren't critical to the primary task on each page were removed or collapsed into secondary views accessible by interaction, rather than being displayed by default.</p>
+    <div class="sub-heading">Documentation</div>
+    <p>FEATURES.md and CODEBASE_MAP.md were written to document what existed in the project and how the codebase was organized. After two months of development, the reasoning behind some architectural decisions wasn't obvious from the code alone, and several features had been added and removed, leaving traces in various places. Having written documentation made it possible to get a clear picture of the platform without having to read every file.</p>
+  </div>
+</div>
+
+<!-- 13 MAY -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">13 May 2026</span>
+    <h1 class="day-title">Pothole Feature Removed, Focus Sharpened</h1>
+  </div>
+  <div class="day-summary">Pothole reporting removed — outside the platform's focus. Project structure cleaned. Full UI polish session. Gemini API confirmed broken with 429 rate limit error.</div>
+  <div class="day-body">
+    <div class="sub-heading">Pothole Reporting Removed</div>
+    <p>The pothole reporting feature, built in April and improved in early May, was removed on 13 May. The reasoning was product focus. Prospect is a career and education guidance platform for high school students. A pothole reporting tool is a civic utility — unrelated to careers, education, or the decisions a Grade 10–12 student is actually trying to make. Keeping it in the platform made Prospect harder to explain and harder to develop with a clear direction. The platform had civic content that made sense because it directly affected students: cost of living data helps with financial planning, load shedding tracking helps plan study sessions, exam dates are directly relevant. Pothole reporting didn't meet that standard and was removed.</p>
+    <div class="sub-heading">Project Structure Cleanup</div>
+    <p>Duplicate files, leftover planning documents from earlier phases, and stale markdown files that had accumulated over the development period were cleared out alongside the removal.</p>
+    <div class="sub-heading">UI Polish Session</div>
+    <p>A full UI improvement session was run using the Impeccable design framework — a structured approach to reviewing spacing, font sizing, layout rhythm, and color consistency. The session reviewed every feature section against the landing page's established visual language. The chat feature had a typing bug found during this session: the text input wasn't responding correctly to keystrokes in some states, causing characters not to register. This was fixed.</p>
+    <div class="sub-heading">Gemini API — Confirmed Broken</div>
+    <p>The Gemini API was tested to check if the chat's AI backend would work on the live site. The test returned a 429 rate limit error — the free tier quota for the API key in use had been exhausted. The chat's AI connection was effectively non-functional on the live site. This would need to be resolved before launch.</p>
+  </div>
+</div>
+
+<!-- 14 MAY -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">14 May 2026</span>
+    <h1 class="day-title">Community Section Rebuilt and Routing Fixed</h1>
+  </div>
+  <div class="day-summary">Community rebuilt with load shedding tracker and NSC exam countdown. Routing problems from the rebuild fixed systematically. Career quiz and TVET pages improved.</div>
+  <div class="day-body">
+    <div class="sub-heading">Community Section Rebuild</div>
+    <p>The community section was properly structured. A CommunityPage hub served as the entry point with links to each community feature. Two new pages were the main additions.</p>
+    <p>LoadSheddingPage: a real-time electricity stage tracker pulling live Eskom stage data. The direct use case for students is planning study sessions around power outages — if Stage 4 load shedding is scheduled from 18:00 to 20:30, a student can plan accordingly. A specifically South African problem that the platform is well-positioned to address.</p>
+    <p>MatricExamDatesPage: the full 2026 NSC exam timetable with live countdown timers showing days remaining until each exam period. Matric exams are the most high-stakes event in a Grade 12 student's year. Having the exact schedule and a live countdown accessible in the same platform where they're studying makes the connection between daily study and exam preparation concrete.</p>
+    <div class="sub-heading">Routing Problems From the Rebuild</div>
+    <p>The rebuild caused a set of routing problems. The community link in the navigation bar returned a blank page after the restructure. The auth system broke in places. The school assist section briefly lost its navigation bar entry. These were fixed systematically, with navigation across the entire site verified end to end before continuing.</p>
+    <div class="sub-heading">Career and TVET Improvements</div>
+    <p>The career quiz page was improved with better typography and tighter spacing. Career cards got an expanded layout when clicked, showing more detail inline rather than requiring a full page navigation. The TVET section's navigation was identified as inconsistent — clicking between sub-pages wasn't behaving predictably — and was addressed in the same session.</p>
+  </div>
+</div>
+
+<!-- 15 MAY -->
+<div class="day-page">
+  <div class="day-header">
+    <span class="day-date">15 May 2026</span>
+    <h1 class="day-title">AI Integration, Data Scrapers, Final Polish, and Launch</h1>
+  </div>
+  <div class="day-summary">Automated scrapers deployed for live data. Three AI backends tried: Gemini failed, Ollama worked locally but can't serve cloud users, Groq deployed and verified working. Site launched.</div>
+  <div class="day-body">
+    <div class="sub-heading">Automated Data Scrapers</div>
+    <p>Scrapers were set up for both the load shedding page and the water dashboard, running on a schedule via GitHub Actions. They pull live data from public sources and commit updated JSON files to the repository. Vercel picks up the new commits and redeploys automatically, so the data stays current without manual intervention. The water dashboard had been using static placeholder data since April — this replaced it with real, current figures.</p>
+
+    <div class="sub-heading">AI Chat Backend — Three Attempts</div>
+
+    <div class="attempt-block">
+      <div class="attempt-label">Attempt 1 — Google Gemini</div>
+      <div class="attempt-outcome outcome-fail">Failed — Rate Limited</div>
+      <p>An API key had been configured and the chat was built to call Gemini. When tested on the live site, it returned a 429 error — the free tier quota had been exhausted between development testing and live site traffic. Rather than leaving the chat broken, a predefined answer system was built immediately as a fallback: seven detailed answers to the most common student questions, stored locally in the app, returning instantly without any network call. This made the chat feel functional for the most common questions even without a working AI connection.</p>
+    </div>
+
+    <div class="attempt-block">
+      <div class="attempt-label">Attempt 2 — Ollama (Local AI)</div>
+      <div class="attempt-outcome outcome-fail">Failed — Local Only</div>
+      <p>Ollama is a tool for running AI models on your own machine. The llama3.2 model (2GB) worked correctly during development — fast and accurate. A second model called llava (4.7GB) was also downloaded to handle image uploads. Both worked perfectly locally. The problem appeared on the live site: Ollama runs as a local server on localhost. Every user visiting the site was sending requests to localhost on their own machine, which wasn't running Ollama. Every request failed. Ollama is a local development tool, not a cloud service, and cannot be used as a backend for a hosted web application.</p>
+    </div>
+
+    <div class="attempt-block">
+      <div class="attempt-label">Attempt 3 — Groq</div>
+      <div class="attempt-outcome outcome-pass">Working</div>
+      <p>Groq provides free cloud inference for llama3 models and is notably fast. An API key was created, added to the project's local environment variables and to Vercel's environment configuration for production. The chat was updated to call Groq's API using the llama-3.3-70b-versatile model. The predefined answers were kept as the first response layer — for the seven common questions, the answer still appeared instantly from the local store, with Groq silently upgrading it in the background if its response differed. Any question outside those seven was sent directly to Groq. The site was redeployed and the chat verified working end to end on the live URL.</p>
+    </div>
+
+    <div class="sub-heading">Final Design Pass and Launch</div>
+    <p>The remaining pages that hadn't received a thorough design pass — TVET, library, calendar, and community pages — were reviewed and improved. Auth was removed from the informational community pages since they contain no user-specific data and requiring login to view them served no purpose. The Grade 10 Subject Selector was removed from the landing page navigation — it had been listed as a feature entry point but was never fully built to a shippable standard and was causing confusion. The site was redeployed with all changes in place and verified working across all major features before being considered launched.</p>
+  </div>
+</div>
+
+<!-- SUMMARY TABLE -->
+<div class="summary-page">
+  <div class="summary-page-title">Development Summary</div>
+  <div class="summary-page-heading">55 Days at a Glance</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Period</th>
+        <th>Main Focus</th>
+        <th>Key Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>22–25 March</td><td>Data foundation, bursary database, competitor research, project setup</td><td>245 bursaries, roadmap drafted, scaffold initialized</td></tr>
+      <tr><td>27–28 March</td><td>First visual pass, framework switch from Next.js to React and Vite</td><td>Landing page rebuilt, data saver toggle, premium animations</td></tr>
+      <tr><td>30–31 March</td><td>Core features, localStorage persistence, accessibility fixes</td><td>Study library functional, quiz results persist, stagger cap</td></tr>
+      <tr><td>3–7 April</td><td>Component library, bookmark persistence, TVET expansion, map bug</td><td>11 components integrated, map blank-screen resolved</td></tr>
+      <tr><td>15–17 April</td><td>Product restructure into 3 pillars, dashboard rebuild, Community Impact</td><td>New dashboard, 3-pillar navigation, 30 tests passing</td></tr>
+      <tr><td>18 April</td><td>Selective reverts, image compression, TVET hero</td><td>Three broken areas reverted, WebP images deployed</td></tr>
+      <tr><td>19 April</td><td>Persistent login, dual-mode search, pothole and water dashboard started</td><td>Users stay logged in, search improved</td></tr>
+      <tr><td>20–21 April</td><td>Career data expansion with full South African profiles</td><td>400 careers with salary ranges, APS scores, province demand</td></tr>
+      <tr><td>25–27 April</td><td>Bug fixes, animated loading screen, new civic pages, chat shell added</td><td>Civics, tax calculator, cost of living, chat page added</td></tr>
+      <tr><td>1–3 May</td><td>Grade 10 algebra modules, study library consolidated</td><td>Two interactive learning modules with Supabase mastery tracking</td></tr>
+      <tr><td>7–8 May</td><td>Testing, codebase reorganized by domain, pothole improvements</td><td>31 tests passing, clean folder structure</td></tr>
+      <tr><td>11 May</td><td>Community Impact removed, mobile declutter, documentation written</td><td>Cleaner platform, FEATURES.md and CODEBASE_MAP.md created</td></tr>
+      <tr><td>13 May</td><td>Pothole feature removed, UI polish, Gemini confirmed broken</td><td>Product focus sharpened, chat backend problem identified</td></tr>
+      <tr><td>14 May</td><td>Community rebuilt with load shedding and exam countdown pages</td><td>LoadSheddingPage and MatricExamDatesPage launched</td></tr>
+      <tr><td>15 May</td><td>Scrapers deployed, Groq integrated after two failed AI attempts, launched</td><td>Live data, working AI chat, site deployed and verified</td></tr>
+    </tbody>
+  </table>
+
+  <div class="closing-block">
+    <p>The full development period ran from 22 March to 15 May 2026 — 55 days. The platform launched with 245 bursaries, 400 career profiles with comprehensive South African data, a subject-to-career mapping tool, a study library with Grade 10 Algebra content, a full TVET section, civic guides, a cost of living tracker, load shedding tracking with live data, a water availability dashboard with automated updates, NSC exam countdowns, a career quiz, and an AI chat assistant backed by Groq with local predefined answers as a reliability layer.</p>
+  </div>
+</div>
+
+</body>
+</html>

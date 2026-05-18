@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prospect – Title Slide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 297mm;
+      height: 210mm;
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: #1E3A5F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 56px;
+      position: relative;
+      padding: 28mm 36mm;
+      overflow: hidden;
+    }
+
+    /* Subtle background circle */
+    .page::before {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      border: 40px solid rgba(255,255,255,0.04);
+    }
+
+    .page::after {
+      content: '';
+      position: absolute;
+      left: -40px;
+      bottom: -60px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 30px solid rgba(255,255,255,0.04);
+    }
+
+    .logo-col {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-box {
+      width: 120px;
+      height: 120px;
+    }
+
+    .logo-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sep {
+      width: 2px;
+      height: 140px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+
+    .title-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.65;
+      max-width: 380px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="logo-col">
+      <svg class="logo-box" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <rect width="200" height="200" rx="40" fill="rgba(255,255,255,0.12)"/>
+        <text x="100" y="145" font-family="Inter, sans-serif" font-size="140" font-weight="700" fill="#ffffff" text-anchor="middle">P</text>
+      </svg>
+      <div class="logo-name">Prospect</div>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="title-col">
+      <div class="label">Research Project · Science Expo 2026</div>
+      <div class="title">Closing the Information Gap:<br>A Free Digital Platform for<br>South African Learners</div>
+      <div class="subtitle">
+        Designing, building, and evaluating a single consolidated platform
+        for career guidance, bursary access, curriculum-aligned study support,
+        and life-context information — accessible to every Grade 8–12 learner at no cost.
+      </div>
+      <div class="pill">prospect-lemon-seven.vercel.app</div>
+    </div>
+
+  </div>
+</body>
+</html>

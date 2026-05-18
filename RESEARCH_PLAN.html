@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Research Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+  }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+
+  /* Cover */
+  .cover {
+    width: 100%; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 60px;
+    page-break-after: always; break-after: page;
+    position: relative;
+  }
+  .cover-top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .cover-wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 48px; }
+  .cover-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 4px 12px; display: inline-block; margin-bottom: 24px; }
+  .cover-title { font-size: 56px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; color: var(--navy); text-align: center; margin-bottom: 20px; }
+  .cover-subtitle { font-size: 17px; font-weight: 400; color: var(--slate-500); text-align: center; margin-bottom: 64px; max-width: 520px; line-height: 1.6; }
+  .cover-divider { width: 48px; height: 2px; background: var(--navy); margin: 0 auto 64px; }
+  .cover-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--slate-200); width: 100%; max-width: 560px; }
+  .cover-meta-cell { padding: 20px 24px; border-right: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200); }
+  .cover-meta-cell:nth-child(even) { border-right: none; }
+  .cover-meta-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .cover-meta-label { font-size: 9px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px; }
+  .cover-meta-value { font-size: 13px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+  .cover-bottom { position: absolute; bottom: 48px; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-400); }
+
+  /* Section pages */
+  .section-page {
+    width: 100%; min-height: 100vh;
+    padding: 64px 80px 80px;
+    page-break-after: always; break-after: page;
+    display: flex; flex-direction: column;
+  }
+  .section-eyebrow { font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 10px; }
+  .section-number { font-size: 80px; font-weight: 900; letter-spacing: -0.05em; color: var(--slate-100); line-height: 1; margin-bottom: -20px; }
+  .section-title { font-size: 30px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.15; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--slate-200); }
+  .section-body { font-size: 14px; color: var(--slate-700); line-height: 1.8; flex: 1; }
+  .section-body p { margin-bottom: 18px; }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  .sub-heading { font-size: 11px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); margin: 32px 0 12px; }
+  .sub-heading:first-child { margin-top: 0; }
+
+  /* phase label pill */
+  .phase-pill { display: inline-block; font-size: 9px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; padding: 2px 10px; margin-bottom: 14px; }
+  .phase-before { background: var(--slate-100); color: var(--slate-500); }
+  .phase-during { background: var(--navy); color: var(--white); }
+  .phase-after  { background: var(--slate-700); color: var(--white); }
+
+  /* research entry blocks */
+  .research-block { border: 1px solid var(--slate-200); margin-bottom: 16px; }
+  .research-block-header { display: flex; align-items: baseline; justify-content: space-between; padding: 14px 18px 10px; border-bottom: 1px solid var(--slate-200); gap: 16px; }
+  .research-block-title { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .research-block-date { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--slate-400); white-space: nowrap; }
+  .research-block-body { padding: 14px 18px; font-size: 13px; color: var(--slate-700); line-height: 1.7; }
+  .research-block-body p { margin-bottom: 10px; }
+  .research-block-body p:last-child { margin-bottom: 0; }
+  .research-block-footer { padding: 10px 18px 12px; background: var(--slate-50); font-size: 12px; color: var(--slate-500); }
+  .research-block-footer strong { color: var(--navy); font-weight: 600; }
+
+  /* callout */
+  .callout { padding: 18px 22px; background: var(--slate-50); border-left: 3px solid var(--navy); margin: 24px 0; font-size: 14px; color: var(--slate-700); line-height: 1.7; }
+  .callout strong { color: var(--navy); font-weight: 700; }
+
+  /* timeline row for overview */
+  .timeline { list-style: none; padding: 0; margin: 24px 0; }
+  .timeline-item { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--slate-100); }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--navy); flex-shrink: 0; margin-top: 5px; }
+  .timeline-content { flex: 1; }
+  .timeline-date { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 2px; }
+  .timeline-label { font-size: 13.5px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+  .timeline-detail { font-size: 13px; color: var(--slate-700); line-height: 1.6; }
+
+  /* source type tags */
+  .source-tag { display: inline-block; font-size: 9px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; padding: 1px 7px; border: 1px solid var(--slate-300); color: var(--slate-500); margin-right: 4px; margin-bottom: 4px; }
+
+  /* table */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 20px 0; }
+  thead tr { background: var(--navy); color: var(--white); }
+  thead th { padding: 10px 14px; text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 11px 14px; color: var(--slate-700); line-height: 1.5; vertical-align: top; }
+  tbody td:first-child { font-weight: 600; color: var(--navy); }
+
+  /* closing block */
+  .closing-block { margin-top: 40px; padding: 28px 32px; background: var(--navy); }
+  .closing-block p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .cover, .section-page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .cover { min-height: 1123px; }
+    .section-page { min-height: 1123px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top-rule"></div>
+  <div class="cover-wordmark">Prospect Platform</div>
+  <div class="cover-tag">Science Expo Research Report</div>
+  <div class="cover-title">Research Plan</div>
+  <div class="cover-subtitle">What was researched, when, why, and what each piece of research decided — from the first day to launch.</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta-grid">
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Document Type</div>
+      <div class="cover-meta-value">Research Plan — Full Account</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Platform</div>
+      <div class="cover-meta-value">Prospect — prospect-lemon-seven.vercel.app</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Research Period</div>
+      <div class="cover-meta-value">22 March — 15 May 2026</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Research Phases</div>
+      <div class="cover-meta-value">3 — Before, During, and After Development</div>
+    </div>
+  </div>
+  <div class="cover-bottom">South Africa &nbsp;·&nbsp; 2026</div>
+</div>
+
+
+<!-- SECTION 1: OVERVIEW -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 1</div>
+  <div class="section-number">01</div>
+  <h2 class="section-title">Research Overview</h2>
+  <div class="section-body">
+    <p>Research for this project happened in three distinct phases that each served a different purpose. Before development started, research was about understanding the problem and the landscape — what information gap existed, what had already been tried, and what the platform needed to do that nothing else did. During development, research was practical and immediate — every time a decision had to be made about a tool, a feature, or an approach, the available options were investigated before committing. After the core platform was built, research shifted to verification — checking that the decisions made were the right ones, that features worked as intended, and that the platform actually addressed the problems it was built for.</p>
+
+    <p>This document covers all three phases in full. Each research activity is documented with what was investigated, what sources were used, what was found, and what decision it led to. Nothing in here is background reading for its own sake — every item of research changed or confirmed something about the platform.</p>
+
+    <div class="sub-heading">Research at a Glance</div>
+    <ul class="timeline">
+      <li class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">22 March 2026 — Pre-Development</div>
+          <div class="timeline-label">Problem and landscape research</div>
+          <div class="timeline-detail">Competitor analysis of 4 existing SA platforms. Literature review of career guidance, TVET, edtech access, and infrastructure barriers. SA education statistics gathered. Bursary and career data sourced and verified.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">25 March – 14 May 2026 — During Development</div>
+          <div class="timeline-label">Technical and design decision research</div>
+          <div class="timeline-detail">Framework evaluation (Next.js vs React/Vite). State management options. AI backend trials (Gemini, Ollama, Groq). Database and auth provider selection. Deployment platform comparison. Mobile data cost context. Load shedding impact research.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">15 May 2026 — Post-Development</div>
+          <div class="timeline-label">Verification and outcome research</div>
+          <div class="timeline-detail">End-to-end testing across all user flows. Design criteria audit. Feature scope review against original aims. Performance measurement against defined targets. Data completeness verification.</div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="callout">
+      <strong>Research approach:</strong> This project used a design-based research methodology — research informed design decisions, those decisions were implemented, and the results were evaluated against the original research findings. Where the evaluation showed a mismatch (a feature that did not meet a criterion, or a tool that did not work as expected), further research was done to find a better approach. This cycle ran continuously throughout the 55-day development period.
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 2: PRE-DEVELOPMENT RESEARCH -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 2</div>
+  <div class="section-number">02</div>
+  <h2 class="section-title">Phase 1 — Research Before Development</h2>
+  <div class="section-body">
+    <p>Before a single line of code was written, four areas of research were completed. The purpose was to build a clear, evidence-based picture of the problem before deciding what to build. Skipping this step is one of the most common reasons edtech tools get built that no one uses — they solve the problem the developer imagined rather than the problem students actually have.</p>
+
+    <div class="sub-heading">Research Area 1 — The South African Education Gap</div>
+    <div class="phase-pill phase-before">Pre-Development · 22 March 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Career counsellor availability in South African schools</div>
+        <div class="research-block-date">22 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Investigated how many South African schools have a dedicated, functioning career counsellor. Sources used: Department of Basic Education reports, the Mncwango (2016) study in <em>Perspectives in Education</em>, and media reporting on guidance teacher shortages.</p>
+        <p>Finding: the majority of South African schools — particularly those in rural and township areas — do not have a dedicated career counsellor. Where guidance does exist, it tends to focus on the university application process rather than subject-choice consequences or TVET options. For learners at under-resourced schools, the guidance gap is effectively complete.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> The platform needed to function as a substitute for a career counsellor — not a supplement to one. This ruled out building a tool that assumed prior guidance existed.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">APS system and subject-choice consequences</div>
+        <div class="research-block-date">22 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Investigated how the APS (Admission Point Score) system works, how it is calculated, and which subject combinations were required for entry into different faculties at South African universities. Sources: DHET publications, individual university prospectuses (UCT, Wits, UP, UJ, UKZN, SU, UWC).</p>
+        <p>Finding: the consequences of subject choices made in Grade 10 are permanent and wide-ranging. Dropping Mathematics for Mathematical Literacy closes access to engineering, medicine, actuarial science, architecture, and most applied sciences. This is rarely communicated explicitly to students at the time of the decision.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Built the APS calculator and wired subject requirements directly into career profiles, so the link between today's subject choice and tomorrow's career access is visible at the same time.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">TVET college enrollment vs perception</div>
+        <div class="research-block-date">22 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Researched TVET college enrollment numbers, qualification outcomes, and graduate employment rates. Sources: DHET White Paper for Post-School Education and Training (2013), Stats SA education series, Wedekind (2010) research on TVET perception.</p>
+        <p>Finding: TVET colleges enroll more students than all 26 public universities combined, yet are consistently framed as a lesser option. The artisan skills shortage in South Africa is acute and well-documented — precisely the fields TVET trains for. The perception gap is a documented policy problem, not just a cultural assumption.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> TVET would be built as a first-class section of Prospect with full navigational parity to university information. Design criteria included a TVET parity requirement that the section must never appear as secondary.</div>
+    </div>
+
+    <div class="sub-heading">Research Area 2 — Competitor Analysis</div>
+    <div class="phase-pill phase-before">Pre-Development · 22 March 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Existing South African edtech platforms — feature mapping</div>
+        <div class="research-block-date">22 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Reviewed four platforms in the South African education guidance space: Yenza, Gradesmatch, NCAP, and Reslocate. Each was evaluated across six criteria: career information quality, whether data was SA-specific, bursary coverage, TVET focus, study resources, and life context (infrastructure, costs, civic).</p>
+        <p>Sources: direct platform review, app store listings, user reviews, and media coverage of each platform.</p>
+        <p>Finding: no existing platform addressed all six criteria. Career information existed across platforms but was rarely South African-specific — salary data, for example, was frequently sourced from international databases. No platform addressed TVET as a primary pathway. No platform provided study resources. No platform addressed the infrastructural context of South African student life.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Prospect would be built to fill the full gap — not to compete on any single feature but to be the only platform that covered all six areas together. This became the basis for the three-pillar structure.</div>
+    </div>
+
+    <div class="sub-heading">Research Area 3 — Data Sources and Verification</div>
+    <div class="phase-pill phase-before">Pre-Development · 22–25 March 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Bursary database — sourcing and verification</div>
+        <div class="research-block-date">22–25 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>South African bursary information was gathered from: university financial aid offices, National Student Financial Aid Scheme (NSFAS) documentation, government department bursary pages (DBE, DHET, DSI, DMRE, DPW), state-owned enterprise bursary programs (Eskom, Transnet, Sasol, Anglo American, De Beers), and private company programs (Discovery, Standard Bank, FNB, Investec, Old Mutual).</p>
+        <p>Each entry was normalized to a consistent schema before being included. A BURSARY-REVIEW.md audit file was maintained tracking which entries had been verified and which had gaps. Entries with missing required fields were either completed through additional research or excluded.</p>
+        <p>Final count: 245 verified bursary entries.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Established the data schema and audit process that all future data additions would follow. An incomplete entry was treated as worse than no entry.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Career data — South African salary and demand research</div>
+        <div class="research-block-date">22–21 April 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Career salary data was sourced from: PayScale South Africa, CareerJunction annual salary surveys, Careers24 job market reports, and sector-specific reports (South African Institution of Civil Engineering, Engineering Council of SA, SAICA for accounting). Provincial job demand data was sourced from Stats SA quarterly labour force surveys.</p>
+        <p>International salary databases (US Bureau of Labor Statistics, UK National Careers Service) were explicitly not used — South African market conditions differ significantly enough that international data would be misleading to students making local decisions.</p>
+        <p>Final count: 400 career profiles with full South African data.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> All salary and demand data in the platform is South African-sourced. This is enforced as a design criterion — not a preference.</div>
+    </div>
+
+    <div class="sub-heading">Research Area 4 — Infrastructure and Access Context</div>
+    <div class="phase-pill phase-before">Pre-Development · 22 March 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Mobile data costs and access inequality</div>
+        <div class="research-block-date">22 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Researched mobile data pricing and affordability in South Africa. Sources: Alliance for Affordable Internet 2023 Affordability Report, ICASA (Independent Communications Authority of SA) tariff data, MyBroadband pricing comparisons.</p>
+        <p>Finding: 1GB of mobile data in South Africa costs approximately 2.5% of average monthly household income — above the 2% threshold the Alliance for Affordable Internet defines as affordable. For students in low-income households, sustained internet research is a real financial cost, not an assumed free resource.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Data saver mode, code splitting of large data files, and lazy-loaded routes became mandatory requirements rather than optional enhancements.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Load shedding and academic impact</div>
+        <div class="research-block-date">22 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Investigated the documented impact of load shedding on student study time. Sources: Zondo and Mncube (2022) study in <em>International Journal of Learning, Teaching and Educational Research</em>, Eberhard et al. (2014) World Bank report on South African power infrastructure, Eskom published stage data.</p>
+        <p>Finding: extended power outages directly reduce study hours and homework completion rates. Students reported that not knowing when outages would occur was as disruptive as the outages themselves. The study recommended that support services provide learners with scheduling tools alongside academic resources.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Load shedding information was added to the platform scope. This was not a feature addition — it was a finding that the problem being solved was larger than originally scoped.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 3: DURING DEVELOPMENT RESEARCH -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 3</div>
+  <div class="section-number">03</div>
+  <h2 class="section-title">Phase 2 — Research During Development</h2>
+  <div class="section-body">
+    <p>Once building started, research became decision-driven. Every time two viable approaches existed for a technical or design problem, both were investigated before committing to one. The research entries below are the ones where that investigation changed the outcome — cases where looking into the alternatives before choosing meant we did not end up in a dead end.</p>
+
+    <div class="sub-heading">Framework and Architecture</div>
+    <div class="phase-pill phase-during">During Development · March 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Next.js vs React + Vite for a fully client-side application</div>
+        <div class="research-block-date">27–28 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>After starting with Next.js, the framework's behavior was investigated against the actual requirements of the project. Specifically: whether server-side rendering was needed (it was not — all data is static or fetched client-side), whether API routes added value (they did not — Supabase handled all backend logic), and whether Next.js's deployment model on Vercel created any specific advantages (it did not, since Vite builds deploy identically).</p>
+        <p>Sources: Next.js documentation, Vite documentation, Vercel deployment guides, benchmark comparisons of cold build times and bundle analysis.</p>
+        <p>Finding: Next.js adds build complexity and routing conventions that were actively working against the project's structure. Vite's rollupOptions allowed more granular code splitting, which was required to meet the low-data performance criterion.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Switched to React + Vite on 28 March. Next.js removed entirely.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Redux vs React Context for global state management</div>
+        <div class="research-block-date">25 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Researched the tradeoffs between Redux Toolkit and React's built-in Context API for managing shared state (auth, user preferences, data saver toggle). Sources: Redux Toolkit documentation, React 19 Context documentation, several comparisons of bundle size impact.</p>
+        <p>Finding: Redux Toolkit adds approximately 12KB to the gzipped bundle. For an app of Prospect's scale — one global auth state, one preferences context — this overhead is not justified. React Context handles these cases without additional dependencies and without the boilerplate overhead Redux requires.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> React Context used throughout. No Redux dependency added.</div>
+    </div>
+
+    <div class="sub-heading">Database and Backend</div>
+    <div class="phase-pill phase-during">During Development · March 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Supabase vs Firebase for authentication and database</div>
+        <div class="research-block-date">25 March 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Compared Supabase and Firebase across: database model (PostgreSQL vs Firestore's document model), free tier limits, client SDK complexity, and suitability for structured relational data like career profiles and user progress records.</p>
+        <p>Finding: the career and bursary data has a relational structure — careers link to subjects, subjects link to APS requirements, bursaries filter by province. PostgreSQL (Supabase) handles this more naturally than Firestore's document model. Supabase's free tier was also more generous for the project's scale. Supabase Auth provided email confirmation, session persistence, and password reset out of the box.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Supabase adopted for database, authentication, and real-time features.</div>
+    </div>
+
+    <div class="sub-heading">AI Backend — Three Investigations</div>
+    <div class="phase-pill phase-during">During Development · May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Google Gemini API — free tier limits and rate behavior</div>
+        <div class="research-block-date">13 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Investigated Google Gemini's free tier rate limits before and during integration. Sources: Gemini API documentation, Google AI Studio rate limit documentation.</p>
+        <p>Finding: Gemini's free tier allows a limited number of requests per day, which resets at midnight UTC. The quota was exhausted during development testing — before the platform was even live to real users. On the live site, the first test returned HTTP 429 (Too Many Requests). There is no mechanism to increase the free tier limit without upgrading to a paid plan.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Gemini removed. A local predefined answer system was built immediately as a fallback — 7 answers to the most common student questions that return instantly without any API call.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Ollama — local LLM runner viability for a hosted web application</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Investigated Ollama as an AI backend. Ollama runs large language models locally on a machine and exposes them via a local HTTP server. The llama3.2 model (2.0GB) was downloaded and tested, along with the llava model (4.7GB) for image understanding. Both worked well locally — responses were accurate and fast.</p>
+        <p>The critical research question was: how does Ollama behave in a deployed web application? Investigation of Ollama's architecture confirmed it listens on localhost:11434 by default. A browser-based web app hosted on Vercel cannot route requests to a user's localhost. Every user visiting the site would be attempting to connect to Ollama on their own machine, which would not be running it.</p>
+        <p>Finding: Ollama is a local development tool. It cannot function as a backend for a cloud-hosted web application without a dedicated server running Ollama and exposed to the internet — which requires infrastructure the project did not have.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Ollama removed. Confirmed as useful for local development and testing only, not for production deployment.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Groq API — cloud inference speed and free tier viability</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Researched Groq as a cloud inference provider. Sources: Groq developer documentation, independent benchmarks comparing Groq vs OpenAI vs Anthropic on response latency, Groq free tier terms.</p>
+        <p>Finding: Groq's free tier provides significantly more requests per day than Gemini's, with a daily token limit rather than a per-minute request cap. The llama-3.3-70b-versatile model on Groq returns first tokens in under 2 seconds for most queries. Groq uses an OpenAI-compatible API format, meaning the integration required minimal code changes from the Gemini implementation. The free tier was sufficient for a student-facing platform at current scale.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Groq adopted as the AI backend. Confirmed working end-to-end on the live URL before launch.</div>
+    </div>
+
+    <div class="sub-heading">Feature Scope Decisions During Development</div>
+    <div class="phase-pill phase-during">During Development · April–May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Community Impact and pothole reporting — audience fit investigation</div>
+        <div class="research-block-date">11 and 13 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Both features were built before being investigated against the core design criterion: does this directly serve a Grade 8–12 learner's ability to plan their education or career? Community Impact asked students to submit testimonials about how Prospect helped them — not a primary student need. Pothole reporting was civic utility with no connection to education or career decisions.</p>
+        <p>Both features required their own authenticated submission flows, Supabase tables, and maintenance overhead. The research question was whether this overhead was justified by the value delivered to the target audience.</p>
+        <p>Finding: neither feature served the core user's primary task. Both added complexity and maintenance burden without returning value proportional to the cost.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Both features removed. Informed the principle that civic content is only included in the platform when it directly affects a student's ability to study or plan — which load shedding, water availability, exam dates, and cost of living all do.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Auth requirements for informational community pages</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Investigated whether the load shedding tracker, water dashboard, cost of living tool, and civics guide should require a user account to access. The question was: is there any user-specific data on these pages that justifies an auth requirement?</p>
+        <p>Finding: none of these pages store or display any user-specific data. They are purely informational. Requiring login to view public information creates friction with no purpose — particularly for a student who just wants to check when their next power cut is without creating an account first.</p>
+      </div>
+      <div class="research-block-footer"><strong>Decision:</strong> Auth requirement removed from all informational community pages. Auth is only required for features that store user-specific data: profile, progress tracking, saved items, forums.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 4: POST-DEVELOPMENT RESEARCH -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 4</div>
+  <div class="section-number">04</div>
+  <h2 class="section-title">Phase 3 — Research After Development</h2>
+  <div class="section-body">
+    <p>Once the platform was built, the research focus shifted to verification. The questions changed from "what should we build?" to "does what we built actually work?" and "does it address the problem we identified?" This phase covered functional testing, design criteria auditing, performance measurement, and data completeness verification.</p>
+
+    <div class="sub-heading">End-to-End Testing</div>
+    <div class="phase-pill phase-after">Post-Development · May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Playwright end-to-end test suite — all critical user flows</div>
+        <div class="research-block-date">7–8 May and 15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>31 automated end-to-end tests were written and run using Playwright against the live development server. Tests covered: user registration and sign-in, session persistence, career browsing and filtering, career quiz completion from start to results, bursary search and filter, bursary detail page navigation, school assist chat (predefined answers and Groq responses), study library navigation, APS calculator input and output, NSC exam countdown display, and load shedding page data rendering.</p>
+        <p>A test mode URL parameter (?__test_mode=true) was implemented in the authentication system so tests could access auth-gated pages in a CI environment without requiring live Supabase credentials. This was itself a research-driven decision — standard auth testing approaches (mocking Supabase, using test credentials) had failure modes that the URL parameter approach avoided.</p>
+        <p>Finding: all 31 tests passed. Three tests required fixes after the codebase reorganization on 8 May changed import paths — these were corrected and retested before launch.</p>
+      </div>
+      <div class="research-block-footer"><strong>Outcome:</strong> 31/31 tests passing at launch. Test suite confirms all critical user journeys work end-to-end on the live platform.</div>
+    </div>
+
+    <div class="sub-heading">Design Criteria Audit</div>
+    <div class="phase-pill phase-after">Post-Development · 15 May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Full platform audit against established design criteria</div>
+        <div class="research-block-date">13–15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Each of the ten design criteria established before development was audited against the live platform. The audit method for each criterion:</p>
+        <p><strong>SA specificity:</strong> Career salary and demand data cross-checked against source references (PayScale SA, CareerJunction, Stats SA). International data would be flagged and replaced.</p>
+        <p><strong>Mobile usability:</strong> Every page tested at 375px viewport width in Chrome DevTools. Touch target sizes measured using browser inspector. Active page indicator confirmed present in all navigation contexts.</p>
+        <p><strong>Low-data performance:</strong> Vite bundle analyzer run to verify career and bursary data files are split into separate chunks. Network tab checked to confirm lazy-loaded routes do not download until navigated to.</p>
+        <p><strong>TVET parity:</strong> TVET section navigation position checked against university section. Depth of content (college listings, course detail, career links, funding information) compared directly.</p>
+        <p><strong>AI reliability:</strong> Chat tested with and without Groq API available. Predefined answers confirmed returning instantly for all 7 common questions. Timeout behavior tested by simulating a slow connection.</p>
+        <p><strong>Live data currency:</strong> GitHub Actions logs reviewed to confirm scraper workflows ran on schedule. Load shedding and water JSON files verified as updated since the previous day.</p>
+        <p><strong>Free access:</strong> All informational pages confirmed accessible without login. Auth requirement confirmed present only on pages that require a user account to function (profile, progress, forums).</p>
+      </div>
+      <div class="research-block-footer"><strong>Outcome:</strong> All 10 criteria passed at launch. No exceptions or waivers applied.</div>
+    </div>
+
+    <div class="sub-heading">Data Completeness Verification</div>
+    <div class="phase-pill phase-after">Post-Development · 15 May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Bursary database — completeness and accuracy check</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>The 245 bursary entries were reviewed against the BURSARY-REVIEW.md audit trail. Each entry was checked for: name, provider, field of study, eligibility criteria (minimum APS or mark, citizenship, financial means test), funding amount or "varies," application deadline or "rolling," province applicability, and application link.</p>
+        <p>Finding: all 245 entries had all required fields populated. Eleven entries had "varies" for funding amount — these were confirmed cases where the provider genuinely does not publish a fixed figure, not data gaps.</p>
+      </div>
+      <div class="research-block-footer"><strong>Outcome:</strong> 245/245 entries complete. Audit trail maintained in BURSARY-REVIEW.md.</div>
+    </div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Career database — schema completeness across all 400 profiles</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>All 400 career profiles were verified against the defined schema: title, sector, description, required subjects (list), recommended subjects (list), minimum APS score, salary range (SA-sourced, in ZAR), provincial job demand indicator, qualification path, and grade-by-grade preparation notes for Grades 10, 11, and 12. TypeScript type checking was the primary verification method — the TypeScript compiler would fail to build if any profile was missing a required field.</p>
+        <p>Finding: TypeScript build passed without errors on all 400 profiles. Two duplicate entries had been removed during pre-development data cleaning and did not reappear.</p>
+      </div>
+      <div class="research-block-footer"><strong>Outcome:</strong> 400/400 career profiles complete and type-safe. Build confirms no missing required fields.</div>
+    </div>
+
+    <div class="sub-heading">Performance Measurement</div>
+    <div class="phase-pill phase-after">Post-Development · 15 May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">AI response time measurement — Groq vs predefined answers</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>Measured response times for both the predefined answer layer and Groq API responses. Method: browser network tab timing for Groq, console.time() measurements for predefined answers. 10 test queries run for each.</p>
+        <p>Findings: Predefined answers: consistently under 50ms (local memory lookup, no network call). Groq API text responses: average 2.1 seconds from send to first token rendered. Longest observed: 4.8 seconds. All under the 5-second design criterion target. No timeouts observed in 10 test queries.</p>
+      </div>
+      <div class="research-block-footer"><strong>Outcome:</strong> Both response layers meet their design criterion targets. Predefined layer provides instant fallback well under 100ms target.</div>
+    </div>
+
+    <div class="sub-heading">Scope Verification Against Original Research</div>
+    <div class="phase-pill phase-after">Post-Development · 15 May 2026</div>
+
+    <div class="research-block">
+      <div class="research-block-header">
+        <div class="research-block-title">Platform coverage vs original problem findings</div>
+        <div class="research-block-date">15 May 2026</div>
+      </div>
+      <div class="research-block-body">
+        <p>The five phenomena identified in pre-development research were checked against what the platform actually delivered at launch.</p>
+        <p><strong>Subject choice disconnect:</strong> Addressed by the career explorer with subject filtering, the APS calculator, the career quiz linking subjects to ranked careers, and subject guidance pages explaining NSC groupings.</p>
+        <p><strong>Fragmented information:</strong> Addressed by centralizing 400 careers, 245 bursaries, TVET listings, university information, and study resources in one platform with unified search and navigation.</p>
+        <p><strong>TVET misrepresentation:</strong> Addressed by the full TVET section with navigational parity, college listings, course detail, and career outcome data — presented as a first-choice pathway, not a fallback.</p>
+        <p><strong>Infrastructure as an educational barrier:</strong> Addressed by the load shedding tracker with live Eskom stage data, water availability dashboard, NSC exam countdown, and cost of living information by city.</p>
+        <p><strong>Financial literacy gap:</strong> Addressed by the tax and budget calculator, cost of living data, and bursary listings that explicitly state what is and is not covered by each bursary.</p>
+      </div>
+      <div class="research-block-footer"><strong>Outcome:</strong> All five phenomena identified in pre-development research are addressed by features present in the launched platform. No identified problem was left unaddressed.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 5: SUMMARY -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 5</div>
+  <div class="section-number">05</div>
+  <h2 class="section-title">Research Summary</h2>
+  <div class="section-body">
+    <p>The table below summarizes every major research activity across the three phases, the source type used, and the decision it produced.</p>
+
+    <table>
+      <thead>
+        <tr><th>Research Activity</th><th>Phase</th><th>Source Type</th><th>Decision Produced</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Career counsellor availability in SA schools</td><td>Before</td><td>Academic literature, DBE reports</td><td>Platform must replace counsellor, not supplement one</td></tr>
+        <tr><td>APS system and subject-choice consequences</td><td>Before</td><td>University prospectuses, DHET</td><td>APS calculator and subject-linked career profiles built</td></tr>
+        <tr><td>TVET enrollment vs perception gap</td><td>Before</td><td>Academic literature, DHET White Paper</td><td>TVET parity design criterion established</td></tr>
+        <tr><td>Competitor platform feature mapping</td><td>Before</td><td>Direct platform review</td><td>Three-pillar structure; all six gaps targeted</td></tr>
+        <tr><td>Bursary data sourcing and verification</td><td>Before</td><td>Government, university, company sources</td><td>245-entry verified database; audit trail created</td></tr>
+        <tr><td>Career salary and demand data (SA-specific)</td><td>Before</td><td>PayScale SA, CareerJunction, Stats SA</td><td>400 SA-specific career profiles; international data excluded</td></tr>
+        <tr><td>Mobile data costs and affordability in SA</td><td>Before</td><td>A4AI report, ICASA data</td><td>Data saver mode and code splitting made mandatory</td></tr>
+        <tr><td>Load shedding impact on study time</td><td>Before</td><td>Academic literature, Eskom data</td><td>Load shedding tracker added to platform scope</td></tr>
+        <tr><td>Next.js vs React + Vite</td><td>During</td><td>Documentation, bundle analysis</td><td>Switched to React + Vite on 28 March</td></tr>
+        <tr><td>Redux vs React Context</td><td>During</td><td>Documentation, bundle size comparison</td><td>React Context used; Redux not adopted</td></tr>
+        <tr><td>Supabase vs Firebase</td><td>During</td><td>Documentation, free tier comparison</td><td>Supabase adopted for database and auth</td></tr>
+        <tr><td>Google Gemini free tier limits</td><td>During</td><td>API documentation, live testing</td><td>Gemini removed; predefined answer fallback built</td></tr>
+        <tr><td>Ollama — viability for hosted app</td><td>During</td><td>Architecture documentation, live testing</td><td>Ollama removed — localhost-only tool</td></tr>
+        <tr><td>Groq API — speed and free tier</td><td>During</td><td>Documentation, benchmarks, live testing</td><td>Groq adopted as AI backend</td></tr>
+        <tr><td>Community Impact and pothole — audience fit</td><td>During</td><td>Design criteria review</td><td>Both features removed</td></tr>
+        <tr><td>Auth requirement for informational pages</td><td>During</td><td>Design criteria review</td><td>Auth removed from all informational community pages</td></tr>
+        <tr><td>31 Playwright end-to-end tests</td><td>After</td><td>Automated testing</td><td>All 31 passing; 3 path fixes applied after reorganization</td></tr>
+        <tr><td>Design criteria full platform audit</td><td>After</td><td>Manual audit against criteria table</td><td>All 10 criteria passed at launch</td></tr>
+        <tr><td>Bursary completeness check</td><td>After</td><td>Audit trail review</td><td>245/245 entries complete</td></tr>
+        <tr><td>Career schema completeness check</td><td>After</td><td>TypeScript build verification</td><td>400/400 profiles type-safe and complete</td></tr>
+        <tr><td>AI response time measurement</td><td>After</td><td>Browser network timing, console measurement</td><td>Both layers within design criterion targets</td></tr>
+        <tr><td>Scope vs original phenomena check</td><td>After</td><td>Cross-reference of findings vs features</td><td>All 5 identified phenomena addressed at launch</td></tr>
+      </tbody>
+    </table>
+
+    <div class="closing-block">
+      <p>Every feature in the platform, every tool chosen, and every feature removed can be traced back to a specific research finding. The research plan was not a document written after the fact to justify decisions already made — it was the process that produced the decisions. The platform that launched on 15 May 2026 is the result of 22 discrete research activities across three phases, each one changing or confirming something about what Prospect became.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

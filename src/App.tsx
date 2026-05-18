@@ -52,6 +52,34 @@ const TVETFundingPage    = lazy(() => import('./pages/tvet/TVETFundingPage'));
 const TVETRequirementsPage = lazy(() => import('./pages/tvet/TVETRequirementsPage'));
 const LinearEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/LinearEquations'));
 const SimultaneousEquationsPage = lazy(() => import('./pages/learning/Algebra/Grade10/Term1/SimultaneousEquations'));
+const WavesSoundLightPage = lazy(() => import('./pages/learning/PhysicalSciences/Grade10/Term1/WavesSoundLight'));
+const AtomsSubatomicParticlesPage = lazy(() => import('./pages/learning/PhysicalSciences/Grade10/Term1/AtomsSubatomicParticles'));
+const ClassificationOfMatterPage = lazy(() => import('./pages/learning/PhysicalSciences/Grade10/Term1/ClassificationOfMatter'));
+const PeriodicTableTrendsPage = lazy(() => import('./pages/learning/PhysicalSciences/Grade10/Term1/PeriodicTableTrends'));
+const ChemicalBondingPage = lazy(() => import('./pages/learning/PhysicalSciences/Grade10/Term1/ChemicalBonding'));
+const BiodiversityAndClassificationPage = lazy(() => import('./pages/learning/LifeSciences/Grade10/Term1/BiodiversityAndClassification'));
+const FiveKingdomsPage = lazy(() => import('./pages/learning/LifeSciences/Grade10/Term1/FiveKingdoms'));
+const TaxonomyAndBinomialNomenclaturePage = lazy(() => import('./pages/learning/LifeSciences/Grade10/Term1/TaxonomyAndBinomialNomenclature'));
+const SpeciesConceptPage = lazy(() => import('./pages/learning/LifeSciences/Grade10/Term1/SpeciesConcept'));
+const IntroductionToAccountingPage = lazy(() => import('./pages/learning/Accounting/Grade10/Term1/IntroductionToAccounting'));
+const AccountingEquationPage = lazy(() => import('./pages/learning/Accounting/Grade10/Term1/AccountingEquation'));
+const DoubleEntrySystemPage = lazy(() => import('./pages/learning/Accounting/Grade10/Term1/DoubleEntrySystem'));
+const SourceDocumentsPage = lazy(() => import('./pages/learning/Accounting/Grade10/Term1/SourceDocuments'));
+const JournalsInAccountingPage = lazy(() => import('./pages/learning/Accounting/Grade10/Term1/JournalsInAccounting'));
+const GeneralLedgerPage = lazy(() => import('./pages/learning/Accounting/Grade10/Term1/GeneralLedger'));
+const BusinessEnvironmentPage = lazy(() => import('./pages/learning/BusinessStudies/Grade10/Term1/BusinessEnvironment'));
+const BusinessSectorsPage = lazy(() => import('./pages/learning/BusinessStudies/Grade10/Term1/BusinessSectors'));
+const BusinessStakeholdersPage = lazy(() => import('./pages/learning/BusinessStudies/Grade10/Term1/BusinessStakeholders'));
+const BusinessOperationsPage = lazy(() => import('./pages/learning/BusinessStudies/Grade10/Term1/BusinessOperations'));
+const EconomicProblemPage = lazy(() => import('./pages/learning/Economics/Grade10/Term1/EconomicProblem'));
+const ProductionPossibilityCurvePage = lazy(() => import('./pages/learning/Economics/Grade10/Term1/ProductionPossibilityCurve'));
+const EconomicSystemsPage = lazy(() => import('./pages/learning/Economics/Grade10/Term1/EconomicSystems'));
+const CircularFlowModelPage = lazy(() => import('./pages/learning/Economics/Grade10/Term1/CircularFlowModel'));
+const FactorsOfProductionPage = lazy(() => import('./pages/learning/Economics/Grade10/Term1/FactorsOfProduction'));
+const ComputerSystemsPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/ComputerSystems'));
+const FileManagementPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/FileManagement'));
+const WordProcessingPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/WordProcessing'));
+const SpreadsheetsPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/Spreadsheets'));
 const WaterDashboardPage = lazy(() => import('./pages/community/WaterDashboardPage'));
 // NewsPage removed — SA News feature discontinued
 const TaxBudgetPage      = lazy(() => import('./pages/community/TaxBudgetPage'));
@@ -909,6 +937,34 @@ export default function App() {
               {page === 'school-assist-chat' && <PageTransition pageKey="school-assist-chat"><SchoolAssistChatPage onNavigate={navigate} onNavigateHome={() => setPage('home')} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-linear-equations' && <PageTransition pageKey="learning-algebra-g10-t1-linear-equations"><LinearEquationsPage {...protectedPageProps} /></PageTransition>}
               {page === 'learning-algebra-g10-t1-simultaneous' && <PageTransition pageKey="learning-algebra-g10-t1-simultaneous"><SimultaneousEquationsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-physci-g10-t1-waves' && <PageTransition pageKey="learning-physci-g10-t1-waves"><WavesSoundLightPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-physci-g10-t1-atoms' && <PageTransition pageKey="learning-physci-g10-t1-atoms"><AtomsSubatomicParticlesPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-physci-g10-t1-classification' && <PageTransition pageKey="learning-physci-g10-t1-classification"><ClassificationOfMatterPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-physci-g10-t1-periodic-table' && <PageTransition pageKey="learning-physci-g10-t1-periodic-table"><PeriodicTableTrendsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-physci-g10-t1-bonding' && <PageTransition pageKey="learning-physci-g10-t1-bonding"><ChemicalBondingPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-lifesci-g10-t1-biodiversity' && <PageTransition pageKey="learning-lifesci-g10-t1-biodiversity"><BiodiversityAndClassificationPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-lifesci-g10-t1-five-kingdoms' && <PageTransition pageKey="learning-lifesci-g10-t1-five-kingdoms"><FiveKingdomsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-lifesci-g10-t1-taxonomy' && <PageTransition pageKey="learning-lifesci-g10-t1-taxonomy"><TaxonomyAndBinomialNomenclaturePage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-lifesci-g10-t1-species' && <PageTransition pageKey="learning-lifesci-g10-t1-species"><SpeciesConceptPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-accounting-g10-t1-intro' && <PageTransition pageKey="learning-accounting-g10-t1-intro"><IntroductionToAccountingPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-accounting-g10-t1-equation' && <PageTransition pageKey="learning-accounting-g10-t1-equation"><AccountingEquationPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-accounting-g10-t1-double-entry' && <PageTransition pageKey="learning-accounting-g10-t1-double-entry"><DoubleEntrySystemPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-accounting-g10-t1-source-documents' && <PageTransition pageKey="learning-accounting-g10-t1-source-documents"><SourceDocumentsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-accounting-g10-t1-journals' && <PageTransition pageKey="learning-accounting-g10-t1-journals"><JournalsInAccountingPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-accounting-g10-t1-ledger' && <PageTransition pageKey="learning-accounting-g10-t1-ledger"><GeneralLedgerPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-bizstudies-g10-t1-environment' && <PageTransition pageKey="learning-bizstudies-g10-t1-environment"><BusinessEnvironmentPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-bizstudies-g10-t1-sectors' && <PageTransition pageKey="learning-bizstudies-g10-t1-sectors"><BusinessSectorsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-bizstudies-g10-t1-stakeholders' && <PageTransition pageKey="learning-bizstudies-g10-t1-stakeholders"><BusinessStakeholdersPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-bizstudies-g10-t1-operations' && <PageTransition pageKey="learning-bizstudies-g10-t1-operations"><BusinessOperationsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-economics-g10-t1-problem' && <PageTransition pageKey="learning-economics-g10-t1-problem"><EconomicProblemPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-economics-g10-t1-ppc' && <PageTransition pageKey="learning-economics-g10-t1-ppc"><ProductionPossibilityCurvePage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-economics-g10-t1-systems' && <PageTransition pageKey="learning-economics-g10-t1-systems"><EconomicSystemsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-economics-g10-t1-circular-flow' && <PageTransition pageKey="learning-economics-g10-t1-circular-flow"><CircularFlowModelPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-economics-g10-t1-factors' && <PageTransition pageKey="learning-economics-g10-t1-factors"><FactorsOfProductionPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-cat-g10-t1-computer-systems' && <PageTransition pageKey="learning-cat-g10-t1-computer-systems"><ComputerSystemsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-cat-g10-t1-file-management' && <PageTransition pageKey="learning-cat-g10-t1-file-management"><FileManagementPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-cat-g10-t1-word-processing' && <PageTransition pageKey="learning-cat-g10-t1-word-processing"><WordProcessingPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-cat-g10-t1-spreadsheets' && <PageTransition pageKey="learning-cat-g10-t1-spreadsheets"><SpreadsheetsPage {...protectedPageProps} /></PageTransition>}
               {page === 'water-dashboard' && <PageTransition pageKey="water-dashboard"><WaterDashboardPage onNavigate={navigate} /></PageTransition>}
               {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage onNavigate={navigate} /></PageTransition>}
               {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage onNavigate={navigate} /></PageTransition>}

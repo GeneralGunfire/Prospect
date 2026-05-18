@@ -161,15 +161,15 @@ const InteractiveLesson = ({ onComplete }: { onComplete: () => void }) => {
           the old slide fades/slides out and the new one fades/slides in. */}
       <AnimatePresence mode="wait">
         <motion.div key={current} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}
-          className="bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm min-h-80 flex flex-col justify-center gap-6">
+          className="bg-white border border-slate-200 rounded-[2.5rem] p-4 md:p-6 shadow-sm flex flex-col justify-center gap-6">
 
           {/* Slide title and explanation text */}
           <div className="text-center space-y-2">
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{step.title}</h2>
+            <h2 className="text-base font-bold text-slate-900 tracking-tight">{step.title}</h2>
             <p className="text-slate-500 text-base leading-relaxed max-w-lg mx-auto">{step.content}</p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* Equation display box — monospace font makes the math line up neatly */}
             <div className="overflow-x-auto rounded-2xl bg-slate-50 border border-slate-200 px-8 py-6 font-mono text-lg md:text-xl font-black text-slate-900 space-y-2">
               {step.equations.map((eq, i) => <div key={i} className="whitespace-nowrap">{eq}</div>)}
@@ -209,7 +209,7 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-[2.5rem] p-4 md:p-6 shadow-sm">
 
         {/* Header row: label on the left, current step counter on the right */}
         <div className="flex items-center justify-between mb-6">
@@ -218,7 +218,7 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
         </div>
 
         {/* The problem statement at the top of the card */}
-        <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-8 text-center tracking-tight">{problem}</h2>
+        <h2 className="text-base font-bold text-slate-900 mb-8 text-center tracking-tight">{problem}</h2>
 
         {/* Step progress bar: each segment fills blue as steps are revealed */}
         <div className="flex gap-1.5 mb-8">
@@ -227,17 +227,17 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
 
         {/* Only render steps up to and including the current one.
             slice(0, stepIndex + 1) means "show everything revealed so far". */}
-        <div className="space-y-4 mb-8">
+        <div className="space-y-2 mb-8">
           {steps.slice(0, stepIndex + 1).map((s, i) => (
             // Each step slides in from the left when it first appears.
             <motion.div key={i} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }}
               // The active (newest) step gets a blue highlight; earlier steps are grey.
-              className={`flex gap-5 p-5 rounded-2xl border ${i === stepIndex ? 'bg-blue-50 border-blue-200' : 'bg-slate-50 border-slate-100'}`}>
+              className={`flex gap-4 p-4 rounded-2xl border ${i === stepIndex ? 'bg-blue-50 border-blue-200' : 'bg-slate-50 border-slate-100'}`}>
               {/* Step number badge — blue when active, grey when already passed */}
               <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black ${i === stepIndex ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-400'}`}>{i + 1}</div>
               <div className="min-w-0">
                 <p className="text-base font-black text-slate-900">{s.instruction}</p>
-                <p className="text-slate-500 text-sm mt-0.5 mb-3 leading-relaxed">{s.explanation}</p>
+                <p className="text-slate-500 text-xs mt-0.5 mb-3 leading-relaxed">{s.explanation}</p>
                 {/* The actual math expression shown in a monospace font */}
                 <div className="overflow-x-auto -mx-1 px-1"><div className="inline-block whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-xl text-lg font-mono font-black text-blue-600 shadow-sm">{s.math}</div></div>
               </div>
@@ -571,7 +571,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
           storageKey is unique per question index so each question's drawing is stored separately. */}
     {scratchpadOpen && <ScratchpadModal question={q.question} math={q.math} storageKey={`${STORAGE_KEY_PREFIX}${current}`} onClose={() => setScratchpadOpen(false)} />}
     <div className="space-y-6">
-      <div className="bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-[2.5rem] p-4 md:p-6 shadow-sm">
 
         {/* Question counter and dot progress bar */}
         <div className="flex items-center justify-between mb-6">
@@ -602,7 +602,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
         <div className="space-y-3">
           {q.options.map((opt, i) => (
             <motion.button key={i} whileTap={{ scale: revealed ? 1 : 0.98 }} onClick={() => handleSelect(i)}
-              className={`w-full text-left p-5 rounded-2xl border-2 text-base font-semibold transition-all ${getOptionStyle(i)}`}>
+              className={`w-full text-left px-3 py-2 rounded-2xl border-2 text-xs font-semibold transition-all ${getOptionStyle(i)}`}>
               <span className="mr-3 font-black opacity-40">{String.fromCharCode(65 + i)}</span>{opt}
             </motion.button>
           ))}
@@ -612,7 +612,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
             Green background for correct, red for incorrect. */}
         {revealed && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-            className={`mt-6 p-5 rounded-2xl flex gap-4 text-sm font-semibold ${selected === q.correctIndex ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'}`}>
+            className={`mt-6 p-3 rounded-2xl flex gap-3 text-xs font-semibold ${selected === q.correctIndex ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'}`}>
             <Info size={20} className="shrink-0 mt-0.5" /> {q.explanation}
           </motion.div>
         )}
@@ -621,9 +621,9 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
             the student taps "Need a Hint?". Animates in with a height transition. */}
         {hintVisible && !revealed && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
-            className="mt-5 p-5 bg-amber-50 border border-amber-200 rounded-2xl flex gap-3 text-amber-900">
+            className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-2xl flex gap-3 text-amber-900">
             <Lightbulb size={20} className="shrink-0 text-amber-500 mt-0.5" />
-            <p className="text-sm font-semibold">{q.hint}</p>
+            <p className="text-xs font-semibold">{q.hint}</p>
           </motion.div>
         )}
 
@@ -631,7 +631,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
         <div className="mt-8 flex justify-between items-center">
           {/* Show the hint button only before an answer is revealed */}
           {!revealed
-            ? <button onClick={() => setHintVisible(true)} className="text-xs font-black text-amber-600 uppercase tracking-widest px-4 py-3 hover:bg-amber-50 rounded-xl transition-all">{hintVisible ? 'Hint Visible' : 'Need a Hint?'}</button>
+            ? <button onClick={() => setHintVisible(true)} className="text-xs font-black text-amber-600 uppercase tracking-widest px-3 py-2 hover:bg-amber-50 rounded-xl transition-all">{hintVisible ? 'Hint Visible' : 'Need a Hint?'}</button>
             : <div />}
           {/* Show the next/results button only after an answer is revealed */}
           {revealed && (
@@ -660,7 +660,7 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-[2.5rem] border border-slate-200 p-10 md:p-14 text-center space-y-8 shadow-sm">
+      className="bg-white rounded-[2.5rem] border border-slate-200 p-4 text-center space-y-8 shadow-sm">
 
       {/* Icon badge: trophy for mastered, retry arrow for needs more practice */}
       <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto text-white shadow-md ${mastered ? 'bg-emerald-500' : 'bg-slate-900'}`}>
@@ -670,13 +670,13 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
       {/* Result label and heading */}
       <div>
         <p className={`text-[10px] font-black uppercase tracking-widest mb-2 ${mastered ? 'text-emerald-600' : 'text-slate-400'}`}>{mastered ? '✦ Mastered' : 'Keep Practising'}</p>
-        <h2 className="text-4xl font-black text-slate-900 tracking-tighter">Your Results</h2>
+        <h2 className="text-base font-bold text-slate-900 tracking-tighter">Your Results</h2>
         <p className="text-sm text-slate-400 font-semibold mt-1">{TOPIC.title}</p>
       </div>
 
       {/* Numeric score and animated progress bar */}
       <div className="flex flex-col items-center gap-3">
-        <p className="text-6xl font-black text-slate-900">{correct} <span className="text-slate-300 text-4xl">/</span> {total}</p>
+        <p className="text-xl font-black text-slate-900">{correct} <span className="text-slate-300 text-base">/</span> {total}</p>
         <div className="w-full max-w-xs h-2 bg-slate-100 rounded-full overflow-hidden">
           {/* The bar width animates from 0% to the actual percentage */}
           <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, delay: 0.3 }}
@@ -863,11 +863,11 @@ function SimultaneousEquationsPage({ user, onNavigate }: AuthedProps) {
                 {view === 'remediation' && (
                   <div className="space-y-6">
                     {/* Encouragement banner shown above the remediation questions */}
-                    <div className="bg-rose-50 border border-rose-200 rounded-xl p-8 flex gap-5 items-start">
+                    <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 flex gap-4 items-start">
                       <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
                       <div>
                         <p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p>
-                        <p className="text-rose-700 text-sm leading-relaxed">It's okay! Let's work through two extra questions to build your confidence.</p>
+                        <p className="text-rose-700 text-xs leading-relaxed">It's okay! Let's work through two extra questions to build your confidence.</p>
                       </div>
                     </div>
                     {/* Simpler questions to rebuild understanding before another attempt */}

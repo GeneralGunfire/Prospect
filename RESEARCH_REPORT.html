@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Research Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    width: 100%; min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 80px 60px;
+    page-break-after: always; break-after: page;
+    position: relative;
+  }
+  .cover-top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .cover-wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 48px; }
+  .cover-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 4px 12px; display: inline-block; margin-bottom: 24px; }
+  .cover-title { font-size: 56px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; color: var(--navy); text-align: center; margin-bottom: 20px; }
+  .cover-subtitle { font-size: 17px; font-weight: 400; color: var(--slate-500); text-align: center; margin-bottom: 64px; max-width: 520px; line-height: 1.6; }
+  .cover-divider { width: 48px; height: 2px; background: var(--navy); margin: 0 auto 64px; }
+  .cover-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--slate-200); width: 100%; max-width: 560px; }
+  .cover-meta-cell { padding: 20px 24px; border-right: 1px solid var(--slate-200); border-bottom: 1px solid var(--slate-200); }
+  .cover-meta-cell:nth-child(even) { border-right: none; }
+  .cover-meta-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .cover-meta-label { font-size: 9px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px; }
+  .cover-meta-value { font-size: 13px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+  .cover-bottom { position: absolute; bottom: 48px; left: 0; right: 0; text-align: center; font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-400); }
+
+  /* ── Section pages ── */
+  .section-page {
+    width: 100%; min-height: 100vh;
+    padding: 64px 80px 80px;
+    page-break-after: always; break-after: page;
+    display: flex; flex-direction: column;
+  }
+  .section-eyebrow { font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 10px; }
+  .section-number { font-size: 80px; font-weight: 900; letter-spacing: -0.05em; color: var(--slate-100); line-height: 1; margin-bottom: -20px; }
+  .section-title { font-size: 30px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.15; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--slate-200); }
+
+  .section-body { font-size: 14px; color: var(--slate-700); line-height: 1.8; flex: 1; }
+  .section-body p { margin-bottom: 18px; }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  .sub-heading { font-size: 11px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); margin: 32px 0 12px; }
+  .sub-heading:first-child { margin-top: 0; }
+
+  /* inline citation */
+  cite { font-style: normal; font-size: 12px; color: var(--slate-400); font-weight: 500; }
+
+  /* callout box */
+  .callout { padding: 18px 22px; background: var(--slate-50); border-left: 3px solid var(--navy); margin: 24px 0; font-size: 14px; color: var(--slate-700); line-height: 1.7; }
+  .callout strong { color: var(--navy); font-weight: 700; }
+
+  /* stat row */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--slate-200); margin: 24px 0; }
+  .stat-cell { padding: 20px 16px; text-align: center; border-right: 1px solid var(--slate-200); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-number { font-size: 28px; font-weight: 900; letter-spacing: -0.04em; color: var(--navy); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-400); }
+
+  /* comparison table */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 20px 0; }
+  thead tr { background: var(--navy); color: var(--white); }
+  thead th { padding: 10px 14px; text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 11px 14px; color: var(--slate-700); line-height: 1.5; vertical-align: top; }
+  tbody td:first-child { font-weight: 600; color: var(--navy); }
+  .tick { color: #15803d; font-weight: 700; }
+  .cross { color: #b91c1c; font-weight: 700; }
+  .partial { color: #92400e; font-weight: 700; }
+
+  /* literature entries */
+  .lit-entry { padding: 18px 0 18px 0; border-bottom: 1px solid var(--slate-100); display: flex; gap: 20px; }
+  .lit-entry:last-child { border-bottom: none; }
+  .lit-theme { font-size: 9px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 3px 8px; white-space: nowrap; height: fit-content; margin-top: 3px; flex-shrink: 0; }
+  .lit-content { flex: 1; }
+  .lit-ref { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 5px; line-height: 1.4; }
+  .lit-summary { font-size: 13px; color: var(--slate-700); line-height: 1.65; }
+  .lit-relevance { font-size: 12px; color: var(--slate-500); margin-top: 6px; font-style: italic; }
+
+  /* reference list */
+  .ref-list { list-style: none; padding: 0; margin: 0; counter-reset: ref-counter; }
+  .ref-list li { counter-increment: ref-counter; padding: 10px 0 10px 32px; border-bottom: 1px solid var(--slate-100); font-size: 12.5px; color: var(--slate-700); line-height: 1.6; position: relative; }
+  .ref-list li:last-child { border-bottom: none; }
+  .ref-list li::before { content: '[' counter(ref-counter) ']'; position: absolute; left: 0; top: 11px; font-size: 10px; font-weight: 700; color: var(--slate-400); }
+
+  /* problem list */
+  .problem-list { list-style: none; padding: 0; margin: 0 0 20px; }
+  .problem-list li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--slate-100); }
+  .problem-list li:last-child { border-bottom: none; }
+  .problem-num { font-size: 22px; font-weight: 900; color: var(--slate-200); letter-spacing: -0.03em; line-height: 1; flex-shrink: 0; width: 32px; }
+  .problem-content { flex: 1; }
+  .problem-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); margin-bottom: 4px; }
+  .problem-text { font-size: 13.5px; color: var(--slate-700); line-height: 1.65; }
+
+  /* aim list */
+  .aim-list { list-style: none; padding: 0; margin: 0; }
+  .aim-list li { padding: 12px 0 12px 24px; border-bottom: 1px solid var(--slate-100); position: relative; font-size: 14px; color: var(--slate-700); line-height: 1.65; }
+  .aim-list li:last-child { border-bottom: none; }
+  .aim-list li::before { content: ''; position: absolute; left: 0; top: 20px; width: 8px; height: 2px; background: var(--navy); }
+
+  /* research question */
+  .rq-box { border: 2px solid var(--navy); padding: 28px 32px; margin: 24px 0; }
+  .rq-label { font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 12px; }
+  .rq-text { font-size: 17px; font-weight: 700; color: var(--navy); line-height: 1.5; letter-spacing: -0.01em; }
+  .sub-rq-list { list-style: none; padding: 0; margin: 20px 0 0; counter-reset: rq-counter; }
+  .sub-rq-list li { counter-increment: rq-counter; padding: 10px 0 10px 36px; border-bottom: 1px solid var(--slate-100); font-size: 13.5px; color: var(--slate-700); line-height: 1.65; position: relative; }
+  .sub-rq-list li:last-child { border-bottom: none; }
+  .sub-rq-list li::before { content: 'SRQ ' counter(rq-counter); position: absolute; left: 0; top: 12px; font-size: 9px; font-weight: 900; letter-spacing: 0.1em; color: var(--slate-400); }
+
+  /* goal cards */
+  .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .goal-card { border: 1px solid var(--slate-200); padding: 18px 20px; }
+  .goal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .goal-id { font-size: 9px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-400); }
+  .goal-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; }
+  .badge-achieved { background: #dcfce7; color: #15803d; }
+  .badge-progress { background: #fef9c3; color: #92400e; }
+  .goal-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; line-height: 1.3; }
+  .goal-metric { font-size: 12px; color: var(--slate-500); line-height: 1.55; }
+  .goal-metric strong { color: var(--navy); font-weight: 600; }
+
+  .closing-block { margin-top: 40px; padding: 28px 32px; background: var(--navy); }
+  .closing-block p { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .cover, .section-page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .cover { min-height: 1123px; }
+    .section-page { min-height: 1123px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top-rule"></div>
+  <div class="cover-wordmark">Prospect Platform</div>
+  <div class="cover-tag">Science Expo Research Report</div>
+  <div class="cover-title">Securing South<br>Africa's Students</div>
+  <div class="cover-subtitle">How a unified digital platform can close the gap between where South African learners are and where they want to go.</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta-grid">
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Research Field</div>
+      <div class="cover-meta-value">Educational Technology &amp; Career Guidance</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Platform</div>
+      <div class="cover-meta-value">Prospect — prospect-lemon-seven.vercel.app</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Target Users</div>
+      <div class="cover-meta-value">Grade 8–12 South African Learners</div>
+    </div>
+    <div class="cover-meta-cell">
+      <div class="cover-meta-label">Development Period</div>
+      <div class="cover-meta-value">22 March — 15 May 2026 (55 days)</div>
+    </div>
+  </div>
+  <div class="cover-bottom">South Africa &nbsp;·&nbsp; 2026</div>
+</div>
+
+
+<!-- SECTION 1: INTRODUCTION -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 1</div>
+  <div class="section-number">01</div>
+  <h2 class="section-title">Introduction</h2>
+  <div class="section-body">
+    <p>This project started with a question that felt obvious once you asked it: why do so many South African high school students make subject and career choices they later wish they could undo? Not because they were careless, but because nobody gave them what they needed to decide properly. Watching people in Grade 10 pick subjects based on what their friends chose, or seeing a Grade 12 student realize they had dropped the wrong subject two years earlier and now could not get into the degree they wanted — those are not rare situations. They happen constantly, in schools across every province, and the common thread is a lack of accessible, South African-specific information at the moment the decision was being made.</p>
+
+    <p>The information that would have helped those students did exist. University admission requirements, bursary details, career salary ranges, TVET course offerings — all of it was somewhere online. The problem was that it was scattered across dozens of websites, many of them designed for administrators rather than learners, many requiring institutional login, and almost none of them putting career guidance and financial opportunity and study support in the same place. A student who wanted to research a career in electrical engineering would have to visit one website to find subject requirements, a different one for APS scores, a third for available bursaries, and a fourth for TVET alternatives — assuming they knew where to look at all.</p>
+
+    <p>Prospect was built to fix that. It started as a career and education guidance tool: a searchable database of careers built with South African salary data, a subject-to-career matching quiz, and a bursary finder. But the further into the problem we got, the clearer it became that career information alone was not enough. The students who most needed this platform were also dealing with load shedding schedules that disrupted their study routines, cost of living pressures they had not been prepared for, and basic civic knowledge they had never been taught. Addressing only the career guidance piece while ignoring those realities would have been like giving someone a map but refusing to mention the roadblocks.</p>
+
+    <p>So the platform expanded. It now covers three pillars: school and career guidance, bursaries and opportunities, and community and life context. The third pillar — real-time load shedding tracking, water availability data, cost of living information by city, NSC exam countdowns, and a civics guide — was not in the original brief. It was added because the research pointed there, and because building a platform for South African students without acknowledging the infrastructure they live with would have been an incomplete answer to the problem.</p>
+
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-number">400</div><div class="stat-label">Career Profiles</div></div>
+      <div class="stat-cell"><div class="stat-number">245</div><div class="stat-label">Bursaries</div></div>
+      <div class="stat-cell"><div class="stat-number">24</div><div class="stat-label">Study Topics</div></div>
+      <div class="stat-cell"><div class="stat-number">11</div><div class="stat-label">Subjects Covered</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 2: BACKGROUND -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 2</div>
+  <div class="section-number">02</div>
+  <h2 class="section-title">Background to the Topic</h2>
+  <div class="section-body">
+    <div class="sub-heading">The South African Education System</div>
+    <p>South Africa has 26 public universities and more than 50 TVET colleges, alongside thousands of bursaries distributed through government departments, state-owned enterprises, and private companies. On paper that is a substantial infrastructure for post-school opportunity. What it is not is an accessible one. Access to that infrastructure is distributed unevenly — not by ability or effort, but by what school you attended, which province you grew up in, whether your family had connections, and whether you had reliable internet. <cite>[1, 4]</cite></p>
+
+    <p>The National Senior Certificate, universally called matric, is the qualification that almost all post-school pathways depend on. University admission uses the APS (Admission Point Score) system — a numerical score calculated from a student's matric results. Different universities and faculties set different minimum APS thresholds. More importantly, different careers require different subject combinations that must be in place before matric, not after. A student who switches from Mathematics to Mathematical Literacy in Grade 10 typically cannot access engineering, medicine, actuarial science, or architecture — and the consequence of that switch may not become obvious until a university application is rejected two years later. <cite>[2]</cite></p>
+
+    <div class="sub-heading">The TVET Problem</div>
+    <p>TVET colleges enrol more students than all 26 South African universities combined. Despite this, they are treated by most guidance materials — and by many schools — as a fallback option for students who did not perform well enough for university. The assumption is persistent and largely unfounded. Qualifications in electrical installation, plumbing, automotive repair, hospitality, and IT support lead to careers that are genuinely in short supply in South Africa's economy, and in some cases earn more than a graduate in an oversupplied field. The Department of Higher Education and Training has identified the artisan skills shortage as one of the most significant constraints on infrastructure development in the country. <cite>[5]</cite></p>
+
+    <p>The cultural stigma around TVET is not just unfair to the students it affects — it is an economic problem. South Africa has a serious mismatch between the qualifications being produced and the skills being demanded. Part of the reason that mismatch persists is that students are being steered away from the pathways that would address it, based on perception rather than evidence. <cite>[6]</cite></p>
+
+    <div class="sub-heading">Infrastructure and Daily Barriers</div>
+    <p>South Africa's load shedding crisis reached its worst recorded levels in 2023 and 2024, with Stage 6 cuts meaning up to 12 hours without power per day in some areas. For a student trying to study for matric exams in the evenings, this is not a background inconvenience — it is a direct disruption to the study routine that their results depend on. Water supply is similarly unreliable for significant portions of the country, particularly in rural and peri-urban areas. <cite>[7]</cite></p>
+
+    <p>Mobile data costs in South Africa remain high relative to average household income, which means that for many students, internet research is rationed. A student on a 50MB prepaid bundle cannot spend an afternoon visiting five different websites to piece together career information. If the information is not consolidated in one place and optimized for low-bandwidth access, it is effectively inaccessible to a large portion of the students who most need it. <cite>[8]</cite></p>
+
+    <div class="sub-heading">Existing Platforms and Their Gaps</div>
+    <p>Several South African platforms exist that address parts of this problem. Yenza and Gradesmatch both provide some career guidance and application support. NCAP focuses on bursary and funding information. Reslocate offers career matching. None of them integrate career guidance with bursary search, TVET pathways, study resources, and the infrastructural context of South African student life in a single place. <cite>[3]</cite></p>
+
+    <table>
+      <thead>
+        <tr><th>Platform</th><th>Career Info</th><th>SA-Specific Data</th><th>Bursaries</th><th>TVET Focus</th><th>Study Resources</th><th>Life Context</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Yenza</td><td class="tick">Yes</td><td class="partial">Partial</td><td class="tick">Yes</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td>Gradesmatch</td><td class="tick">Yes</td><td class="partial">Partial</td><td class="partial">Limited</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td>NCAP</td><td class="partial">Limited</td><td class="tick">Yes</td><td class="tick">Yes</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td>Reslocate</td><td class="tick">Yes</td><td class="partial">Partial</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td><td class="cross">No</td></tr>
+        <tr><td><strong>Prospect</strong></td><td class="tick">Yes</td><td class="tick">Yes (full)</td><td class="tick">Yes (245)</td><td class="tick">Yes</td><td class="tick">Yes</td><td class="tick">Yes</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- SECTION 3: LITERATURE REVIEW -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 3</div>
+  <div class="section-number">03</div>
+  <h2 class="section-title">Literature Review</h2>
+  <div class="section-body">
+    <p>The design decisions behind Prospect did not emerge from scratch. Each of the platform's major areas — career guidance, TVET representation, mobile-first access, AI in education, and infrastructure context — sits within an established body of research. What follows is a review of the relevant literature, organized by theme, and connected to the specific choices made in building the platform.</p>
+
+    <div class="sub-heading">Career Guidance and Information Asymmetry</div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">Career Info</div>
+      <div class="lit-content">
+        <div class="lit-ref">Hooley, T., Watts, A.G., Sultana, R.G., &amp; Neary, S. (2013). <em>The 'Blueprint' framework for career management skills: A critical exploration.</em> British Journal of Guidance and Counselling, 41(2), 117–131.</div>
+        <div class="lit-summary">This paper argues that career management is not an innate skill — it requires specific information and structured frameworks to develop. Students who lack access to career guidance infrastructure are not less capable of making good decisions; they simply have fewer of the inputs that good decisions require. The authors make a case for digital tools as a scalable complement to school-based guidance, particularly where trained counsellors are scarce.</div>
+        <div class="lit-relevance">Directly relevant to Prospect's career quiz and subject-to-career matching tool, which were designed to provide structured decision support without requiring a trained counsellor.</div>
+      </div>
+    </div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">Career Info</div>
+      <div class="lit-content">
+        <div class="lit-ref">Mncwango, B. (2016). <em>Career guidance and counselling in South African schools: Challenges and prospects.</em> Perspectives in Education, 34(2), 11–22.</div>
+        <div class="lit-summary">Mncwango's study found that the majority of South African schools — particularly those in rural and township areas — do not have a dedicated career counsellor. Where guidance is provided, it tends to focus on university application processes rather than on helping students understand the relationship between their current subject choices and their post-school options. The paper identifies information fragmentation as the primary structural barrier.</div>
+        <div class="lit-relevance">This directly underpins the rationale for Prospect's AI school assistant and its career database. Students without access to a counsellor need another way to get specific, contextually relevant answers.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">TVET Perception and Vocational Education</div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">TVET</div>
+      <div class="lit-content">
+        <div class="lit-ref">Department of Higher Education and Training. (2013). <em>White Paper for Post-School Education and Training.</em> Government of South Africa.</div>
+        <div class="lit-summary">The White Paper set a national target of significantly expanding TVET enrollment and repositioning vocational education as a mainstream pathway rather than a fallback. It acknowledged the perception problem directly, noting that TVET's social stigma was a policy challenge, not just a cultural one, and that information materials needed to actively counter this framing rather than simply present TVET as an alternative to university.</div>
+        <div class="lit-relevance">Informed the decision to build the TVET section with the same depth and visual prominence as the university section — not a secondary page, but a first-class pathway with full course and career data.</div>
+      </div>
+    </div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">TVET</div>
+      <div class="lit-content">
+        <div class="lit-ref">Wedekind, V. (2010). <em>Chaos or coherence? Further education and training college governance and the state.</em> Perspectives in Education, 28(2), 85–98.</div>
+        <div class="lit-summary">Wedekind's research found that the negative perception of TVET in South Africa is reinforced by how information about TVET colleges is presented — often as an afterthought in school guidance materials, with less detail than university options and without clear pathways to employment outcomes. He argues that presentation and information architecture directly shape how students evaluate a pathway, separate from its actual merit.</div>
+        <div class="lit-relevance">This shaped how TVET college listings are structured in Prospect — with outcome data, salary information, and links to career paths, rather than just a list of institutions.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">EdTech Access in Developing Contexts</div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">Access</div>
+      <div class="lit-content">
+        <div class="lit-ref">Traxler, J. (2018). <em>Distance learning — predictions and possibilities.</em> Education Sciences, 8(1), 35.</div>
+        <div class="lit-summary">Traxler argues that educational technology designed for developed-world infrastructure consistently fails in contexts with unreliable power and expensive mobile data. He proposes "contextual design" — building digital tools that explicitly account for infrastructure constraints as first-class requirements, not edge cases. Tools that are not designed for low-bandwidth use will simply not be used by the populations who most need them.</div>
+        <div class="lit-relevance">This is the research basis for Prospect's data saver mode, code splitting of large data files, and mobile-first responsive design — not nice-to-have features but requirements for the platform to be usable by its actual target audience.</div>
+      </div>
+    </div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">Access</div>
+      <div class="lit-content">
+        <div class="lit-ref">Alliance for Affordable Internet. (2023). <em>Affordability Report: The State of Mobile Internet Access in Africa.</em> Web Foundation.</div>
+        <div class="lit-summary">The 2023 report found that 1GB of mobile data in South Africa costs approximately 2.5% of average monthly income — well above the recommended 2% threshold that the Alliance defines as "affordable." For students in low-income households, this makes sustained internet research a genuine financial burden. The report recommends that public-interest digital tools be designed to minimize data consumption as a matter of equity.</div>
+        <div class="lit-relevance">The data cost figures here were a direct input into the decision to include a data saver toggle and to optimize the platform's initial bundle size through Vite code splitting.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">AI in Education</div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">AI &amp; Ed</div>
+      <div class="lit-content">
+        <div class="lit-ref">Zawacki-Richter, O., Marín, V.I., Bond, M., &amp; Gouverneur, F. (2019). <em>Systematic review of research on artificial intelligence applications in higher education.</em> International Journal of Educational Technology in Higher Education, 16(1), 39.</div>
+        <div class="lit-summary">This systematic review of 146 studies on AI in education found that the most consistently effective AI applications were those that provided personalized, on-demand responses to specific learner questions — particularly in contexts where access to human expertise was limited. The review noted that AI tutoring systems worked best when combined with structured content (study materials, worked examples) rather than used in isolation.</div>
+        <div class="lit-relevance">This supported the design of Prospect's AI assistant as one layer in a broader system — not a standalone chatbot, but a tool embedded in a platform with a study library, career data, and bursary information it can reference in context.</div>
+      </div>
+    </div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">AI &amp; Ed</div>
+      <div class="lit-content">
+        <div class="lit-ref">Holmes, W., Bialik, M., &amp; Fadel, C. (2019). <em>Artificial Intelligence in Education: Promises and Implications for Teaching and Learning.</em> Center for Curriculum Redesign.</div>
+        <div class="lit-summary">Holmes et al. raise an important caution: AI tools in education can entrench inequality if they are deployed in ways that only serve students who already have strong digital literacy and reliable connectivity. They argue for hybrid approaches where AI supplements rather than replaces human guidance, and where fallback mechanisms exist for when AI responses are unavailable or incorrect.</div>
+        <div class="lit-relevance">This directly influenced the decision to keep seven predefined instant answers in Prospect's chat feature — a fallback layer for the most common questions that works even if the Groq API is slow or unavailable, and that does not require the AI to perform well on its first response.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">Infrastructure, Load Shedding, and Education</div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">Infrastructure</div>
+      <div class="lit-content">
+        <div class="lit-ref">Eberhard, A., Kolker, J., &amp; Leigland, J. (2014). <em>South Africa's Renewable Energy IPP Procurement Program: Success Factors and Lessons.</em> World Bank PPIAF.</div>
+        <div class="lit-summary">While focused on energy policy, this report documents the scale and distribution of load shedding in South Africa across different economic zones. It shows that higher-income areas tend to have shorter and less frequent cuts due to better grid infrastructure — meaning that load shedding, like most infrastructure problems in South Africa, falls disproportionately on lower-income communities. The students most affected by power cuts are the same students who most need support platforms like Prospect.</div>
+        <div class="lit-relevance">This is the research basis for treating load shedding information not as a bonus feature but as a core component of what a South African student support platform should provide.</div>
+      </div>
+    </div>
+
+    <div class="lit-entry">
+      <div class="lit-theme">Infrastructure</div>
+      <div class="lit-content">
+        <div class="lit-ref">Zondo, S.A., &amp; Mncube, V. (2022). <em>Impact of electricity outages on academic performance of rural secondary school learners in South Africa.</em> International Journal of Learning, Teaching and Educational Research, 21(6), 322–339.</div>
+        <div class="lit-summary">This study surveyed learners in KwaZulu-Natal and found that extended power outages directly correlated with reduced study hours, incomplete homework assignments, and lower test scores. Students reported that not knowing when outages would occur was as disruptive as the outages themselves — they could not plan around uncertainty. The paper recommends that schools and support services provide learners with load shedding schedules and study session planning tools.</div>
+        <div class="lit-relevance">This is the academic justification for Prospect's load shedding tracker. The problem is not just the power cuts — it is the inability to plan around them. Providing a reliable schedule addresses the planning problem directly.</div>
+      </div>
+    </div>
+
+    <div class="sub-heading">Summary</div>
+    <p>Taken together, the literature above confirms three things. First, South African students face a genuine and well-documented information gap in career and educational guidance, and digital tools are a viable — and in some contexts necessary — way to address it. Second, TVET misrepresentation is a structural problem that platform design can actively counteract. Third, any digital tool for South African learners that does not account for mobile data costs, load shedding, and the infrastructural context of student life will fail to reach the students who need it most. Prospect was built with all three of these findings in mind.</p>
+  </div>
+</div>
+
+
+<!-- SECTION 4: PROBLEM -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 4</div>
+  <div class="section-number">04</div>
+  <h2 class="section-title">Problem, Issue, and Phenomena Identified</h2>
+  <div class="section-body">
+    <div class="callout">
+      <strong>Core Problem Statement:</strong> South African learners in Grades 8–12 lack access to a single, reliable, South African-specific platform that integrates career guidance, educational pathway information, bursary opportunities, study support, and the civic and infrastructural context that shapes their daily lives — leading to uninformed decisions at the most consequential points in their education. <cite>[1, 2, 4]</cite>
+    </div>
+
+    <div class="sub-heading">Phenomena Identified</div>
+    <ul class="problem-list">
+      <li>
+        <div class="problem-num">01</div>
+        <div class="problem-content">
+          <div class="problem-label">Subject Choice Disconnect</div>
+          <div class="problem-text">Students in Grade 10 select subjects with very little understanding of how those choices open or close future options. The link between dropping Mathematics and being excluded from engineering, medicine, or actuarial science is not something most students hear clearly until after the decision has been made — and by then it is hard to reverse. This is not a motivational problem. It is an information problem. <cite>[2]</cite></div>
+        </div>
+      </li>
+      <li>
+        <div class="problem-num">02</div>
+        <div class="problem-content">
+          <div class="problem-label">Fragmented and Inaccessible Information</div>
+          <div class="problem-text">Career data, bursary listings, TVET course details, and university APS requirements all exist online — but spread across dozens of separate platforms, many requiring institutional login, most written for administrators rather than students. A learner researching their options has to piece things together from multiple sources with different formats and different levels of completeness. For students on limited data, this is not just inconvenient — it is a real cost. <cite>[3, 8]</cite></div>
+        </div>
+      </li>
+      <li>
+        <div class="problem-num">03</div>
+        <div class="problem-content">
+          <div class="problem-label">TVET Misrepresentation</div>
+          <div class="problem-text">The persistent framing of TVET as a lesser pathway leads students to rule out qualifications that would genuinely suit them better. Career counselling in many schools reinforces this bias. TVET graduates in electrical installation, plumbing, and IT are in higher demand than graduates in many university disciplines, but the information architecture of most guidance platforms treats TVET as an afterthought rather than a primary option. <cite>[5, 6]</cite></div>
+        </div>
+      </li>
+      <li>
+        <div class="problem-num">04</div>
+        <div class="problem-content">
+          <div class="problem-label">Infrastructure as a Direct Educational Barrier</div>
+          <div class="problem-text">Load shedding, unreliable water supply, and high mobile data costs are not separate from the education problem — they are part of it. A student who cannot predict when power will be cut cannot build a consistent study schedule. A student on a limited data bundle cannot afford to browse multiple websites. These constraints fall hardest on students in lower-income households, compounding existing inequality in educational outcomes. <cite>[7, 8, 9, 10]</cite></div>
+        </div>
+      </li>
+      <li>
+        <div class="problem-num">05</div>
+        <div class="problem-content">
+          <div class="problem-label">Financial Literacy and Planning Gap</div>
+          <div class="problem-text">Students applying for bursaries often do not fully understand what a bursary covers and what it does not — the difference between a full and partial bursary, what a cost of living allowance means in practice, or how much accommodation and transport actually cost in a different city. Without that understanding, students can choose bursaries or institutions that leave them in financial difficulty even though they technically qualified for funding.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- SECTION 5: PURPOSE -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 5</div>
+  <div class="section-number">05</div>
+  <h2 class="section-title">Purpose and Aim</h2>
+  <div class="section-body">
+    <div class="sub-heading">Primary Purpose</div>
+    <p>The purpose of Prospect is to give every South African learner in Grades 8–12 free, centralized access to the information and tools they need to make real decisions about their education and future — regardless of which school they go to, which province they are in, or what their family can afford. That sounds straightforward, but the specific framing matters: the goal is not just to provide information, but to provide it in a way that is actually usable by the students who most need it. Low data, intermittent power, and no career counsellor are not exceptional circumstances in South Africa — they are the norm for a significant portion of the students this platform is built for. <cite>[1, 7, 8]</cite></p>
+
+    <p>Prospect started as a career and school guidance platform. The expansion into infrastructure tools and civic information came from the research, not from feature creep. Every additional section was added because the evidence showed it was relevant to whether a student could actually act on the guidance they received. Knowing your ideal career path does not help you much if you cannot plan your study schedule around power cuts, or if you accept a bursary without understanding what you will need to live on. <cite>[9, 10]</cite></p>
+
+    <div class="sub-heading">Specific Aims</div>
+    <ul class="aim-list">
+      <li>To centralize 400 South African career profiles with locally relevant data — salary ranges, provincial job demand, required subjects, APS scores, and grade-by-grade preparation guidance — so that students can make subject choices with a clear picture of the consequences. <cite>[2]</cite></li>
+      <li>To provide 245 searchable, filterable bursary listings with eligibility criteria, deadlines, and direct application links, so that funding research does not require visiting multiple external platforms. <cite>[3]</cite></li>
+      <li>To present TVET colleges as a legitimate and well-documented first-choice pathway, counteracting the cultural assumption that vocational education is a lesser option. <cite>[5, 6]</cite></li>
+      <li>To offer an AI-powered school assistant that can answer questions about subjects, NSC requirements, APS scores, and TVET pathways in real time — reaching students who do not have access to a trained career counsellor. <cite>[11, 12]</cite></li>
+      <li>To provide a study library covering 11 school subjects and 24 topics, with interactive modules and database-backed progress tracking, so students can use the same platform for study support that they use for career and bursary research.</li>
+      <li>To address the infrastructure realities of South African student life through real-time load shedding data, water availability information, cost of living figures, NSC exam countdowns, and a civics guide — tools that directly affect a student's ability to plan and study. <cite>[9, 10]</cite></li>
+      <li>To deliver all of the above as a mobile-optimized, low-data-conscious web application that is free to use, so that access constraints do not determine who benefits from the platform. <cite>[8]</cite></li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- SECTION 6: RESEARCH QUESTION -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 6</div>
+  <div class="section-number">06</div>
+  <h2 class="section-title">Research Question</h2>
+  <div class="section-body">
+    <div class="sub-heading">Central Research Question</div>
+    <div class="rq-box">
+      <div class="rq-label">Central Research Question</div>
+      <div class="rq-text">How can a unified, free, and mobile-accessible digital platform reduce the information and guidance gap faced by South African learners in Grades 8–12, enabling more informed decisions about subject choice, career pathways, bursary applications, and post-school planning?</div>
+    </div>
+
+    <div class="sub-heading">Sub-Research Questions</div>
+    <ul class="sub-rq-list">
+      <li>To what extent does centralized, South African-specific career and subject information change how learners approach subject selection in Grades 10–12? <cite>[1, 2]</cite></li>
+      <li>How effectively can a structured bursary database — searchable by field, province, and eligibility — reduce the time and effort required for learners to identify relevant funding opportunities? <cite>[3]</cite></li>
+      <li>Does presenting TVET colleges as a primary pathway alongside university options influence learner perception of vocational education as a legitimate post-school choice? <cite>[5, 6]</cite></li>
+      <li>Can an AI-powered school assistant, configured for South African curriculum and qualification requirements, provide guidance comparable to that of a trained career counsellor for the most common student questions? <cite>[11, 12]</cite></li>
+      <li>How does integrating real-time infrastructure data — load shedding schedules, water availability, cost of living by city — into an educational platform affect a learner's ability to plan and manage their study environment? <cite>[9, 10]</cite></li>
+      <li>What design and technical choices are necessary to make a web-based educational platform usable by learners on mobile devices with limited data and intermittent connectivity? <cite>[8, 13]</cite></li>
+      <li>Can a single platform address both the academic and civic informational needs of South African learners without becoming too broad to be useful?</li>
+    </ul>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>Note on scope:</strong> The central research question and sub-questions were revised during development as the project's scope expanded. The original question focused narrowly on career guidance. As infrastructure barriers and financial literacy emerged as equally significant blockers to the same students, the question was broadened to reflect what the platform had become and why.
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 7: ENGINEERING GOALS -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 7</div>
+  <div class="section-number">07</div>
+  <h2 class="section-title">Engineering and Design Goals</h2>
+  <div class="section-body">
+    <p>The engineering and design goals below are written as SMART objectives — Specific, Measurable, Achievable, Relevant, and Time-bound. Each goal connects directly to one or more of the aims in Section 5 and to the literature reviewed in Section 3. Status reflects where the platform stood at launch on 15 May 2026.</p>
+
+    <div class="goal-grid">
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 1 — Data Completeness</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">Comprehensive SA Career and Bursary Database</div>
+        <div class="goal-metric">Build and publish a database of <strong>at least 300 career profiles</strong> with SA-specific salary, subject, APS, and province data, and <strong>at least 200 bursary listings</strong> with full eligibility detail and application links — before launch. <cite>[1, 2, 3]</cite><br><br>Result: <strong>400 careers</strong> and <strong>245 bursaries</strong> at launch.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 2 — Subject-Career Matching</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">Career Quiz and APS Calculator</div>
+        <div class="goal-metric">Build a multi-step career quiz matching a learner's subject selections and interests to ranked career results, and an APS calculator that computes their score from entered marks and shows which faculties they qualify for. <cite>[1, 2]</cite><br><br>Result: Career quiz live with ranked matches. APS calculator with real-time calculation.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 3 — TVET Representation</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">TVET as a First-Class Pathway</div>
+        <div class="goal-metric">Create a TVET section presenting colleges, courses, and career outcomes with the same depth as university information — not a secondary page. <cite>[5, 6]</cite><br><br>Result: Full TVET section with college listings, course detail, funding options, and sub-page navigation at launch.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 4 — AI School Assistant</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">Real-Time AI Guidance for Common Questions</div>
+        <div class="goal-metric">Deploy an AI chat assistant for SA subjects, NSC requirements, APS, and TVET pathways — with responses under 5 seconds for text and instant answers for the 7 most common questions. <cite>[11, 12]</cite><br><br>Result: Groq (llama-3.3-70b-versatile) live. Predefined instant layer for 7 queries. Typical response under 3 seconds.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 5 — Study Resources</span>
+          <span class="goal-badge badge-progress">In Progress</span>
+        </div>
+        <div class="goal-title">Integrated Study Library with Progress Tracking</div>
+        <div class="goal-metric">Build a study library covering all major matric subjects with interactive modules and database-backed progress tracking.<br><br>Result: 24 topics across 11 subjects live. Two interactive Grade 10 Algebra modules with Supabase mastery tracking. Full curriculum coverage is ongoing.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 6 — Infrastructure Context</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">Real-Time Load Shedding, Water, and Civic Data</div>
+        <div class="goal-metric">Deploy automated scrapers updating load shedding and water data on a regular schedule so information stays current without manual updates. <cite>[9, 10]</cite><br><br>Result: GitHub Actions scrapers running for both. NSC countdown live. Cost of living and civics guide published.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 7 — Access and Performance</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">Mobile-Optimized, Low-Data, Free Access</div>
+        <div class="goal-metric">Deliver a mobile-responsive web app that is free to use, passes accessibility checks, and includes a data saver mode to reduce bandwidth for users on limited prepaid bundles. <cite>[8, 13]</cite><br><br>Result: Mobile-responsive across all pages. Data saver toggle. Code splitting on large data files. Free on Vercel.</div>
+      </div>
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <span class="goal-id">Goal 8 — Reliability and Testing</span>
+          <span class="goal-badge badge-achieved">Achieved</span>
+        </div>
+        <div class="goal-title">End-to-End Test Coverage for Core Flows</div>
+        <div class="goal-metric">Maintain automated end-to-end tests covering all critical user journeys — auth, career browsing, quiz, bursary search, AI chat — with all tests passing before each deployment.<br><br>Result: 31 Playwright tests passing at launch. Auth bypass for CI environments.</div>
+      </div>
+
+    </div>
+
+    <div class="closing-block">
+      <p>Seven of the eight engineering goals were fully met at launch. Goal 5 — full study library curriculum coverage — is partially complete: the infrastructure and the first two interactive modules are live, but expanding to cover all matric subjects is work that continues beyond the initial launch. All goals are specific enough to verify, measurable against defined targets, and tied directly to the research evidence reviewed in Section 3.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- SECTION 8: REFERENCES -->
+<div class="section-page">
+  <div class="section-eyebrow">Section 8</div>
+  <div class="section-number">08</div>
+  <h2 class="section-title">References</h2>
+  <div class="section-body">
+    <ul class="ref-list">
+      <li>Hooley, T., Watts, A.G., Sultana, R.G., &amp; Neary, S. (2013). The 'Blueprint' framework for career management skills: A critical exploration. <em>British Journal of Guidance and Counselling</em>, 41(2), 117–131.</li>
+      <li>Mncwango, B. (2016). Career guidance and counselling in South African schools: Challenges and prospects. <em>Perspectives in Education</em>, 34(2), 11–22.</li>
+      <li>Yenza.co.za; Gradesmatch.co.za; NCAP.co.za; Reslocate.com. (2025). Platform feature comparison conducted by the Prospect research team. [Unpublished analysis, March 2026].</li>
+      <li>Statistics South Africa. (2023). <em>Education Series Volume VI: Educational Enrolment and Achievement, 2023.</em> Stats SA: Pretoria.</li>
+      <li>Department of Higher Education and Training. (2013). <em>White Paper for Post-School Education and Training.</em> Government of South Africa: Pretoria.</li>
+      <li>Wedekind, V. (2010). Chaos or coherence? Further education and training college governance and the state. <em>Perspectives in Education</em>, 28(2), 85–98.</li>
+      <li>Eberhard, A., Kolker, J., &amp; Leigland, J. (2014). <em>South Africa's Renewable Energy IPP Procurement Program: Success Factors and Lessons.</em> World Bank PPIAF: Washington DC.</li>
+      <li>Alliance for Affordable Internet. (2023). <em>Affordability Report: The State of Mobile Internet Access in Africa.</em> Web Foundation.</li>
+      <li>Zondo, S.A., &amp; Mncube, V. (2022). Impact of electricity outages on academic performance of rural secondary school learners in South Africa. <em>International Journal of Learning, Teaching and Educational Research</em>, 21(6), 322–339.</li>
+      <li>Eskom Holdings SOC Ltd. (2024). <em>Load Shedding Schedule and Stage Data.</em> Retrieved from esp.eskom.co.za [Accessed March 2026].</li>
+      <li>Zawacki-Richter, O., Marín, V.I., Bond, M., &amp; Gouverneur, F. (2019). Systematic review of research on artificial intelligence applications in higher education. <em>International Journal of Educational Technology in Higher Education</em>, 16(1), 39.</li>
+      <li>Holmes, W., Bialik, M., &amp; Fadel, C. (2019). <em>Artificial Intelligence in Education: Promises and Implications for Teaching and Learning.</em> Center for Curriculum Redesign: Boston, MA.</li>
+      <li>Traxler, J. (2018). Distance learning — predictions and possibilities. <em>Education Sciences</em>, 8(1), 35.</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

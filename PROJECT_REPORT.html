@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Project Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+  }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11","ss01";
+    line-height: 1.6;
+  }
+
+  /* ── shell ── */
+  .page {
+    width: 100%; min-height: 1123px;
+    padding: 64px 80px 72px;
+    display: flex; flex-direction: column;
+    position: relative;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  .top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .bottom-rule { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--slate-100); }
+  .wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 40px; }
+
+  /* ── typography ── */
+  .doc-tag { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 3px 10px; display: inline-block; margin-bottom: 14px; }
+  .cover-title { font-size: 42px; font-weight: 900; letter-spacing: -0.035em; color: var(--navy); line-height: 1.0; margin-bottom: 10px; }
+  .cover-sub { font-size: 14px; color: var(--slate-500); margin-bottom: 36px; line-height: 1.6; max-width: 560px; }
+  .divider { width: 40px; height: 2px; background: var(--navy); margin-bottom: 32px; }
+  .section-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 6px; }
+  .section-title { font-size: 19px; font-weight: 800; color: var(--navy); margin-bottom: 14px; letter-spacing: -0.02em; border-bottom: 1px solid var(--slate-200); padding-bottom: 10px; }
+  .section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+  .section-number { font-size: 44px; font-weight: 900; color: var(--slate-200); letter-spacing: -0.04em; line-height: 1; flex-shrink: 0; }
+  .section-inner { flex: 1; min-width: 0; }
+  .body-text { font-size: 12.5px; color: var(--slate-700); line-height: 1.8; }
+  .body-text p { margin-bottom: 10px; }
+  .body-text p:last-child { margin-bottom: 0; }
+  .sub-heading { font-size: 10px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--navy); margin: 20px 0 8px; }
+  .sub-heading:first-child { margin-top: 0; }
+
+  /* ── layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  /* ── stat grid ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--slate-200); border: 1px solid var(--slate-200); margin-bottom: 28px; }
+  .stat-cell { background: var(--white); padding: 16px 14px; }
+  .stat-number { font-size: 26px; font-weight: 900; color: var(--navy); letter-spacing: -0.04em; line-height: 1; margin-bottom: 3px; }
+  .stat-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-500); }
+
+  /* ── tables ── */
+  table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  thead tr { background: var(--navy); }
+  thead th { color: var(--white); font-weight: 700; padding: 8px 11px; text-align: left; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 8px 11px; color: var(--slate-700); vertical-align: top; line-height: 1.5; }
+  td.name { font-weight: 600; color: var(--navy); white-space: nowrap; }
+
+  /* ── badges ── */
+  .badge { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 1px 7px; }
+  .badge.green { background: var(--green-light); color: var(--green); }
+  .badge.red { background: var(--red-light); color: var(--red); }
+  .badge.amber { background: var(--amber-light); color: var(--amber); }
+  .badge.navy { background: var(--navy); color: var(--white); }
+
+  /* ── feature card ── */
+  .feature-card { border: 1px solid var(--slate-200); padding: 13px 15px; }
+  .feature-card-label { font-size: 9px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 3px; }
+  .feature-card-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .feature-card-body { font-size: 11.5px; color: var(--slate-700); line-height: 1.6; }
+
+  /* ── flow step ── */
+  .flow-steps { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: grid; grid-template-columns: 32px 1fr; gap: 12px; padding-bottom: 18px; position: relative; }
+  .flow-step:last-child { padding-bottom: 0; }
+  .flow-step::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--slate-200); }
+  .flow-step:last-child::before { display: none; }
+  .flow-dot { width: 32px; height: 32px; background: var(--navy); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; position: relative; z-index: 1; }
+  .flow-body {}
+  .flow-title { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 3px; padding-top: 6px; }
+  .flow-text { font-size: 11.5px; color: var(--slate-700); line-height: 1.6; }
+
+  /* ── code pill ── */
+  .pill { display: inline-block; font-size: 10px; font-weight: 600; background: var(--slate-100); color: var(--slate-700); padding: 1px 8px; border-radius: 2px; border: 1px solid var(--slate-200); font-family: 'Courier New', monospace; }
+
+  /* ── arch block ── */
+  .arch-row { display: grid; grid-template-columns: 120px 1fr; gap: 0; border: 1px solid var(--slate-200); margin-bottom: -1px; }
+  .arch-layer { background: var(--navy); color: var(--white); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 12px; display: flex; align-items: center; }
+  .arch-body { padding: 10px 14px; font-size: 11.5px; color: var(--slate-700); line-height: 1.55; }
+  .arch-body strong { color: var(--navy); font-weight: 600; }
+
+  /* ── data flow diagram (CSS only) ── */
+  .data-flow { display: flex; align-items: center; gap: 0; margin: 16px 0; flex-wrap: nowrap; overflow: hidden; }
+  .df-box { background: var(--slate-100); border: 1px solid var(--slate-300); padding: 8px 12px; font-size: 10.5px; font-weight: 700; color: var(--navy); text-align: center; white-space: nowrap; flex-shrink: 0; }
+  .df-box.dark { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .df-box.mid { background: var(--slate-600); color: var(--white); border-color: var(--slate-600); }
+  .df-arrow { font-size: 14px; color: var(--slate-400); padding: 0 6px; flex-shrink: 0; }
+
+  /* ── bar chart ── */
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+  .bar-lbl { font-size: 11px; color: var(--slate-700); width: 160px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 18px; background: var(--slate-100); position: relative; }
+  .bar-fill { height: 100%; background: var(--navy); display: flex; align-items: center; justify-content: flex-end; }
+  .bar-val { font-size: 10px; font-weight: 700; color: var(--white); padding: 0 6px; white-space: nowrap; }
+  .bar-val-out { font-size: 10px; font-weight: 700; color: var(--slate-500); position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); white-space: nowrap; }
+
+  /* ── toc table ── */
+  .toc-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; border-bottom: 1px solid var(--slate-200); padding: 7px 0; font-size: 12px; }
+  .toc-row.head { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-400); }
+  .toc-name { font-weight: 600; color: var(--navy); }
+  .toc-page { color: var(--slate-500); text-align: right; flex-shrink: 0; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===========================================================
+     PAGE 1 — COVER
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Science Expo 2026</div>
+
+  <div class="doc-tag">Project Report</div>
+  <h1 class="cover-title">Prospect — Full Project Report</h1>
+  <p class="cover-sub">A complete account of how the platform was built, how every feature works, how the codebase is structured, and how a student would actually use it.</p>
+  <div class="divider"></div>
+
+  <div class="stat-grid" style="margin-bottom: 28px;">
+    <div class="stat-cell"><div class="stat-number">400+</div><div class="stat-label">Career Profiles</div></div>
+    <div class="stat-cell"><div class="stat-number">245</div><div class="stat-label">Bursary Listings</div></div>
+    <div class="stat-cell"><div class="stat-number">29</div><div class="stat-label">Pages / Routes</div></div>
+    <div class="stat-cell"><div class="stat-number">31/31</div><div class="stat-label">Tests Passing</div></div>
+  </div>
+
+  <div class="body-text" style="margin-bottom: 28px;">
+    <p>This document covers everything: what Prospect is, why it exists, how its four pillars are built, how the backend works, how data flows through the system, and what a student's typical session looks like from landing page to using the AI assistant. It is written from the codebase up — nothing here is assumed or invented.</p>
+  </div>
+
+  <div class="section-label" style="margin-bottom: 10px;">Contents</div>
+  <div class="toc-row head"><div>Section</div><div class="toc-page">Page</div></div>
+  <div class="toc-row"><div class="toc-name">1. What Prospect Is and Why It Exists</div><div class="toc-page">2</div></div>
+  <div class="toc-row"><div class="toc-name">2. Architecture and Tech Stack</div><div class="toc-page">3</div></div>
+  <div class="toc-row"><div class="toc-name">3. Careers Pillar — Explorer, Quiz, Roadmap, TVET</div><div class="toc-page">4</div></div>
+  <div class="toc-row"><div class="toc-name">4. Bursaries Pillar — Finder and Detail</div><div class="toc-page">5</div></div>
+  <div class="toc-row"><div class="toc-name">5. School Assist — AI Chat and Study Library</div><div class="toc-page">6</div></div>
+  <div class="toc-row"><div class="toc-name">6. Community and Life Context Features</div><div class="toc-page">7</div></div>
+  <div class="toc-row"><div class="toc-name">7. Auth, Data Persistence, and Backend Services</div><div class="toc-page">8</div></div>
+  <div class="toc-row"><div class="toc-name">8. User Workflow — A Student's Full Session</div><div class="toc-page">9</div></div>
+  <div class="toc-row"><div class="toc-name">9. Testing, Build, and Deployment</div><div class="toc-page">10</div></div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 2 — WHAT IT IS AND WHY
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 1</div>
+
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div class="section-inner">
+      <div class="section-label">Overview</div>
+      <div class="section-title">What Prospect Is and Why It Exists</div>
+    </div>
+  </div>
+
+  <div class="body-text" style="margin-bottom: 20px;">
+    <p>Prospect is a free, mobile-first web platform for South African high school students in Grades 8 to 12. It gives students access to career guidance, bursary information, a curriculum-focused AI assistant, and live data on the infrastructure issues — load shedding and water supply — that directly affect how and when they can study.</p>
+    <p>The platform started as a career and subject guidance tool. Research into the actual problems South African learners face expanded it. Load shedding disrupts study sessions. High data costs mean students can't afford slow sites. Guidance counsellors are too scarce in public schools to reach every student who needs one. The platform grew to address each of these things directly — and every feature that couldn't justify itself against a real problem was removed before launch.</p>
+    <p>Two features that were prototyped but removed: a pothole reporting tool (not relevant to learners) and a community impact visualisation (data didn't exist in a usable form). What remained after that cut is what launched.</p>
+  </div>
+
+  <div class="sub-heading">The Four Platform Pillars</div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+    <div class="feature-card">
+      <div class="feature-card-label">Pillar 1</div>
+      <div class="feature-card-name">Careers and Guidance</div>
+      <div class="feature-card-body">Career explorer (400+ profiles), career quiz (RIASEC-style), career roadmap, grade 10 subject selector, TVET section with colleges, careers, funding, and requirements.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Pillar 2</div>
+      <div class="feature-card-name">Bursaries and Funding</div>
+      <div class="feature-card-body">245 verified bursary listings with full eligibility, coverage, deadline, and direct application link. Filterable by field, province, and open/closed status.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Pillar 3</div>
+      <div class="feature-card-name">School Assist</div>
+      <div class="feature-card-body">AI chat assistant powered by Groq (llama-3.3-70b-versatile), study library with 24 topics across 11 subjects, interactive algebra modules with progress tracking, academic calendar, matric exam countdown.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Pillar 4</div>
+      <div class="feature-card-name">Community and Life Context</div>
+      <div class="feature-card-body">Live load shedding tracker (Eskom data, updated every 30 minutes), water dashboard (provincial dam levels, daily), cost of living by city, civics guide, tax and budget explainer.</div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Who it is for</div>
+  <div class="body-text">
+    <p>The primary user is a Grade 10–12 learner in a South African public school, likely accessing the platform on a smartphone on prepaid mobile data. The platform is also useful for Grade 8 and 9 learners who want early visibility into how subject choices affect career options. Everything that requires login is clearly marked — most features are accessible without creating an account.</p>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <div class="data-flow">
+      <div class="df-box dark">Student arrives</div>
+      <div class="df-arrow">→</div>
+      <div class="df-box">Browses freely</div>
+      <div class="df-arrow">→</div>
+      <div class="df-box">Finds career / bursary</div>
+      <div class="df-arrow">→</div>
+      <div class="df-box">Asks AI assistant</div>
+      <div class="df-arrow">→</div>
+      <div class="df-box dark">Signs up to save progress</div>
+    </div>
+    <p style="font-size: 11px; color: var(--slate-500); margin-top: 6px;">Auth is gated only on features that require persistence (dashboard, study progress). Discovery is always free and open.</p>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 3 — ARCHITECTURE AND TECH STACK
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 2</div>
+
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div class="section-inner">
+      <div class="section-label">Technical</div>
+      <div class="section-title">Architecture and Tech Stack</div>
+    </div>
+  </div>
+
+  <div class="sub-heading">System Architecture</div>
+  <div style="margin-bottom: 20px;">
+    <div class="arch-row"><div class="arch-layer">Browser</div><div class="arch-body"><strong>React 19 SPA</strong> — all UI, routing, state, and data rendering happens client-side. No server-side rendering. The app loads once and navigates internally.</div></div>
+    <div class="arch-row"><div class="arch-layer">Routing</div><div class="arch-body"><strong>Custom page state</strong> in App.tsx — a <span class="pill">page</span> state variable holds the current view. <span class="pill">?page=X</span> URL param enables direct links and Playwright test navigation. React.lazy() and Suspense wrap every page component for code-split loading.</div></div>
+    <div class="arch-row"><div class="arch-layer">Data</div><div class="arch-body"><strong>TypeScript data files</strong> — careers400Final.ts (assembled from 21 batch files across 11 sectors), bursaries.ts (245 entries with typed Requirement and Coverage interfaces), tvetColleges.ts, tvetCareers.ts, studyLibrary/index.ts. All imported directly, no API call for this data.</div></div>
+    <div class="arch-row"><div class="arch-layer">Auth</div><div class="arch-body"><strong>Supabase Auth</strong> — email/password sign-up and sign-in, session persistence via localStorage, auto session restore on page load. withAuth.tsx HOC wraps protected pages and redirects unauthenticated users. Test mode bypass: <span class="pill">?__test_mode=true</span> skips all auth checks for Playwright.</div></div>
+    <div class="arch-row"><div class="arch-layer">Database</div><div class="arch-body"><strong>Supabase PostgreSQL</strong> — stores user profiles, forum posts, study progress (mastery tracking for algebra modules). supabaseSync.ts runs background sync between localStorage and Supabase so progress persists across devices.</div></div>
+    <div class="arch-row"><div class="arch-layer">AI</div><div class="arch-body"><strong>Groq API</strong> — llama-3.3-70b-versatile model via fetch to api.groq.com/openai/v1/chat/completions. API key stored as VITE_GROQ_API_KEY in Vercel environment variables. OpenAI-compatible request format. 10-message rolling context window per session.</div></div>
+    <div class="arch-row"><div class="arch-layer">Live Data</div><div class="arch-body"><strong>GitHub Actions scrapers (Python)</strong> — load shedding scraper runs every 30 minutes, water scraper runs daily at 07:00 SAST. Both commit JSON output to <span class="pill">public/data/</span>. Vercel auto-deploys on every commit, making scraped data live.</div></div>
+    <div class="arch-row"><div class="arch-layer">Hosting</div><div class="arch-body"><strong>Vercel</strong> — continuous deployment from GitHub main branch. Environment variables managed in Vercel dashboard. Free tier at launch.</div></div>
+  </div>
+
+  <div class="sub-heading">Build and Dependencies</div>
+  <div class="two-col">
+    <div>
+      <table>
+        <thead><tr><th>Package</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td class="name">react@19</td><td>Core UI framework</td></tr>
+          <tr><td class="name">vite@6</td><td>Build tool, dev server (port 3000), HMR</td></tr>
+          <tr><td class="name">tailwindcss@4</td><td>All styling, mobile-first utilities</td></tr>
+          <tr><td class="name">typescript@5</td><td>Type safety across all data and components</td></tr>
+          <tr><td class="name">react-router-dom@6</td><td>Client-side routing (used inside App.tsx)</td></tr>
+          <tr><td class="name">motion@12</td><td>Page transitions, nav animations</td></tr>
+          <tr><td class="name">@supabase/supabase-js</td><td>Auth and database client</td></tr>
+          <tr><td class="name">lucide-react</td><td>All icons throughout the UI</td></tr>
+          <tr><td class="name">leaflet + react-leaflet</td><td>Job demand map (province level)</td></tr>
+          <tr><td class="name">date-fns</td><td>Date formatting for calendar and countdowns</td></tr>
+          <tr><td class="name">@playwright/test</td><td>End-to-end test suite (31 tests)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="sub-heading" style="margin-top: 0;">Code Splitting Strategy</div>
+      <div class="body-text" style="margin-bottom: 12px;"><p>Vite's rollupOptions in vite.config.ts split the build into separate chunks. The two largest data files — careers400Final.ts and bursaries.ts — are isolated into their own chunks so they only load when those pages are visited, not on every page load.</p></div>
+      <div class="bar-row"><div class="bar-lbl">careers400Final chunk</div><div class="bar-track"><div class="bar-fill" style="width:100%"><span class="bar-val">~38% of data</span></div></div></div>
+      <div class="bar-row"><div class="bar-lbl">bursaries chunk</div><div class="bar-track"><div class="bar-fill" style="width:58%; background:var(--slate-600)"><span class="bar-val">~22% of data</span></div></div></div>
+      <div class="bar-row"><div class="bar-lbl">vendor (react, motion)</div><div class="bar-track"><div class="bar-fill" style="width:66%; background:var(--slate-500)"><span class="bar-val">~25%</span></div></div></div>
+      <div class="bar-row"><div class="bar-lbl">app core</div><div class="bar-track"><div class="bar-fill" style="width:40%; background:var(--slate-400)"><span class="bar-val">~15%</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 4 — CAREERS PILLAR
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 3</div>
+
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div class="section-inner">
+      <div class="section-label">Feature Detail</div>
+      <div class="section-title">Careers Pillar — Explorer, Quiz, Roadmap, TVET</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 20px;">
+    <div>
+      <div class="sub-heading">Career Explorer</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>The career explorer lives at the <span class="pill">careers</span> page and is built on top of careers400Final.ts — a TypeScript file that assembles 400+ career profiles from 21 batch import files covering sectors including engineering, healthcare, trades, business, digital, education, legal, finance, media, agriculture, and public services. Each profile is typed against the <span class="pill">CareerFull</span> interface defined in careersTypes.ts.</p>
+        <p>Each career entry contains: career title, sector, required subjects, qualification level, APS range, salary range (SA-specific), day-in-the-life description, qualification path, where to study, and a provincial job demand indicator. Students can search by name, filter by subject, sector, or qualification level, and click through to a full detail view without needing to be signed in.</p>
+      </div>
+
+      <div class="sub-heading">Career Quiz</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>The quiz page (QuizPage.tsx) runs a multi-step questionnaire. Students select their current subjects and rate their interests. The scoring logic in quizScoringLogic.ts and quizService.ts calculates a fit score for each career and returns a ranked list of matches. Each result links directly to the career detail page. No sign-in required.</p>
+      </div>
+
+      <div class="sub-heading">Career Roadmap</div>
+      <div class="body-text">
+        <p>A visual step-by-step path from a student's current grade to a chosen career — showing required subjects, qualification milestones, and estimated time at each stage. Driven by data in demoLearningPath.ts and subjectCareerMapping.ts.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-heading">Grade 10 Subject Selector</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>Grade10SubjectSelectorPage.tsx lets a student select the subjects they are currently taking or considering. The platform immediately shows which careers those subjects open up and which they close off — making the consequence of subject choices visible before they're finalised.</p>
+      </div>
+
+      <div class="sub-heading">TVET Section</div>
+      <div class="body-text">
+        <p>The TVET section is a standalone sub-platform with five linked pages, all under <span class="pill">src/pages/tvet/</span>:</p>
+      </div>
+      <table style="margin-top: 8px;">
+        <thead><tr><th>Page</th><th>Content</th></tr></thead>
+        <tbody>
+          <tr><td class="name">TVETPage</td><td>Overview hub — what TVET is and how it compares to university</td></tr>
+          <tr><td class="name">TVETCareersPage</td><td>Trade and vocational career listings from tvetCareers.ts</td></tr>
+          <tr><td class="name">TVETCollegesPage</td><td>26 TVET colleges from tvetColleges.ts — province, campuses, programmes</td></tr>
+          <tr><td class="name">TVETFundingPage</td><td>Funding options for TVET students (NSFAS, SETA, other)</td></tr>
+          <tr><td class="name">TVETRequirementsPage</td><td>Admission requirements by programme and college</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size: 11.5px; color: var(--slate-500); margin-top: 8px; line-height: 1.55;">The TVET section deliberately presents vocational routes as a first-choice pathway alongside university options — not as a fallback. This is a design decision, not just a layout choice.</p>
+    </div>
+  </div>
+
+  <div class="sub-heading">Province Job Demand Map</div>
+  <div class="body-text">
+    <p>MapPage.tsx renders an interactive Leaflet map (using react-leaflet) showing job demand by province for different career sectors. Data is drawn from mapData.ts and updated via mapService.ts. Students can select a career or sector and see which provinces have high, medium, or low demand — useful for relocation planning around study or work.</p>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 5 — BURSARIES PILLAR
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 4</div>
+
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div class="section-inner">
+      <div class="section-label">Feature Detail</div>
+      <div class="section-title">Bursaries Pillar — Finder and Detail Pages</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 24px;">
+    <div>
+      <div class="sub-heading">Data Structure</div>
+      <div class="body-text">
+        <p>All bursary data lives in <span class="pill">src/data/bursaries.ts</span>, last verified March 2026. The file defines two key interfaces — <span class="pill">Requirement</span> and <span class="pill">Coverage</span> — and exports an array of 245 bursary objects. Each entry includes:</p>
+      </div>
+      <table style="margin-top: 8px; margin-bottom: 12px;">
+        <thead><tr><th>Field</th><th>Type / Example</th></tr></thead>
+        <tbody>
+          <tr><td class="name">provider</td><td>String — e.g. "Funza Lushaka", "NSFAS", "Sasol"</td></tr>
+          <tr><td class="name">field</td><td>String — field of study the bursary covers</td></tr>
+          <tr><td class="name">province</td><td>String or "National"</td></tr>
+          <tr><td class="name">requirements</td><td>Requirement — minMarks, maxIncome, citizenship, studyLevel</td></tr>
+          <tr><td class="name">coverage</td><td>Coverage — tuition, accommodation, meals, books (booleans)</td></tr>
+          <tr><td class="name">deadline</td><td>String — verified for 2024/2025 cycle</td></tr>
+          <tr><td class="name">status</td><td>"open" | "closed" | "unknown"</td></tr>
+          <tr><td class="name">applicationLink</td><td>Verified HTTPS URL (primary source only)</td></tr>
+        </tbody>
+      </table>
+      <div class="body-text">
+        <p>Bursaries where deadlines could not be verified against a primary source are marked <span class="pill">status: "unknown"</span> rather than shown with potentially incorrect dates.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-heading">Bursary Search Page</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>BursariesPage.tsx loads the full 245-entry dataset (code-split into its own Vite chunk, so it only loads when this page is opened). Students can:</p>
+        <ul style="font-size: 12px; color: var(--slate-700); line-height: 2; padding-left: 16px;">
+          <li>Search by bursary name, provider, or field of study</li>
+          <li>Filter by field of study</li>
+          <li>Filter by province</li>
+          <li>Filter by open/closed/unknown status</li>
+        </ul>
+        <p style="margin-top: 8px;">Each card in the results shows the provider, field, amount (where known), deadline, and eligibility summary. Clicking through opens BursaryDetailPage.tsx with the full profile including the Coverage breakdown (exactly what is and isn't funded), required documents, and the direct application link.</p>
+      </div>
+
+      <div class="sub-heading">Why This Matters</div>
+      <div class="body-text">
+        <p>Bursary information in South Africa is fragmented across dozens of company websites, government portals, and third-party aggregators — each with different levels of accuracy and currency. The 245 listings in Prospect were verified against primary sources (provider websites, government portals) before being included. Third-party aggregators were used only for discovery. Entries with unverifiable data were excluded or flagged rather than included with incorrect information.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Coverage of Bursary Types</div>
+  <div class="three-col">
+    <div class="feature-card">
+      <div class="feature-card-label">Government</div>
+      <div class="feature-card-name">State Bursaries</div>
+      <div class="feature-card-body">NSFAS (full tuition + allowance), Funza Lushaka (teaching), SETA bursaries, provincial government bursaries from Gauteng, Western Cape, and others.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Corporate</div>
+      <div class="feature-card-name">Company Bursaries</div>
+      <div class="feature-card-body">Eskom, Sasol, Anglo American, MTN Foundation, Nedbank, FNB, Standard Bank, Absa, Old Mutual, Discovery, PwC, Deloitte, KPMG, and others.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-label">Institutional</div>
+      <div class="feature-card-name">University Awards</div>
+      <div class="feature-card-body">Merit bursaries and scholarships from UCT, Wits, UP, UJ, UKZN, Stellenbosch, NWU, UFH, DUT, and TUT — sourced directly from financial aid office pages.</div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 6 — SCHOOL ASSIST
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 5</div>
+
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div class="section-inner">
+      <div class="section-label">Feature Detail</div>
+      <div class="section-title">School Assist — AI Chat and Study Library</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 20px;">
+    <div>
+      <div class="sub-heading">AI School Assistant — How It Works</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>SchoolAssistChatPage.tsx handles the full chat interface. When a student sends a message, the following happens in sequence:</p>
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-dot">1</div>
+          <div class="flow-body">
+            <div class="flow-title">Predefined answer check</div>
+            <div class="flow-text">The message is checked against 5 hardcoded starter questions (subjects/APS, NSFAS, career guidance, university entry, study tips). If it matches exactly, the predefined answer renders immediately from local memory — no API call, under 50ms.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">2</div>
+          <div class="flow-body">
+            <div class="flow-title">Groq API call</div>
+            <div class="flow-text">If no predefined match: a fetch POST is sent to <span class="pill">api.groq.com/openai/v1/chat/completions</span> with the system prompt, up to the last 10 messages as history, and the new user message. Model: llama-3.3-70b-versatile. Temperature: 0.7. Max tokens: 1024.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">3</div>
+          <div class="flow-body">
+            <div class="flow-title">System prompt context</div>
+            <div class="flow-text">The system prompt instructs the model to act as a South African school guidance counsellor — focusing on matric subjects, APS scores, NSFAS, CAO applications, TVET pathways, and exam preparation. Formatted with bold and bullet points for mobile readability.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">4</div>
+          <div class="flow-body">
+            <div class="flow-title">Image upload path</div>
+            <div class="flow-text">Students can attach an image (homework, exam paper) via the paperclip button. The file is converted to base64 and sent with the message. The model can read and respond to the image content. Image requests take approximately 14 seconds — noticeably slower than text, by design.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">5</div>
+          <div class="flow-body">
+            <div class="flow-title">Topic chips</div>
+            <div class="flow-text">Six quick-tap chips (Subjects, APS Score, Funding, University, Study Tips, Career Quiz) appear above the input. Tapping one sends a preset question instantly — no typing required.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-heading">Study Library</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>StudyLibraryPage.tsx presents structured study material for 24 topics across 11 subjects, all sourced from <span class="pill">src/data/studyLibrary/</span>. Each topic file exports structured notes: headings, worked examples, key terms, and practice questions. Topics are CAPS-aligned — they follow the actual NSC curriculum structure.</p>
+      </div>
+      <table style="margin-bottom: 12px;">
+        <thead><tr><th>Subject</th><th>Sample Topics</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Mathematics</td><td>Algebraic Expressions, Equations and Inequalities, Number Patterns, Functions, Mathematical Modelling</td></tr>
+          <tr><td class="name">Physical Sciences</td><td>Classification of Matter, Chemical Bonding, Periodic Table Trends, Atoms and Subatomic Particles, Waves Sound Light</td></tr>
+          <tr><td class="name">Life Sciences</td><td>Biodiversity and Classification, Five Kingdoms, Species Concept, Taxonomy and Binomial Nomenclature</td></tr>
+          <tr><td class="name">Accounting</td><td>Intro to Accounting, Accounting Equation, Double Entry System</td></tr>
+          <tr><td class="name">Business Studies</td><td>Business Studies Topics overview</td></tr>
+          <tr><td class="name">Economics</td><td>Economics Topics overview</td></tr>
+          <tr><td class="name">EGD / CAT</td><td>EGD Topics, CAT and EGD combined topics</td></tr>
+          <tr><td class="name">English</td><td>English Topics — comprehension and essay structure</td></tr>
+        </tbody>
+      </table>
+
+      <div class="sub-heading">Interactive Algebra Modules</div>
+      <div class="body-text">
+        <p>Two fully interactive modules exist under <span class="pill">src/pages/learning/Algebra/Grade10/Term1/</span>: Linear Equations and Simultaneous Equations. These are not just notes — they are step-through exercises where a student works through problems and the platform tracks which topics they have completed. Progress is written to Supabase via supabaseSync.ts and persists across sessions.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Academic Calendar and Matric Exam Countdown</div>
+  <div class="body-text">
+    <p>CalendarPageNew.tsx shows the full academic calendar with SA school term dates. MatricExamDatesPage.tsx shows the complete 2026 NSC exam timetable with a live countdown (via date-fns) to each exam period — visible in the same platform where students are doing their study preparation.</p>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 7 — COMMUNITY FEATURES
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 6</div>
+
+  <div class="section-header">
+    <div class="section-number">06</div>
+    <div class="section-inner">
+      <div class="section-label">Feature Detail</div>
+      <div class="section-title">Community and Life Context Features</div>
+    </div>
+  </div>
+
+  <div class="body-text" style="margin-bottom: 20px;">
+    <p>The community pillar grew out of a research finding: South Africa's infrastructure realities — load shedding and water supply disruptions — directly reduce how much students can study. Knowing about a Stage 4 power cut in advance lets a student plan a study session around it. Not knowing means a lost evening. These are not novelty features — they address a real, measurable problem.</p>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 20px;">
+    <div>
+      <div class="sub-heading">Load Shedding Tracker</div>
+      <div class="body-text" style="margin-bottom: 14px;">
+        <p>LoadSheddingPage.tsx fetches data from <span class="pill">public/data/loadshedding/latest.json</span> — a file maintained by a Python scraper (backend/loadshedding_scraper.py) running via GitHub Actions every 30 minutes. The scraper queries Eskom's public API endpoint and commits updated JSON if the stage has changed. Vercel redeploys on every commit, making the data live within minutes of any stage change.</p>
+        <p>The page shows the current Eskom stage and gives students context on what that means for their area — so they can decide when to charge devices, download study materials, or plan offline study time.</p>
+      </div>
+
+      <div class="sub-heading">Water Dashboard</div>
+      <div class="body-text">
+        <p>WaterDashboardPage.tsx uses data from <span class="pill">public/data/water/latest.json</span>, populated by backend/water_scraper.py running daily at 07:00 SAST. The page — built across four sub-components (DamTrendsChart.tsx, PreparednessSection.tsx, ResearchSection.tsx, RestrictionLevelGuide.tsx) — shows provincial dam levels, current water restriction levels, and a trends chart. Students in water-affected areas (particularly in the Western Cape and parts of KwaZulu-Natal) can see real current conditions.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-heading">Cost of Living</div>
+      <div class="body-text" style="margin-bottom: 14px;">
+        <p>CostOfLivingPage.tsx shows cost of living data by city — rent, food, and transport across Cape Town, Johannesburg, Durban, Pretoria, and Port Elizabeth. The primary purpose is to help students evaluate a bursary offer realistically: a bursary that covers tuition but not accommodation is worth less in Cape Town than in a smaller city. Data sourced from Numbeo and cross-referenced with StatsSA consumer price data.</p>
+      </div>
+
+      <div class="sub-heading">Civics Guide</div>
+      <div class="body-text" style="margin-bottom: 14px;">
+        <p>CivicsPage.tsx covers South African rights, government structure, and civic processes — the content that school doesn't always teach clearly or that students struggle to find consolidated in one place. Based directly on the Constitution of South Africa (1996), Chapter 2 (Bill of Rights) and the gov.za government structure explainer. Written in plain language for high school readers.</p>
+      </div>
+
+      <div class="sub-heading">Tax and Budget Explainer</div>
+      <div class="body-text">
+        <p>TaxBudgetPage.tsx explains how South African government tax and budget allocation works — what tax is, how it is collected, and how public money gets allocated to departments including education and health. Data drawn from the National Treasury budget documentation and updated to reflect the 2025/26 budget cycle.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-heading">Automated Data Pipeline — How Scraped Data Stays Live</div>
+  <div class="data-flow" style="margin: 10px 0 6px;">
+    <div class="df-box dark">GitHub Actions cron</div>
+    <div class="df-arrow">→</div>
+    <div class="df-box">Python scraper runs</div>
+    <div class="df-arrow">→</div>
+    <div class="df-box">Fetches live source</div>
+    <div class="df-arrow">→</div>
+    <div class="df-box">Writes to public/data/</div>
+    <div class="df-arrow">→</div>
+    <div class="df-box">Git commit if changed</div>
+    <div class="df-arrow">→</div>
+    <div class="df-box dark">Vercel redeploys</div>
+  </div>
+  <p style="font-size: 11px; color: var(--slate-500);">Load shedding: every 30 minutes. Water dashboard: daily at 07:00 SAST. No manual intervention required after the initial workflow setup.</p>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 8 — AUTH, DATA, AND BACKEND
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 7</div>
+
+  <div class="section-header">
+    <div class="section-number">07</div>
+    <div class="section-inner">
+      <div class="section-label">Technical</div>
+      <div class="section-title">Auth, Data Persistence, and Backend Services</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 20px;">
+    <div>
+      <div class="sub-heading">Authentication Flow</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-dot">1</div>
+          <div class="flow-body">
+            <div class="flow-title">Student lands on any page</div>
+            <div class="flow-text">App.tsx runs <span class="pill">supabase.auth.getSession()</span> on load. If a session exists in localStorage, the user is restored automatically without needing to log in again.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">2</div>
+          <div class="flow-body">
+            <div class="flow-title">Accessing a protected page</div>
+            <div class="flow-text">withAuth.tsx wraps protected pages. If no session is found, the user is redirected to AuthPage. If <span class="pill">?__test_mode=true</span> is present in the URL, auth is bypassed entirely — used by Playwright tests in CI.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">3</div>
+          <div class="flow-body">
+            <div class="flow-title">Sign up / Sign in</div>
+            <div class="flow-text">AuthPage.tsx calls <span class="pill">supabase.auth.signUp()</span> or <span class="pill">supabase.auth.signInWithPassword()</span> from lib/auth.ts. On success, Supabase returns a session that is automatically stored in localStorage and picked up on subsequent loads.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">4</div>
+          <div class="flow-body">
+            <div class="flow-title">Background sync</div>
+            <div class="flow-text">supabaseSync.ts runs in the background after sign-in, syncing any study progress that was saved to localStorage during an anonymous or previous session into the Supabase database so it persists across devices.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-heading">What Requires Login vs What Doesn't</div>
+      <table style="margin-bottom: 16px;">
+        <thead><tr><th>Feature</th><th>Auth Required?</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Career Explorer</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">Career Quiz</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">Bursary Finder</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">AI School Assistant</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">Study Library (reading)</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">Load Shedding / Water</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">TVET section</td><td><span class="badge green">No</span></td></tr>
+          <tr><td class="name">Dashboard</td><td><span class="badge navy">Yes</span></td></tr>
+          <tr><td class="name">Study progress tracking</td><td><span class="badge navy">Yes</span></td></tr>
+          <tr><td class="name">Algebra interactive modules</td><td><span class="badge navy">Yes</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="sub-heading">Service Layer</div>
+      <div class="body-text">
+        <p>The <span class="pill">src/services/</span> directory contains dedicated service modules that separate data-fetching and business logic from UI components:</p>
+        <ul style="font-size: 11.5px; color: var(--slate-700); line-height: 1.9; padding-left: 14px;">
+          <li><strong>loadshedding.ts</strong> — fetches and caches load shedding JSON</li>
+          <li><strong>waterService.ts</strong> — fetches and caches water dashboard JSON</li>
+          <li><strong>quizService.ts</strong> — handles quiz scoring and result sorting</li>
+          <li><strong>bookmarkService.ts</strong> — saves and retrieves bookmarked careers/bursaries</li>
+          <li><strong>dashboardService.ts</strong> — aggregates progress data for the dashboard view</li>
+          <li><strong>storageService.ts</strong> — abstracts localStorage reads/writes</li>
+          <li><strong>supabaseSync.ts</strong> — syncs local state to Supabase database</li>
+          <li><strong>schoolAssistService.ts</strong> — fuzzy search using Levenshtein distance for topic lookup in the study library</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 9 — USER WORKFLOW
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 8</div>
+
+  <div class="section-header">
+    <div class="section-number">08</div>
+    <div class="section-inner">
+      <div class="section-label">User Experience</div>
+      <div class="section-title">User Workflow — A Student's Full Session</div>
+    </div>
+  </div>
+
+  <div class="body-text" style="margin-bottom: 18px;">
+    <p>This section walks through what a Grade 11 student actually does from the moment they open Prospect to the point where they have useful, actionable information about their future. It is not a hypothetical — it reflects the actual navigation paths the platform supports.</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="sub-heading">Scenario: "I don't know what to study after matric"</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-dot">1</div>
+          <div class="flow-body">
+            <div class="flow-title">Arrives at the home page</div>
+            <div class="flow-text">The landing page (App.tsx) shows four pillar sections and a "How It Works" section. An animated hero draws attention to the career quiz as the starting point for undecided students. A 4-step tutorial dialog appears on first visit, walking through the platform's main features.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">2</div>
+          <div class="flow-body">
+            <div class="flow-title">Takes the career quiz</div>
+            <div class="flow-text">QuizPage.tsx — no login required. The student selects their current subjects and rates their interest areas. Results appear as a ranked list of career matches. Each card shows the career name, sector, and fit score with a link to the full profile.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">3</div>
+          <div class="flow-body">
+            <div class="flow-title">Opens a career detail</div>
+            <div class="flow-text">The career detail view shows everything: what the job involves, required subjects, APS range, salary range, where to study in SA, and what to be doing in each grade to get there. All sourced from the careers400Final.ts typed database.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">4</div>
+          <div class="flow-body">
+            <div class="flow-title">Looks for bursaries for that career</div>
+            <div class="flow-text">Student navigates to Bursaries, filters by the relevant field of study and their province. Results show 245 listings narrowed to matching entries. Student opens a bursary detail, reads the coverage breakdown, and follows the direct application link.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">5</div>
+          <div class="flow-body">
+            <div class="flow-title">Asks the AI assistant a follow-up</div>
+            <div class="flow-text">Student opens School Assist Chat and asks "Do I need Maths or Maths Literacy for engineering?" The question is not a predefined answer, so it hits Groq. Response arrives in under 2 seconds. The system prompt ensures the answer is SA-specific (NSC, APS context).</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">6</div>
+          <div class="flow-body">
+            <div class="flow-title">Checks the load shedding stage</div>
+            <div class="flow-text">Before starting an online study session, the student checks the Load Shedding page. Current Eskom stage is shown from the JSON file last updated by the GitHub Actions scraper. Student sees Stage 3 is active until 22:00 and plans accordingly.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-heading">Scenario: "I want to explore TVET instead of university"</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-dot">1</div>
+          <div class="flow-body">
+            <div class="flow-title">Navigates to the TVET section</div>
+            <div class="flow-text">TVETPage.tsx explains what TVET is, how it compares to university pathways, and why it is a valid first choice — not a fallback. The nav sub-menu (TVETSubNav.tsx) provides direct links to careers, colleges, funding, and requirements.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">2</div>
+          <div class="flow-body">
+            <div class="flow-title">Browses TVET colleges</div>
+            <div class="flow-text">TVETCollegesPage.tsx shows 26 public TVET colleges from tvetColleges.ts. Each entry shows the college name, province, campuses, and available programmes. The student filters by province to find colleges within reasonable distance.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">3</div>
+          <div class="flow-body">
+            <div class="flow-title">Checks admission requirements</div>
+            <div class="flow-text">TVETRequirementsPage.tsx shows minimum entry requirements by programme — many TVET programmes require significantly lower NSC marks than university entry, and this is shown plainly so the student understands their options.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">4</div>
+          <div class="flow-body">
+            <div class="flow-title">Finds TVET funding</div>
+            <div class="flow-text">TVETFundingPage.tsx covers NSFAS for TVET students, SETA funding programmes, and other bursaries applicable to vocational study — making clear that TVET students have access to the same major funding sources as university students.</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-dot">5</div>
+          <div class="flow-body">
+            <div class="flow-title">Studies for an upcoming test</div>
+            <div class="flow-text">Student signs in to save progress. Opens Study Library, finds a Maths topic, works through it. If they open the Grade 10 Algebra linear equations module, their completion is tracked and written to Supabase — visible in their dashboard on next login.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-heading" style="margin-top: 20px;">Navigation Model</div>
+      <div class="body-text">
+        <p>The app uses a custom page-state navigation model in App.tsx rather than URL-based routing. The <span class="pill">navigate(page)</span> function updates the <span class="pill">page</span> state, which triggers lazy loading of the relevant page component via React.lazy() and Suspense. The top nav bar (AppHeader.tsx) collapses on scroll using the usePillVisible hook to maximise screen space on mobile.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ===========================================================
+     PAGE 10 — TESTING AND DEPLOYMENT
+     =========================================================== -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect — Section 9</div>
+
+  <div class="section-header">
+    <div class="section-number">09</div>
+    <div class="section-inner">
+      <div class="section-label">Technical</div>
+      <div class="section-title">Testing, Build, and Deployment</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 24px;">
+    <div>
+      <div class="sub-heading">Playwright End-to-End Tests</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>The test suite lives in <span class="pill">tests/</span> and is configured via playwright.config.ts. Key settings: Chromium browser, baseURL at localhost:3000, sequential test runs (auth state is shared between tests), and a webServer block that auto-starts the Vite dev server before tests run.</p>
+        <p>The auth bypass is the most important test infrastructure decision: appending <span class="pill">?__test_mode=true</span> to any URL causes withAuth.tsx to skip the Supabase auth check. This means all 31 tests run without needing live Supabase credentials in the CI environment.</p>
+      </div>
+      <table>
+        <thead><tr><th>Test Area</th><th>What Is Tested</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Authentication</td><td>Sign-up, sign-in, session persistence, redirect on protected pages</td></tr>
+          <tr><td class="name">Career Explorer</td><td>Search, filter, career card render, detail page load</td></tr>
+          <tr><td class="name">Career Quiz</td><td>Multi-step flow, results render, link to career detail</td></tr>
+          <tr><td class="name">Bursary Finder</td><td>Search, filter by field/province/status, detail page load</td></tr>
+          <tr><td class="name">AI Chat</td><td>Message send, response render, topic chip interaction, image upload UI</td></tr>
+          <tr><td class="name">Study Library</td><td>Topic list render, subject filter, topic content load</td></tr>
+          <tr><td class="name">Community pages</td><td>Load shedding data render, water dashboard render, matric countdown</td></tr>
+          <tr><td class="name">TVET pages</td><td>College listing, career listing, navigation between sub-pages</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div class="sub-heading">Build Process</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>Running <span class="pill">vite build</span> produces a <span class="pill">dist/</span> directory. Vite's rollupOptions in vite.config.ts apply manual chunk splitting: careers400Final.ts and bursaries.ts are isolated into separate chunks. React, motion/react, Supabase, and lucide-react are bundled into a vendor chunk. The result is that a student visiting the home page only downloads the app core and vendor chunk — the large career and bursary data files load only when those pages are visited.</p>
+      </div>
+
+      <div class="sub-heading">Deployment</div>
+      <div class="body-text" style="margin-bottom: 12px;">
+        <p>Every push to the GitHub main branch triggers an automatic Vercel deployment. Vercel runs <span class="pill">vite build</span>, deploys the dist/ output, and serves it globally. Environment variables stored in the Vercel project dashboard are injected at build time — <span class="pill">VITE_GROQ_API_KEY</span> for the AI assistant, plus the Supabase project URL and anon key.</p>
+      </div>
+
+      <div class="sub-heading">Launch Stats</div>
+      <div style="border: 1px solid var(--slate-200); margin-top: 8px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--slate-200);">
+          <div style="background: var(--white); padding: 12px 14px;">
+            <div style="font-size: 9px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px;">Launch Date</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--navy);">15 May 2026</div>
+          </div>
+          <div style="background: var(--white); padding: 12px 14px;">
+            <div style="font-size: 9px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px;">Build Duration</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--navy);">55 days (Mar–May 2026)</div>
+          </div>
+          <div style="background: var(--white); padding: 12px 14px;">
+            <div style="font-size: 9px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px;">Tests Passing</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--navy);">31 of 31 (100%)</div>
+          </div>
+          <div style="background: var(--white); padding: 12px 14px;">
+            <div style="font-size: 9px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px;">Platform Cost to Users</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--navy);">Free — no subscriptions</div>
+          </div>
+          <div style="background: var(--white); padding: 12px 14px;">
+            <div style="font-size: 9px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px;">Pages / Routes</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--navy);">29 distinct pages</div>
+          </div>
+          <div style="background: var(--white); padding: 12px 14px;">
+            <div style="font-size: 9px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px;">AI Model</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--navy);">llama-3.3-70b-versatile (Groq)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-heading" style="margin-top: 16px;">What Was Tried and Removed</div>
+      <table>
+        <thead><tr><th>Decision</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Next.js → Vite</td><td>SSR added complexity with no benefit for this SPA; Vite HMR significantly faster</td></tr>
+          <tr><td class="name">Gemini API removed</td><td>Free-tier rate limit (HTTP 429) hit on day one of live testing</td></tr>
+          <tr><td class="name">Ollama removed</td><td>Localhost-only — incompatible with any hosted deployment</td></tr>
+          <tr><td class="name">Groq adopted</td><td>Cloud API, free tier, OpenAI-compatible, &lt;2s typical response</td></tr>
+          <tr><td class="name">Pothole reporting removed</td><td>Not relevant to the target audience (Grade 8–12 learners)</td></tr>
+          <tr><td class="name">Community impact page removed</td><td>Source data not available in a reliable, updatable form</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+</body>
+</html>

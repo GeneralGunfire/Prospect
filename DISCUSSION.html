@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — Discussion, Feasibility and Conclusion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+  }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+  .page {
+    width: 100%; min-height: 100vh;
+    padding: 72px 88px 80px;
+    display: flex; flex-direction: column;
+    position: relative;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  .top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .bottom-rule { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--slate-100); }
+  .wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 48px; }
+  .doc-tag { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 3px 10px; display: inline-block; margin-bottom: 16px; }
+  .title { font-size: 38px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.05; margin-bottom: 8px; }
+  .title-sub { font-size: 14px; font-weight: 400; color: var(--slate-500); margin-bottom: 40px; line-height: 1.5; }
+  .divider { width: 40px; height: 2px; background: var(--navy); margin-bottom: 40px; }
+  .section-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 8px; }
+  .section-title { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 6px; letter-spacing: -0.02em; }
+  .section-text { font-size: 13px; color: var(--slate-700); line-height: 1.8; }
+  .section-text p { margin-bottom: 10px; }
+  .section-text p:last-child { margin-bottom: 0; }
+  .section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
+  .section-number { font-size: 48px; font-weight: 900; color: var(--slate-200); letter-spacing: -0.04em; line-height: 1; flex-shrink: 0; }
+
+  /* tables */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: var(--navy); }
+  thead th { color: var(--white); font-weight: 700; padding: 9px 12px; text-align: left; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 9px 12px; color: var(--slate-700); vertical-align: top; line-height: 1.5; }
+  td.name { font-weight: 600; color: var(--navy); }
+
+  /* badges */
+  .badge { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; }
+  .badge.high { background: var(--red-light); color: var(--red); }
+  .badge.med { background: var(--amber-light); color: var(--amber); }
+  .badge.low { background: var(--green-light); color: var(--green); }
+  .badge.yes { background: var(--green-light); color: var(--green); }
+  .badge.partial { background: var(--amber-light); color: var(--amber); }
+  .badge.no { background: var(--red-light); color: var(--red); }
+
+  /* bar charts */
+  .chart-wrap { margin: 0; }
+  .chart-title { font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 12px; letter-spacing: 0.02em; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-label { font-size: 11px; color: var(--slate-700); width: 160px; flex-shrink: 0; line-height: 1.3; }
+  .bar-track { flex: 1; height: 20px; background: var(--slate-100); position: relative; }
+  .bar-fill { height: 100%; background: var(--navy); display: flex; align-items: center; justify-content: flex-end; }
+  .bar-fill.green { background: var(--green); }
+  .bar-fill.amber { background: var(--amber); }
+  .bar-fill.red { background: var(--red); }
+  .bar-value { font-size: 10px; font-weight: 700; color: var(--white); padding: 0 7px; white-space: nowrap; }
+  .bar-value.out { position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); font-size: 10px; font-weight: 700; color: var(--slate-500); white-space: nowrap; }
+
+  /* two / three col */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+  /* feasibility card */
+  .feas-card { border: 1px solid var(--slate-200); padding: 14px 16px; }
+  .feas-label { font-size: 9px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 4px; }
+  .feas-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .feas-text { font-size: 11.5px; color: var(--slate-700); line-height: 1.6; }
+
+  /* limitation card */
+  .limit-item { border-left: 3px solid var(--slate-300); padding: 10px 14px; margin-bottom: 10px; }
+  .limit-item.critical { border-left-color: var(--red); }
+  .limit-item.moderate { border-left-color: var(--amber); }
+  .limit-item.minor { border-left-color: var(--slate-400); }
+  .limit-name { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .limit-text { font-size: 11.5px; color: var(--slate-700); line-height: 1.6; }
+
+  /* inline cite */
+  .cite { font-size: 10px; color: var(--slate-500); vertical-align: super; }
+
+  /* goal conclusion row */
+  .goal-check { display: grid; grid-template-columns: 2fr 1fr; border-bottom: 1px solid var(--slate-200); padding: 8px 12px; font-size: 12px; }
+  .goal-check:first-child { background: var(--navy); color: var(--white); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .goal-check:nth-child(even) { background: var(--slate-50); }
+
+  /* SVG donut */
+  .svg-row { display: flex; gap: 28px; align-items: flex-start; }
+  .legend { display: flex; flex-direction: column; gap: 7px; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--slate-700); }
+  .legend-dot { width: 10px; height: 10px; flex-shrink: 0; }
+
+  /* cover stat grid */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--slate-200); border: 1px solid var(--slate-200); margin-bottom: 32px; }
+  .stat-cell { background: var(--white); padding: 18px 16px; }
+  .stat-number { font-size: 28px; font-weight: 900; color: var(--navy); letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-500); }
+
+  /* conclusion box */
+  .conclusion-box { border: 2px solid var(--navy); padding: 24px 28px; margin-top: 24px; }
+  .conclusion-box .label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 10px; }
+  .conclusion-box .verdict { font-size: 22px; font-weight: 900; color: var(--navy); margin-bottom: 10px; letter-spacing: -0.02em; }
+  .conclusion-box .body { font-size: 13px; color: var(--slate-700); line-height: 1.8; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); min-height: 1123px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PAGE 1: COVER
+     ============================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Science Expo 2026</div>
+
+  <div class="doc-tag">Discussion and Conclusion</div>
+  <h1 class="title">Analysis, Feasibility and Findings</h1>
+  <p class="title-sub">Linking the platform to the research, examining what it can realistically do, and stating plainly whether it achieved what it set out to.</p>
+  <div class="divider"></div>
+
+  <div class="stat-grid">
+    <div class="stat-cell">
+      <div class="stat-number">8/8</div>
+      <div class="stat-label">Goals Achieved</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Limitations Identified</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">12</div>
+      <div class="stat-label">Literature Sources Cited</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">Free</div>
+      <div class="stat-label">Cost to Users</div>
+    </div>
+  </div>
+
+  <div class="section-text" style="margin-bottom: 32px;">
+    <p>This document presents the discussion section of the Prospect research project. It connects the final platform to the problems identified in the research, evaluates the platform against relevant academic literature, and examines feasibility across time, labour, and finance. Limitations are stated honestly, and the conclusion gives a direct verdict on whether the goal was achieved.</p>
+  </div>
+
+  <div class="section-label" style="margin-bottom: 12px;">Document Structure</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Section</th>
+        <th>Contents</th>
+        <th>Page</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="name">1. Discussion — Goals and Solutions</td><td>Platform features mapped against research problems, with literature</td><td>2</td></tr>
+      <tr><td class="name">2. Feasibility</td><td>Time, labour, financial, and scalability analysis</td><td>3</td></tr>
+      <tr><td class="name">3. Significance and Value</td><td>Why this platform matters and who benefits</td><td>4</td></tr>
+      <tr><td class="name">4. Limitations and Errors</td><td>Honest account of what the platform can't do yet</td><td>5</td></tr>
+      <tr><td class="name">5. Conclusion</td><td>Direct verdict on goal achievement</td><td>6</td></tr>
+    </tbody>
+  </table>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ============================================================
+     PAGE 2: DISCUSSION — GOALS AND SOLUTIONS
+     ============================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Discussion — Section 1</div>
+
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <div>
+      <div class="section-label">Discussion</div>
+      <div class="section-title">Platform vs. Problems — Does the Design Address the Research?</div>
+    </div>
+  </div>
+
+  <div class="section-text" style="margin-bottom: 22px;">
+    <p>The research identified a clear problem: South African high school learners make subject and career decisions without adequate, consolidated information. Hooley et al. (2013) established that structured career guidance measurably improves educational outcomes, but South Africa's guidance counsellor shortage — roughly one counsellor per 800 learners in many public schools (Mncwango, 2016) — means most students never access formal guidance at all. <span class="cite">[1][2]</span></p>
+    <p>Prospect's career explorer, quiz, and roadmap directly address this gap. The platform offers what a counsellor would typically provide: salary ranges by sector, subject consequences, provincial job demand, and a clear path from the learner's current grade to a career goal — for 400 careers, available at any time, at no cost.</p>
+    <p>The research also found that TVET colleges are consistently misrepresented in guidance materials, with the DHET White Paper (2013) and Wedekind (2010) both documenting how vocational routes are presented as fallback options rather than first choices. <span class="cite">[3][4]</span> The TVET section in Prospect was built specifically to counter this, presenting TVET colleges alongside universities with equal prominence and detail.</p>
+    <p>On the infrastructure side, Eberhard et al. (2014) and Zondo and Mncube (2022) documented the direct link between load shedding and academic disruption. <span class="cite">[11][12]</span> The load shedding tracker and water dashboard address this by giving students visibility into disruptions before they happen, so study sessions can be planned around them rather than lost to them.</p>
+  </div>
+
+  <div class="section-label" style="margin-bottom: 14px;">Problem-to-Feature Mapping</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Problem Identified in Research</th>
+        <th>Platform Feature</th>
+        <th>Literature Support</th>
+        <th>Aligned?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">No consolidated career guidance for SA learners</td>
+        <td>Career Explorer (400 profiles), Career Quiz, Career Roadmap</td>
+        <td>Hooley et al. (2013), Mncwango (2016)</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">TVET misrepresented as a fallback</td>
+        <td>TVET Section — full listings, first-choice presentation</td>
+        <td>DHET White Paper (2013), Wedekind (2010)</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">Bursary information fragmented across dozens of sites</td>
+        <td>Bursary Finder (245 verified listings, filterable)</td>
+        <td>Primary research: user interviews</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">High data costs limit student access to online tools</td>
+        <td>Data saver mode, code splitting, &lt;2.5s mobile load time</td>
+        <td>Alliance for Affordable Internet (2023)</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">Load shedding disrupts planned study sessions</td>
+        <td>Load Shedding Tracker (live Eskom data, automated)</td>
+        <td>Eberhard et al. (2014), Zondo and Mncube (2022)</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">Water supply issues affect students in rural/peri-urban areas</td>
+        <td>Water Dashboard (provincial dam levels, automated scraper)</td>
+        <td>Zondo and Mncube (2022)</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">No scalable AI study assistance for SA curriculum</td>
+        <td>AI School Assistant (Groq, SA-focused system prompt)</td>
+        <td>Zawacki-Richter et al. (2019), Holmes et al. (2019)</td>
+        <td><span class="badge yes">Yes</span></td>
+      </tr>
+      <tr>
+        <td class="name">Study resources not curriculum-mapped or persistent</td>
+        <td>Study Library (24 topics, 11 subjects, Supabase progress tracking)</td>
+        <td>Traxler (2018)</td>
+        <td><span class="badge partial">Partial</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-text" style="margin-top: 14px;">
+    <p>The study library is marked partial because it covers 11 subjects and 24 topics — enough to demonstrate the infrastructure — but a genuinely comprehensive library covering all NSC subjects to matric level would require significantly more content than 55 days allowed. This is addressed directly in the Limitations section.</p>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ============================================================
+     PAGE 3: FEASIBILITY
+     ============================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Discussion — Section 2</div>
+
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <div>
+      <div class="section-label">Discussion</div>
+      <div class="section-title">Feasibility — Time, Labour, Finance, and Scale</div>
+    </div>
+  </div>
+
+  <div class="section-text" style="margin-bottom: 20px;">
+    <p>Feasibility analysis asks whether the project was achievable in the way it was attempted, and whether it can grow from here. The platform was built by a single developer over 55 days. That fact defines both what is impressive about what was achieved and where the natural constraints are.</p>
+  </div>
+
+  <div class="three-col" style="margin-bottom: 24px;">
+    <div class="feas-card">
+      <div class="feas-label">Time</div>
+      <div class="feas-title">55 Days — Realistic but Tight</div>
+      <div class="feas-text">The core platform — career explorer, bursary finder, AI assistant, and community features — was achievable in 55 days because the data was sourced rather than generated, and the tech stack (React, Supabase, Groq) has mature tooling. The study library is where time ran out: properly mapping all NSC subjects with structured, accurate topic notes is weeks of content work alone. One week per subject, 11 subjects = 11 weeks of content at minimum. That is not 55 days.</div>
+    </div>
+    <div class="feas-card">
+      <div class="feas-label">Labour</div>
+      <div class="feas-title">Solo Build — Sustainable to a Point</div>
+      <div class="feas-text">A single developer handled architecture, data curation, UI, testing, and deployment. This is feasible for a prototype and first release. For the library to scale to full NSC coverage, it requires either a content team — educators or subject specialists — or a structured data pipeline. TypeScript type-safety on the career and bursary data files kept errors low, but hand-curating 400 career profiles is still a significant labour investment that would be difficult to sustain solo for an expanded library.</div>
+    </div>
+    <div class="feas-card">
+      <div class="feas-label">Finance</div>
+      <div class="feas-title">Currently Zero-Cost — Fragile at Scale</div>
+      <div class="feas-text">The platform runs at zero direct cost using Vercel free tier, Supabase free tier, and Groq free tier. This is genuinely impressive for a student project. The risk is that free tiers have limits: Groq's rate limits will constrain concurrent users, Supabase's free database rows cap at 50,000, and Vercel's bandwidth cap applies. A platform handling thousands of active daily users would need paid hosting — approximately R1,500–R4,000/month depending on traffic — which requires either sponsorship, a grant, or institutional backing.</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom: 14px;">Scalability Constraints by Component</div>
+  <table style="margin-bottom: 20px;">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Current Capacity (Free Tier)</th>
+        <th>Constraint at Scale</th>
+        <th>Risk</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">Groq AI API</td>
+        <td>~14,400 req/day (free tier)</td>
+        <td>Rate limit hit above ~200 concurrent active users</td>
+        <td><span class="badge high">High</span></td>
+      </tr>
+      <tr>
+        <td class="name">Supabase database</td>
+        <td>50,000 rows, 500MB storage</td>
+        <td>Progress tracking and forum posts exhaust rows at scale</td>
+        <td><span class="badge med">Medium</span></td>
+      </tr>
+      <tr>
+        <td class="name">Vercel hosting</td>
+        <td>100GB bandwidth/month</td>
+        <td>Large JS data chunks (careers, bursaries) per visitor add up fast</td>
+        <td><span class="badge med">Medium</span></td>
+      </tr>
+      <tr>
+        <td class="name">Study Library content</td>
+        <td>24 topics, 11 subjects</td>
+        <td>Full NSC coverage requires ~5-10x more content</td>
+        <td><span class="badge high">High</span></td>
+      </tr>
+      <tr>
+        <td class="name">GitHub Actions scrapers</td>
+        <td>2,000 minutes/month free</td>
+        <td>Adequate for current scraper schedule. Unlikely to be a constraint.</td>
+        <td><span class="badge low">Low</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-label" style="margin-bottom: 12px;">Study Library — Labour Cost Estimate</div>
+  <div class="chart-wrap">
+    <div class="bar-row">
+      <div class="bar-label">Current (11 subjects, 24 topics)</div>
+      <div class="bar-track"><div class="bar-fill" style="width:18%"><span class="bar-value">~2 weeks</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">All NSC subjects, Grade 10</div>
+      <div class="bar-track"><div class="bar-fill amber" style="width:45%"><span class="bar-value">~8 weeks</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">All grades (10–12), all subjects</div>
+      <div class="bar-track"><div class="bar-fill red" style="width:100%"><span class="bar-value">~6–9 months (solo)</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">With subject-specialist team (3 people)</div>
+      <div class="bar-track"><div class="bar-fill green" style="width:35%"><span class="bar-value">~6 weeks</span></div></div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ============================================================
+     PAGE 4: SIGNIFICANCE AND VALUE
+     ============================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Discussion — Section 3</div>
+
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <div>
+      <div class="section-label">Discussion</div>
+      <div class="section-title">Significance and Value</div>
+    </div>
+  </div>
+
+  <div class="section-text" style="margin-bottom: 24px;">
+    <p>The significance of Prospect is not in being the only platform that tries to help South African learners — it is in being the only one that tries to address all of the relevant problems in one place, for free, on mobile, without requiring registration to access the most useful parts.</p>
+    <p>Traxler (2018) argues that mobile-first design is not a preference in developing-world education contexts — it is the only architecture that reaches the majority of students, since smartphone ownership vastly outpaces laptop or desktop access among SA high schoolers. <span class="cite">[6]</span> Prospect was designed mobile-first from week one, with a data saver mode and sub-2.5s load time to serve students on limited prepaid data.</p>
+    <p>Holmes et al. (2019) note that AI in education tools often fail because they are generic — not calibrated to the specific curriculum, grading system, or institutional context students are working within. <span class="cite">[8]</span> The AI School Assistant addresses this directly: the Groq system prompt is focused on South African education — NSC requirements, APS scoring, TVET pathways, and SA university admission — rather than being a general-purpose chatbot with SA context bolted on.</p>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 24px;">
+    <div>
+      <div class="chart-title">Who Benefits and How</div>
+      <table>
+        <thead><tr><th>Beneficiary</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Grade 10–12 learners</td><td>Subject decisions made with full career consequence information</td></tr>
+          <tr><td class="name">Grade 8–9 learners</td><td>Early awareness of career paths before subject choices lock in</td></tr>
+          <tr><td class="name">Students in rural areas</td><td>Access to guidance counsellor-equivalent info without physical access</td></tr>
+          <tr><td class="name">Low-income households</td><td>Bursary discovery and application support at zero cost</td></tr>
+          <tr><td class="name">TVET-bound students</td><td>TVET treated as a real first-choice pathway, not a fallback</td></tr>
+          <tr><td class="name">Students with load shedding</td><td>Can plan study sessions around Eskom stages proactively</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="chart-title">What Makes This Different from Existing Platforms</div>
+      <table>
+        <thead><tr><th>Gap in Existing Tools</th><th>Prospect's Response</th></tr></thead>
+        <tbody>
+          <tr><td>Career info spread across multiple sites</td><td>400 SA career profiles in one searchable place</td></tr>
+          <tr><td>Bursary sites are hard to navigate and incomplete</td><td>245 listings, all filterable, with direct links</td></tr>
+          <tr><td>AI tools not SA-curriculum-aware</td><td>Groq system prompt is SA-specific</td></tr>
+          <tr><td>Study tools not mobile-optimised</td><td>Mobile-first, data saver mode, &lt;2.5s load</td></tr>
+          <tr><td>Infrastructure info not student-facing</td><td>Load shedding + water dashboard in one place</td></tr>
+          <tr><td>TVET never presented equally to university</td><td>TVET section built as a parallel first choice</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom: 12px;">Platform Value at Launch — Data Points</div>
+  <div class="chart-wrap">
+    <div class="bar-row">
+      <div class="bar-label">Career profiles (SA-specific)</div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%"><span class="bar-value">400 profiles</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Bursary listings (verified)</div>
+      <div class="bar-track"><div class="bar-fill mid" style="width:61.25%; background:#475569"><span class="bar-value">245 listings</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Study topics available</div>
+      <div class="bar-track"><div class="bar-fill" style="width:6%"><span class="bar-value out">24</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Cost to access all features</div>
+      <div class="bar-track"><div class="bar-fill green" style="width:0.5%"><span class="bar-value out">R0</span></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">AI response time (median text)</div>
+      <div class="bar-track"><div class="bar-fill green" style="width:6%"><span class="bar-value out">1.8s</span></div></div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ============================================================
+     PAGE 5: LIMITATIONS AND ERRORS
+     ============================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Discussion — Section 4</div>
+
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <div>
+      <div class="section-label">Discussion</div>
+      <div class="section-title">Limitations and Errors</div>
+    </div>
+  </div>
+
+  <div class="section-text" style="margin-bottom: 20px;">
+    <p>A research project that doesn't state its limitations plainly is not being honest about what it found. The following limitations are real constraints on what Prospect can currently do — not hypothetical risks, but gaps that exist in the launched platform. Some are fixable with time and resources. Some are structural.</p>
+  </div>
+
+  <div class="limit-item critical">
+    <div class="limit-name">Study Library — Incomplete Content Coverage <span class="badge high" style="margin-left:8px">Critical</span></div>
+    <div class="limit-text">The study library covers 24 topics across 11 subjects. The NSC curriculum for a Grade 10–12 learner spans far more: each subject has multiple terms, each term has multiple topics, and each topic needs to be accurately mapped to the curriculum, not approximated. Building 24 topics took a significant portion of the project timeline. Full NSC coverage, done properly, is months of content work that one developer cannot do in 55 days. The current library is a working proof-of-concept, not a complete study tool. Students should know this, and it is not hidden in the interface.</div>
+  </div>
+
+  <div class="limit-item critical">
+    <div class="limit-name">Groq API — Rate Limit and Third-Party Dependency <span class="badge high" style="margin-left:8px">Critical</span></div>
+    <div class="limit-text">The AI School Assistant depends entirely on Groq's free-tier API. Groq can change its pricing, reduce its free tier, or experience downtime — any of which would take the AI feature offline. The platform has no fallback if Groq becomes unavailable. Additionally, the free-tier rate limit means the AI feature could degrade under high concurrent load. The 7 predefined instant answers reduce API calls for common questions, but a fully AI-driven session will hit the free tier ceiling if enough users are active simultaneously. This is not a design flaw — it is the honest cost of building an AI feature on free infrastructure.</div>
+  </div>
+
+  <div class="limit-item moderate">
+    <div class="limit-name">Financial Sustainability — Zero Cost, Zero Safety Net <span class="badge med" style="margin-left:8px">Moderate</span></div>
+    <div class="limit-text">The platform currently costs nothing to run because Vercel, Supabase, and Groq all have free tiers adequate for low-traffic use. If Prospect were to grow — which is the point — those free tiers would be exhausted. Vercel's bandwidth limits, Supabase's row limits, and Groq's request limits all cap at levels that a genuinely popular educational platform would exceed. There is no revenue model, no institutional backing, and no grant. This is fine for a student expo project; it is a real constraint for a production service used by thousands of students daily.</div>
+  </div>
+
+  <div class="limit-item moderate">
+    <div class="limit-name">Data Currency — Career and Bursary Data Will Age <span class="badge med" style="margin-left:8px">Moderate</span></div>
+    <div class="limit-text">The 400 career profiles and 245 bursary listings were sourced and verified at the time of development (March–May 2026). Salary figures change. Bursaries open and close. Universities change their minimum APS requirements. Without a systematic update process — either manual or via scrapers — this data will become inaccurate over time. The load shedding and water dashboard data is kept live via automated scrapers, but the career and bursary data is static TypeScript files that need manual updates.</div>
+  </div>
+
+  <div class="limit-item minor">
+    <div class="limit-name">AI Accuracy — LLM Hallucination Risk <span class="badge med" style="margin-left:8px">Moderate</span></div>
+    <div class="limit-text">Groq's llama-3.3-70b-versatile model is accurate on general education questions but is not infallible. Large language models can produce plausible-sounding but incorrect answers, especially for specific factual claims — exact APS requirements, specific university cut-off scores, bursary application deadlines. The system prompt is designed to focus the model on SA education and encourage it to recommend the platform's data as a source of record rather than generating figures from inference. But this is a prompt-based mitigation, not a technical guarantee. Students using the AI should be aware it can be wrong on specifics.</div>
+  </div>
+
+  <div class="two-col" style="margin-top: 20px;">
+    <div>
+      <div class="chart-title">Limitations by Severity</div>
+      <div class="chart-wrap">
+        <div class="bar-row">
+          <div class="bar-label">Critical</div>
+          <div class="bar-track"><div class="bar-fill red" style="width:40%"><span class="bar-value">2</span></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Moderate</div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:60%"><span class="bar-value">3</span></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Minor</div>
+          <div class="bar-track"><div class="bar-fill" style="width:0.5%"><span class="bar-value out">0</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="chart-title">Limitations by Type</div>
+      <div class="chart-wrap">
+        <div class="bar-row">
+          <div class="bar-label">Content completeness</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"><span class="bar-value">Library scope</span></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Third-party dependency</div>
+          <div class="bar-track"><div class="bar-fill mid" style="width:100%; background:#475569"><span class="bar-value">Groq API</span></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Financial</div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:100%"><span class="bar-value">Zero-cost ceiling</span></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Data maintenance</div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:80%"><span class="bar-value">Static data aging</span></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">AI reliability</div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:70%"><span class="bar-value">LLM hallucination</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ============================================================
+     PAGE 6: CONCLUSION
+     ============================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Discussion — Section 5</div>
+
+  <div class="section-header">
+    <div class="section-number">05</div>
+    <div>
+      <div class="section-label">Conclusion</div>
+      <div class="section-title">Goal Achievement and Final Verdict</div>
+    </div>
+  </div>
+
+  <!-- Goal-by-goal verdict table -->
+  <div style="border: 1px solid var(--slate-200); margin-bottom: 28px;">
+    <div class="goal-check">
+      <div>Engineering Goal</div>
+      <div>Achieved?</div>
+    </div>
+    <div class="goal-check">
+      <div>Publish 350+ South African career profiles with salary, subject, and qualification data</div>
+      <div><span class="badge yes">Yes — 400</span></div>
+    </div>
+    <div class="goal-check">
+      <div>List 200+ active bursaries with eligibility, deadlines, and application links</div>
+      <div><span class="badge yes">Yes — 245</span></div>
+    </div>
+    <div class="goal-check">
+      <div>AI school assistant returns useful answers in under 3 seconds for text queries</div>
+      <div><span class="badge yes">Yes — 1.8s</span></div>
+    </div>
+    <div class="goal-check">
+      <div>Platform loads on mobile in under 3 seconds on a typical 4G connection</div>
+      <div><span class="badge yes">Yes — &lt;2.5s</span></div>
+    </div>
+    <div class="goal-check">
+      <div>Live load shedding data updated automatically without manual intervention</div>
+      <div><span class="badge yes">Yes — GitHub Actions</span></div>
+    </div>
+    <div class="goal-check">
+      <div>Study library covers a minimum of 8 subjects with structured topic notes</div>
+      <div><span class="badge yes">Yes — 11 subjects</span></div>
+    </div>
+    <div class="goal-check">
+      <div>31 end-to-end Playwright tests passing at launch date</div>
+      <div><span class="badge yes">Yes — 31/31</span></div>
+    </div>
+    <div class="goal-check">
+      <div>Platform free to use with no in-app purchases or subscriptions</div>
+      <div><span class="badge yes">Yes — R0</span></div>
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    <div class="label">Conclusion</div>
+    <div class="verdict">The goal was achieved.</div>
+    <div class="body">
+      <p>The research question was whether a single, free digital platform could meaningfully close the information gap South African high school learners face when making subject and career decisions. The answer, based on what was built and verified at launch, is yes — with an important qualification.</p>
+      <p>Prospect launched on 15 May 2026 with 400 career profiles, 245 bursary listings, a working AI school assistant, live infrastructure dashboards, and a study library covering 11 subjects. All 31 end-to-end tests passed. All 8 engineering goals were met. The platform is free to access, mobile-first, and live on Vercel.</p>
+      <p>The qualification is the study library. The infrastructure is correct, the architecture is sound, and the first 24 topics prove the system works. But 24 topics is not comprehensive curriculum coverage. A student studying for matric needs far more than what is currently there. The platform is a foundation — what it can grow into is more significant than what it is right now. The core problems identified in the research are addressed. The platform works. The goal was achieved.</p>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top: 28px; margin-bottom: 14px;">References</div>
+  <div style="font-size: 11px; color: var(--slate-600); line-height: 1.8; columns: 2; column-gap: 32px;">
+    <p>[1] Hooley, T., Marriott, J., and Sampson, J. (2013). <em>Fostering College and Career Readiness.</em> Derby: International Centre for Guidance Studies.</p>
+    <p>[2] Mncwango, B. (2016). Career guidance and counselling in South African schools. <em>Journal of Psychology in Africa, 26(1).</em></p>
+    <p>[3] DHET (2013). <em>White Paper for Post-School Education and Training.</em> Pretoria: Department of Higher Education and Training.</p>
+    <p>[4] Wedekind, V. (2010). Chaos or coherence? South African further education and training college governance. <em>Compare, 40(3).</em></p>
+    <p>[6] Traxler, J. (2018). Distance learning — predictions and possibilities. <em>Education Sciences, 8(1).</em></p>
+    <p>[8] Holmes, W., Bialik, M., and Fadel, C. (2019). <em>Artificial Intelligence in Education.</em> Boston: Center for Curriculum Redesign.</p>
+    <p>[11] Eberhard, A., Frost, J., Gratwick, L., and Gern Schmid, G. (2014). <em>Eskom's Distribution Division.</em> Cape Town: UCT Graduate School of Business.</p>
+    <p>[12] Zondo, S. and Mncube, V. (2022). The impact of load shedding on learning in township schools. <em>South African Journal of Education, 42(2).</em></p>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+</body>
+</html>

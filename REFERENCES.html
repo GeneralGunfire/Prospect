@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prospect — References and Sources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1e293b;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-300: #cbd5e1;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+  }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+  }
+
+  /* ── page shell ── */
+  .page {
+    width: 100%;
+    padding: 64px 80px 72px;
+    display: flex; flex-direction: column;
+    position: relative;
+    page-break-after: always;
+    min-height: 1123px;
+  }
+  .page:last-child { page-break-after: auto; }
+  .top-rule { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: var(--navy); }
+  .bottom-rule { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--slate-100); }
+  .wordmark { font-size: 11px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 40px; }
+
+  /* ── cover typography ── */
+  .doc-tag { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); background: var(--navy); padding: 3px 10px; display: inline-block; margin-bottom: 16px; }
+  .cover-title { font-size: 38px; font-weight: 900; letter-spacing: -0.03em; color: var(--navy); line-height: 1.05; margin-bottom: 8px; }
+  .cover-sub { font-size: 14px; color: var(--slate-500); margin-bottom: 36px; line-height: 1.6; }
+  .divider { width: 40px; height: 2px; background: var(--navy); margin-bottom: 36px; }
+
+  /* ── section headers ── */
+  .section-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 6px; }
+  .section-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 16px; letter-spacing: -0.02em; border-bottom: 1px solid var(--slate-200); padding-bottom: 12px; }
+  .section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+  .section-number { font-size: 44px; font-weight: 900; color: var(--slate-200); letter-spacing: -0.04em; line-height: 1; flex-shrink: 0; }
+  .section-inner { flex: 1; }
+
+  /* ── reference entry ── */
+  .ref-block { margin-bottom: 18px; display: grid; grid-template-columns: 28px 1fr; gap: 10px; }
+  .ref-block:last-child { margin-bottom: 0; }
+  .ref-num { font-size: 10px; font-weight: 900; color: var(--slate-400); padding-top: 2px; flex-shrink: 0; }
+  .ref-body {}
+  .ref-title { font-size: 12.5px; font-weight: 700; color: var(--navy); margin-bottom: 2px; line-height: 1.4; }
+  .ref-citation { font-size: 11.5px; color: var(--slate-700); line-height: 1.6; margin-bottom: 3px; }
+  .ref-url { font-size: 10.5px; color: var(--slate-500); font-style: italic; margin-bottom: 4px; word-break: break-all; }
+  .ref-how { font-size: 11px; color: var(--slate-500); line-height: 1.55; }
+  .ref-how strong { color: var(--slate-700); font-weight: 600; }
+
+  /* ── category label ── */
+  .cat-label { font-size: 9px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: var(--slate-400); margin-bottom: 14px; margin-top: 22px; padding-bottom: 6px; border-bottom: 1px solid var(--slate-200); }
+  .cat-label:first-child { margin-top: 0; }
+
+  /* ── badge ── */
+  .badge { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+  .badge.used { background: var(--green-light); color: var(--green); }
+  .badge.discarded { background: var(--red-light); color: var(--red); }
+  .badge.partial { background: var(--amber-light); color: var(--amber); }
+
+  /* ── cover toc table ── */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead tr { background: var(--navy); }
+  thead th { color: var(--white); font-weight: 700; padding: 8px 12px; text-align: left; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--slate-200); }
+  tbody tr:nth-child(even) { background: var(--slate-50); }
+  tbody td { padding: 8px 12px; color: var(--slate-700); line-height: 1.45; }
+  td.name { font-weight: 600; color: var(--navy); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: white; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .page { max-width: 794px; margin: 32px auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     PAGE 1 — COVER
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; Science Expo 2026</div>
+
+  <div class="doc-tag">References and Sources</div>
+  <h1 class="cover-title">Complete Reference List</h1>
+  <p class="cover-sub">All tools, platforms, packages, repositories, articles, and data sources used throughout the Prospect project — including what was tried and removed — organised by category.</p>
+  <div class="divider"></div>
+
+  <table style="margin-bottom: 28px;">
+    <thead>
+      <tr><th>Section</th><th>Contents</th><th>Page</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="name">A. Academic Literature</td><td>Research articles and reports cited in the research report and discussion</td><td>2</td></tr>
+      <tr><td class="name">B. Development Tools and IDEs</td><td>Code editors, AI coding assistants, and terminal tools used to build the platform</td><td>3</td></tr>
+      <tr><td class="name">C. Frameworks and Languages</td><td>React, Vite, Tailwind, TypeScript, and the Next.js attempt</td><td>4</td></tr>
+      <tr><td class="name">D. Backend and Infrastructure</td><td>Supabase, Vercel, GitHub Actions, and related services</td><td>4</td></tr>
+      <tr><td class="name">E. AI Backends Tried</td><td>Groq (adopted), Gemini (rate-limited), Ollama (incompatible)</td><td>5</td></tr>
+      <tr><td class="name">F. npm Packages and Libraries</td><td>All significant dependencies in the project</td><td>5</td></tr>
+      <tr><td class="name">G. Testing Tools</td><td>Playwright, test setup, and CI configuration</td><td>6</td></tr>
+      <tr><td class="name">H. Data Sources — Careers</td><td>Where the 400 career profiles were sourced and verified</td><td>6</td></tr>
+      <tr><td class="name">I. Data Sources — Bursaries</td><td>Where the 245 bursary listings were sourced and verified</td><td>7</td></tr>
+      <tr><td class="name">J. Data Sources — Infrastructure</td><td>Load shedding, water dashboard, exam timetable sources</td><td>7</td></tr>
+      <tr><td class="name">K. Data Sources — Study Library and TVET</td><td>NSC curriculum, TVET college listings, study content</td><td>8</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size: 12px; color: var(--slate-500); line-height: 1.7;">Each entry includes: the full citation, where it was found or accessed, and what it contributed to the project. Sources that were tried but ultimately not used are marked <span class="badge discarded">Discarded</span>. Sources used throughout are marked <span class="badge used">Used</span>.</p>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 2 — ACADEMIC LITERATURE
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Section A</div>
+
+  <div class="section-header">
+    <div class="section-number">A</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Academic Literature and Research Reports</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Career Guidance and Education Outcomes</div>
+
+  <div class="ref-block">
+    <div class="ref-num">[1]</div>
+    <div class="ref-body">
+      <div class="ref-title">Fostering College and Career Readiness <span class="badge used">Used</span></div>
+      <div class="ref-citation">Hooley, T., Marriott, J., and Sampson, J. (2013). <em>Fostering College and Career Readiness: How Career Development Activities in Schools Impact on Graduation Rates and Students' Life Success.</em> Derby: International Centre for Guidance Studies, University of Derby.</div>
+      <div class="ref-how"><strong>How found:</strong> Searched Google Scholar for "career guidance outcomes high school" and "career counselling education attainment". This paper came up repeatedly in related citations. Accessed via ResearchGate open-access PDF. <strong>What it showed:</strong> That structured career guidance in schools measurably improves graduation rates and long-term outcomes. Used to justify the career pillar as the platform's starting point.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">[2]</div>
+    <div class="ref-body">
+      <div class="ref-title">Career Guidance in South African Schools <span class="badge used">Used</span></div>
+      <div class="ref-citation">Mncwango, B. (2016). Career guidance and counselling in South African schools: Challenges and prospects. <em>Journal of Psychology in Africa, 26(1), pp. 98–102.</em></div>
+      <div class="ref-how"><strong>How found:</strong> Searched Google Scholar for "career guidance South Africa schools shortage". Found in Journal of Psychology in Africa. Accessed through the journal's open-access portal. <strong>What it showed:</strong> That South Africa has a severe guidance counsellor shortage, with some districts reporting one counsellor per 800+ learners. Used as the core statistical evidence for the problem.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">TVET and Vocational Education</div>
+
+  <div class="ref-block">
+    <div class="ref-num">[3]</div>
+    <div class="ref-body">
+      <div class="ref-title">White Paper for Post-School Education and Training <span class="badge used">Used</span></div>
+      <div class="ref-citation">Department of Higher Education and Training (DHET). (2013). <em>White Paper for Post-School Education and Training.</em> Pretoria: Government Printer.</div>
+      <div class="ref-how"><strong>How found:</strong> Searched the DHET official website (dhet.gov.za) and the South African Government's policy portal. Available as a direct PDF download. <strong>What it showed:</strong> Government policy framing TVET as central to the post-school system, but also documenting the perception gap — TVET is officially valued but consistently chosen last. Used to justify the TVET section's deliberate first-choice framing.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">[4]</div>
+    <div class="ref-body">
+      <div class="ref-title">Chaos or Coherence? SA FET College Governance <span class="badge used">Used</span></div>
+      <div class="ref-citation">Wedekind, V. (2010). Chaos or coherence? South African further education and training college governance and the promise of a 'new' institutional landscape. <em>Compare: A Journal of Comparative and International Education, 40(3), pp. 351–365.</em></div>
+      <div class="ref-how"><strong>How found:</strong> Cited in the DHET White Paper bibliography. Searched for the full text via Taylor &amp; Francis and found a pre-print via UKZN institutional repository. <strong>What it showed:</strong> Historical analysis of how TVET colleges have been systematically underfunded and misrepresented in guidance materials, reinforcing the problem the TVET section addresses.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Mobile EdTech and Digital Access</div>
+
+  <div class="ref-block">
+    <div class="ref-num">[5]</div>
+    <div class="ref-body">
+      <div class="ref-title">Mobile Learning: Predictions and Possibilities <span class="badge used">Used</span></div>
+      <div class="ref-citation">Traxler, J. (2018). Distance learning — predictions and possibilities. <em>Education Sciences, 8(1), p. 35.</em> MDPI Open Access.</div>
+      <div class="ref-how"><strong>How found:</strong> Searched Google Scholar for "mobile learning developing countries" and "mobile-first education access". Found in MDPI's open-access Education Sciences journal. <strong>What it showed:</strong> That in developing-world education contexts, mobile-first is not optional — it is the only architecture that reaches the majority of students. Directly informed the mobile-first design constraint and data saver mode decision.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">[6]</div>
+    <div class="ref-body">
+      <div class="ref-title">The Cost of Connectivity — Africa Report <span class="badge used">Used</span></div>
+      <div class="ref-citation">Alliance for Affordable Internet (A4AI). (2023). <em>The Affordability Report: Mobile Internet Pricing in Sub-Saharan Africa.</em> Washington D.C.: Web Foundation.</div>
+      <div class="ref-how"><strong>How found:</strong> Searched for "South Africa mobile data cost students" and found the A4AI affordability report via the Web Foundation website. <strong>What it showed:</strong> That South African mobile data costs remain among the highest as a percentage of income in the region, disproportionately affecting low-income households. Used to justify data saver mode and the sub-2.5s load time target.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">AI in Education</div>
+
+  <div class="ref-block">
+    <div class="ref-num">[7]</div>
+    <div class="ref-body">
+      <div class="ref-title">Artificial Intelligence in Education: Promises and Implications <span class="badge used">Used</span></div>
+      <div class="ref-citation">Zawacki-Richter, O., Marín, V. I., Bond, M., and Gouverneur, F. (2019). Systematic review of research on artificial intelligence applications in higher education. <em>International Journal of Educational Technology in Higher Education, 16(1), p. 39.</em></div>
+      <div class="ref-how"><strong>How found:</strong> Searched Google Scholar for "AI education systematic review". This was a widely cited 2019 review. Accessed via SpringerOpen (open access). <strong>What it showed:</strong> That AI tools in education show strong results for personalised feedback but often fail when not calibrated to a specific curriculum context — directly supporting the decision to write an SA-focused system prompt for the Groq assistant.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">[8]</div>
+    <div class="ref-body">
+      <div class="ref-title">Artificial Intelligence in Education (Book) <span class="badge used">Used</span></div>
+      <div class="ref-citation">Holmes, W., Bialik, M., and Fadel, C. (2019). <em>Artificial Intelligence in Education: Promises and Implications for Teaching and Learning.</em> Boston: Center for Curriculum Redesign.</div>
+      <div class="ref-how"><strong>How found:</strong> Recommended by the Zawacki-Richter paper's bibliography. Summary available on the Center for Curriculum Redesign website (curriculumredesign.org). <strong>What it showed:</strong> That effective AI in education tools are curriculum-specific, not generic. Confirmed the approach of building a system prompt focused on NSC requirements, APS scoring, and South African pathways rather than using a general-purpose chatbot.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Infrastructure and Study Disruption</div>
+
+  <div class="ref-block">
+    <div class="ref-num">[9]</div>
+    <div class="ref-body">
+      <div class="ref-title">Eskom's Distribution Division — UCT Case Study <span class="badge used">Used</span></div>
+      <div class="ref-citation">Eberhard, A., Frost, J., Gratwick, L., and Schmid, G. (2014). <em>Eskom's Distribution Division: A Case Study of the Challenges of Restructuring.</em> Cape Town: UCT Graduate School of Business.</div>
+      <div class="ref-how"><strong>How found:</strong> Searched for "load shedding South Africa academic impact" and "Eskom electricity outages education". Found via UCT's open research repository. <strong>What it showed:</strong> The structural causes of rolling blackouts and their disruption to household routines, including study time. Used to justify the load shedding tracker as a genuine educational need, not a novelty feature.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">[10]</div>
+    <div class="ref-body">
+      <div class="ref-title">Load Shedding and Learning in Township Schools <span class="badge used">Used</span></div>
+      <div class="ref-citation">Zondo, S. and Mncube, V. (2022). The impact of load shedding on learning and teaching in South African township schools. <em>South African Journal of Education, 42(2), pp. 1–11.</em></div>
+      <div class="ref-how"><strong>How found:</strong> Searched Google Scholar for "load shedding South Africa schools learning impact". Found in the South African Journal of Education — open access. <strong>What it showed:</strong> Direct evidence that load shedding measurably reduces productive study hours and disproportionately affects township learners. Core evidence for the load shedding tracker and the decision to expand scope beyond career guidance.</div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 3 — DEVELOPMENT TOOLS AND IDEs
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Section B</div>
+
+  <div class="section-header">
+    <div class="section-number">B</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Development Tools, IDEs, and AI Coding Assistants</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Code Editors</div>
+
+  <div class="ref-block">
+    <div class="ref-num">B1</div>
+    <div class="ref-body">
+      <div class="ref-title">Visual Studio Code <span class="badge used">Used</span></div>
+      <div class="ref-citation">Microsoft Corporation. (2024). <em>Visual Studio Code</em> (version 1.88+). Open-source code editor. Available at: code.visualstudio.com</div>
+      <div class="ref-how"><strong>How used:</strong> Primary code editor throughout the entire project. Used for all TypeScript, React, CSS, and configuration file editing. Extensions installed: ESLint, Prettier, Tailwind CSS IntelliSense, TypeScript language support, and Playwright Test Runner for running the test suite directly from the sidebar.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">AI Coding Assistants</div>
+
+  <div class="ref-block">
+    <div class="ref-num">B2</div>
+    <div class="ref-body">
+      <div class="ref-title">Claude Code (Anthropic CLI) <span class="badge used">Used</span></div>
+      <div class="ref-citation">Anthropic. (2025). <em>Claude Code</em> — AI coding assistant and CLI. Available at: claude.ai/code</div>
+      <div class="ref-how"><strong>How used:</strong> Used extensively throughout development for code generation, refactoring, debugging, and writing the science expo documentation. Claude Code was the primary AI assistant for writing component logic, TypeScript type definitions, and complex data transformations. Also used to generate this reference document and all other science expo HTML files. <strong>Note:</strong> Claude/Anthropic API is not used in the Prospect platform itself — Claude Code was a development tool only. The platform uses Groq as its AI backend.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">B3</div>
+    <div class="ref-body">
+      <div class="ref-title">GitHub Copilot <span class="badge partial">Partial</span></div>
+      <div class="ref-citation">GitHub / Microsoft. (2024). <em>GitHub Copilot</em> — AI pair programmer. Available at: github.com/features/copilot</div>
+      <div class="ref-how"><strong>How used:</strong> Used in early stages for autocomplete suggestions, particularly for boilerplate React component structure and TypeScript interface definitions. Relied on less heavily once Claude Code was the primary AI tool. Useful for inline completions but less effective for multi-file reasoning tasks.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Terminal and Shell Tools</div>
+
+  <div class="ref-block">
+    <div class="ref-num">B4</div>
+    <div class="ref-body">
+      <div class="ref-title">Node.js and npm <span class="badge used">Used</span></div>
+      <div class="ref-citation">OpenJS Foundation. (2024). <em>Node.js</em> (v20 LTS). JavaScript runtime. Available at: nodejs.org</div>
+      <div class="ref-how"><strong>How used:</strong> Runtime for the Vite development server, build toolchain, and all npm scripts. Node v20 LTS used for compatibility with all dependencies including Playwright's browser binaries.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">B5</div>
+    <div class="ref-body">
+      <div class="ref-title">Git and GitHub Desktop <span class="badge used">Used</span></div>
+      <div class="ref-citation">Torvalds, L. et al. (2024). <em>Git</em> (version control system). Available at: git-scm.com. GitHub Desktop: desktop.github.com</div>
+      <div class="ref-how"><strong>How used:</strong> Git used for all version control. GitHub Desktop used for visual commit management, branch switching, and reviewing diffs. All code pushed to a private GitHub repository. GitHub Actions workflows defined in the repository to automate scraper runs.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">B6</div>
+    <div class="ref-body">
+      <div class="ref-title">PowerShell and Windows Terminal <span class="badge used">Used</span></div>
+      <div class="ref-citation">Microsoft Corporation. (2024). <em>PowerShell 7</em> and <em>Windows Terminal</em>. Available at: learn.microsoft.com/powershell</div>
+      <div class="ref-how"><strong>How used:</strong> Primary terminal environment on Windows for running npm scripts, Playwright tests, Git commands, and Vite dev server. Windows Terminal used as the shell host throughout development.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Browser Developer Tools</div>
+
+  <div class="ref-block">
+    <div class="ref-num">B7</div>
+    <div class="ref-body">
+      <div class="ref-title">Google Chrome DevTools <span class="badge used">Used</span></div>
+      <div class="ref-citation">Google. (2024). <em>Chrome DevTools</em> — built into Google Chrome. Available at: developer.chrome.com/docs/devtools</div>
+      <div class="ref-how"><strong>How used:</strong> Used throughout development for inspecting the React component tree, debugging network requests to the Groq API and Supabase, measuring load times, running Lighthouse audits for performance and accessibility, and testing responsive layouts at various mobile viewport sizes.</div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 4 — FRAMEWORKS, LANGUAGES, BACKEND AND INFRASTRUCTURE
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Sections C and D</div>
+
+  <div class="section-header">
+    <div class="section-number">C</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Frameworks, Languages, and Build Tools</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="cat-label">Final Stack (Used)</div>
+
+      <div class="ref-block">
+        <div class="ref-num">C1</div>
+        <div class="ref-body">
+          <div class="ref-title">React 19 <span class="badge used">Used</span></div>
+          <div class="ref-citation">Meta / React Team. (2024). <em>React</em> (v19). Available at: react.dev</div>
+          <div class="ref-how"><strong>Role:</strong> Core UI framework. All components, routing context, and state management. Used with React Router v6 and React Context API.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">C2</div>
+        <div class="ref-body">
+          <div class="ref-title">Vite 6 <span class="badge used">Used</span></div>
+          <div class="ref-citation">Evan You et al. (2024). <em>Vite</em> (v6). Available at: vitejs.dev</div>
+          <div class="ref-how"><strong>Role:</strong> Build tool and dev server. HMR on port 3000. Custom rollupOptions used for code splitting the large data files (careers400Final.ts, bursaries.ts) into separate chunks.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">C3</div>
+        <div class="ref-body">
+          <div class="ref-title">Tailwind CSS v4 <span class="badge used">Used</span></div>
+          <div class="ref-citation">Tailwind Labs. (2024). <em>Tailwind CSS</em> (v4). Available at: tailwindcss.com</div>
+          <div class="ref-how"><strong>Role:</strong> Utility-first styling. All component styles written in Tailwind classes. v4's new CSS variable system used for theming throughout the platform.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">C4</div>
+        <div class="ref-body">
+          <div class="ref-title">TypeScript <span class="badge used">Used</span></div>
+          <div class="ref-citation">Microsoft. (2024). <em>TypeScript</em> (v5). Available at: typescriptlang.org</div>
+          <div class="ref-how"><strong>Role:</strong> Type safety across the entire codebase. Critical for the large data structures (careers400Final.ts with 400 typed entries, bursaries.ts with 245 entries). Caught schema errors before runtime.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">C5</div>
+        <div class="ref-body">
+          <div class="ref-title">React Router v6 <span class="badge used">Used</span></div>
+          <div class="ref-citation">Remix Software. (2024). <em>React Router</em> (v6). Available at: reactrouter.com</div>
+          <div class="ref-how"><strong>Role:</strong> All client-side routing. Auth-gated routes, lazy loading per route, and the ?__test_mode=true bypass for Playwright.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">C6</div>
+        <div class="ref-body">
+          <div class="ref-title">Motion / Framer Motion <span class="badge used">Used</span></div>
+          <div class="ref-citation">Framer. (2024). <em>Motion</em> (formerly Framer Motion). Available at: motion.dev</div>
+          <div class="ref-how"><strong>Role:</strong> Page transition animations and UI micro-interactions. Used selectively to avoid layout animation issues.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="cat-label">Tried and Removed</div>
+
+      <div class="ref-block">
+        <div class="ref-num">C7</div>
+        <div class="ref-body">
+          <div class="ref-title">Next.js 14 <span class="badge discarded">Discarded — Week 1</span></div>
+          <div class="ref-citation">Vercel. (2024). <em>Next.js</em> (v14). Available at: nextjs.org</div>
+          <div class="ref-how"><strong>Why removed:</strong> Initial framework choice. App Router and server components added significant complexity for what is fundamentally a client-side SPA. SSR provided no meaningful benefit (no SEO-critical dynamic routes). Replaced with React + Vite after one week. Dev server cold start was notably slower than Vite for large TypeScript data files.</div>
+        </div>
+      </div>
+
+      <div class="cat-label" style="margin-top:20px;">Section D — Backend and Infrastructure</div>
+
+      <div class="ref-block">
+        <div class="ref-num">D1</div>
+        <div class="ref-body">
+          <div class="ref-title">Supabase <span class="badge used">Used</span></div>
+          <div class="ref-citation">Supabase Inc. (2024). <em>Supabase</em> — open source Firebase alternative. Available at: supabase.com</div>
+          <div class="ref-how"><strong>Role:</strong> Authentication (email/password, session persistence), PostgreSQL database for forum posts, user profiles, and study progress tracking. Free tier. Environment variables stored in Vercel dashboard.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">D2</div>
+        <div class="ref-body">
+          <div class="ref-title">Vercel <span class="badge used">Used</span></div>
+          <div class="ref-citation">Vercel Inc. (2024). <em>Vercel</em> — frontend cloud platform. Available at: vercel.com</div>
+          <div class="ref-how"><strong>Role:</strong> Hosting and deployment. Continuous deployment from the GitHub repository main branch. Environment variables (VITE_GROQ_API_KEY, Supabase URL, Supabase anon key) stored in Vercel project settings. Free tier used at launch.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">D3</div>
+        <div class="ref-body">
+          <div class="ref-title">GitHub Actions <span class="badge used">Used</span></div>
+          <div class="ref-citation">GitHub / Microsoft. (2024). <em>GitHub Actions</em> — CI/CD platform. Available at: docs.github.com/actions</div>
+          <div class="ref-how"><strong>Role:</strong> Scheduled automated scrapers for load shedding data (Eskom stage) and water dashboard data (provincial dam levels). Workflows run on cron schedules, commit updated JSON data files to the repository, which Vercel then deploys automatically.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 5 — AI BACKENDS AND NPM PACKAGES
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Sections E and F</div>
+
+  <div class="section-header">
+    <div class="section-number">E</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">AI Backends Tried</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 28px;">
+    <div>
+      <div class="ref-block">
+        <div class="ref-num">E1</div>
+        <div class="ref-body">
+          <div class="ref-title">Groq Cloud API <span class="badge used">Adopted</span></div>
+          <div class="ref-citation">Groq Inc. (2024). <em>Groq API</em> — cloud LLM inference. Model: llama-3.3-70b-versatile. Available at: console.groq.com</div>
+          <div class="ref-how"><strong>Role:</strong> Final AI backend for the School Assistant feature. OpenAI-compatible endpoint, free tier, no localhost dependency. Median text response time 1.8s. Image requests supported (base64 upload, ~14s). 7 predefined instant answers reduce API calls for common questions. API key stored as VITE_GROQ_API_KEY in Vercel environment variables.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">E2</div>
+        <div class="ref-body">
+          <div class="ref-title">Google Gemini API <span class="badge discarded">Discarded — Rate Limit</span></div>
+          <div class="ref-citation">Google DeepMind. (2024). <em>Google Gemini API</em> — generative AI API. Available at: ai.google.dev</div>
+          <div class="ref-how"><strong>Why removed:</strong> First AI backend tried. Hit the free-tier daily rate limit (HTTP 429 — Too Many Requests) on day one of live testing under normal student-level traffic. Approximately a few dozen requests per hour was enough to exhaust the daily quota before a single test session ended. Unsuitable for a free-access educational platform with unpredictable concurrent usage.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">E3</div>
+        <div class="ref-body">
+          <div class="ref-title">Ollama (Local Model Server) <span class="badge discarded">Discarded — Incompatible</span></div>
+          <div class="ref-citation">Ollama. (2024). <em>Ollama</em> — run large language models locally. Available at: ollama.com</div>
+          <div class="ref-how"><strong>Why removed:</strong> Second AI backend tried. Ollama runs a local inference server — it works on the developer's machine at localhost:11434 but has no cloud equivalent. On Vercel (serverless, no persistent process), the localhost URL is unreachable. Architecturally incompatible with any hosted deployment. Removed before production. The lesson: local-only tools cannot be used in deployed web applications.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label" style="margin-bottom: 6px;">Section F</div>
+      <div class="section-title" style="font-size: 16px; margin-bottom: 14px;">Key npm Packages</div>
+
+      <div class="ref-block">
+        <div class="ref-num">F1</div>
+        <div class="ref-body">
+          <div class="ref-title">@supabase/supabase-js <span class="badge used">Used</span></div>
+          <div class="ref-how">Official Supabase JavaScript client. Used for all auth operations and database queries. Available at: npmjs.com/package/@supabase/supabase-js</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">F2</div>
+        <div class="ref-body">
+          <div class="ref-title">openai (npm package) <span class="badge used">Used</span></div>
+          <div class="ref-how">OpenAI's JavaScript SDK — used for the Groq integration because Groq's API is OpenAI-compatible. Allows switching AI backend by changing only the base URL and API key. npmjs.com/package/openai</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">F3</div>
+        <div class="ref-body">
+          <div class="ref-title">react-router-dom v6 <span class="badge used">Used</span></div>
+          <div class="ref-how">Client-side routing. All page navigation, route guards, and lazy-loaded route components. npmjs.com/package/react-router-dom</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">F4</div>
+        <div class="ref-body">
+          <div class="ref-title">motion <span class="badge used">Used</span></div>
+          <div class="ref-how">Animation library (formerly Framer Motion). Page transitions and component entry animations. npmjs.com/package/motion</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">F5</div>
+        <div class="ref-body">
+          <div class="ref-title">lucide-react <span class="badge used">Used</span></div>
+          <div class="ref-how">Icon library. Used throughout the UI for navigation icons, status indicators, and feature icons. npmjs.com/package/lucide-react</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">F6</div>
+        <div class="ref-body">
+          <div class="ref-title">@playwright/test <span class="badge used">Used</span></div>
+          <div class="ref-how">End-to-end testing framework. 31 tests written and passing at launch. npmjs.com/package/@playwright/test</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">F7</div>
+        <div class="ref-body">
+          <div class="ref-title">eslint + prettier <span class="badge used">Used</span></div>
+          <div class="ref-how">Code quality and formatting. ESLint for linting TypeScript and React, Prettier for consistent formatting. Both configured in the project root.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 6 — TESTING TOOLS AND CAREER DATA SOURCES
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Sections G and H</div>
+
+  <div class="section-header">
+    <div class="section-number">G</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Testing Tools and CI Configuration</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">G1</div>
+    <div class="ref-body">
+      <div class="ref-title">Playwright <span class="badge used">Used</span></div>
+      <div class="ref-citation">Microsoft. (2024). <em>Playwright</em> — end-to-end testing framework for web apps. Available at: playwright.dev</div>
+      <div class="ref-how"><strong>How used:</strong> 31 end-to-end tests written covering all major platform flows: authentication, career browsing and filtering, bursary search, AI chat, study library, and community features. A custom test mode bypass (?__test_mode=true appended to any URL) skips Supabase auth checks so tests run reliably in CI without live credentials. Tests run against a locally hosted Vite dev server or the production Vercel deployment.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">G2</div>
+    <div class="ref-body">
+      <div class="ref-title">GitHub Actions CI <span class="badge used">Used</span></div>
+      <div class="ref-citation">GitHub / Microsoft. (2024). <em>GitHub Actions</em> — workflow automation. Available at: docs.github.com/actions</div>
+      <div class="ref-how"><strong>How used:</strong> Playwright tests configured to run automatically on every push to the main branch via a GitHub Actions workflow. Also used for the scheduled data scraper jobs (load shedding and water dashboard). The test workflow installs Node dependencies, downloads Playwright browser binaries, starts the Vite preview server, and runs the full 31-test suite.</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px;">
+    <div class="section-header">
+      <div class="section-number">H</div>
+      <div class="section-inner">
+        <div class="section-label">References</div>
+        <div class="section-title">Data Sources — Career Profiles (400 records)</div>
+      </div>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-num">H1</div>
+      <div class="ref-body">
+        <div class="ref-title">careers24.com — South African Job Market Data <span class="badge used">Used</span></div>
+        <div class="ref-citation">Careers24. (2024). <em>Career profiles, salary ranges, and job demand data.</em> Available at: careers24.com</div>
+        <div class="ref-how"><strong>How used:</strong> Primary source for South African salary ranges by career and sector. Searched individual careers and noted the median and range figures listed in job postings and career guides. Used to populate the salary range field in each of the 400 career profiles.</div>
+      </div>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-num">H2</div>
+      <div class="ref-body">
+        <div class="ref-title">PayScale South Africa <span class="badge used">Used</span></div>
+        <div class="ref-citation">PayScale Inc. (2024). <em>South Africa Salary Data by Career.</em> Available at: payscale.com</div>
+        <div class="ref-how"><strong>How used:</strong> Cross-reference for salary figures. Where careers24 and PayScale differed significantly, the lower figure was used and the range was widened to reflect the spread. Used as a secondary validation source, not a primary one.</div>
+      </div>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-num">H3</div>
+      <div class="ref-body">
+        <div class="ref-title">Department of Higher Education and Training — Qualification Data <span class="badge used">Used</span></div>
+        <div class="ref-citation">DHET. (2024). <em>National Qualifications Framework (NQF) and qualification pathways.</em> Available at: dhet.gov.za</div>
+        <div class="ref-how"><strong>How used:</strong> Source for qualification levels and NQF levels associated with each career pathway. Used to populate the qualification path field (certificate, diploma, degree, postgraduate) and verify minimum APS requirements cited for university entry.</div>
+      </div>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-num">H4</div>
+      <div class="ref-body">
+        <div class="ref-title">University Prospectuses — APS and Subject Requirements <span class="badge used">Used</span></div>
+        <div class="ref-citation">Various SA universities. (2024). <em>Undergraduate prospectuses and admission requirements.</em> UCT: uct.ac.za, Wits: wits.ac.za, UP: up.ac.za, UJ: uj.ac.za, UKZN: ukzn.ac.za, Stellenbosch: sun.ac.za</div>
+        <div class="ref-how"><strong>How used:</strong> Each major SA university publishes admission requirements by faculty. Used to verify minimum APS scores and required subjects for career-linked degrees across six universities. Where requirements differed between institutions, the lower bound was noted and a range indicated.</div>
+      </div>
+    </div>
+
+    <div class="ref-block">
+      <div class="ref-num">H5</div>
+      <div class="ref-body">
+        <div class="ref-title">StatsSA — Labour Force Survey <span class="badge used">Used</span></div>
+        <div class="ref-citation">Statistics South Africa. (2024). <em>Quarterly Labour Force Survey Q4 2023.</em> Available at: statssa.gov.za</div>
+        <div class="ref-how"><strong>How used:</strong> Source for provincial job demand data. The QLFS breaks down employment by sector and province, which was used to populate the "provincial demand" indicator for each career (high/medium/low by province).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 7 — BURSARY AND INFRASTRUCTURE DATA SOURCES
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Sections I and J</div>
+
+  <div class="section-header">
+    <div class="section-number">I</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Data Sources — Bursaries (245 listings)</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom: 24px;">
+    <div>
+      <div class="ref-block">
+        <div class="ref-num">I1</div>
+        <div class="ref-body">
+          <div class="ref-title">Bursaries South Africa <span class="badge used">Used</span></div>
+          <div class="ref-citation">BursariesSouthAfrica.co.za. (2024). <em>Bursary listings by field and province.</em> Available at: bursariessouthafrica.co.za</div>
+          <div class="ref-how"><strong>How used:</strong> Primary aggregation site for bursary discovery. Used to compile initial list of bursary names and providers. Each listing was then cross-referenced against the provider's official website to verify deadline, amount, and eligibility criteria before being added to bursaries.ts.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">I2</div>
+        <div class="ref-body">
+          <div class="ref-title">Funza Lushaka Bursary Scheme <span class="badge used">Used</span></div>
+          <div class="ref-citation">Department of Basic Education. (2024). <em>Funza Lushaka Bursary Programme.</em> Available at: funzalushaka.doe.gov.za</div>
+          <div class="ref-how"><strong>How used:</strong> Government bursary for teaching. Verified directly against the official DBE portal. Included in the bursary listings with correct eligibility (teaching degree), funding amount (full tuition and allowance), and application link.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">I3</div>
+        <div class="ref-body">
+          <div class="ref-title">NSFAS (National Student Financial Aid Scheme) <span class="badge used">Used</span></div>
+          <div class="ref-citation">NSFAS. (2024). <em>NSFAS funding criteria and application process.</em> Available at: nsfas.org.za</div>
+          <div class="ref-how"><strong>How used:</strong> NSFAS is the largest bursary scheme in South Africa and is listed prominently. Eligibility (household income below R350,000/year), amount (full tuition and allowance), and direct link to application portal included. Verified against the official NSFAS portal rather than third-party descriptions.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">I4</div>
+        <div class="ref-body">
+          <div class="ref-title">Corporate Bursary Provider Websites <span class="badge used">Used</span></div>
+          <div class="ref-citation">Various SA corporations. (2024). Individual bursary programme pages. Includes: Eskom, Sasol, Anglo American, MTN Foundation, Nedbank, FNB, Standard Bank, Absa, Old Mutual, Discovery, PwC, Deloitte, KPMG.</div>
+          <div class="ref-how"><strong>How used:</strong> Each corporate bursary was verified directly against the company's official CSI or bursary programme page. Third-party aggregators were used only for discovery — all data in bursaries.ts was pulled from primary sources. Bursaries with outdated or unverifiable deadlines were marked as "status unknown" rather than listed with incorrect dates.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="ref-block">
+        <div class="ref-num">I5</div>
+        <div class="ref-body">
+          <div class="ref-title">Government and Provincial Bursary Portals <span class="badge used">Used</span></div>
+          <div class="ref-citation">Various SA government departments. (2024). Gauteng: gauteng.gov.za, Western Cape: westerncape.gov.za, SETA bursaries: various SETA portals.</div>
+          <div class="ref-how"><strong>How used:</strong> Provincial government bursaries and SETA (Sector Education and Training Authority) bursaries verified against departmental websites. Several provincial bursaries included specifically because they are underrepresented on commercial aggregator sites but are freely available to qualifying students.</div>
+        </div>
+      </div>
+
+      <div class="ref-block">
+        <div class="ref-num">I6</div>
+        <div class="ref-body">
+          <div class="ref-title">University Financial Aid Offices <span class="badge used">Used</span></div>
+          <div class="ref-citation">Various SA universities. (2024). Financial aid and scholarship pages. UCT, Wits, UP, UJ, UKZN, Stellenbosch, NWU, UFH, DUT, TUT.</div>
+          <div class="ref-how"><strong>How used:</strong> University-specific merit bursaries and institutional scholarships sourced directly from financial aid office pages. Several university bursaries that are not listed on commercial aggregator sites were found this way and added to the platform.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-number">J</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Data Sources — Infrastructure Dashboards</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">J1</div>
+    <div class="ref-body">
+      <div class="ref-title">Eskom — Load Shedding Stage Data <span class="badge used">Used</span></div>
+      <div class="ref-citation">Eskom SOC Ltd. (2024). <em>Load shedding schedule and current stage.</em> Available at: loadshedding.eskom.co.za/LoadShedding/GetStatus</div>
+      <div class="ref-how"><strong>How used:</strong> A GitHub Actions scraper runs on a scheduled cron job, queries Eskom's public API endpoint for the current load shedding stage, and commits the result as a JSON file to the repository. Vercel deploys the update automatically. This keeps the load shedding tracker current without any manual intervention.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">J2</div>
+    <div class="ref-body">
+      <div class="ref-title">Department of Water and Sanitation — Dam Levels <span class="badge used">Used</span></div>
+      <div class="ref-citation">Department of Water and Sanitation. (2024). <em>Weekly dam level reports by province.</em> Available at: dws.gov.za</div>
+      <div class="ref-how"><strong>How used:</strong> The water dashboard scraper pulls provincial dam level and water availability data from the DWS weekly bulletin. Data is processed into a structured JSON format and committed to the repository on the same scheduled cadence as the load shedding scraper.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">J3</div>
+    <div class="ref-body">
+      <div class="ref-title">Umalusi — 2026 NSC Matric Exam Timetable <span class="badge used">Used</span></div>
+      <div class="ref-citation">Umalusi / Department of Basic Education. (2026). <em>2026 National Senior Certificate examination timetable.</em> Available at: umalusi.org.za and education.gov.za</div>
+      <div class="ref-how"><strong>How used:</strong> The full 2026 NSC exam timetable was downloaded from Umalusi's published PDF and manually entered into the platform as structured data. The NSC Exam Countdown feature reads these dates and calculates the live countdown to each exam period. Unlike the load shedding and water data, this is static — the timetable does not change once published.</div>
+    </div>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+<!-- ================================================================
+     PAGE 8 — STUDY LIBRARY AND TVET DATA SOURCES
+     ================================================================ -->
+<div class="page">
+  <div class="top-rule"></div>
+  <div class="wordmark">Prospect Platform &nbsp;·&nbsp; References — Section K</div>
+
+  <div class="section-header">
+    <div class="section-number">K</div>
+    <div class="section-inner">
+      <div class="section-label">References</div>
+      <div class="section-title">Data Sources — Study Library, TVET, and Cost of Living</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Study Library — Curriculum Sources</div>
+
+  <div class="ref-block">
+    <div class="ref-num">K1</div>
+    <div class="ref-body">
+      <div class="ref-title">Department of Basic Education — CAPS Curriculum Statements <span class="badge used">Used</span></div>
+      <div class="ref-citation">Department of Basic Education. (2011, updated 2024). <em>Curriculum and Assessment Policy Statements (CAPS)</em> for all NSC subjects. Available at: education.gov.za</div>
+      <div class="ref-how"><strong>How used:</strong> The CAPS documents define exactly what must be taught in each subject at each grade level. Used as the authoritative reference for structuring the study library's topic breakdown — which topics fall under which subject, what grade they apply to, and the correct terminology. All 11 subjects in the library align with CAPS topic headings, not approximations.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">K2</div>
+    <div class="ref-body">
+      <div class="ref-title">Siyavula Open Textbooks <span class="badge used">Used</span></div>
+      <div class="ref-citation">Siyavula Education. (2024). <em>Open-source Mathematics and Physical Sciences textbooks for Grades 10–12.</em> Available at: siyavula.com</div>
+      <div class="ref-how"><strong>How used:</strong> Siyavula publishes open-licence CAPS-aligned textbooks for Mathematics and Physical Sciences. Used as a content reference for the Mathematics study topics — particularly the Grade 10 Algebra modules which form the two interactive mastery-tracked modules in the platform. The structure of explanations follows the Siyavula approach of worked examples followed by practice problems.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">K3</div>
+    <div class="ref-body">
+      <div class="ref-title">Mindset Learn / SABC Education <span class="badge used">Used</span></div>
+      <div class="ref-citation">Mindset Network. (2024). <em>Mindset Learn — curriculum-aligned educational resources for SA learners.</em> Available at: mindset.africa</div>
+      <div class="ref-how"><strong>How used:</strong> Mindset Learn provides CAPS-aligned learning resources across NSC subjects. Used as a reference when structuring study notes for Life Sciences, History, and Geography topics to ensure topic coverage matched what SA teachers would recognise and learners would expect.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">K4</div>
+    <div class="ref-body">
+      <div class="ref-title">X-Kit Achieve and Study Guides (Pearson SA) <span class="badge partial">Reference Only</span></div>
+      <div class="ref-citation">Pearson South Africa. (2023). <em>X-Kit Achieve Grade 10–12 study guide series.</em> Available in print from SA retailers.</div>
+      <div class="ref-how"><strong>How used:</strong> Physical study guides consulted for topic sequencing and worked example style. Not copied — used to understand the pedagogical structure South African learners are familiar with, particularly for Mathematics and Physical Sciences, to ensure the platform's study notes feel consistent with what students already use.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">TVET Colleges</div>
+
+  <div class="ref-block">
+    <div class="ref-num">K5</div>
+    <div class="ref-body">
+      <div class="ref-title">DHET — TVET College Directory <span class="badge used">Used</span></div>
+      <div class="ref-citation">Department of Higher Education and Training. (2024). <em>List of public TVET colleges and campuses.</em> Available at: dhet.gov.za/TVET%20Colleges</div>
+      <div class="ref-how"><strong>How used:</strong> Official government list of all 50 public TVET colleges and their campuses used as the authoritative source for the TVET section listings. Each college's course offerings, NATED programmes, and location data sourced from this directory and individual college websites.</div>
+    </div>
+  </div>
+
+  <div class="cat-label">Cost of Living and Civics</div>
+
+  <div class="ref-block">
+    <div class="ref-num">K6</div>
+    <div class="ref-body">
+      <div class="ref-title">Numbeo — South Africa Cost of Living Data <span class="badge used">Used</span></div>
+      <div class="ref-citation">Numbeo. (2024). <em>Cost of living in South African cities.</em> Available at: numbeo.com/cost-of-living/country_result.jsp?country=South+Africa</div>
+      <div class="ref-how"><strong>How used:</strong> Numbeo aggregates user-reported cost of living data by city. Used to populate the cost of living dashboard with figures for rent, food, and transport across Cape Town, Johannesburg, Durban, Pretoria, and Port Elizabeth. Data cross-checked against Statistics South Africa consumer price data where available.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">K7</div>
+    <div class="ref-body">
+      <div class="ref-title">Constitution of the Republic of South Africa, 1996 <span class="badge used">Used</span></div>
+      <div class="ref-citation">Republic of South Africa. (1996). <em>The Constitution of the Republic of South Africa.</em> Available at: justice.gov.za/legislation/constitution</div>
+      <div class="ref-how"><strong>How used:</strong> Primary source for the Civics section. The Bill of Rights (Chapter 2) used as the basis for explaining learner rights to education, healthcare, housing, and social protection. Cited directly rather than summarised through third-party sources to ensure accuracy.</div>
+    </div>
+  </div>
+
+  <div class="ref-block">
+    <div class="ref-num">K8</div>
+    <div class="ref-body">
+      <div class="ref-title">South African Government — How Government Works <span class="badge used">Used</span></div>
+      <div class="ref-citation">South African Government. (2024). <em>How government works — structure of government, elections, and departments.</em> Available at: gov.za/about-government</div>
+      <div class="ref-how"><strong>How used:</strong> Official government explainer site used as the source for the civics guide's sections on government structure (executive, legislative, judicial), elections, and how national vs provincial vs municipal government divides responsibility. Written in plain language suitable for high school learners.</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 28px; border-top: 1px solid var(--slate-200); padding-top: 20px;">
+    <div class="section-label" style="margin-bottom: 8px;">A Note on Source Verification</div>
+    <p style="font-size: 12px; color: var(--slate-700); line-height: 1.7;">Every data entry in careers400Final.ts and bursaries.ts was verified against at least one primary source before inclusion. Aggregator websites (like bursariessouthafrica.co.za or careers24.com) were used only for discovery — to find sources worth checking. The actual data entered into the platform was always pulled from the primary source: the university prospectus, the company's official bursary page, the government portal, or the regulatory body's website. Entries where primary verification was not possible were either excluded or marked with a "verify before applying" note within the listing.</p>
+  </div>
+
+  <div class="bottom-rule"></div>
+</div>
+
+</body>
+</html>

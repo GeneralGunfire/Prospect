@@ -31,7 +31,7 @@ const SUBJECT_META: Record<string, SubjectMeta> = {
   'default':           { Icon: BookOpen,     accentCls: 'bg-slate-100 text-slate-500', labelCls: 'text-slate-400' },
 };
 
-const subjectsWithContent = new Set(['algebra', 'phys-sci', 'life-sci', 'accounting']);
+const subjectsWithContent = new Set(['algebra', 'phys-sci', 'life-sci', 'accounting', 'business-studies', 'economics', 'cat', 'egd']);
 
 const ALGEBRA_G10_TOPICS: Record<number, string[]> = {
   1: ['Linear Equations', 'Simultaneous Equations'],
@@ -71,6 +71,48 @@ const ACCOUNTING_G10_T1_PAGES: AppPage[] = [
   'learning-accounting-g10-t1-source-documents',
   'learning-accounting-g10-t1-journals',
   'learning-accounting-g10-t1-ledger',
+];
+
+const BIZSTUDIES_G10_TOPICS: Record<number, string[]> = {
+  1: ['Business Environment', 'Business Sectors', 'Business Stakeholders', 'Business Operations'],
+};
+
+const BIZSTUDIES_G10_T1_PAGES: AppPage[] = [
+  'learning-bizstudies-g10-t1-environment',
+  'learning-bizstudies-g10-t1-sectors',
+  'learning-bizstudies-g10-t1-stakeholders',
+  'learning-bizstudies-g10-t1-operations',
+];
+
+const ECONOMICS_G10_TOPICS: Record<number, string[]> = {
+  1: ['The Economic Problem', 'Production Possibility Curve', 'Economic Systems', 'Circular Flow Model', 'Factors of Production'],
+};
+
+const ECONOMICS_G10_T1_PAGES: AppPage[] = [
+  'learning-economics-g10-t1-problem',
+  'learning-economics-g10-t1-ppc',
+  'learning-economics-g10-t1-systems',
+  'learning-economics-g10-t1-circular-flow',
+  'learning-economics-g10-t1-factors',
+];
+
+const CAT_G10_TOPICS: Record<number, string[]> = {
+  1: ['Computer Systems', 'File Management', 'Word Processing', 'Spreadsheets'],
+};
+
+const CAT_G10_T1_PAGES: AppPage[] = [
+  'learning-cat-g10-t1-computer-systems',
+  'learning-cat-g10-t1-file-management',
+  'learning-cat-g10-t1-word-processing',
+  'learning-cat-g10-t1-spreadsheets',
+];
+
+const EGD_G10_TOPICS: Record<number, string[]> = {
+  1: ['Drawing Instruments & Equipment'],
+};
+
+const EGD_G10_T1_PAGES: AppPage[] = [
+  'learning-egd-g10-t1-drawing-instruments',
 ];
 
 function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
@@ -299,13 +341,21 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                     (selectedSubject === 'algebra' && selectedGrade === 10 && term === 1) ||
                     (selectedSubject === 'phys-sci' && selectedGrade === 10 && term === 1) ||
                     (selectedSubject === 'life-sci' && selectedGrade === 10 && term === 1) ||
-                    (selectedSubject === 'accounting' && selectedGrade === 10 && term === 1);
+                    (selectedSubject === 'accounting' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'business-studies' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'economics' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'cat' && selectedGrade === 10 && term === 1) ||
+                    (selectedSubject === 'egd' && selectedGrade === 10 && term === 1);
 
                   let topics: string[] = [];
                   if (selectedSubject === 'algebra' && selectedGrade === 10) topics = ALGEBRA_G10_TOPICS[term] ?? [];
                   else if (selectedSubject === 'phys-sci' && selectedGrade === 10) topics = PHYSCI_G10_TOPICS[term] ?? [];
                   else if (selectedSubject === 'life-sci' && selectedGrade === 10) topics = LIFESCI_G10_TOPICS[term] ?? [];
                   else if (selectedSubject === 'accounting' && selectedGrade === 10) topics = ACCOUNTING_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'business-studies' && selectedGrade === 10) topics = BIZSTUDIES_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'economics' && selectedGrade === 10) topics = ECONOMICS_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'cat' && selectedGrade === 10) topics = CAT_G10_TOPICS[term] ?? [];
+                  else if (selectedSubject === 'egd' && selectedGrade === 10) topics = EGD_G10_TOPICS[term] ?? [];
 
                   const handleTermClick = () => {
                     setSelectedTerm(term);
@@ -373,6 +423,14 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                 } else if (selectedSubject === 'algebra' && selectedGrade === 10 && selectedTerm === 1) {
                   topicNames = ALGEBRA_G10_TOPICS[1];
                   topicPages = ['learning-algebra-g10-t1-linear-equations', 'learning-algebra-g10-t1-simultaneous'];
+                } else if (selectedSubject === 'business-studies' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = BIZSTUDIES_G10_TOPICS[1]; topicPages = BIZSTUDIES_G10_T1_PAGES;
+                } else if (selectedSubject === 'economics' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = ECONOMICS_G10_TOPICS[1]; topicPages = ECONOMICS_G10_T1_PAGES;
+                } else if (selectedSubject === 'cat' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = CAT_G10_TOPICS[1]; topicPages = CAT_G10_T1_PAGES;
+                } else if (selectedSubject === 'egd' && selectedGrade === 10 && selectedTerm === 1) {
+                  topicNames = EGD_G10_TOPICS[1]; topicPages = EGD_G10_T1_PAGES;
                 }
 
                 if (topicNames.length > 0) {

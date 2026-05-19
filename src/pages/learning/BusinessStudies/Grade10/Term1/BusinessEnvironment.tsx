@@ -59,7 +59,7 @@ const TOPIC = {
     },
   ],
   guidedItem: {
-    problem: 'Pick 'n Pay (a South African supermarket chain) is planning to open a new store. Classify each factor below as micro, market, or macro environment.',
+    problem: "Pick 'n Pay (a South African supermarket chain) is planning to open a new store. Classify each factor below as micro, market, or macro environment.",
     steps: [
       { id: 1, instruction: 'Factor: Pick \'n Pay\'s store manager and staff', math: 'Micro Environment', explanation: 'The store manager and staff are internal to the business. Management directly controls hiring, training, and performance of employees — this is a micro environment factor.' },
       { id: 2, instruction: 'Factor: Competitor Checkers opening nearby', math: 'Market Environment', explanation: 'Checkers is a direct competitor that Pick \'n Pay interacts with and must respond to (e.g., by matching prices or improving service). Competitors belong to the market environment.' },

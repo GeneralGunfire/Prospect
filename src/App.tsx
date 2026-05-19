@@ -80,6 +80,7 @@ const ComputerSystemsPage = lazy(() => import('./pages/learning/CAT/Grade10/Term
 const FileManagementPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/FileManagement'));
 const WordProcessingPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/WordProcessing'));
 const SpreadsheetsPage = lazy(() => import('./pages/learning/CAT/Grade10/Term1/Spreadsheets'));
+const DrawingInstrumentsPage = lazy(() => import('./pages/learning/EGD/Grade10/Term1/DrawingInstruments'));
 const WaterDashboardPage = lazy(() => import('./pages/community/WaterDashboardPage'));
 // NewsPage removed — SA News feature discontinued
 const TaxBudgetPage      = lazy(() => import('./pages/community/TaxBudgetPage'));
@@ -965,6 +966,7 @@ export default function App() {
               {page === 'learning-cat-g10-t1-file-management' && <PageTransition pageKey="learning-cat-g10-t1-file-management"><FileManagementPage {...protectedPageProps} /></PageTransition>}
               {page === 'learning-cat-g10-t1-word-processing' && <PageTransition pageKey="learning-cat-g10-t1-word-processing"><WordProcessingPage {...protectedPageProps} /></PageTransition>}
               {page === 'learning-cat-g10-t1-spreadsheets' && <PageTransition pageKey="learning-cat-g10-t1-spreadsheets"><SpreadsheetsPage {...protectedPageProps} /></PageTransition>}
+              {page === 'learning-egd-g10-t1-drawing-instruments' && <PageTransition pageKey="learning-egd-g10-t1-drawing-instruments"><DrawingInstrumentsPage {...protectedPageProps} /></PageTransition>}
               {page === 'water-dashboard' && <PageTransition pageKey="water-dashboard"><WaterDashboardPage onNavigate={navigate} /></PageTransition>}
               {page === 'tax-budget' && <PageTransition pageKey="tax-budget"><TaxBudgetPage onNavigate={navigate} /></PageTransition>}
               {page === 'cost-of-living' && <PageTransition pageKey="cost-of-living"><CostOfLivingPage onNavigate={navigate} /></PageTransition>}

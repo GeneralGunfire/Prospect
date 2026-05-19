@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prospect – How Every Feature Works</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 48px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 52px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid #1E3A5F;
+    }
+
+    .logo { width: 40px; height: 40px; flex-shrink: 0; }
+    .header-text h1 { font-size: 22px; font-weight: 800; color: #1E3A5F; letter-spacing: -0.4px; }
+    .header-text p { font-size: 13px; color: #64748b; margin-top: 3px; }
+
+    /* Pillar heading */
+    .pillar-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      margin-top: 56px;
+    }
+
+    .pillar-heading:first-of-type { margin-top: 0; }
+
+    .pillar-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: #1E3A5F;
+      padding: 5px 12px;
+      border-radius: 6px;
+    }
+
+    .pillar-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1E3A5F;
+      letter-spacing: -0.5px;
+    }
+
+    .pillar-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 28px;
+      margin-top: -16px;
+      padding-left: 2px;
+      line-height: 1.6;
+    }
+
+    /* Feature block */
+    .feature {
+      margin-bottom: 36px;
+      padding: 24px 26px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+
+    .feature-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.2px;
+      margin-bottom: 4px;
+    }
+
+    .feature-path {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    .inner-divider { height: 1px; background: #f1f5f9; margin: 16px 0; }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .section-body {
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.7;
+    }
+
+    .section-body p { margin-bottom: 8px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .pullquote {
+      background: #f0f4f8;
+      border-left: 3px solid #1E3A5F;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #1E3A5F;
+      line-height: 1.65;
+      font-style: italic;
+      margin: 14px 0;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 9px; }
+
+    .step { display: flex; gap: 11px; align-items: flex-start; }
+
+    .step-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #1E3A5F;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-text { font-size: 13px; color: #334155; line-height: 1.6; }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .pill-blue   { background: #dbeafe; color: #1e40af; }
+    .pill-green  { background: #dcfce7; color: #166534; }
+    .pill-amber  { background: #fef3c7; color: #92400e; }
+    .pill-slate  { background: #f1f5f9; color: #475569; }
+    .pill-purple { background: #ede9fe; color: #5b21b6; }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: #334155;
+    }
+
+    .pillar-divider {
+      height: 2px;
+      background: #e2e8f0;
+      margin: 52px 0 0;
+      border-radius: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect width="200" height="200" rx="40" fill="#1E3A5F"/>
+      <text x="100" y="145" font-family="Inter, sans-serif" font-size="140" font-weight="700" fill="#ffffff" text-anchor="middle">P</text>
+    </svg>
+    <div class="header-text">
+      <h1>How Every Feature Works</h1>
+      <p>All features explained under Prospect's three pillars — Career Guide, School Assist, and Community.</p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PILLAR 1: CAREER GUIDE                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <div class="pillar-heading">
+    <span class="pillar-label">Pillar 1</span>
+    <span class="pillar-name">Career Guide</span>
+  </div>
+  <p class="pillar-desc">Helps learners discover what they want to do, what their subjects allow them to do, and how to get there — including university, TVET, and bursary pathways.</p>
+
+
+  <!-- RIASEC Quiz -->
+  <div class="feature">
+    <div class="feature-title">RIASEC Career Quiz</div>
+    <div class="feature-path">pages/school/ · data/quizQuestions.ts · data/quizScoringLogic.ts</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>An interactive personality-based career quiz using the internationally recognised RIASEC framework (Realistic, Investigative, Artistic, Social, Enterprising, Conventional). Learners answer a series of questions about their interests and preferences, and the quiz produces a personalised career type profile that maps to real careers.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text">Questions are stored in a static TypeScript file — each question is tagged to one or more RIASEC dimensions.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text">As the learner answers, each response increments a score counter for the relevant dimension(s) in real time.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text">At completion, the scoring logic ranks the six dimensions by score and identifies the learner's top two or three — their RIASEC code (e.g. "ISA" or "REC").</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-text">The code is cross-referenced against the career database to surface the careers most aligned to that personality profile.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Client-side scoring (no server)</span>
+    </div>
+  </div>
+
+
+  <!-- Career Explorer -->
+  <div class="feature">
+    <div class="feature-title">Career Explorer</div>
+    <div class="feature-path">data/careers400Final.ts · components/careers/ · services/mapService.ts</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A searchable, filterable database of 400+ South African career profiles. Each career includes a title, field, description, required matric subjects, minimum APS score, salary range, job demand level, and which provinces the work is concentrated in. Learners can filter by subject, APS range, field, or search by keyword.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text"><strong>Data:</strong> all 400+ profiles live in a single TypeScript file. Each was researched and structured with AI assistance then reviewed for accuracy against South African context — SAQA qualifications, university admission requirements, and labour market data.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text"><strong>Filtering:</strong> all filtering happens entirely in the browser — no server query. The array is filtered by field, APS range, or subject in milliseconds.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text"><strong>Detail view:</strong> clicking a career opens a full profile with salary ranges, demand level by province, required subjects highlighted, and linked bursaries for that field.</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-text"><strong>Subject mapping:</strong> a separate <code>subjectCareerMapping.ts</code> file cross-references every matric subject to the careers it unlocks — powering the "what your subjects allow" view.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Client-side filtering</span>
+      <span class="pill pill-slate">400+ static profiles</span>
+    </div>
+  </div>
+
+
+  <!-- Bursary Finder -->
+  <div class="feature">
+    <div class="feature-title">Bursary Finder</div>
+    <div class="feature-path">data/bursaries.ts · pages/school/</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A searchable database of 245 South African bursaries covering government, corporate, and private funders across all major fields of study. Each entry has the funder name, field, deadline, eligibility criteria, and a direct application link. Free, no sign-up wall.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text"><strong>Data:</strong> 245 entries compiled and verified manually with AI assistance, cross-checked against official funder websites and NSFAS documentation.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text"><strong>Filtering:</strong> learners filter by field of study, province, or deadline — all client-side, instant results.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text"><strong>Career link:</strong> bursaries are tagged by field so when a learner views a career, relevant bursaries surface automatically in the same view.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">245 static entries</span>
+    </div>
+  </div>
+
+
+  <!-- TVET Explorer -->
+  <div class="feature">
+    <div class="feature-title">TVET College Explorer</div>
+    <div class="feature-path">pages/tvet/ · data/mapData.ts</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A dedicated section for TVET (Technical and Vocational Education and Training) — a pathway that is critically underrepresented in most guidance tools. Covers all 50 public TVET colleges by province, TVET-specific career paths (trades and technical fields), NSFAS and bursary funding for TVET, and entry requirements for N-course and NCV programmes.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text">All 50 public TVET colleges are stored in <code>mapData.ts</code> with province, programmes offered, and geographic coordinates.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text">A TVET-specific career list covers trades and technical fields distinct from the university-track career list.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text">Funding, NSFAS eligibility, and the difference between N3 and NCV programmes are explained in plain, accessible language.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Static data — 50 colleges</span>
+    </div>
+  </div>
+
+
+  <!-- Career and University Map -->
+  <div class="feature">
+    <div class="feature-title">Career and University Map</div>
+    <div class="feature-path">services/mapService.ts · data/mapData.ts</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>An interactive map showing universities, TVET colleges, career job demand hotspots, and cost-of-living figures by province and city. Learners can see where careers are geographically concentrated, compare living costs between cities, and find institutions near them.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text">University and TVET college locations (lat/lng), province job demand levels, city cost-of-living data, and industry breakdowns are all stored in <code>mapData.ts</code>.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text">The map service cross-references the 400+ career dataset against province and city hotspot fields — so clicking on Gauteng shows which careers are in highest demand there.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text">Three tabs: Careers (job demand by province), Colleges (institution pins), and Insights (cost-of-living by city).</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Leaflet (map rendering)</span>
+      <span class="pill pill-slate">Static geographic data</span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PILLAR 2: SCHOOL ASSIST                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <div class="pillar-divider"></div>
+
+  <div class="pillar-heading">
+    <span class="pillar-label">Pillar 2</span>
+    <span class="pillar-name">School Assist</span>
+  </div>
+  <p class="pillar-desc">Gives learners the tools to actually study and learn — an interactive curriculum-aligned library, an AI tutor, and a school calendar — regardless of which school they attend.</p>
+
+
+  <!-- Study Library -->
+  <div class="feature">
+    <div class="feature-title">Interactive Study Library</div>
+    <div class="feature-path">pages/learning/ · data/studyLibrary/ · Supabase study_progress table</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A free, curriculum-aligned library of 24 fully interactive study topics for Grade 10 learners across 8 subjects: Mathematics, Physical Sciences, Life Sciences, Accounting, Business Studies, Economics, CAT, and EGD. Each topic is a complete lesson: overview, interactive walkthrough, guided practice with hints, a scratchpad, a quiz, and mastery tracking.</p>
+    </div>
+
+    <div class="pullquote">
+      Mapping school content and widening its coverage — and truly bringing information like this to life — matters. We are essentially building a meaningful, detailed, open-source, free library with everything a learner will ever need to study and understand their curriculum, levelling the playing field. We do not expect students to be taught by AI. We are trying to create a meaningful, step-by-step interactive experience so that every learner, regardless of their background or school, can access the best possible education.
+    </div>
+
+    <div class="section-title">How each topic was built</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text"><strong>Content sourcing:</strong> textbook sections, CAPS curriculum outlines, and topic explanations were gathered and used as reference material alongside AI assistance to map the exact scope, sequence, and key concepts for each topic.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text"><strong>Topic mapping:</strong> each topic was structured into learning stages — overview, interactive lesson (concept by concept), guided practice (worked example with hints at each step), and an independent quiz. This mirrors how a good teacher structures a lesson.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text"><strong>Coding:</strong> every topic is a single self-contained TypeScript/React file. Interactive elements use React state machines — learners can only advance when they engage with each stage.</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-text"><strong>Scratchpad:</strong> a Canvas 2D drawing pad is built into every topic. Learners work through problems by hand — just like on exam paper. Work is saved to localStorage per topic and persists across sessions.</div></div>
+      <div class="step"><div class="step-dot">5</div><div class="step-text"><strong>Mastery tracking:</strong> quiz results are written to a Supabase <code>study_progress</code> table. 2 out of 3 correct = mastered. Below that, the learner enters a remediation path before retrying.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-green">Tailwind CSS</span>
+      <span class="pill pill-amber">Canvas 2D API</span>
+      <span class="pill pill-slate">Supabase PostgreSQL</span>
+      <span class="pill pill-slate">localStorage (scratchpad)</span>
+    </div>
+  </div>
+
+
+  <!-- School Assist Chat -->
+  <div class="feature">
+    <div class="feature-title">School Assist — AI Chat Tutor</div>
+    <div class="feature-path">pages/school/SchoolAssistChatPage.tsx · services/schoolAssistService.ts · Groq API</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A free AI chat assistant where learners can get help with schoolwork, subject choices, APS scores, bursary applications, exam preparation, and career direction. It understands South African context — NSFAS, CAO, DBE, CAPS — and responds like a warm, knowledgeable school counsellor.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text">The learner types a message or attaches an image of their work or exam paper and presses send.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text">The app builds a message array — the last 10 messages for context plus the new message — and sends it to the Groq API via a standard fetch call.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text">The model used is <code>llama-3.3-70b-versatile</code> — a powerful open-source LLM. A custom system prompt configures it as "School Assist," an SA-context guidance counsellor.</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-text">The response arrives in ~1.8 seconds on average and streams into the chat interface in real time.</div></div>
+      <div class="step"><div class="step-dot">5</div><div class="step-text">Chat history is stored in Supabase so returning learners can continue a previous conversation from any device.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">Why Groq — not Claude or ChatGPT</div>
+    <div class="section-body">
+      <p>Three AI backends were tested. Gemini was ruled out due to cost at scale. A local Ollama instance was incompatible with the Vercel deployment. Groq was adopted because it is free for reasonable usage, extremely fast (1.8s median), and runs a model that produces high-quality educational responses. The platform must always be free to learners — that constraint drove every infrastructure decision.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-purple">Groq API — llama-3.3-70b-versatile</span>
+      <span class="pill pill-slate">Supabase (chat history)</span>
+      <span class="pill pill-amber">Image upload — base64 encoding</span>
+    </div>
+  </div>
+
+
+  <!-- Calendar -->
+  <div class="feature">
+    <div class="feature-title">School Calendar and Matric Exam Dates</div>
+    <div class="feature-path">pages/school/CalendarPageNew.tsx · pages/school/MatricExamDatesPage.tsx</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A school calendar showing term dates, public holidays, and key academic deadlines for South African learners. A dedicated matric exam dates page lists all NSC examination dates by subject so Grade 12 learners can plan their revision schedule.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="section-body">
+      <p>Term dates and matric exam dates are sourced from the DBE (Department of Basic Education) official calendar and stored as static data. The calendar renders a month view with events highlighted. No external API — data is updated manually at the start of each year when DBE publishes the official schedule.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Static DBE calendar data</span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- PILLAR 3: COMMUNITY                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+
+  <div class="pillar-divider"></div>
+
+  <div class="pillar-heading">
+    <span class="pillar-label">Pillar 3</span>
+    <span class="pillar-name">Community</span>
+  </div>
+  <p class="pillar-desc">Gives learners real-world context about the South Africa they are growing up in — live utility data, cost of living, civic education, and a picture of what their peers are building.</p>
+
+
+  <!-- Load Shedding -->
+  <div class="feature">
+    <div class="feature-title">Load Shedding Dashboard</div>
+    <div class="feature-path">services/loadshedding.ts · backend/loadshedding_scraper.py · GitHub Actions</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A live dashboard showing the current national load shedding stage, a 7-day forecast, and province-level power alerts — transformer faults, cable faults, substation overloads, and planned maintenance. Refreshes automatically every 30 minutes.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How the scraper works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text"><strong>Language:</strong> Python 3.12, using <code>requests</code> (HTTP fetching) and <code>BeautifulSoup</code> (HTML parsing).</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text"><strong>Source:</strong> the Eskom load shedding status page and their planned/unplanned outages page. The scraper reads the page HTML and extracts the current stage and any alert text.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text"><strong>Parsing:</strong> a keyword dictionary maps phrases like "stage 4", "suspended", "no load shedding" to numeric stage values. Fault keywords ("transformer", "cable fault", "substation") classify each alert type.</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-text"><strong>Output:</strong> the scraper writes a single JSON file — <code>public/data/loadshedding/latest.json</code> — containing the current stage, a forecast array, and active alerts.</div></div>
+      <div class="step"><div class="step-dot">5</div><div class="step-text"><strong>Automation:</strong> GitHub Actions runs the script every 30 minutes. After it runs, Actions commits the updated JSON and pushes to the repo. Vercel picks up the push and redeploys in seconds.</div></div>
+      <div class="step"><div class="step-dot">6</div><div class="step-text"><strong>Frontend:</strong> the React app fetches the JSON on load with a 10-minute client cache. If the fetch fails, a sensible fallback is shown (suspended since March 2024).</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-amber">Python 3.12</span>
+      <span class="pill pill-amber">BeautifulSoup 4</span>
+      <span class="pill pill-amber">requests</span>
+      <span class="pill pill-green">GitHub Actions — every 30 min</span>
+      <span class="pill pill-slate">Static JSON on Vercel CDN</span>
+    </div>
+  </div>
+
+
+  <!-- Water Dashboard -->
+  <div class="feature">
+    <div class="feature-title">Water Dashboard</div>
+    <div class="feature-path">services/waterService.ts · backend/water_scraper.py · GitHub Actions · Supabase</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A province-by-province water dashboard showing dam levels with trend indicators (rising, stable, falling), active outage alerts, current water restrictions, upcoming maintenance schedules, and a historical news section covering major SA water events such as the Cape Town Day Zero crisis and the 2023 Johannesburg water emergency.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How the scraper works</div>
+    <div class="steps">
+      <div class="step"><div class="step-dot">1</div><div class="step-text"><strong>Language:</strong> Python 3.12, <code>requests</code> and <code>BeautifulSoup</code> — same stack as the load shedding scraper.</div></div>
+      <div class="step"><div class="step-dot">2</div><div class="step-text"><strong>Dam data:</strong> scraped from the Department of Water and Sanitation's weekly dam levels page. The HTML table of dam names and capacity percentages is parsed, then each dam is mapped to its province using a hardcoded dictionary of all major South African dams.</div></div>
+      <div class="step"><div class="step-dot">3</div><div class="step-text"><strong>Alert data:</strong> municipal water alert pages (Cape Town, eThekwini, Tshwane, Nelson Mandela Bay) are scraped for outage and restriction notices. Text is parsed for urgency keywords and affected area names.</div></div>
+      <div class="step"><div class="step-dot">4</div><div class="step-text"><strong>Output:</strong> writes <code>public/data/water/latest.json</code> — structured by province, containing dams, alerts, restrictions, and maintenance entries.</div></div>
+      <div class="step"><div class="step-dot">5</div><div class="step-text"><strong>Automation:</strong> GitHub Actions runs this daily at 07:00 SAST. Updated JSON is committed and pushed, triggering a Vercel redeploy.</div></div>
+      <div class="step"><div class="step-dot">6</div><div class="step-text"><strong>Fallback chain:</strong> the frontend tries the static JSON first, then falls back to live Supabase queries, then falls back to curated seed data — so the dashboard always shows something useful even if scraping fails.</div></div>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-amber">Python 3.12</span>
+      <span class="pill pill-amber">BeautifulSoup 4</span>
+      <span class="pill pill-green">GitHub Actions — daily 07:00 SAST</span>
+      <span class="pill pill-slate">Supabase (fallback)</span>
+      <span class="pill pill-blue">3-layer fallback: JSON → Supabase → seed</span>
+    </div>
+  </div>
+
+
+  <!-- Cost of Living -->
+  <div class="feature">
+    <div class="feature-title">Cost of Living Dashboard</div>
+    <div class="feature-path">pages/community/CostOfLivingPage.tsx</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A breakdown of monthly living costs by South African city — rent, food, transport, data, and utilities. Helps learners understand what it actually costs to live independently when they leave home for university or work, and compare cities before making a decision about where to study.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="section-body">
+      <p>Cost-of-living figures are sourced from Stats SA consumer price surveys and Numbeo SA city data, then stored as static data in the codebase. Bar charts rendered with Recharts display costs per category per city. Data is updated manually when new official figures are published.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-purple">Recharts</span>
+      <span class="pill pill-slate">Stats SA + Numbeo data</span>
+    </div>
+  </div>
+
+
+  <!-- Tax and Budget -->
+  <div class="feature">
+    <div class="feature-title">Tax and Budget Dashboard</div>
+    <div class="feature-path">pages/community/TaxBudgetPage.tsx</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>An explainer of how South Africa's national budget works — where tax money comes from, where it goes, and what taxes learners will pay when they start working. Includes income tax brackets, VAT, and a simple take-home pay calculator so learners can understand what a salary actually means in practice.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="section-body">
+      <p>Budget allocation percentages sourced from National Treasury's annual budget review documents. Tax brackets sourced from SARS. Stored as static data, rendered with charts and interactive inputs. The take-home calculator runs entirely in the browser — no server needed.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-purple">Recharts</span>
+      <span class="pill pill-slate">National Treasury + SARS data</span>
+    </div>
+  </div>
+
+
+  <!-- Civics -->
+  <div class="feature">
+    <div class="feature-title">Civics Dashboard</div>
+    <div class="feature-path">pages/community/</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A plain-language guide to how South African government works — the three branches (executive, legislature, judiciary), how laws are made, voting rights, and the rights guaranteed by the Constitution. Aimed at learners who are approaching voting age and need to understand the system they are entering as citizens.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="section-body">
+      <p>Entirely static content sourced from the Constitution of the Republic of South Africa, the Electoral Commission of South Africa (IEC), and official government structures documentation. No live data — the content reflects established constitutional fact, not current events.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Static — Constitution + IEC sources</span>
+    </div>
+  </div>
+
+
+  <!-- Community Impact -->
+  <div class="feature">
+    <div class="feature-title">Community Impact Page</div>
+    <div class="feature-path">pages/community/CommunityImpactPage.tsx · services/communityImpactService.ts</div>
+
+    <div class="section-title">What it is</div>
+    <div class="section-body">
+      <p>A live view of Prospect's real-world impact — how many learners are using the platform, which features are most used, and aggregate progress statistics. Gives the community a sense of the collective effort happening across the platform.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+
+    <div class="section-title">How it works</div>
+    <div class="section-body">
+      <p>The impact service queries anonymised, aggregated data from Supabase — total study sessions, topics mastered, career searches, and bursary views. No individual user data is exposed. Figures are displayed in real time on page load.</p>
+    </div>
+
+    <div class="inner-divider"></div>
+    <div class="section-title">Languages and tech</div>
+    <div class="pills">
+      <span class="pill pill-blue">TypeScript</span>
+      <span class="pill pill-blue">React 19</span>
+      <span class="pill pill-slate">Supabase aggregate queries</span>
+    </div>
+  </div>
+
+</body>
+</html>

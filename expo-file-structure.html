@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prospect – File Structure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 48px 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .header-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1E3A5F;
+      letter-spacing: -0.3px;
+    }
+
+    .header-text p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 12px;
+      margin-top: 36px;
+    }
+
+    /* Tree */
+    .tree {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1;
+    }
+
+    .tree-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 4px 0;
+    }
+
+    .tree-indent { color: #cbd5e1; flex-shrink: 0; }
+    .tree-icon { flex-shrink: 0; }
+
+    .tree-name { font-weight: 500; color: #1e293b; }
+    .tree-name.folder { color: #1E3A5F; font-weight: 600; }
+    .tree-name.dim { color: #64748b; font-weight: 400; }
+
+    .tree-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin-left: 4px;
+      font-style: italic;
+    }
+
+    /* Flow diagram */
+    .flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .flow-step {
+      flex: 1;
+      padding: 16px 18px;
+      border-right: 1px solid #e2e8f0;
+      position: relative;
+    }
+
+    .flow-step:last-child { border-right: none; }
+
+    .flow-step::after {
+      content: '→';
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #cbd5e1;
+      font-size: 14px;
+      z-index: 1;
+    }
+
+    .flow-step:last-child::after { display: none; }
+
+    .flow-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1E3A5F;
+      opacity: 0.4;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .flow-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .flow-sub {
+      font-size: 11.5px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    /* Cards grid */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .card-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #1E3A5F;
+      flex-shrink: 0;
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.65;
+    }
+
+    .card-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #f1f5f9;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #334155;
+    }
+
+    /* Test block */
+    .test-block {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .test-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 12.5px;
+    }
+
+    .test-row:last-child { border-bottom: none; }
+
+    .test-pass {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      flex-shrink: 0;
+    }
+
+    .test-name { color: #334155; font-weight: 500; flex: 1; }
+    .test-file { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #94a3b8; }
+
+    /* Command block */
+    .cmd-block {
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cmd-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cmd-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      width: 64px;
+      flex-shrink: 0;
+    }
+
+    .cmd-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #7dd3fc;
+    }
+
+    .cmd-comment {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #475569;
+      margin-left: 4px;
+    }
+
+    /* Stats row */
+    .stats {
+      display: flex;
+      gap: 12px;
+    }
+
+    .stat {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 18px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1E3A5F;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 5px;
+      font-weight: 500;
+    }
+
+    .divider { height: 1px; background: #f1f5f9; margin: 4px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect width="200" height="200" rx="40" fill="#1E3A5F"/>
+      <text x="100" y="145" font-family="Inter, sans-serif" font-size="140" font-weight="700" fill="#ffffff" text-anchor="middle">P</text>
+    </svg>
+    <div class="header-text">
+      <h1>Prospect — Codebase Overview</h1>
+      <p>React 19 · TypeScript · Tailwind CSS · Supabase · Vite · Playwright</p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num">47</div><div class="stat-label">Page files</div></div>
+    <div class="stat"><div class="stat-num">31</div><div class="stat-label">E2E tests passing</div></div>
+    <div class="stat"><div class="stat-num">400+</div><div class="stat-label">Career profiles</div></div>
+    <div class="stat"><div class="stat-num">245</div><div class="stat-label">Bursaries</div></div>
+    <div class="stat"><div class="stat-num">24</div><div class="stat-label">Study topics</div></div>
+  </div>
+
+  <!-- File Structure -->
+  <div class="section-label">Project Structure</div>
+  <div class="tree">
+
+    <div class="tree-row">
+      <span class="tree-name folder">📁 landingpage/</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">├─</span>
+      <span class="tree-name folder">📁 src/</span>
+      <span class="tree-desc">all application source code</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  ├─</span>
+      <span class="tree-name">App.tsx</span>
+      <span class="tree-desc">root — page-state router, lazy imports, auth wiring</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  ├─</span>
+      <span class="tree-name folder">📁 pages/</span>
+      <span class="tree-desc">one file = one screen</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  │  ├─</span>
+      <span class="tree-name folder">📁 school/</span>
+      <span class="tree-desc">Dashboard, Study Library, School Assist chat, Calendar</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  │  ├─</span>
+      <span class="tree-name folder">📁 learning/</span>
+      <span class="tree-desc">interactive topic pages — Algebra / PhysSci / LifeSci / Accounting / …</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  │  ├─</span>
+      <span class="tree-name folder">📁 community/</span>
+      <span class="tree-desc">Load shedding, Water, Tax, Cost of Living, Civic dashboards</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  │  └─</span>
+      <span class="tree-name folder">📁 tvet/</span>
+      <span class="tree-desc">TVET college explorer, careers, funding, requirements</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  ├─</span>
+      <span class="tree-name folder">📁 components/</span>
+      <span class="tree-desc">reusable UI — careers, map, shell header, toast, charts</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  ├─</span>
+      <span class="tree-name folder">📁 lib/</span>
+      <span class="tree-desc">supabase client, auth helpers, withAuth HOC</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  ├─</span>
+      <span class="tree-name folder">📁 services/</span>
+      <span class="tree-desc">API calls — Groq AI, bookmarks, load shedding, water, map</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">│  └─</span>
+      <span class="tree-name folder">📁 data/</span>
+      <span class="tree-desc">static datasets — 400+ careers, 245 bursaries, study library content</span>
+    </div>
+
+    <div class="divider" style="margin: 8px 0;"></div>
+
+    <div class="tree-row">
+      <span class="tree-indent">├─</span>
+      <span class="tree-name folder">📁 tests/</span>
+      <span class="tree-desc">Playwright end-to-end test files (31 tests)</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">├─</span>
+      <span class="tree-name">playwright.config.ts</span>
+      <span class="tree-desc">test runner config — base URL, auth bypass, browser targets</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">├─</span>
+      <span class="tree-name">.env.local</span>
+      <span class="tree-desc">Supabase URL + anon key, Groq API key (never committed)</span>
+    </div>
+
+    <div class="tree-row">
+      <span class="tree-indent">└─</span>
+      <span class="tree-name dim">package.json · vite.config · tailwind.config · tsconfig</span>
+      <span class="tree-desc">build tooling</span>
+    </div>
+
+  </div>
+
+  <!-- How routing works -->
+  <div class="section-label">How the App Works — Page Routing</div>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-title">User clicks a link</div>
+      <div class="flow-sub">No URL changes. <code>onNavigate('page-name')</code> is called.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-title">App.tsx switches state</div>
+      <div class="flow-sub"><code>setPage('page-name')</code> triggers a re-render.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-title">Lazy component loads</div>
+      <div class="flow-sub">Only that page's JS bundle downloads — fast on mobile.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-title">withAuth checks session</div>
+      <div class="flow-sub">Supabase session verified. Guest or redirect if not signed in.</div>
+    </div>
+  </div>
+
+  <!-- Key components -->
+  <div class="section-label">Key Files Explained</div>
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot"></div>App.tsx</div>
+      <div class="card-body">
+        The entire app lives here. Holds <code>page</code> state, lazy-imports every page component, and renders whichever one matches. No URL router — switching pages is just <code>setPage()</code>.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot"></div>lib/withAuth.tsx</div>
+      <div class="card-body">
+        Higher-order component that wraps every protected page. Checks Supabase session on mount. If no user, redirects to login. Also defines the <code>AppPage</code> type — every valid page name must be listed here.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot"></div>pages/learning/…/TopicName.tsx</div>
+      <div class="card-body">
+        One file per study topic. Contains the full lesson: overview card, interactive lesson, guided practice with hints, scratchpad (Canvas 2D), quiz, and mastery tracking via Supabase. All self-contained.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot"></div>services/schoolAssistService.ts</div>
+      <div class="card-body">
+        Sends messages to Groq's API (<code>llama-3.3-70b-versatile</code>) via fetch. Free inference — no Anthropic/OpenAI billing. Returns streamed responses with ~1.8s median latency.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot"></div>data/careers400Final.ts</div>
+      <div class="card-body">
+        Static TypeScript array of 400+ career profiles — title, description, APS score, subjects required, salary range, and field. Filtered client-side. No database query needed.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><div class="card-dot"></div>data/bursaries.ts</div>
+      <div class="card-body">
+        245 bursary entries with funder, field of study, deadline, and application link. Filtered by subject interest and grade client-side. Updated manually each cycle.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Testing -->
+  <div class="section-label">How It's Tested — Playwright E2E</div>
+  <div class="test-block">
+    <div class="test-row">
+      <div class="test-pass"></div>
+      <div class="test-name">Dashboard loads and shows user name</div>
+      <div class="test-file">dashboard.spec.ts</div>
+    </div>
+    <div class="test-row">
+      <div class="test-pass"></div>
+      <div class="test-name">Career search returns filtered results</div>
+      <div class="test-file">careers.spec.ts</div>
+    </div>
+    <div class="test-row">
+      <div class="test-pass"></div>
+      <div class="test-name">Bursary finder filters by field of study</div>
+      <div class="test-file">bursaries.spec.ts</div>
+    </div>
+    <div class="test-row">
+      <div class="test-pass"></div>
+      <div class="test-name">Study topic loads, lesson progresses to quiz</div>
+      <div class="test-file">learning.spec.ts</div>
+    </div>
+    <div class="test-row">
+      <div class="test-pass"></div>
+      <div class="test-name">School Assist chat sends message and receives response</div>
+      <div class="test-file">school-assist.spec.ts</div>
+    </div>
+    <div class="test-row" style="background: #f8fafc;">
+      <div class="test-pass" style="background: #1E3A5F; opacity: 0.3;"></div>
+      <div class="test-name" style="color: #94a3b8; font-style: italic;">+ 26 more tests covering load shedding, water, TVET, auth flows…</div>
+      <div class="test-file">31 / 31 passing</div>
+    </div>
+  </div>
+
+  <!-- Run commands -->
+  <div class="section-label">Run Commands</div>
+  <div class="cmd-block">
+    <div class="cmd-row">
+      <span class="cmd-label">Dev</span>
+      <span class="cmd-text">npm run dev</span>
+      <span class="cmd-comment">— starts at localhost:5173</span>
+    </div>
+    <div class="cmd-row">
+      <span class="cmd-label">Build</span>
+      <span class="cmd-text">npm run build</span>
+      <span class="cmd-comment">— production bundle → dist/</span>
+    </div>
+    <div class="cmd-row">
+      <span class="cmd-label">Test</span>
+      <span class="cmd-text">npx playwright test</span>
+      <span class="cmd-comment">— runs all 31 E2E tests headlessly</span>
+    </div>
+    <div class="cmd-row">
+      <span class="cmd-label">Test UI</span>
+      <span class="cmd-text">npx playwright test --ui</span>
+      <span class="cmd-comment">— opens visual test runner</span>
+    </div>
+    <div class="cmd-row">
+      <span class="cmd-label">Deploy</span>
+      <span class="cmd-text">vercel --prod</span>
+      <span class="cmd-comment">— ships to prospect-lemon-seven.vercel.app</span>
+    </div>
+  </div>
+
+</body>
+</html>

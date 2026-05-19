@@ -409,7 +409,7 @@ function SpreadsheetsPage({ user, onSignOut, onNavigate }: AuthedProps) {
         {view === ViewState.FEEDBACK && (
           <FeedbackModule score={quizScore} total={quizQuestions.length} mastered={mastered}
             onRetry={() => startQuiz(!mastered && attempts > 0)}
-            onContinue={() => onNavigate('library' as AppPage)} />
+            onContinue={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'cat', grade: 10, term: 1 })); onNavigate('library'); }} />
         )}
         {view === ViewState.FEEDBACK && mastered && (
           <>

@@ -387,7 +387,7 @@ function BusinessOperationsPage({ user, onSignOut, onNavigate }: AuthedProps) {
                   <div className="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center text-white shrink-0"><Award className="w-6 h-6" /></div>
                   <div><p className="font-semibold text-emerald-900">All Term 1 Topics Complete</p><p className="text-sm text-emerald-700 mt-0.5">You have covered all Business Studies Grade 10 Term 1 topics.</p></div>
                 </div>
-                <button onClick={() => onNavigate('library')} className="shrink-0 px-4 py-2 bg-emerald-600 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors">Back to Library</button>
+                <button onClick={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'business-studies', grade: 10, term: 1 })); onNavigate('library'); }} className="shrink-0 px-4 py-2 bg-emerald-600 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors">Back to Library</button>
               </div>
             </div>
           </motion.div>
@@ -404,7 +404,7 @@ function BusinessOperationsPage({ user, onSignOut, onNavigate }: AuthedProps) {
               {view === 'practice' && <motion.div key="practice" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><PracticeModule questions={TOPIC.initialQuestions} onComplete={handlePracticeComplete} /></motion.div>}
               {view === 'remediation' && <motion.div key="remediation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6"><div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex items-start gap-3"><AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 shrink-0" /><div><p className="font-medium text-rose-900 text-sm">Let's try again</p><p className="text-rose-700 text-sm mt-0.5">Two more questions to build your understanding.</p></div></div><PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} /></motion.div>}
               {view === 'practice-more' && <motion.div key="hard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><PracticeModule questions={TOPIC.hardQuestions} onComplete={handleHardComplete} /></motion.div>}
-              {view === 'feedback' && <motion.div key="feedback" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><FeedbackModule score={practiceScore} total={TOPIC.initialQuestions.length} onRetry={() => setView('practice')} onContinue={() => onNavigate('library')} /><div className="mt-6 text-center"><button onClick={() => setView('practice-more')} className="text-sm text-blue-600 hover:text-blue-800 transition-colors underline underline-offset-2">Want harder questions? Try Practice More</button></div></motion.div>}
+              {view === 'feedback' && <motion.div key="feedback" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><FeedbackModule score={practiceScore} total={TOPIC.initialQuestions.length} onRetry={() => setView('practice')} onContinue={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'business-studies', grade: 10, term: 1 })); onNavigate('library'); }} /><div className="mt-6 text-center"><button onClick={() => setView('practice-more')} className="text-sm text-blue-600 hover:text-blue-800 transition-colors underline underline-offset-2">Want harder questions? Try Practice More</button></div></motion.div>}
             </AnimatePresence>
           </div>
         )}

@@ -801,7 +801,7 @@ function FactorsOfProductionPage({ user, onSignOut, onNavigate }: AuthedProps) {
             total={quizQuestions.length}
             mastered={mastered}
             onRetry={() => startQuiz(!mastered && attempts > 0)}
-            onContinue={() => onNavigate('library' as AppPage)}
+            onContinue={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'economics', grade: 10, term: 1 })); onNavigate('library'); }}
           />
         )}
 

@@ -442,7 +442,7 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
         {view === ViewState.FEEDBACK && (
           <FeedbackModule score={quizScore} total={quizQuestions.length} mastered={mastered}
             onRetry={() => startQuiz(!mastered && attempts > 0)}
-            onContinue={() => onNavigate('library')} />
+            onContinue={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'egd', grade: 10, term: 1 })); onNavigate('library'); }} />
         )}
         {view === ViewState.FEEDBACK && mastered && (
           <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-2">

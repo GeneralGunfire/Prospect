@@ -498,7 +498,7 @@ function ChemicalBondingPage({ user, onNavigate }: AuthedProps) {
                       <p className="text-sm text-slate-300 mt-1">You have reached the end of Physical Sciences Term 1.</p>
                     </div>
                   </div>
-                  <button onClick={() => onNavigate('library')} className="shrink-0 px-5 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest">Back to Library</button>
+                  <button onClick={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'phys-sci', grade: 10, term: 1 })); onNavigate('library'); }} className="shrink-0 px-5 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest">Back to Library</button>
                 </div>
               </div>
             </motion.div>

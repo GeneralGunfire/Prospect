@@ -405,7 +405,7 @@ function GeneralLedgerPage({ user, onSignOut, onNavigate }: AuthedProps) {
       <AppHeader user={user} onSignOut={onSignOut} onNavigate={onNavigate} />
       <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-6">
         <nav className="flex items-center gap-2 text-sm text-slate-400">
-          <button onClick={() => onNavigate('library')} className="hover:text-slate-700 transition-colors">Library</button>
+          <button onClick={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'accounting', grade: 10, term: 1 })); onNavigate('library'); }} className="hover:text-slate-700 transition-colors">Library</button>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-slate-600 font-medium">{TOPIC.title}</span>
         </nav>
@@ -434,7 +434,7 @@ function GeneralLedgerPage({ user, onSignOut, onNavigate }: AuthedProps) {
                 <p className="text-xs text-emerald-600 font-medium uppercase tracking-wider">All Term 1 Topics Complete</p>
                 <p className="font-semibold text-emerald-900">Accounting — Grade 10 Term 1</p>
                 <p className="text-sm text-emerald-700">You have covered all six Accounting topics for Term 1. Return to the library to explore other subjects.</p>
-                <button onClick={() => onNavigate('library')} className="flex items-center gap-2 text-sm font-medium text-emerald-700 hover:text-emerald-900 transition-colors">
+                <button onClick={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'accounting', grade: 10, term: 1 })); onNavigate('library'); }} className="flex items-center gap-2 text-sm font-medium text-emerald-700 hover:text-emerald-900 transition-colors">
                   Back to Library <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -480,14 +480,14 @@ function GeneralLedgerPage({ user, onSignOut, onNavigate }: AuthedProps) {
               </div>
               <div className="flex flex-col gap-3">
                 {pct >= 2 / 3
-                  ? <button onClick={() => onNavigate('library')} className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium">
+                  ? <button onClick={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'accounting', grade: 10, term: 1 })); onNavigate('library'); }} className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium">
                       Back to Library <ArrowRight className="w-4 h-4" />
                     </button>
                   : <>
                       <button onClick={() => setView('practice')} className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">
                         <RotateCcw className="w-4 h-4" /> Try Again
                       </button>
-                      <button onClick={() => onNavigate('library')} className="px-6 py-2.5 text-slate-600 hover:text-slate-900 transition-colors text-sm">Back to Library</button>
+                      <button onClick={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'accounting', grade: 10, term: 1 })); onNavigate('library'); }} className="px-6 py-2.5 text-slate-600 hover:text-slate-900 transition-colors text-sm">Back to Library</button>
                     </>
                 }
               </div>

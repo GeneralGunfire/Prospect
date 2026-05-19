@@ -95,10 +95,17 @@ function getTermTopics(subjectId: string | null, grade: number | null, term: num
 
 function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [step, setStep] = useState<Step>('subject');
-  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
-  const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
-  const [selectedTerm, setSelectedTerm] = useState<number | null>(null);
+
+  // Allow learning pages to deep-link back to the topic list
+  const returnCtx = (() => {
+    try { return JSON.parse(sessionStorage.getItem('library_return') ?? 'null'); } catch { return null; }
+  })();
+  if (returnCtx) sessionStorage.removeItem('library_return');
+
+  const [step, setStep] = useState<Step>(returnCtx ? 'content' : 'subject');
+  const [selectedSubject, setSelectedSubject] = useState<string | null>(returnCtx?.subjectId ?? null);
+  const [selectedGrade, setSelectedGrade] = useState<number | null>(returnCtx?.grade ?? null);
+  const [selectedTerm, setSelectedTerm] = useState<number | null>(returnCtx?.term ?? null);
 
   const filteredSubjects = subjects.filter(s =>
     s.name.toLowerCase().includes(searchQuery.toLowerCase())

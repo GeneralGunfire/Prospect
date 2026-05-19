@@ -13,8 +13,7 @@ import {
 import { withAuth, type AuthedProps } from '../../lib/withAuth';
 import AppHeader from '../../components/shell/AppHeader';
 import { supabase } from '../../lib/supabase';
-import { studyProgressStorage, learningPathStorage } from '../../services/storageService';
-import { algebraLearningPath } from '../../data/demoLearningPath';
+
 import { getUserQuestions, deleteQuestion, type UnansweredQuestion } from '../../services/unansweredQuestionService';
 import { getUserBookmarks, removeBookmark, type BookmarkState } from '../../services/bookmarkService';
 import { getQuizResults } from '../../services/dashboardService';
@@ -164,37 +163,39 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 50);
   }
 
-  // Study progress
-  const [subjectProgress, setSubjectProgress] = useState<
-    { subject: string; completed: number; total: number; lastTopic: string | null }[]
-  >([]);
+  // Map subject name (as stored in Supabase) → total topic count for Grade 10 Term 1
+  const SUBJECT_TOTAL_TOPICS: Record<string, number> = {
+    'Algebra':           2,
+    'Physical Sciences': 5,
+    'Life Sciences':     4,
+    'Accounting':        6,
+    'Business Studies':  4,
+    'Economics':         5,
+    'CAT':               4,
+    'EGD':               1,
+  };
 
-  useEffect(() => {
-    const algebraPath = learningPathStorage.getPathProgress('grade10-algebra');
-    if (algebraPath) {
-      const statuses = Object.values(algebraPath.topicStatuses);
-      const mastered = statuses.filter(s => s.status === 'mastered').length;
-      const total = algebraLearningPath.totalTopics;
-      const lastTouched = statuses
-        .filter(s => s.lastActivity)
-        .sort((a, b) => (b.lastActivity ?? '').localeCompare(a.lastActivity ?? ''))[0];
-      const lastTopicId = lastTouched?.topicId ?? null;
-      const lastTopic = lastTopicId
-        ? (algebraLearningPath.topics.find(t => t.id === lastTopicId)?.title ?? null)
-        : null;
-      setSubjectProgress([{ subject: 'Mathematics (Algebra)', completed: mastered, total, lastTopic }]);
-    } else {
-      const all = studyProgressStorage.getAllProgress();
-      const bySubject: Record<string, { completed: number; total: number; lastTopic: string | null }> = {};
-      Object.values(all).forEach(p => {
-        if (!bySubject[p.subjectId]) bySubject[p.subjectId] = { completed: 0, total: 0, lastTopic: null };
-        bySubject[p.subjectId].total++;
-        if (p.status === 'mastered') bySubject[p.subjectId].completed++;
-        if (!bySubject[p.subjectId].lastTopic) bySubject[p.subjectId].lastTopic = p.topicId;
-      });
-      setSubjectProgress(Object.entries(bySubject).map(([subject, v]) => ({ subject, ...v })));
+  // Derive subject progress directly from Supabase studyRows
+  const subjectProgress = useMemo(() => {
+    if (!studyLoaded || studyRows.length === 0) return [];
+    const bySubject: Record<string, { completed: number; lastTopic: string | null; lastAccessed: string }> = {};
+    for (const row of studyRows) {
+      if (!bySubject[row.subject]) bySubject[row.subject] = { completed: 0, lastTopic: null, lastAccessed: row.last_accessed };
+      if (row.mastery_level === 'mastered') bySubject[row.subject].completed++;
+      if (row.last_accessed > bySubject[row.subject].lastAccessed) {
+        bySubject[row.subject].lastTopic = topicLabel(row.topic);
+        bySubject[row.subject].lastAccessed = row.last_accessed;
+      } else if (!bySubject[row.subject].lastTopic) {
+        bySubject[row.subject].lastTopic = topicLabel(row.topic);
+      }
     }
-  }, []);
+    return Object.entries(bySubject).map(([subject, v]) => ({
+      subject,
+      completed: v.completed,
+      total: SUBJECT_TOTAL_TOPICS[subject] ?? studyRows.filter(r => r.subject === subject).length,
+      lastTopic: v.lastTopic,
+    }));
+  }, [studyRows, studyLoaded]);
 
   // Deadlines
   const upcomingDeadlines = useMemo(() => {
@@ -203,18 +204,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
   }, []);
   const nextDeadline = upcomingDeadlines[0] ?? null;
 
-  // Active learning path
-  const algebraPath = learningPathStorage.getPathProgress('grade10-algebra');
-  const hasActivePath = !!algebraPath;
-  const nextTopicToStudy = useMemo(() => {
-    if (!algebraPath) return null;
-    const done = new Set(
-      Object.entries(algebraPath.topicStatuses)
-        .filter(([, s]) => s.status === 'mastered')
-        .map(([id]) => id)
-    );
-    return algebraLearningPath.topics.find(t => !done.has(t.id)) ?? null;
-  }, [algebraPath]);
+  const hasActivePath = subjectProgress.length > 0;
 
   // APS + RIASEC
   const [riasecType, setRiasecType] = useState<string | null>(null);
@@ -269,7 +259,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
     ? Math.round((subjectProgress.reduce((s, p) => s + p.completed, 0) / subjectProgress.reduce((s, p) => s + p.total, 0)) * 100)
     : 0;
 
-  const studyStatus = hasActivePath ? 'In Progress' : subjectProgress.length > 0 ? 'In Progress' : 'Not Started';
+  const studyStatus = hasActivePath ? 'In Progress' : 'Not Started';
   const studyStatusStyle = studyStatus === 'In Progress'
     ? 'bg-amber-50 border-amber-200 text-amber-700'
     : 'bg-slate-50 border-slate-200 text-slate-500';
@@ -473,7 +463,7 @@ function DashboardPage({ user, onNavigate }: AuthedProps) {
                 })}
 
                 {/* Start new / resume CTA card */}
-                {hasActivePath && nextTopicToStudy ? (
+                {hasActivePath ? (
                   <button
                     onClick={() => onNavigate('library')}
                     className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors group"

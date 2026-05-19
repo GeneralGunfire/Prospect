@@ -12,6 +12,9 @@ import {
   Calculator,
   X,
   ImageIcon,
+  Briefcase,
+  Building2,
+  type LucideIcon,
 } from 'lucide-react';
 import type { AppPage } from '../../lib/withAuth';
 import type { User } from '@supabase/supabase-js';
@@ -98,12 +101,12 @@ const TOPIC_CHIPS = [
   { icon: MessageCircle, label: 'Career Quiz', q: 'How does the career quiz work?' },
 ];
 
-const STARTER_QUESTIONS = [
-  { label: 'Subjects & APS',    q: 'How do I choose my matric subjects?' },
-  { label: 'NSFAS & Bursaries', q: 'How do I apply for NSFAS and what other bursaries can I get?' },
-  { label: 'Career Guidance',   q: "I'm not sure what career to choose — help me figure it out" },
-  { label: 'University Entry',  q: 'How do I apply to university and what are the deadlines?' },
-  { label: 'Study Tips',        q: 'What are the best ways to study and improve my marks?' },
+const STARTER_QUESTIONS: { label: string; q: string; Icon: LucideIcon }[] = [
+  { label: 'Subjects & APS',    q: 'How do I choose my matric subjects?',                         Icon: BookOpen },
+  { label: 'NSFAS & Bursaries', q: 'How do I apply for NSFAS and what other bursaries can I get?', Icon: Banknote },
+  { label: 'Career Guidance',   q: "I'm not sure what career to choose — help me figure it out",   Icon: Briefcase },
+  { label: 'University Entry',  q: 'How do I apply to university and what are the deadlines?',     Icon: Building2 },
+  { label: 'Study Tips',        q: 'What are the best ways to study and improve my marks?',        Icon: Lightbulb },
 ];
 
 // ── Predefined answers ────────────────────────────────────────────────────────
@@ -419,12 +422,9 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                   <ProspectMark size={34} pulse />
                   <span className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-400">School Assist AI</span>
                 </div>
-                <h1 className="text-[28px] sm:text-[34px] font-black text-slate-900 leading-[1.1] mb-3" style={{ letterSpacing: '-0.03em' }}>
+                <h1 className="text-[28px] sm:text-[36px] font-black text-slate-900 leading-[1.08]" style={{ letterSpacing: '-0.03em' }}>
                   What do you need help with?
                 </h1>
-                <p className="text-[14px] text-slate-500 leading-relaxed max-w-xs mx-auto">
-                  Ask about subjects, bursaries, careers, or university. Upload a photo of your work.
-                </p>
               </motion.div>
 
               {/* Input */}
@@ -456,23 +456,23 @@ export default function SchoolAssistChatPage({ onNavigate, onNavigateHome }: Pro
                 transition={{ duration: 0.4, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-2xl border border-slate-200 overflow-hidden bg-white"
               >
-                <div className="px-5 py-3 border-b border-slate-100">
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">Common questions</p>
+                <div className="px-5 py-3.5 border-b border-slate-100">
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">Common Questions</p>
                 </div>
-                {STARTER_QUESTIONS.map(({ label, q }, i) => (
+                {STARTER_QUESTIONS.map(({ label, q, Icon }) => (
                   <button
                     key={label}
                     onClick={() => sendMessage(q, [])}
-                    className="w-full flex items-center gap-4 px-5 py-3.5 text-left border-b border-slate-100 last:border-b-0 hover:bg-slate-50 transition-colors group"
+                    className="w-full flex items-center gap-4 px-5 py-4 text-left border-b border-slate-100 last:border-b-0 hover:bg-slate-50 transition-colors group"
                   >
-                    <span className="text-[11px] font-black text-slate-200 tabular-nums shrink-0 w-5">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400 mb-0.5">{label}</p>
-                      <p className="text-[13px] text-slate-700 group-hover:text-slate-900 transition-colors leading-snug truncate">{q}</p>
+                    <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-slate-500" />
                     </div>
-                    <ArrowUp className="w-3 h-3 text-slate-300 group-hover:text-slate-500 shrink-0 rotate-45 transition-colors" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400 mb-0.5">{label}</p>
+                      <p className="text-[14px] font-medium text-slate-800 group-hover:text-slate-900 transition-colors leading-snug">{q}</p>
+                    </div>
+                    <ArrowUp className="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-500 shrink-0 rotate-45 transition-colors" />
                   </button>
                 ))}
               </motion.div>

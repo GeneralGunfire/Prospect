@@ -262,7 +262,7 @@ function IntroductionToAccountingPage({ user, onNavigate }: AuthedProps) {
   const handlePracticeMoreComplete = async (res: { correct: number; total: number }) => { setPracticeResult(res); setPreviousView('practice-more'); const s: TopicStatus = res.correct / res.total >= 2 / 3 ? 'mastered' : 'needs-practice'; setStatus(s); await saveProgress(s, res); setView('feedback') }
 
   return (
-    <div className="min-h-screen bg-slate-50 selection:bg-blue-100">
+    <div className="min-h-screen selection:bg-blue-100" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
       <main className="pt-28 pb-24 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">

@@ -156,7 +156,7 @@ function QuizPhase({
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-20 px-4 flex flex-col items-center">
@@ -465,7 +465,7 @@ function ResultsPhase({
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="quiz" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-20 px-4">

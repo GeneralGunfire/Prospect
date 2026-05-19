@@ -561,7 +561,7 @@ function BusinessEnvironmentPage({ user, onSignOut, onNavigate }: AuthedProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="library" user={user} onSignOut={onSignOut} onNavigate={onNavigate} />
 
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-16">

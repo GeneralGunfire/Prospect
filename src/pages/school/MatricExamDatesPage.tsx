@@ -85,7 +85,7 @@ function MatricExamDatesPageInner({ onNavigate, user }: AuthedProps) {
   const exams = tab === 'june' ? JUNE_EXAMS : NOV_EXAMS;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader mode="school" onNavigate={onNavigate} currentPage="matric-exam-dates" user={user} />
 
       <main className="pt-20 pb-20 px-4 sm:px-6">

@@ -136,7 +136,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
 
       <div className="pt-24 pb-20 max-w-5xl mx-auto px-4 sm:px-6">

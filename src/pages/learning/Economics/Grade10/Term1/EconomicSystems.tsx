@@ -749,7 +749,7 @@ function EconomicSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader user={user} onSignOut={onSignOut} onNavigate={onNavigate as (page: string) => void} />
 
       {showScratchpad && (

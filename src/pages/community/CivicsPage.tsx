@@ -701,7 +701,7 @@ function CivicsPage({ onNavigate }: { onNavigate: (page: AppPage) => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="civics" onNavigate={onNavigate} mode="community" />
 
       <main className="max-w-3xl mx-auto px-4 pt-24 pb-8 sm:pb-12 lg:pb-16">

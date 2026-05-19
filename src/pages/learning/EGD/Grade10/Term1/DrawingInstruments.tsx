@@ -373,7 +373,7 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader user={user} onSignOut={onSignOut} onNavigate={onNavigate as (page: string) => void} />
       {showScratchpad && <ScratchpadModal topicId={TOPIC_ID} onClose={() => setShowScratchpad(false)} />}
       <main className="max-w-2xl mx-auto px-4 py-6 space-y-4">

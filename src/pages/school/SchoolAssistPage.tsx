@@ -170,7 +170,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
   // ── Render ────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       {user && (
         <AppHeader currentPage="school-assist" user={user} onNavigate={onNavigate} mode="school" />
       )}

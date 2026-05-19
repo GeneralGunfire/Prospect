@@ -832,7 +832,7 @@ function SimultaneousEquationsPage({ user, onNavigate }: AuthedProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 selection:bg-blue-100">
+    <div className="min-h-screen selection:bg-blue-100" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       {/* Shared site header — passing currentPage tells it which nav item to highlight */}
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
 

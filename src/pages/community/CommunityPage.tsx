@@ -30,7 +30,7 @@ function CommunityPage({ onNavigate }: { onNavigate: (page: AppPage) => void }) 
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader mode="community" onNavigate={onNavigate} currentPage="community" />
 
       <main className="pt-24 pb-20 px-4 sm:px-6">

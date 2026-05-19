@@ -22,7 +22,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
 
   if (!bursary) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
         <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
         <div className="pt-32 pb-16 px-4 max-w-lg mx-auto text-center">
           <h1 className="text-2xl font-black text-slate-900 mb-4" style={{ letterSpacing: '-0.02em' }}>Bursary not found</h1>
@@ -93,7 +93,7 @@ function BursaryDetailPage({ user, onNavigate }: AuthedProps) {
   const similarBursaries = bursaries.filter((b) => b.id !== bursary.id && b.category === bursary.category).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="bursaries" user={user} onNavigate={onNavigate} mode="career" />
 
       <div className="pt-24 pb-16 px-4 max-w-3xl mx-auto">

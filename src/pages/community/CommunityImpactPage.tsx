@@ -274,7 +274,7 @@ function CommunityImpactPage({ onNavigate }: { onNavigate: (page: AppPage) => vo
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="community" onNavigate={onNavigate} mode="community" />
 
       <div className="pt-24 pb-12 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto">

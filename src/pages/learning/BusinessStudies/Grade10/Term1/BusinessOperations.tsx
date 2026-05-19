@@ -367,7 +367,7 @@ function BusinessOperationsPage({ user, onSignOut, onNavigate }: AuthedProps) {
     return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">Not Started</span>
   }
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="library" user={user} onSignOut={onSignOut} onNavigate={onNavigate} />
       <main className="max-w-4xl mx-auto px-4 pt-24 pb-16">
         {view === 'overview' && (

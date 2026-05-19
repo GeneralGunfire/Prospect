@@ -143,7 +143,7 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
               </div>
 
               {/* Search */}
-              <div className="relative mb-8 max-w-md mx-auto">
+              <div className="relative mb-8 max-w-md">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
                   type="text"
@@ -160,74 +160,77 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                   <p className="text-[15px] font-black text-slate-900 mb-1">No subjects found</p>
                   <p className="text-[13px] text-slate-400">Try a different search term.</p>
                 </div>
-              ) : (
-                <div className="space-y-10">
-                  {[
-                    { label: 'Core Subjects', list: coreSubjects },
-                    { label: 'Elective Subjects', list: electiveSubjects },
-                  ].map(({ label, list }) => list.length > 0 && (
-                    <section key={label}>
-                      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400 mb-4">{label}</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {list.map((subject) => {
-                          const hasContent = subjectsWithContent.has(subject.id);
-                          const meta = SUBJECT_META[subject.id] ?? SUBJECT_META['default'];
-                          const Icon = meta.Icon;
-                          return (
-                            <motion.button
-                              key={subject.id}
-                              onClick={() => {
-                                if (!hasContent) return;
-                                setSelectedSubject(subject.id);
-                                setStep('grade');
-                              }}
-                              disabled={!hasContent}
-                              whileHover={hasContent ? { y: -2, scale: 1.01 } : {}}
-                              whileTap={hasContent ? { scale: 0.98 } : {}}
-                              transition={{ duration: 0.15 }}
-                              className={`relative flex flex-col items-start gap-3 p-5 rounded-2xl border text-left transition-all ${
-                                hasContent
-                                  ? 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-md cursor-pointer group'
-                                  : 'bg-white/60 border-slate-100 cursor-default'
-                              }`}
-                            >
-                              {/* Icon box */}
-                              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                                hasContent ? `${meta.bg} ${meta.color}` : 'bg-slate-100 text-slate-300'
-                              }`}>
-                                <Icon className="w-5 h-5" />
-                              </div>
+              ) : (() => {
+                const available = filteredSubjects.filter(s => subjectsWithContent.has(s.id));
+                const comingSoon = filteredSubjects.filter(s => !subjectsWithContent.has(s.id));
 
-                              {/* Name */}
-                              <div className="flex-1 min-w-0 w-full">
-                                <p className={`text-[14px] font-black leading-snug ${hasContent ? 'text-slate-900' : 'text-slate-400'}`} style={{ letterSpacing: '-0.01em' }}>
-                                  {subject.name}
-                                </p>
-                              </div>
-
-                              {/* Footer row */}
-                              <div className="flex items-center justify-between w-full">
-                                {hasContent ? (
-                                  <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${meta.pill}`}>
-                                    Lessons live
-                                  </span>
-                                ) : (
-                                  <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-300">
-                                    <Lock className="w-2.5 h-2.5" /> Coming soon
-                                  </span>
-                                )}
-                                {hasContent && (
-                                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 transition-colors" />
-                                )}
-                              </div>
-                            </motion.button>
-                          );
-                        })}
+                const SubjectCard = ({ subject }: { subject: typeof filteredSubjects[0] }) => {
+                  const hasContent = subjectsWithContent.has(subject.id);
+                  const meta = SUBJECT_META[subject.id] ?? SUBJECT_META['default'];
+                  const Icon = meta.Icon;
+                  return (
+                    <motion.button
+                      key={subject.id}
+                      onClick={() => { if (!hasContent) return; setSelectedSubject(subject.id); setStep('grade'); }}
+                      disabled={!hasContent}
+                      whileHover={hasContent ? { y: -2, scale: 1.01 } : {}}
+                      whileTap={hasContent ? { scale: 0.98 } : {}}
+                      transition={{ duration: 0.15 }}
+                      className={`relative flex flex-col items-start gap-3 p-5 rounded-2xl border text-left transition-all ${
+                        hasContent
+                          ? 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-md cursor-pointer group'
+                          : 'bg-white/40 border-slate-100 cursor-default'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                        hasContent ? `${meta.bg} ${meta.color}` : 'bg-slate-100 text-slate-300'
+                      }`}>
+                        <Icon className="w-5 h-5" />
                       </div>
-                    </section>
-                  ))}
-                </div>
-              )}
+                      <div className="flex-1 min-w-0 w-full">
+                        <p className={`text-[14px] font-black leading-snug ${hasContent ? 'text-slate-900' : 'text-slate-300'}`} style={{ letterSpacing: '-0.01em' }}>
+                          {subject.name}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between w-full">
+                        {hasContent ? (
+                          <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${meta.pill}`}>
+                            Lessons live
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-300">
+                            <Lock className="w-2.5 h-2.5" /> Coming soon
+                          </span>
+                        )}
+                        {hasContent && (
+                          <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 transition-colors" />
+                        )}
+                      </div>
+                    </motion.button>
+                  );
+                };
+
+                return (
+                  <div className="space-y-10">
+                    {available.length > 0 && (
+                      <section>
+                        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400 mb-4">Available Now</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {available.map(s => <SubjectCard key={s.id} subject={s} />)}
+                        </div>
+                      </section>
+                    )}
+                    {comingSoon.length > 0 && (
+                      <section>
+                        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-300 mb-4">Coming Soon</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                          {comingSoon.map(s => <SubjectCard key={s.id} subject={s} />)}
+                        </div>
+                      </section>
+                    )}
+                  </div>
+                );
+              })()}
             </motion.div>
           )}
 

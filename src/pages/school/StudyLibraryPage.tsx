@@ -4,7 +4,7 @@ import {
   Search, ArrowRight, ChevronLeft, ChevronRight,
   Calculator, Atom, FlaskConical, Briefcase, TrendingUp,
   Monitor, Pencil, Languages, BookOpen, type LucideIcon,
-  GraduationCap, Sparkles, Lock,
+  Lock,
 } from 'lucide-react';
 import { subjects } from '../../data/subjects';
 import { withAuth, type AuthedProps, type AppPage } from '../../lib/withAuth';
@@ -114,8 +114,6 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
     else if (step === 'content') setStep('term');
   };
 
-  const totalLessons = 8;
-  const availableSubjects = subjectsWithContent.size;
 
   return (
     <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
@@ -139,35 +137,13 @@ function StudyLibraryPage({ user, onNavigate }: AuthedProps) {
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">Study Library</span>
                 </div>
-                <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-3" style={{ letterSpacing: '-0.03em' }}>
+                <h1 className="text-4xl sm:text-5xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>
                   What are you<br className="sm:hidden" /> studying?
                 </h1>
-                <p className="text-[15px] text-slate-500 leading-relaxed max-w-lg">
-                  Interactive lessons, guided practice, and quizzes — aligned to the CAPS curriculum.
-                </p>
-
-                {/* Stats row */}
-                <div className="flex items-center gap-5 mt-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center">
-                      <GraduationCap className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <span className="text-[13px] font-bold text-slate-700">{availableSubjects} subjects</span>
-                  </div>
-                  <div className="w-px h-4 bg-slate-200" />
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center">
-                      <Sparkles className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <span className="text-[13px] font-bold text-slate-700">{totalLessons} topics live</span>
-                  </div>
-                  <div className="w-px h-4 bg-slate-200" />
-                  <span className="text-[13px] text-slate-400">Grade 10 · Term 1</span>
-                </div>
               </div>
 
               {/* Search */}
-              <div className="relative mb-8 max-w-md">
+              <div className="relative mb-8 max-w-md mx-auto">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 <input
                   type="text"

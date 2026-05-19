@@ -639,54 +639,13 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
         {/* Page header */}
         <div className="pt-4 mb-8">
           <p className="text-[11px] font-black uppercase tracking-[0.22em] text-slate-400 mb-3">Academic Calendar 2026</p>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>Calendar</h1>
-        </div>
-
-        {/* Summary strip */}
-        <div className="flex flex-wrap gap-3 mb-8">
-          <div className="flex items-center gap-3 px-4 py-3 bg-slate-900 text-white rounded-xl">
-            <Bell className="w-4 h-4 text-white/50 shrink-0" />
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-widest text-white/40 mb-0.5">Next deadline</p>
-              <p className="text-[13px] font-bold leading-none">
-                {nextDeadline?.shortTitle}
-                {daysUntilNext != null && daysUntilNext > 0 && (
-                  <span className="ml-2 font-normal text-white/50">{daysUntilNext}d</span>
-                )}
-                {daysUntilNext === 0 && <span className="ml-2 font-black">Today</span>}
-              </p>
-            </div>
-          </div>
-          {currentTerm && (
-            <div className="flex items-center gap-2.5 px-4 py-3 border border-slate-200 rounded-xl">
-              <Flag className="w-4 h-4 text-slate-400 shrink-0" />
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Current term</p>
-                <p className="text-[13px] font-bold text-slate-800 leading-none">{currentTerm.name}</p>
-              </div>
-            </div>
-          )}
+          <h1 className="text-4xl sm:text-5xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>Calendar</h1>
         </div>
 
         {/* Tab bar + controls */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-          <div className="flex p-1 bg-slate-100 rounded-xl w-fit">
-            {(['calendar', 'terms', 'deadlines'] as const).map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
-                  activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-700'
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {activeTab === 'calendar' && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <div className="flex p-1 bg-slate-100 rounded-xl">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex p-1 bg-slate-100 rounded-xl">
                 {([
                   { v: 'month', icon: CalendarIcon, label: 'Month' },
                   { v: 'week',  icon: Grid3x3,      label: 'Week'  },
@@ -725,11 +684,10 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
                 ))}
               </div>
             </div>
-          )}
         </div>
 
         {/* Calendar nav */}
-        {activeTab === 'calendar' && calView !== 'list' && (
+        {calView !== 'list' && (
           <div className="flex items-center gap-3 mb-6">
             <div className="flex items-center gap-1">
               <button
@@ -759,118 +717,12 @@ export default function CalendarPageNew({ onNavigate, onSignOut }: CalendarPageP
 
         {/* Tab content */}
         <AnimatePresence mode="wait">
-          {activeTab === 'calendar' && (
-            <motion.div key={`cal-${calView}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
-              {calView === 'month' && renderMonth()}
-              {calView === 'week'  && renderWeek()}
-              {calView === 'list'  && renderList()}
-            </motion.div>
-          )}
+          <motion.div key={`cal-${calView}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }}>
+            {calView === 'month' && renderMonth()}
+            {calView === 'week'  && renderWeek()}
+            {calView === 'list'  && renderList()}
+          </motion.div>
 
-          {activeTab === 'terms' && (
-            <motion.div key="terms" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }} className="max-w-2xl">
-              <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
-                {TERMS.map((term, i) => (
-                  <motion.div
-                    key={term.id}
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.05 }}
-                    className="px-6 py-6"
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Term {term.id}</p>
-                        <h3 className="text-[20px] font-black text-slate-900" style={{ letterSpacing: '-0.02em' }}>{term.name}</h3>
-                      </div>
-                      <span className="text-[11px] font-black uppercase tracking-widest px-2.5 py-1 border border-slate-200 rounded-full text-slate-500">
-                        {term.weeks}w
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Start</p>
-                        <p className="text-[14px] font-bold text-slate-800">{term.start}</p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">End</p>
-                        <p className="text-[14px] font-bold text-slate-800">{term.end}</p>
-                      </div>
-                      <div>
-                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Holidays</p>
-                        <p className="text-[13px] text-slate-600 leading-snug">{term.holidays}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="mt-8">
-                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">2026 Year Timeline</p>
-                <div className="flex gap-1 h-6 rounded-lg overflow-hidden border border-slate-100">
-                  {TERMS.map((t, i) => (
-                    <div
-                      key={t.id}
-                      className={`flex items-center justify-center ${['bg-slate-800','bg-slate-700','bg-slate-600','bg-slate-500'][i]}`}
-                      style={{ flexGrow: t.weeks }}
-                    >
-                      <span className="text-[10px] font-black text-white/80 hidden sm:block">{t.name}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-between mt-1.5 px-0.5">
-                  {['Jan', 'Apr', 'Jul', 'Oct', 'Dec'].map(m => (
-                    <span key={m} className="text-[11px] text-slate-400">{m}</span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {activeTab === 'deadlines' && (
-            <motion.div key="deadlines" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.18 }} className="max-w-2xl">
-              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400 mb-5">
-                All Key Dates · {DEADLINES.length} events
-              </p>
-              <div className="border border-slate-100 rounded-xl overflow-hidden divide-y divide-slate-100">
-                {sortedDeadlines.map((item, i) => {
-                  const days   = daysUntil(item.isoDate);
-                  const isPast = days < 0;
-
-                  return (
-                    <div
-                      key={i}
-                      className={`flex items-center gap-4 px-5 py-4 transition-colors ${isPast ? 'opacity-40' : 'hover:bg-slate-50'}`}
-                    >
-                      <div className="shrink-0 w-10 text-center">
-                        <p className="text-[14px] font-black text-slate-900 leading-none">
-                          {new Date(item.isoDate).toLocaleDateString('en-ZA', { day: 'numeric' })}
-                        </p>
-                        <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mt-0.5">
-                          {new Date(item.isoDate).toLocaleDateString('en-ZA', { month: 'short' })}
-                        </p>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <p className={`text-[14px] font-bold text-slate-800 leading-snug ${isPast ? 'line-through text-slate-400' : ''}`}>
-                          {item.title}
-                        </p>
-                        <span className={`inline-block text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full mt-1 ${deadlineBadgeCls(item.category)}`}>
-                          {item.category}
-                        </span>
-                      </div>
-
-                      {!isPast && (
-                        <span className={`text-[12px] font-black tabular-nums shrink-0 ${
-                          days === 0 ? 'text-red-600' : days <= 14 ? 'text-amber-600' : 'text-slate-400'
-                        }`}>
-                          {formatDaysAway(days)}
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
         </AnimatePresence>
       </main>
     </div>

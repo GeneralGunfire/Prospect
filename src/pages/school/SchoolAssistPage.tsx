@@ -208,7 +208,7 @@ export default function SchoolAssistPage({ onNavigate, onNavigateHome }: Props) 
           className="mb-8"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-3">Study</p>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900" style={{ letterSpacing: '-0.025em' }}>School Assist</h1>
+          <h1 className="text-4xl sm:text-5xl font-black text-slate-900" style={{ letterSpacing: '-0.03em' }}>School Assist</h1>
         </motion.div>
 
         {/* Quick tools */}

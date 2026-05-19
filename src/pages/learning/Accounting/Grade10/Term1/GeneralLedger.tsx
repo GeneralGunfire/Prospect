@@ -403,7 +403,7 @@ function GeneralLedgerPage({ user, onSignOut, onNavigate }: AuthedProps) {
   return (
     <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader user={user} onSignOut={onSignOut} onNavigate={onNavigate} />
-      <main className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+      <main className="max-w-3xl mx-auto px-4 pt-24 pb-16 space-y-6">
         <nav className="flex items-center gap-2 text-sm text-slate-400">
           <button onClick={() => onNavigate('library')} className="hover:text-slate-700 transition-colors">Library</button>
           <ChevronRight className="w-3.5 h-3.5" />

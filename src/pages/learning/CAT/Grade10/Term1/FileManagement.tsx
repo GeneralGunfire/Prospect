@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import type { AuthedProps } from '../../../../../lib/withAuth';
 import { withAuth } from '../../../../../lib/withAuth';
 import { supabase } from '../../../../../lib/supabase';
@@ -527,7 +527,7 @@ function FileManagementPage({ user, onSignOut, onNavigate }: AuthedProps) {
       <AppHeader user={user} onSignOut={onSignOut} onNavigate={onNavigate as (page: string) => void} />
       {showScratchpad && <ScratchpadModal topicId={TOPIC_ID} onClose={() => setShowScratchpad(false)} />}
 
-      <main className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 pt-24 pb-16 space-y-6">
         <nav className="flex items-center gap-2 text-sm text-slate-500">
           <button onClick={() => onNavigate('library')} className="hover:text-blue-600 transition-colors">Library</button>
           <ChevronRight className="w-4 h-4" />

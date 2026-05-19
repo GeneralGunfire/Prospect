@@ -376,7 +376,7 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
     <div className="min-h-screen" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader user={user} onSignOut={onSignOut} onNavigate={onNavigate as (page: string) => void} />
       {showScratchpad && <ScratchpadModal topicId={TOPIC_ID} onClose={() => setShowScratchpad(false)} />}
-      <main className="max-w-2xl mx-auto px-4 py-6 space-y-4">
+      <main className="max-w-2xl mx-auto px-4 pt-24 pb-16 space-y-4">
         <nav className="flex items-center gap-2 text-xs text-slate-500">
           <button onClick={() => onNavigate('library')} className="hover:text-orange-600 transition-colors">Library</button>
           <ChevronRight className="w-3 h-3" />
@@ -442,7 +442,7 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
         {view === ViewState.FEEDBACK && (
           <FeedbackModule score={quizScore} total={quizQuestions.length} mastered={mastered}
             onRetry={() => startQuiz(!mastered && attempts > 0)}
-            onContinue={() => onNavigate('learning-egd-g10-t1-lines-lettering' as AppPage)} />
+            onContinue={() => onNavigate('library')} />
         )}
         {view === ViewState.FEEDBACK && mastered && (
           <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-2">

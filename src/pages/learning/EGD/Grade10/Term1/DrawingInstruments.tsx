@@ -162,34 +162,34 @@ interface QuizQuestion { question: string; options: string[]; answer: number; ex
 
 function InteractiveStep({ step, index, total, onNext, onPrev }: { step: (typeof TOPIC.interactiveSteps)[0]; index: number; total: number; onNext: () => void; onPrev: () => void; }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-3">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-orange-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-slate-600 flex items-center justify-center">
           <Ruler className="w-4 h-4 text-white" />
         </div>
         <div>
-          <p className="text-xs text-orange-500 font-medium uppercase tracking-wide">Step {index + 1} of {total}</p>
+          <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">Step {index + 1} of {total}</p>
           <h3 className="font-semibold text-slate-800 text-sm">{step.label}</h3>
         </div>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {step.tokens.map((token, i) => (
           <span key={i} className={
-            token === '|' ? 'text-orange-400 font-bold text-base px-0.5'
+            token === '|' ? 'text-slate-400 font-bold text-base px-0.5'
             : ['Drawing', 'T-square', 'Compass', 'Protractor', 'Scale', 'H', 'HB', 'B', '2H', 'Clean', 'Store', 'Never'].includes(token)
-              ? 'bg-orange-600 text-white px-2 py-1 rounded-lg font-bold text-xs'
+              ? 'bg-slate-600 text-white px-2 py-1 rounded-lg font-bold text-xs'
               : ['board', 'squares', '(45°/60°)', '1:1', '1:2', '2:1', '(full)', '(half)', '(double)', 'rule', '(hard)', '(soft/dark)', '(general)', '(construction)'].includes(token)
-                ? 'bg-orange-100 text-orange-800 px-2 py-1 rounded-lg font-semibold text-xs border border-orange-200'
+                ? 'bg-slate-100 text-slate-800 px-2 py-1 rounded-lg font-semibold text-xs border border-slate-200'
                 : 'bg-slate-100 text-slate-700 px-2 py-1 rounded-lg text-xs font-medium'
           }>{token}</span>
         ))}
       </div>
-      <p className="text-xs leading-relaxed text-slate-600 bg-orange-50 rounded-xl p-3 border border-orange-100">{step.explanation}</p>
+      <p className="text-xs leading-relaxed text-slate-600 bg-slate-50 rounded-xl p-3 border border-slate-100">{step.explanation}</p>
       <div className="flex gap-2">
         <button onClick={onPrev} disabled={index === 0} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
           <ChevronLeft className="w-3 h-3" /> Previous
         </button>
-        <button onClick={onNext} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-700 transition-colors ml-auto">
+        <button onClick={onNext} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-600 text-white text-xs hover:bg-slate-700 transition-colors ml-auto">
           {index === total - 1 ? 'Start Guided Example' : 'Next'} <ChevronRight className="w-3 h-3" />
         </button>
       </div>
@@ -201,26 +201,26 @@ function GuidedExample({ onFinish }: { onFinish: () => void }) {
   const [step, setStep] = useState(0);
   const steps = TOPIC.guidedItem.steps;
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-3">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-orange-600 flex items-center justify-center"><Lightbulb className="w-4 h-4 text-white" /></div>
+        <div className="w-8 h-8 rounded-xl bg-slate-600 flex items-center justify-center"><Lightbulb className="w-4 h-4 text-white" /></div>
         <div>
-          <p className="text-xs text-orange-500 font-medium uppercase tracking-wide">Guided Example · Step {step + 1} of {steps.length}</p>
+          <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">Guided Example · Step {step + 1} of {steps.length}</p>
           <h3 className="font-semibold text-slate-800 text-sm">Thabo's Drawing Task</h3>
         </div>
       </div>
-      <div className="bg-orange-50 rounded-xl p-3 border border-orange-100">
-        <p className="text-xs text-orange-800 font-medium">{TOPIC.guidedItem.scenario}</p>
+      <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
+        <p className="text-xs text-slate-800 font-medium">{TOPIC.guidedItem.scenario}</p>
       </div>
       <div className="space-y-2">
         {steps.slice(0, step + 1).map((s, i) => (
-          <div key={i} className={`rounded-xl p-3 border transition-all ${i === step ? 'border-orange-300 bg-orange-50' : 'border-slate-100 bg-slate-50 opacity-70'}`}>
+          <div key={i} className={`rounded-xl p-3 border transition-all ${i === step ? 'border-slate-300 bg-slate-50' : 'border-slate-100 bg-slate-50 opacity-70'}`}>
             <p className="font-semibold text-slate-800 text-xs mb-1">{s.title}</p>
             <p className="text-slate-600 text-xs leading-relaxed">{s.description}</p>
             {i === step && (
-              <div className="mt-2 flex items-start gap-2 bg-white rounded-lg p-2 border border-orange-200">
-                <CheckCircle className="w-3 h-3 text-orange-500 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-orange-700 font-medium">{s.insight}</p>
+              <div className="mt-2 flex items-start gap-2 bg-white rounded-lg p-2 border border-slate-200">
+                <CheckCircle className="w-3 h-3 text-slate-500 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-slate-700 font-medium">{s.insight}</p>
               </div>
             )}
           </div>
@@ -228,7 +228,7 @@ function GuidedExample({ onFinish }: { onFinish: () => void }) {
       </div>
       <div className="flex gap-2">
         {step > 0 && <button onClick={() => setStep(s => s - 1)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs hover:bg-slate-50 transition-colors"><ChevronLeft className="w-3 h-3" /> Back</button>}
-        <button onClick={() => step < steps.length - 1 ? setStep(s => s + 1) : onFinish()} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-700 transition-colors ml-auto">
+        <button onClick={() => step < steps.length - 1 ? setStep(s => s + 1) : onFinish()} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-600 text-white text-xs hover:bg-slate-700 transition-colors ml-auto">
           {step < steps.length - 1 ? 'Next Step' : 'Start Quiz'} <ChevronRight className="w-3 h-3" />
         </button>
       </div>
@@ -245,27 +245,27 @@ function QuizModule({ questions, onComplete }: { questions: QuizQuestion[]; onCo
   function handleReveal() { if (selected === null) return; setRevealed(true); if (selected === q.answer) setScore(s => s + 1); }
   function handleNext() { if (current + 1 >= questions.length) onComplete(score + (selected === q.answer ? 1 : 0)); else { setCurrent(c => c + 1); setSelected(null); setRevealed(false); } }
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-3">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-orange-500 font-medium uppercase tracking-wide">Question {current + 1} of {questions.length}</p>
+        <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">Question {current + 1} of {questions.length}</p>
         <span className="text-xs text-slate-500">Score: {score}</span>
       </div>
       <p className="font-medium text-slate-800 text-sm leading-relaxed">{q.question}</p>
       <div className="space-y-1.5">
         {q.options.map((opt, i) => {
           let cls = 'w-full text-left px-3 py-2 rounded-xl border text-xs transition-all cursor-pointer ';
-          if (!revealed) cls += selected === i ? 'border-orange-400 bg-orange-50 text-orange-800' : 'border-slate-200 hover:border-orange-300 hover:bg-orange-50 text-slate-700';
-          else if (i === q.answer) cls += 'border-green-400 bg-green-50 text-green-800';
-          else if (i === selected) cls += 'border-red-400 bg-red-50 text-red-800';
+          if (!revealed) cls += selected === i ? 'border-slate-400 bg-slate-50 text-slate-800' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700';
+          else if (i === q.answer) cls += 'border-slate-400 bg-slate-50 text-slate-800';
+          else if (i === selected) cls += 'border-slate-400 bg-slate-50 text-slate-800';
           else cls += 'border-slate-200 text-slate-400';
           return <button key={i} className={cls} onClick={() => !revealed && setSelected(i)}>{opt}</button>;
         })}
       </div>
-      {revealed && <div className="bg-orange-50 rounded-xl p-3 border border-orange-100 flex gap-2"><Lightbulb className="w-3 h-3 text-orange-500 flex-shrink-0 mt-0.5" /><p className="text-xs text-orange-800">{q.explanation}</p></div>}
+      {revealed && <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 flex gap-2"><Lightbulb className="w-3 h-3 text-slate-500 flex-shrink-0 mt-0.5" /><p className="text-xs text-slate-800">{q.explanation}</p></div>}
       <div className="flex gap-2 justify-end">
         {!revealed
-          ? <button onClick={handleReveal} disabled={selected === null} className="px-4 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">Check Answer</button>
-          : <button onClick={handleNext} className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-700 transition-colors">{current + 1 >= questions.length ? 'See Results' : 'Next Question'} <ChevronRight className="w-3 h-3" /></button>}
+          ? <button onClick={handleReveal} disabled={selected === null} className="px-4 py-1.5 rounded-lg bg-slate-600 text-white text-xs hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">Check Answer</button>
+          : <button onClick={handleNext} className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-600 text-white text-xs hover:bg-slate-700 transition-colors">{current + 1 >= questions.length ? 'See Results' : 'Next Question'} <ChevronRight className="w-3 h-3" /></button>}
       </div>
     </div>
   );
@@ -273,9 +273,9 @@ function QuizModule({ questions, onComplete }: { questions: QuizQuestion[]; onCo
 
 function FeedbackModule({ score, total, mastered, onRetry, onContinue }: { score: number; total: number; mastered: boolean; onRetry: () => void; onContinue: () => void; }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-3 text-center">
-      <div className={`w-14 h-14 rounded-full mx-auto flex items-center justify-center ${mastered ? 'bg-green-100' : 'bg-amber-100'}`}>
-        {mastered ? <CheckCircle className="w-7 h-7 text-green-600" /> : <XCircle className="w-7 h-7 text-amber-600" />}
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3 text-center">
+      <div className={`w-14 h-14 rounded-full mx-auto flex items-center justify-center ${mastered ? 'bg-slate-100' : 'bg-slate-100'}`}>
+        {mastered ? <CheckCircle className="w-7 h-7 text-slate-600" /> : <XCircle className="w-7 h-7 text-slate-600" />}
       </div>
       <div>
         <h3 className="text-lg font-bold text-slate-800">{mastered ? 'Topic Mastered!' : 'Keep Practising'}</h3>
@@ -285,7 +285,7 @@ function FeedbackModule({ score, total, mastered, onRetry, onContinue }: { score
         : <p className="text-xs text-slate-600">Review the interactive steps and guided example, then try again.</p>}
       <div className="flex gap-2 justify-center">
         <button onClick={onRetry} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 text-xs hover:bg-slate-50 transition-colors"><RotateCcw className="w-3 h-3" /> Try Again</button>
-        <button onClick={onContinue} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-600 text-white text-xs hover:bg-orange-700 transition-colors">Next Topic <ChevronRight className="w-3 h-3" /></button>
+        <button onClick={onContinue} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-600 text-white text-xs hover:bg-slate-700 transition-colors">Next Topic <ChevronRight className="w-3 h-3" /></button>
       </div>
     </div>
   );
@@ -333,9 +333,9 @@ function ScratchpadModal({ topicId, onClose }: { topicId: string; onClose: () =>
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-          <div className="flex items-center gap-2"><PenLine className="w-4 h-4 text-orange-600" /><span className="font-semibold text-slate-800 text-sm">Scratchpad</span></div>
+          <div className="flex items-center gap-2"><PenLine className="w-4 h-4 text-slate-600" /><span className="font-semibold text-slate-800 text-sm">Scratchpad</span></div>
           <div className="flex items-center gap-2">
-            {colors.map(c => <button key={c} onClick={() => setColor(c)} style={{ background: c }} className={`w-5 h-5 rounded-full border-2 transition-transform ${color === c ? 'border-orange-500 scale-110' : 'border-slate-300'}`} />)}
+            {colors.map(c => <button key={c} onClick={() => setColor(c)} style={{ background: c }} className={`w-5 h-5 rounded-full border-2 transition-transform ${color === c ? 'border-slate-500 scale-110' : 'border-slate-300'}`} />)}
             <select value={width} onChange={e => setWidth(Number(e.target.value))} className="text-xs border border-slate-200 rounded px-1 py-0.5 ml-2">{[2, 4, 6, 10].map(w => <option key={w} value={w}>{w}px</option>)}</select>
             <button onClick={undo} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"><Undo2 className="w-4 h-4" /></button>
             <button onClick={clear} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"><Trash2 className="w-4 h-4" /></button>
@@ -378,14 +378,14 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
       {showScratchpad && <ScratchpadModal topicId={TOPIC_ID} onClose={() => setShowScratchpad(false)} />}
       <main className="max-w-2xl mx-auto px-4 pt-24 pb-16 space-y-4">
         <nav className="flex items-center gap-2 text-xs text-slate-500">
-          <button onClick={() => onNavigate('library')} className="hover:text-orange-600 transition-colors">Library</button>
+          <button onClick={() => onNavigate('library')} className="hover:text-slate-600 transition-colors">Library</button>
           <ChevronRight className="w-3 h-3" />
           <span className="text-slate-800 font-medium">EGD · Grade 10 · Term 1</span>
         </nav>
 
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-orange-600 flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-slate-600 flex items-center justify-center flex-shrink-0">
               <Ruler className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -393,23 +393,23 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
               <p className="text-slate-500 text-xs mt-0.5">{TOPIC.description}</p>
             </div>
           </div>
-          <button onClick={() => setShowScratchpad(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-orange-200 text-orange-700 text-xs hover:bg-orange-50 transition-colors flex-shrink-0">
+          <button onClick={() => setShowScratchpad(true)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 text-xs hover:bg-slate-50 transition-colors flex-shrink-0">
             <PenLine className="w-3 h-3" /> Notes
           </button>
         </div>
 
         {view === ViewState.OVERVIEW && (
           <div className="space-y-3">
-            <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-3">
-              <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-orange-600" /><h2 className="font-semibold text-slate-800 text-sm">What You'll Learn</h2></div>
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
+              <div className="flex items-center gap-2"><BookOpen className="w-4 h-4 text-slate-600" /><h2 className="font-semibold text-slate-800 text-sm">What You'll Learn</h2></div>
               <ul className="space-y-1.5 text-xs text-slate-600">
                 {['Core drawing instruments and their uses', 'Pencil grades: H, 2H, HB, B and when to use each', 'Reading and applying drawing scales (1:1, 1:2, 2:1)', 'Correct care and storage of instruments'].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 text-orange-500 mt-0.5 flex-shrink-0" />{item}</li>
+                  <li key={i} className="flex items-start gap-2"><CheckCircle className="w-3.5 h-3.5 text-slate-500 mt-0.5 flex-shrink-0" />{item}</li>
                 ))}
               </ul>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-2">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-2">
               <h2 className="font-semibold text-slate-800 text-xs">Term 1 Topics</h2>
               {[
                 { label: 'Drawing Instruments', page: null },
@@ -418,15 +418,15 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
                 { label: 'Orthographic Projection', page: 'learning-egd-g10-t1-orthographic' as AppPage },
               ].map((t, i) => (
                 <div key={i} onClick={() => t.page && onNavigate(t.page)}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl text-xs transition-colors ${t.page === null ? 'bg-orange-50 border border-orange-200 cursor-default' : 'hover:bg-slate-50 cursor-pointer border border-transparent'}`}>
-                  <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${t.page === null ? 'bg-orange-600 text-white' : 'bg-slate-100 text-slate-600'}`}>{i + 1}</span>
-                  <span className={t.page === null ? 'text-orange-800 font-medium' : 'text-slate-700'}>{t.label}</span>
+                  className={`flex items-center gap-3 p-2.5 rounded-xl text-xs transition-colors ${t.page === null ? 'bg-slate-50 border border-slate-200 cursor-default' : 'hover:bg-slate-50 cursor-pointer border border-transparent'}`}>
+                  <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${t.page === null ? 'bg-slate-600 text-white' : 'bg-slate-100 text-slate-600'}`}>{i + 1}</span>
+                  <span className={t.page === null ? 'text-slate-800 font-medium' : 'text-slate-700'}>{t.label}</span>
                   {t.page !== null && <ChevronRight className="w-3 h-3 text-slate-400 ml-auto" />}
                 </div>
               ))}
             </div>
 
-            <button onClick={() => { setStepIndex(0); setView(ViewState.INTERACTIVE); }} className="w-full py-2.5 rounded-xl bg-orange-600 text-white font-semibold text-sm hover:bg-orange-700 transition-colors">
+            <button onClick={() => { setStepIndex(0); setView(ViewState.INTERACTIVE); }} className="w-full py-2.5 rounded-xl bg-slate-600 text-white font-semibold text-sm hover:bg-slate-700 transition-colors">
               Start Learning
             </button>
           </div>
@@ -445,10 +445,10 @@ function DrawingInstrumentsPage({ user, onSignOut, onNavigate }: AuthedProps) {
             onContinue={() => { sessionStorage.setItem('library_return', JSON.stringify({ subjectId: 'egd', grade: 10, term: 1 })); onNavigate('library'); }} />
         )}
         {view === ViewState.FEEDBACK && mastered && (
-          <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-4 space-y-2">
-            <div className="flex items-center gap-2"><Award className="w-4 h-4 text-orange-600" /><h3 className="font-semibold text-slate-800 text-sm">Challenge Questions</h3></div>
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-2">
+            <div className="flex items-center gap-2"><Award className="w-4 h-4 text-slate-600" /><h3 className="font-semibold text-slate-800 text-sm">Challenge Questions</h3></div>
             <p className="text-xs text-slate-500">Test deeper understanding with exam-style questions.</p>
-            <button onClick={() => { setQuizQuestions(TOPIC.hardQuestions); setView(ViewState.QUIZ); }} className="w-full py-2 rounded-xl border border-orange-200 text-orange-700 text-xs font-medium hover:bg-orange-50 transition-colors">Try Challenge Questions</button>
+            <button onClick={() => { setQuizQuestions(TOPIC.hardQuestions); setView(ViewState.QUIZ); }} className="w-full py-2 rounded-xl border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-50 transition-colors">Try Challenge Questions</button>
           </div>
         )}
       </main>

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   ChevronLeft, ChevronRight, ArrowRight, Lightbulb, RotateCcw,
@@ -158,7 +158,7 @@ function InteractiveLesson({ onComplete }: { onComplete: () => void }) {
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center justify-between text-sm text-slate-500">
         <span>Step {step + 1} of {TOPIC.interactiveSteps.length}</span>
-        <div className="flex gap-1.5">{TOPIC.interactiveSteps.map((_, i) => <div key={i} className={`h-1.5 w-8 rounded-full transition-colors ${i <= step ? 'bg-indigo-600' : 'bg-slate-200'}`} />)}</div>
+        <div className="flex gap-1.5">{TOPIC.interactiveSteps.map((_, i) => <div key={i} className={`h-1.5 w-8 rounded-full transition-colors ${i <= step ? 'bg-slate-600' : 'bg-slate-200'}`} />)}</div>
       </div>
       <AnimatePresence mode="wait">
         <motion.div key={current.id} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
@@ -173,7 +173,7 @@ function InteractiveLesson({ onComplete }: { onComplete: () => void }) {
                   <div key={i} className="relative">
                     {bubble && isActive && <SpeechBubble text={bubble.text} position={bubble.pos} />}
                     <button onClick={() => setActiveBubble(isActive ? null : token)}
-                      className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${bubble ? (isActive ? 'bg-indigo-600 text-white shadow-md scale-105' : 'bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100') : 'bg-white text-slate-400 border border-slate-200 cursor-default'}`}>
+                      className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${bubble ? (isActive ? 'bg-slate-600 text-white shadow-md scale-105' : 'bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100') : 'bg-white text-slate-400 border border-slate-200 cursor-default'}`}>
                       {token}
                     </button>
                   </div>
@@ -187,7 +187,7 @@ function InteractiveLesson({ onComplete }: { onComplete: () => void }) {
         <button onClick={() => { setStep(s => s - 1); setActiveBubble(null) }} disabled={step === 0} className="flex items-center gap-2 px-4 py-2 text-slate-600 disabled:opacity-30 hover:text-slate-900 transition-colors"><ChevronLeft className="w-4 h-4" /> Previous</button>
         {step < TOPIC.interactiveSteps.length - 1
           ? <button onClick={() => { setStep(s => s + 1); setActiveBubble(null) }} className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">Next <ChevronRight className="w-4 h-4" /></button>
-          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors font-medium">Try a Worked Example <ArrowRight className="w-4 h-4" /></button>}
+          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">Try a Worked Example <ArrowRight className="w-4 h-4" /></button>}
       </div>
     </div>
   )
@@ -227,24 +227,24 @@ function GuidedPracticeModule({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {scratchpadStep && <ScratchpadModal stepKey={scratchpadStep} onClose={() => setScratchpadStep(null)} />}
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4"><div className="flex items-start gap-3"><Lightbulb className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" /><div><p className="font-medium text-amber-900 text-sm mb-1">Worked Example</p><p className="text-amber-800 text-xs leading-relaxed">{TOPIC.guidedItem.problem}</p></div></div></div>
-      <div className="flex gap-2 overflow-x-auto pb-1">{TOPIC.guidedItem.steps.map((s, i) => <button key={s.id} onClick={() => { setStepIdx(i); setRevealed(false) }} className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${i === stepIdx ? 'bg-slate-900 text-white' : i < stepIdx ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>Step {s.id}</button>)}</div>
+      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4"><div className="flex items-start gap-3"><Lightbulb className="w-5 h-5 text-slate-600 mt-0.5 shrink-0" /><div><p className="font-medium text-slate-900 text-sm mb-1">Worked Example</p><p className="text-slate-800 text-xs leading-relaxed">{TOPIC.guidedItem.problem}</p></div></div></div>
+      <div className="flex gap-2 overflow-x-auto pb-1">{TOPIC.guidedItem.steps.map((s, i) => <button key={s.id} onClick={() => { setStepIdx(i); setRevealed(false) }} className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${i === stepIdx ? 'bg-slate-900 text-white' : i < stepIdx ? 'bg-slate-100 text-slate-700' : 'bg-slate-100 text-slate-500'}`}>Step {s.id}</button>)}</div>
       <AnimatePresence mode="wait">
         <motion.div key={step.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
           <div className="flex items-start justify-between gap-4">
             <p className="font-medium text-slate-800">{step.instruction}</p>
             <button onClick={() => setScratchpadStep(`step-${step.id}`)} className="shrink-0 flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-700 transition-colors border border-slate-200 rounded-lg px-2 py-1"><NotebookPen className="w-3.5 h-3.5" /> Notes</button>
           </div>
-          <div className="bg-indigo-50 border border-indigo-100 rounded-xl px-5 py-4 text-xs font-semibold text-indigo-900 text-center">{step.math}</div>
+          <div className="bg-slate-50 border border-slate-100 rounded-xl px-5 py-4 text-xs font-semibold text-slate-900 text-center">{step.math}</div>
           {!revealed ? <button onClick={() => setRevealed(true)} className="w-full py-2.5 border-2 border-dashed border-slate-200 rounded-xl text-sm text-slate-400 hover:border-slate-300 hover:text-slate-600 transition-colors">Reveal explanation</button>
-            : <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-emerald-50 border border-emerald-100 rounded-xl p-3"><p className="text-emerald-800 text-xs leading-relaxed">{step.explanation}</p></motion.div>}
+            : <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-slate-50 border border-slate-100 rounded-xl p-3"><p className="text-slate-800 text-xs leading-relaxed">{step.explanation}</p></motion.div>}
         </motion.div>
       </AnimatePresence>
       <div className="flex justify-between">
         <button onClick={() => { setStepIdx(s => s - 1); setRevealed(false) }} disabled={stepIdx === 0} className="flex items-center gap-2 px-4 py-2 text-slate-600 disabled:opacity-30 hover:text-slate-900 transition-colors"><ChevronLeft className="w-4 h-4" /> Previous</button>
         {stepIdx < TOPIC.guidedItem.steps.length - 1
           ? <button onClick={() => { setStepIdx(s => s + 1); setRevealed(false) }} className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">Next Step <ChevronRight className="w-4 h-4" /></button>
-          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors font-medium">Start Practice <ArrowRight className="w-4 h-4" /></button>}
+          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">Start Practice <ArrowRight className="w-4 h-4" /></button>}
       </div>
     </div>
   )
@@ -267,14 +267,14 @@ function PracticeModule({ questions, onComplete }: { questions: Question[]; onCo
               const isCorrect = i === q.correctIndex; const isSelected = i === selected
               let cls = 'w-full text-left px-3 py-2 rounded-xl border-2 text-xs transition-all '
               if (!confirmed) cls += isSelected ? 'border-slate-800 bg-slate-50 font-medium' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-              else if (isCorrect) cls += 'border-emerald-500 bg-emerald-50 text-emerald-800 font-medium'
-              else if (isSelected) cls += 'border-red-400 bg-red-50 text-red-800'
+              else if (isCorrect) cls += 'border-slate-500 bg-slate-50 text-slate-800 font-medium'
+              else if (isSelected) cls += 'border-slate-400 bg-slate-50 text-slate-800'
               else cls += 'border-slate-200 text-slate-400'
               return <button key={i} onClick={() => !confirmed && setSelected(i)} className={cls}>{opt}</button>
             })}
           </div>
-          {!confirmed && selected !== null && <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 flex items-start gap-2"><Info className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" /><p className="text-amber-700 text-xs">{q.hint}</p></div>}
-          {confirmed && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`rounded-xl p-3 ${selected === q.correctIndex ? 'bg-emerald-50 border border-emerald-100' : 'bg-red-50 border border-red-100'}`}><p className={`text-xs leading-relaxed ${selected === q.correctIndex ? 'text-emerald-800' : 'text-red-800'}`}>{q.explanation}</p></motion.div>}
+          {!confirmed && selected !== null && <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex items-start gap-2"><Info className="w-4 h-4 text-slate-500 mt-0.5 shrink-0" /><p className="text-slate-700 text-xs">{q.hint}</p></div>}
+          {confirmed && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`rounded-xl p-3 ${selected === q.correctIndex ? 'bg-slate-50 border border-slate-100' : 'bg-slate-50 border border-slate-100'}`}><p className={`text-xs leading-relaxed ${selected === q.correctIndex ? 'text-slate-800' : 'text-slate-800'}`}>{q.explanation}</p></motion.div>}
         </motion.div>
       </AnimatePresence>
       <div className="flex justify-end">
@@ -289,11 +289,11 @@ function FeedbackModule({ score, total, onRetry, onContinue, nextTopicName }: { 
   const pct = score / total; const mastered = pct >= 2 / 3
   return (
     <div className="max-w-md mx-auto text-center space-y-6">
-      <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto ${mastered ? 'bg-emerald-100' : 'bg-amber-100'}`}>{mastered ? <Award className="w-8 h-8 text-emerald-600" /> : <AlertCircle className="w-8 h-8 text-amber-600" />}</div>
+      <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto ${mastered ? 'bg-slate-100' : 'bg-slate-100'}`}>{mastered ? <Award className="w-8 h-8 text-slate-600" /> : <AlertCircle className="w-8 h-8 text-slate-600" />}</div>
       <div><p className="text-3xl font-bold text-slate-900">{score}/{total}</p><p className="text-slate-500 mt-1">{mastered ? 'Mastered!' : 'Keep practising'}</p></div>
-      <div className="h-2 bg-slate-100 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${pct * 100}%` }} className={`h-full rounded-full ${mastered ? 'bg-emerald-500' : 'bg-amber-400'}`} /></div>
+      <div className="h-2 bg-slate-100 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${pct * 100}%` }} className={`h-full rounded-full ${mastered ? 'bg-slate-500' : 'bg-slate-400'}`} /></div>
       <div className="flex flex-col gap-3">
-        {mastered ? <button onClick={onContinue} className="flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors font-medium">Next: {nextTopicName} <ArrowRight className="w-4 h-4" /></button>
+        {mastered ? <button onClick={onContinue} className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">Next: {nextTopicName} <ArrowRight className="w-4 h-4" /></button>
           : <><button onClick={onRetry} className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium"><RotateCcw className="w-4 h-4" /> Try Again</button><button onClick={onContinue} className="px-6 py-2.5 text-slate-600 hover:text-slate-900 transition-colors text-sm">Continue anyway</button></>}
       </div>
     </div>
@@ -323,8 +323,8 @@ function ProductionPossibilityCurvePage({ user, onSignOut, onNavigate }: AuthedP
   const handleRemediationComplete = async (score: number) => { await saveTopicStatus(user.id, score, TOPIC.remediationQuestions.length); setView('feedback') }
   const handleHardComplete = async (score: number) => { await saveTopicStatus(user.id, score, TOPIC.hardQuestions.length); setView('feedback') }
   const statusLabel = (s: TopicStatus) => {
-    if (s === 'mastered') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">✓ Mastered</span>
-    if (s === 'needs-practice') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Needs Practice</span>
+    if (s === 'mastered') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">✓ Mastered</span>
+    if (s === 'needs-practice') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">Needs Practice</span>
     return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">Not Started</span>
   }
   return (
@@ -337,14 +337,14 @@ function ProductionPossibilityCurvePage({ user, onSignOut, onNavigate }: AuthedP
             <div className="space-y-3">
               <button onClick={() => setView('interactive-lesson')} className="w-full bg-white rounded-2xl border border-slate-200 p-4 flex items-center justify-between hover:border-slate-300 hover:shadow-md transition-all group text-left">
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shrink-0 ${thisStatus === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white'}`}>{thisStatus === 'mastered' ? '✓' : '2'}</div>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shrink-0 ${thisStatus === 'mastered' ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white'}`}>{thisStatus === 'mastered' ? '✓' : '2'}</div>
                   <div><p className="font-semibold text-slate-900">{TOPIC.title}</p><p className="text-sm text-slate-500 mt-0.5">{TOPIC.description}</p><div className="mt-2">{statusLabel(thisStatus)}</div></div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors shrink-0" />
               </button>
               <button onClick={() => onNavigate('learning-economics-g10-t1-systems' as AppPage)} className="w-full bg-white rounded-2xl border border-slate-200 p-4 flex items-center justify-between hover:border-slate-300 hover:shadow-md transition-all group text-left">
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shrink-0 ${nextStatus === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white'}`}>{nextStatus === 'mastered' ? '✓' : '3'}</div>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shrink-0 ${nextStatus === 'mastered' ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white'}`}>{nextStatus === 'mastered' ? '✓' : '3'}</div>
                   <div><p className="font-semibold text-slate-900">Economic Systems</p><p className="text-sm text-slate-500 mt-0.5">Market, command, and mixed economic systems compared.</p><div className="mt-2">{statusLabel(nextStatus)}</div></div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors shrink-0" />
@@ -362,9 +362,9 @@ function ProductionPossibilityCurvePage({ user, onSignOut, onNavigate }: AuthedP
               {view === 'interactive-lesson' && <motion.div key="lesson" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><InteractiveLesson onComplete={() => setView('guided-practice')} /></motion.div>}
               {view === 'guided-practice' && <motion.div key="guided" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><GuidedPracticeModule onComplete={() => setView('practice')} /></motion.div>}
               {view === 'practice' && <motion.div key="practice" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><PracticeModule questions={TOPIC.initialQuestions} onComplete={handlePracticeComplete} /></motion.div>}
-              {view === 'remediation' && <motion.div key="remediation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6"><div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex items-start gap-3"><AlertCircle className="w-5 h-5 text-rose-500 mt-0.5 shrink-0" /><div><p className="font-medium text-rose-900 text-sm">Let's try again</p><p className="text-rose-700 text-sm mt-0.5">Two more questions to build your understanding.</p></div></div><PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} /></motion.div>}
+              {view === 'remediation' && <motion.div key="remediation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6"><div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3"><AlertCircle className="w-5 h-5 text-slate-500 mt-0.5 shrink-0" /><div><p className="font-medium text-slate-900 text-sm">Let's try again</p><p className="text-slate-700 text-sm mt-0.5">Two more questions to build your understanding.</p></div></div><PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} /></motion.div>}
               {view === 'practice-more' && <motion.div key="hard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><PracticeModule questions={TOPIC.hardQuestions} onComplete={handleHardComplete} /></motion.div>}
-              {view === 'feedback' && <motion.div key="feedback" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><FeedbackModule score={practiceScore} total={TOPIC.initialQuestions.length} onRetry={() => setView('practice')} onContinue={() => onNavigate('learning-economics-g10-t1-systems' as AppPage)} nextTopicName="Economic Systems" /><div className="mt-6 text-center"><button onClick={() => setView('practice-more')} className="text-sm text-indigo-600 hover:text-indigo-800 transition-colors underline underline-offset-2">Want harder questions? Try Practice More</button></div></motion.div>}
+              {view === 'feedback' && <motion.div key="feedback" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}><FeedbackModule score={practiceScore} total={TOPIC.initialQuestions.length} onRetry={() => setView('practice')} onContinue={() => onNavigate('learning-economics-g10-t1-systems' as AppPage)} nextTopicName="Economic Systems" /><div className="mt-6 text-center"><button onClick={() => setView('practice-more')} className="text-sm text-slate-600 hover:text-slate-800 transition-colors underline underline-offset-2">Want harder questions? Try Practice More</button></div></motion.div>}
             </AnimatePresence>
           </div>
         )}

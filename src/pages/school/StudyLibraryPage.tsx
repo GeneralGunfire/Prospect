@@ -21,17 +21,17 @@ interface SubjectMeta {
 }
 
 const SUBJECT_META: Record<string, SubjectMeta> = {
-  'algebra':           { Icon: Calculator,  color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-100',    pill: 'bg-blue-100 text-blue-700' },
-  'geometry':          { Icon: Calculator,  color: 'text-blue-700',    bg: 'bg-blue-50',    border: 'border-blue-100',    pill: 'bg-blue-100 text-blue-700' },
-  'phys-sci':          { Icon: Atom,        color: 'text-violet-700',  bg: 'bg-violet-50',  border: 'border-violet-100',  pill: 'bg-violet-100 text-violet-700' },
-  'life-sci':          { Icon: FlaskConical,color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-100', pill: 'bg-emerald-100 text-emerald-700' },
-  'accounting':        { Icon: Calculator,  color: 'text-amber-700',   bg: 'bg-amber-50',   border: 'border-amber-100',   pill: 'bg-amber-100 text-amber-700' },
-  'business-studies':  { Icon: Briefcase,   color: 'text-orange-700',  bg: 'bg-orange-50',  border: 'border-orange-100',  pill: 'bg-orange-100 text-orange-700' },
-  'economics':         { Icon: TrendingUp,  color: 'text-teal-700',    bg: 'bg-teal-50',    border: 'border-teal-100',    pill: 'bg-teal-100 text-teal-700' },
-  'cat':               { Icon: Monitor,     color: 'text-sky-700',     bg: 'bg-sky-50',     border: 'border-sky-100',     pill: 'bg-sky-100 text-sky-700' },
-  'egd':               { Icon: Pencil,      color: 'text-rose-700',    bg: 'bg-rose-50',    border: 'border-rose-100',    pill: 'bg-rose-100 text-rose-700' },
-  'english-hl':        { Icon: Languages,   color: 'text-red-700',     bg: 'bg-red-50',     border: 'border-red-100',     pill: 'bg-red-100 text-red-700' },
-  'default':           { Icon: BookOpen,    color: 'text-slate-400',   bg: 'bg-slate-100',  border: 'border-slate-100',   pill: 'bg-slate-100 text-slate-500' },
+  'algebra':           { Icon: Calculator,  color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'geometry':          { Icon: Calculator,  color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'phys-sci':          { Icon: Atom,        color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'life-sci':          { Icon: FlaskConical,color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'accounting':        { Icon: Calculator,  color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'business-studies':  { Icon: Briefcase,   color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'economics':         { Icon: TrendingUp,  color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'cat':               { Icon: Monitor,     color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'egd':               { Icon: Pencil,      color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'english-hl':        { Icon: Languages,   color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200', pill: 'bg-slate-100 text-slate-700' },
+  'default':           { Icon: BookOpen,    color: 'text-slate-400', bg: 'bg-slate-100', border: 'border-slate-100', pill: 'bg-slate-100 text-slate-500' },
 };
 
 const subjectsWithContent = new Set(['algebra', 'phys-sci', 'life-sci', 'accounting', 'business-studies', 'economics', 'cat', 'egd']);

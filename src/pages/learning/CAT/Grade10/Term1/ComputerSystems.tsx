@@ -201,13 +201,13 @@ function InteractiveStep({
   onPrev: () => void;
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-slate-600 flex items-center justify-center">
           <Monitor className="w-4 h-4 text-white" />
         </div>
         <div>
-          <p className="text-xs text-blue-500 font-medium uppercase tracking-wide">
+          <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">
             Step {index + 1} of {total}
           </p>
           <h3 className="font-semibold text-slate-800">{step.label}</h3>
@@ -220,11 +220,11 @@ function InteractiveStep({
             key={i}
             className={
               ['|', '=', '+', '→', '&', ':'].includes(token)
-                ? 'text-blue-400 font-bold text-lg px-1'
+                ? 'text-slate-400 font-bold text-lg px-1'
                 : ['CPU', 'RAM', 'ROM', 'Hardware', 'Software', 'Input', 'Output', 'Processing', 'Storage'].includes(token)
-                  ? 'bg-blue-600 text-white px-2 py-1 rounded-lg font-bold text-sm'
+                  ? 'bg-slate-600 text-white px-2 py-1 rounded-lg font-bold text-sm'
                   : ['Fetch', 'Decode', 'Execute', 'GHz', 'HDD/SSD', 'Programs'].includes(token)
-                    ? 'bg-blue-100 text-blue-800 px-2 py-1 rounded-lg font-semibold text-sm border border-blue-200'
+                    ? 'bg-slate-100 text-slate-800 px-2 py-1 rounded-lg font-semibold text-sm border border-slate-200'
                     : 'bg-slate-100 text-slate-700 px-2 py-1 rounded-lg text-xs font-medium'
             }
           >
@@ -233,7 +233,7 @@ function InteractiveStep({
         ))}
       </div>
 
-      <p className="text-slate-600 text-xs leading-relaxed bg-blue-50 rounded-xl p-3 border border-blue-100">
+      <p className="text-slate-600 text-xs leading-relaxed bg-slate-50 rounded-xl p-3 border border-slate-100">
         {step.explanation}
       </p>
 
@@ -247,7 +247,7 @@ function InteractiveStep({
         </button>
         <button
           onClick={onNext}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors ml-auto"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-600 text-white text-sm hover:bg-slate-700 transition-colors ml-auto"
         >
           {index === total - 1 ? 'Start Guided Example' : 'Next'}
           <ChevronRight className="w-4 h-4" />
@@ -262,21 +262,21 @@ function GuidedExample({ onFinish }: { onFinish: () => void }) {
   const steps = TOPIC.guidedItem.steps;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-xl bg-slate-600 flex items-center justify-center">
           <Lightbulb className="w-4 h-4 text-white" />
         </div>
         <div>
-          <p className="text-xs text-blue-500 font-medium uppercase tracking-wide">
+          <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">
             Guided Example · Step {step + 1} of {steps.length}
           </p>
           <h3 className="font-semibold text-slate-800">Thabo's Essay</h3>
         </div>
       </div>
 
-      <div className="bg-blue-50 rounded-xl p-3 border border-blue-100">
-        <p className="text-xs text-blue-800 font-medium">{TOPIC.guidedItem.scenario}</p>
+      <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
+        <p className="text-xs text-slate-800 font-medium">{TOPIC.guidedItem.scenario}</p>
       </div>
 
       <div className="space-y-3">
@@ -284,15 +284,15 @@ function GuidedExample({ onFinish }: { onFinish: () => void }) {
           <div
             key={i}
             className={`rounded-xl p-3 border transition-all ${
-              i === step ? 'border-blue-300 bg-blue-50' : 'border-slate-100 bg-slate-50 opacity-70'
+              i === step ? 'border-slate-300 bg-slate-50' : 'border-slate-100 bg-slate-50 opacity-70'
             }`}
           >
             <p className="font-semibold text-slate-800 text-sm mb-1">{s.title}</p>
             <p className="text-slate-600 text-xs leading-relaxed">{s.description}</p>
             {i === step && (
-              <div className="mt-3 flex items-start gap-2 bg-white rounded-lg p-3 border border-blue-200">
-                <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-blue-700 font-medium">{s.insight}</p>
+              <div className="mt-3 flex items-start gap-2 bg-white rounded-lg p-3 border border-slate-200">
+                <CheckCircle className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-slate-700 font-medium">{s.insight}</p>
               </div>
             )}
           </div>
@@ -310,7 +310,7 @@ function GuidedExample({ onFinish }: { onFinish: () => void }) {
         )}
         <button
           onClick={() => step < steps.length - 1 ? setStep(s => s + 1) : onFinish()}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors ml-auto"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-600 text-white text-sm hover:bg-slate-700 transition-colors ml-auto"
         >
           {step < steps.length - 1 ? 'Next Step' : 'Start Quiz'}
           <ChevronRight className="w-4 h-4" />
@@ -344,9 +344,9 @@ function QuizModule({ questions, onComplete }: { questions: QuizQuestion[]; onCo
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-blue-500 font-medium uppercase tracking-wide">
+        <p className="text-xs text-slate-500 font-medium uppercase tracking-wide">
           Question {current + 1} of {questions.length}
         </p>
         <span className="text-xs text-slate-500">Score: {score}</span>
@@ -359,11 +359,11 @@ function QuizModule({ questions, onComplete }: { questions: QuizQuestion[]; onCo
           let cls = 'w-full text-left px-3 py-2 rounded-xl border text-xs transition-all cursor-pointer ';
           if (!revealed) {
             cls += selected === i
-              ? 'border-blue-400 bg-blue-50 text-blue-800'
-              : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50 text-slate-700';
+              ? 'border-slate-400 bg-slate-50 text-slate-800'
+              : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700';
           } else {
-            if (i === q.answer) cls += 'border-green-400 bg-green-50 text-green-800';
-            else if (i === selected) cls += 'border-red-400 bg-red-50 text-red-800';
+            if (i === q.answer) cls += 'border-slate-400 bg-slate-50 text-slate-800';
+            else if (i === selected) cls += 'border-slate-400 bg-slate-50 text-slate-800';
             else cls += 'border-slate-200 text-slate-400';
           }
           return (
@@ -375,9 +375,9 @@ function QuizModule({ questions, onComplete }: { questions: QuizQuestion[]; onCo
       </div>
 
       {revealed && (
-        <div className="bg-blue-50 rounded-xl p-3 border border-blue-100 flex gap-3">
-          <Lightbulb className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-          <p className="text-xs text-blue-800">{q.explanation}</p>
+        <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 flex gap-3">
+          <Lightbulb className="w-4 h-4 text-slate-500 flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-slate-800">{q.explanation}</p>
         </div>
       )}
 
@@ -386,14 +386,14 @@ function QuizModule({ questions, onComplete }: { questions: QuizQuestion[]; onCo
           <button
             onClick={handleReveal}
             disabled={selected === null}
-            className="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="px-5 py-2 rounded-lg bg-slate-600 text-white text-sm hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             Check Answer
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-5 py-2 rounded-lg bg-slate-600 text-white text-sm hover:bg-slate-700 transition-colors"
           >
             {current + 1 >= questions.length ? 'See Results' : 'Next Question'}
             <ChevronRight className="w-4 h-4" />
@@ -408,9 +408,9 @@ function FeedbackModule({ score, total, mastered, onRetry, onContinue }: {
   score: number; total: number; mastered: boolean; onRetry: () => void; onContinue: () => void;
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3 text-center">
-      <div className={`w-16 h-16 rounded-full mx-auto flex items-center justify-center ${mastered ? 'bg-green-100' : 'bg-amber-100'}`}>
-        {mastered ? <CheckCircle className="w-8 h-8 text-green-600" /> : <XCircle className="w-8 h-8 text-amber-600" />}
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3 text-center">
+      <div className={`w-16 h-16 rounded-full mx-auto flex items-center justify-center ${mastered ? 'bg-slate-100' : 'bg-slate-100'}`}>
+        {mastered ? <CheckCircle className="w-8 h-8 text-slate-600" /> : <XCircle className="w-8 h-8 text-slate-600" />}
       </div>
       <div>
         <h3 className="text-xl font-bold text-slate-800">{mastered ? 'Topic Mastered!' : 'Keep Practising'}</h3>
@@ -425,7 +425,7 @@ function FeedbackModule({ score, total, mastered, onRetry, onContinue }: {
         <button onClick={onRetry} className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-700 text-sm hover:bg-slate-50 transition-colors">
           <RotateCcw className="w-4 h-4" /> Try Again
         </button>
-        <button onClick={onContinue} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors">
+        <button onClick={onContinue} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-600 text-white text-sm hover:bg-slate-700 transition-colors">
           Next Topic <ChevronRight className="w-4 h-4" />
         </button>
       </div>
@@ -527,13 +527,13 @@ function ScratchpadModal({ topicId, onClose }: { topicId: string; onClose: () =>
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <PenLine className="w-4 h-4 text-blue-600" />
+            <PenLine className="w-4 h-4 text-slate-600" />
             <span className="font-semibold text-slate-800 text-sm">Scratchpad</span>
           </div>
           <div className="flex items-center gap-2">
             {colors.map(c => (
               <button key={c} onClick={() => setColor(c)} style={{ background: c }}
-                className={`w-5 h-5 rounded-full border-2 transition-transform ${color === c ? 'border-blue-500 scale-110' : 'border-slate-300'}`} />
+                className={`w-5 h-5 rounded-full border-2 transition-transform ${color === c ? 'border-slate-500 scale-110' : 'border-slate-300'}`} />
             ))}
             <select value={width} onChange={e => setWidth(Number(e.target.value))}
               className="text-xs border border-slate-200 rounded px-1 py-0.5 ml-2">
@@ -595,14 +595,14 @@ function ComputerSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
 
       <main className="max-w-2xl mx-auto px-4 pt-24 pb-16 space-y-6">
         <nav className="flex items-center gap-2 text-sm text-slate-500">
-          <button onClick={() => onNavigate('library')} className="hover:text-blue-600 transition-colors">Library</button>
+          <button onClick={() => onNavigate('library')} className="hover:text-slate-600 transition-colors">Library</button>
           <ChevronRight className="w-4 h-4" />
           <span className="text-slate-800 font-medium">CAT · Grade 10 · Term 1</span>
         </nav>
 
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-slate-600 flex items-center justify-center flex-shrink-0">
               <Monitor className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -611,16 +611,16 @@ function ComputerSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
             </div>
           </div>
           <button onClick={() => setShowScratchpad(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-blue-200 text-blue-700 text-sm hover:bg-blue-50 transition-colors flex-shrink-0">
+            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 text-slate-700 text-sm hover:bg-slate-50 transition-colors flex-shrink-0">
             <PenLine className="w-4 h-4" /> Notes
           </button>
         </div>
 
         {view === ViewState.OVERVIEW && (
           <div className="space-y-3">
-            <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
               <div className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-blue-600" />
+                <BookOpen className="w-4 h-4 text-slate-600" />
                 <h2 className="font-semibold text-slate-800">What You'll Learn</h2>
               </div>
               <ul className="space-y-2 text-sm text-slate-600">
@@ -631,14 +631,14 @@ function ComputerSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
                   'The Input → Processing → Output → Storage model',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
               <h2 className="font-semibold text-slate-800 text-sm">Term 1 Topics</h2>
               {[
                 { label: 'Computer Systems', page: null },
@@ -650,13 +650,13 @@ function ComputerSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
                   key={i}
                   onClick={() => t.page && onNavigate(t.page)}
                   className={`flex items-center gap-3 p-3 rounded-xl text-sm transition-colors ${
-                    t.page === null ? 'bg-blue-50 border border-blue-200 cursor-default' : 'hover:bg-slate-50 cursor-pointer border border-transparent'
+                    t.page === null ? 'bg-slate-50 border border-slate-200 cursor-default' : 'hover:bg-slate-50 cursor-pointer border border-transparent'
                   }`}
                 >
-                  <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${t.page === null ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                  <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${t.page === null ? 'bg-slate-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
                     {i + 1}
                   </span>
-                  <span className={t.page === null ? 'text-blue-800 font-medium' : 'text-slate-700'}>{t.label}</span>
+                  <span className={t.page === null ? 'text-slate-800 font-medium' : 'text-slate-700'}>{t.label}</span>
                   {t.page !== null && <ChevronRight className="w-4 h-4 text-slate-400 ml-auto" />}
                 </div>
               ))}
@@ -664,7 +664,7 @@ function ComputerSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
 
             <button
               onClick={() => { setStepIndex(0); setView(ViewState.INTERACTIVE); }}
-              className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+              className="w-full py-3 rounded-xl bg-slate-600 text-white font-semibold hover:bg-slate-700 transition-colors"
             >
               Start Learning
             </button>
@@ -695,15 +695,15 @@ function ComputerSystemsPage({ user, onSignOut, onNavigate }: AuthedProps) {
         )}
 
         {view === ViewState.FEEDBACK && mastered && (
-          <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-4 space-y-3">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 space-y-3">
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-blue-600" />
+              <Award className="w-4 h-4 text-slate-600" />
               <h3 className="font-semibold text-slate-800 text-sm">Challenge Questions</h3>
             </div>
             <p className="text-xs text-slate-500">Test deeper understanding with exam-style questions.</p>
             <button
               onClick={() => { setQuizQuestions(TOPIC.hardQuestions); setView(ViewState.QUIZ); }}
-              className="w-full py-2.5 rounded-xl border border-blue-200 text-blue-700 text-xs font-medium hover:bg-blue-50 transition-colors"
+              className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-50 transition-colors"
             >
               Try Challenge Questions
             </button>

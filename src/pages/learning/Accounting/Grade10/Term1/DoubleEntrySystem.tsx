@@ -157,7 +157,7 @@ function InteractiveLesson({ onComplete }: { onComplete: () => void }) {
         <span>Step {step + 1} of {TOPIC.interactiveSteps.length}</span>
         <div className="flex gap-1.5">
           {TOPIC.interactiveSteps.map((_, i) => (
-            <div key={i} className={`h-1.5 w-8 rounded-full transition-colors ${i <= step ? 'bg-emerald-500' : 'bg-slate-200'}`} />
+            <div key={i} className={`h-1.5 w-8 rounded-full transition-colors ${i <= step ? 'bg-slate-500' : 'bg-slate-200'}`} />
           ))}
         </div>
       </div>
@@ -175,7 +175,7 @@ function InteractiveLesson({ onComplete }: { onComplete: () => void }) {
                   <div key={i} className="relative">
                     {bubble && isActive && <SpeechBubble text={bubble.text} position={bubble.pos} />}
                     <button onClick={() => setActiveBubble(isActive ? null : token)}
-                      className={`px-4 py-2 rounded-lg font-mono text-base font-semibold transition-all ${bubble ? (isActive ? 'bg-emerald-600 text-white shadow-md scale-105' : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100') : 'bg-white text-slate-400 border border-slate-200 cursor-default text-lg'}`}>
+                      className={`px-4 py-2 rounded-lg font-mono text-base font-semibold transition-all ${bubble ? (isActive ? 'bg-slate-600 text-white shadow-md scale-105' : 'bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100') : 'bg-white text-slate-400 border border-slate-200 cursor-default text-lg'}`}>
                       {token}
                     </button>
                   </div>
@@ -193,7 +193,7 @@ function InteractiveLesson({ onComplete }: { onComplete: () => void }) {
           ? <button onClick={() => { setStep(s => s + 1); setActiveBubble(null) }} className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">
               Next <ChevronRight className="w-4 h-4" />
             </button>
-          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium">
+          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">
               Try a Worked Example <ArrowRight className="w-4 h-4" />
             </button>
         }
@@ -260,19 +260,19 @@ function GuidedPracticeModule({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {scratchpadStep && <ScratchpadModal stepKey={scratchpadStep} onClose={() => setScratchpadStep(null)} />}
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
         <div className="flex items-start gap-3">
-          <Lightbulb className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+          <Lightbulb className="w-5 h-5 text-slate-600 mt-0.5 shrink-0" />
           <div>
-            <p className="font-medium text-amber-900 text-sm mb-1">Worked Example</p>
-            <p className="text-amber-800 text-xs leading-relaxed">{TOPIC.guidedItem.problem}</p>
+            <p className="font-medium text-slate-900 text-sm mb-1">Worked Example</p>
+            <p className="text-slate-800 text-xs leading-relaxed">{TOPIC.guidedItem.problem}</p>
           </div>
         </div>
       </div>
       <div className="flex gap-2 overflow-x-auto pb-1">
         {TOPIC.guidedItem.steps.map((s, i) => (
           <button key={s.id} onClick={() => { setStepIdx(i); setRevealed(false) }}
-            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${i === stepIdx ? 'bg-slate-900 text-white' : i < stepIdx ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${i === stepIdx ? 'bg-slate-900 text-white' : i < stepIdx ? 'bg-slate-100 text-slate-700' : 'bg-slate-100 text-slate-500'}`}>
             Step {s.id}
           </button>
         ))}
@@ -288,8 +288,8 @@ function GuidedPracticeModule({ onComplete }: { onComplete: () => void }) {
           <div className="bg-slate-50 rounded-xl px-5 py-4 font-mono text-sm text-slate-700 text-center">{step.math}</div>
           {!revealed
             ? <button onClick={() => setRevealed(true)} className="w-full py-2.5 border-2 border-dashed border-slate-200 rounded-xl text-sm text-slate-400 hover:border-slate-300 hover:text-slate-600 transition-colors">Reveal explanation</button>
-            : <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
-                <p className="text-emerald-800 text-xs leading-relaxed">{step.explanation}</p>
+            : <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-slate-50 border border-slate-100 rounded-xl p-3">
+                <p className="text-slate-800 text-xs leading-relaxed">{step.explanation}</p>
               </motion.div>
           }
         </motion.div>
@@ -302,7 +302,7 @@ function GuidedPracticeModule({ onComplete }: { onComplete: () => void }) {
           ? <button onClick={() => { setStepIdx(s => s + 1); setRevealed(false) }} className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">
               Next Step <ChevronRight className="w-4 h-4" />
             </button>
-          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium">
+          : <button onClick={onComplete} className="flex items-center gap-2 px-5 py-2.5 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">
               Start Practice <ArrowRight className="w-4 h-4" />
             </button>
         }
@@ -342,21 +342,21 @@ function PracticeModule({ questions, onComplete, allowScratchpad = true }: { que
               const isCorrect = i === q.correctIndex; const isSelected = i === selected
               let cls = 'w-full text-left px-3 py-2 rounded-xl border-2 text-xs transition-all '
               if (!confirmed) cls += isSelected ? 'border-slate-800 bg-slate-50 font-medium' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
-              else if (isCorrect) cls += 'border-emerald-500 bg-emerald-50 text-emerald-800 font-medium'
-              else if (isSelected) cls += 'border-red-400 bg-red-50 text-red-800'
+              else if (isCorrect) cls += 'border-slate-500 bg-slate-50 text-slate-800 font-medium'
+              else if (isSelected) cls += 'border-slate-400 bg-slate-50 text-slate-800'
               else cls += 'border-slate-200 text-slate-400'
               return <button key={i} onClick={() => !confirmed && setSelected(i)} className={cls}>{opt}</button>
             })}
           </div>
           {!confirmed && selected !== null && (
-            <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 flex items-start gap-2">
-              <Info className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-              <p className="text-blue-700 text-xs">{q.hint}</p>
+            <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 flex items-start gap-2">
+              <Info className="w-4 h-4 text-slate-500 mt-0.5 shrink-0" />
+              <p className="text-slate-700 text-xs">{q.hint}</p>
             </div>
           )}
           {confirmed && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`rounded-xl p-3 ${selected === q.correctIndex ? 'bg-emerald-50 border border-emerald-100' : 'bg-red-50 border border-red-100'}`}>
-              <p className={`text-xs leading-relaxed ${selected === q.correctIndex ? 'text-emerald-800' : 'text-red-800'}`}>{q.explanation}</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`rounded-xl p-3 ${selected === q.correctIndex ? 'bg-slate-50 border border-slate-100' : 'bg-slate-50 border border-slate-100'}`}>
+              <p className={`text-xs leading-relaxed ${selected === q.correctIndex ? 'text-slate-800' : 'text-slate-800'}`}>{q.explanation}</p>
             </motion.div>
           )}
         </motion.div>
@@ -378,19 +378,19 @@ function FeedbackModule({ score, total, onRetry, onContinue, nextTopicName }: { 
   const mastered = pct >= 2 / 3
   return (
     <div className="max-w-md mx-auto text-center space-y-6">
-      <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto ${mastered ? 'bg-emerald-100' : 'bg-amber-100'}`}>
-        {mastered ? <Award className="w-10 h-10 text-emerald-600" /> : <AlertCircle className="w-10 h-10 text-amber-600" />}
+      <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto ${mastered ? 'bg-slate-100' : 'bg-slate-100'}`}>
+        {mastered ? <Award className="w-10 h-10 text-slate-600" /> : <AlertCircle className="w-10 h-10 text-slate-600" />}
       </div>
       <div>
         <p className="text-3xl font-bold text-slate-900">{score}/{total}</p>
         <p className="text-slate-500 mt-1">{mastered ? 'Mastered!' : 'Keep practising'}</p>
       </div>
       <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-        <motion.div initial={{ width: 0 }} animate={{ width: `${pct * 100}%` }} className={`h-full rounded-full ${mastered ? 'bg-emerald-500' : 'bg-amber-400'}`} />
+        <motion.div initial={{ width: 0 }} animate={{ width: `${pct * 100}%` }} className={`h-full rounded-full ${mastered ? 'bg-slate-500' : 'bg-slate-400'}`} />
       </div>
       <div className="flex flex-col gap-3">
         {mastered
-          ? <button onClick={onContinue} className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium">
+          ? <button onClick={onContinue} className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-600 text-white rounded-xl hover:bg-slate-700 transition-colors font-medium">
               Next: {nextTopicName} <ArrowRight className="w-4 h-4" />
             </button>
           : <>
@@ -441,8 +441,8 @@ function DoubleEntrySystemPage({ user, onSignOut, onNavigate }: AuthedProps) {
   const handleHardComplete = async (score: number) => { await saveProgress(score, TOPIC.hardQuestions.length); setView('feedback') }
 
   const statusBadge = (s: TopicStatus) => {
-    if (s === 'mastered') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Mastered</span>
-    if (s === 'needs-practice') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Needs Practice</span>
+    if (s === 'mastered') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">Mastered</span>
+    if (s === 'needs-practice') return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">Needs Practice</span>
     return <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">Not Started</span>
   }
 
@@ -506,9 +506,9 @@ function DoubleEntrySystemPage({ user, onSignOut, onNavigate }: AuthedProps) {
         {view === 'practice' && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}><PracticeModule questions={TOPIC.initialQuestions} onComplete={handlePracticeComplete} /></motion.div>}
         {view === 'remediation' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-              <p className="text-amber-800 text-sm">Let's revisit the core ideas with simpler questions first.</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-4 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-slate-600 mt-0.5 shrink-0" />
+              <p className="text-slate-800 text-sm">Let's revisit the core ideas with simpler questions first.</p>
             </div>
             <PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} />
           </motion.div>

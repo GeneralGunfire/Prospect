@@ -116,8 +116,8 @@ const TOPIC = {
 
 const SpeechBubble = ({ text, pos }: { text: string; pos: 'top' | 'bottom' }) => (
   <motion.div initial={{ scale: 0, opacity: 0, y: pos === 'top' ? 10 : -10 }} animate={{ scale: 1, opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
-    className={`absolute ${pos === 'top' ? '-top-14' : '-bottom-14'} left-1/2 -translate-x-1/2 whitespace-nowrap bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-lg z-20`}>
-    {text}<div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-600 rotate-45 ${pos === 'top' ? '-bottom-1' : '-top-1'}`} />
+    className={`absolute ${pos === 'top' ? '-top-14' : '-bottom-14'} left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-lg z-20`}>
+    {text}<div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-600 rotate-45 ${pos === 'top' ? '-bottom-1' : '-top-1'}`} />
   </motion.div>
 )
 
@@ -127,8 +127,8 @@ const InteractiveLesson = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Slide {current + 1} of {TOPIC.interactiveSteps.length}</p>
-        <div className="flex gap-1">{TOPIC.interactiveSteps.map((_, i) => <div key={i} className={`h-1 w-8 rounded-full transition-all ${i <= current ? 'bg-blue-600' : 'bg-slate-200'}`} />)}</div>
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">Slide {current + 1} of {TOPIC.interactiveSteps.length}</p>
+        <div className="flex gap-1">{TOPIC.interactiveSteps.map((_, i) => <div key={i} className={`h-1 w-8 rounded-full transition-all ${i <= current ? 'bg-slate-600' : 'bg-slate-200'}`} />)}</div>
       </div>
       <AnimatePresence mode="wait">
         <motion.div key={current} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}
@@ -167,19 +167,19 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
       <div className="bg-white border border-slate-200 rounded-[2.5rem] p-4 md:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step-by-Step Guide</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-blue-600">Step {stepIndex + 1} of {steps.length}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Step {stepIndex + 1} of {steps.length}</p>
         </div>
         <h2 className="text-base font-bold text-slate-900 mb-8 text-center tracking-tight">{problem}</h2>
-        <div className="flex gap-1.5 mb-8">{steps.map((_, i) => <div key={i} className={`flex-1 h-1 rounded-full transition-all ${i <= stepIndex ? 'bg-blue-600' : 'bg-slate-100'}`} />)}</div>
+        <div className="flex gap-1.5 mb-8">{steps.map((_, i) => <div key={i} className={`flex-1 h-1 rounded-full transition-all ${i <= stepIndex ? 'bg-slate-600' : 'bg-slate-100'}`} />)}</div>
         <div className="space-y-3 mb-8">
           {steps.slice(0, stepIndex + 1).map((s, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }}
-              className={`flex gap-5 p-4 rounded-2xl border ${i === stepIndex ? 'bg-blue-50 border-blue-200' : 'bg-slate-50 border-slate-100'}`}>
-              <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black ${i === stepIndex ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-400'}`}>{i + 1}</div>
+              className={`flex gap-5 p-4 rounded-2xl border ${i === stepIndex ? 'bg-slate-50 border-slate-200' : 'bg-slate-50 border-slate-100'}`}>
+              <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black ${i === stepIndex ? 'bg-slate-600 text-white' : 'bg-white border border-slate-200 text-slate-400'}`}>{i + 1}</div>
               <div className="min-w-0">
                 <p className="text-base font-black text-slate-900">{s.instruction}</p>
                 <p className="text-slate-500 text-xs mt-0.5 mb-3 leading-relaxed">{s.explanation}</p>
-                <div className="overflow-x-auto -mx-1 px-1"><div className="inline-block whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-xl text-lg font-mono font-black text-blue-600 shadow-sm">{s.math}</div></div>
+                <div className="overflow-x-auto -mx-1 px-1"><div className="inline-block whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-xl text-lg font-mono font-black text-slate-600 shadow-sm">{s.math}</div></div>
               </div>
             </motion.div>
           ))}
@@ -225,7 +225,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
         <motion.div initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} className="w-full sm:max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-lg flex flex-col overflow-hidden" style={{ maxHeight: '90dvh' }}>
           <div className="px-5 pt-5 pb-3 border-b border-slate-100 shrink-0">
             <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0"><p className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-1">Working Space</p><p className="text-sm font-black text-slate-900 leading-snug">{question}</p>{math && <div className="overflow-x-auto mt-1 -mx-1 px-1"><span className="whitespace-nowrap font-mono text-sm font-black text-blue-700">{math}</span></div>}</div>
+              <div className="min-w-0"><p className="text-[10px] font-black uppercase tracking-widest text-slate-600 mb-1">Working Space</p><p className="text-sm font-black text-slate-900 leading-snug">{question}</p>{math && <div className="overflow-x-auto mt-1 -mx-1 px-1"><span className="whitespace-nowrap font-mono text-sm font-black text-slate-700">{math}</span></div>}</div>
               <button onClick={onClose} aria-label="Close" className="shrink-0 w-11 h-11 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-colors"><X size={16} /></button>
             </div>
           </div>
@@ -234,7 +234,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
             <button onClick={() => setTool('eraser')} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all ${tool === 'eraser' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'}`}><Eraser size={13} /> Eraser</button>
             <div className="flex-1" />
             <button onClick={undo} disabled={history.length === 0} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-500 hover:bg-slate-100 disabled:opacity-30 transition-all"><Undo2 size={13} /> Undo</button>
-            <button onClick={clearAll} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-rose-500 hover:bg-rose-50 transition-all"><Trash2 size={13} /> Clear</button>
+            <button onClick={clearAll} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-500 hover:bg-slate-50 transition-all"><Trash2 size={13} /> Clear</button>
           </div>
           <div className="relative flex-1 min-h-0 bg-slate-50" style={{ touchAction: 'none' }}>
             <canvas ref={canvasRef} className="w-full h-full block" style={{ cursor: tool === 'eraser' ? 'cell' : 'crosshair', touchAction: 'none' }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerLeave={onPointerUp} />
@@ -255,9 +255,9 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
   const handleSelect = (i: number) => { if (revealed) return; setSelected(i); setRevealed(true); if (i === q.correctIndex) setCorrectCount(c => c + 1) }
   const handleNext = () => { if (isLast) onComplete({ correct: correctCount, total: questions.length }); else { setCurrent(c => c + 1); setSelected(null); setRevealed(false); setHintVisible(false) } }
   const getOptionStyle = (i: number) => {
-    if (!revealed) return selected === i ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-blue-200 hover:bg-blue-50 cursor-pointer'
-    if (i === q.correctIndex) return 'border-emerald-500 bg-emerald-50 text-emerald-900'
-    if (i === selected) return 'border-rose-500 bg-rose-50 text-rose-900'
+    if (!revealed) return selected === i ? 'border-slate-500 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-200 hover:bg-slate-50 cursor-pointer'
+    if (i === q.correctIndex) return 'border-slate-500 bg-slate-50 text-slate-900'
+    if (i === selected) return 'border-slate-500 bg-slate-50 text-slate-900'
     return 'border-slate-100 bg-white text-slate-300'
   }
   return (
@@ -267,13 +267,13 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
         <div className="bg-white border border-slate-200 rounded-[2.5rem] p-4 md:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Question {current + 1} of {questions.length}</p>
-            <div className="flex gap-1">{questions.map((_, i) => <div key={i} className={`w-8 h-1 rounded-full transition-all ${i <= current ? 'bg-blue-600' : 'bg-slate-100'}`} />)}</div>
+            <div className="flex gap-1">{questions.map((_, i) => <div key={i} className={`w-8 h-1 rounded-full transition-all ${i <= current ? 'bg-slate-600' : 'bg-slate-100'}`} />)}</div>
           </div>
           <div className="flex items-start justify-between gap-3 mb-4">
             <p className="text-sm font-semibold text-slate-900 leading-snug">{q.question}</p>
             <button onClick={() => setScratchpadOpen(true)} className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 text-xs font-black text-slate-500 hover:bg-slate-50 hover:border-slate-300 transition-all"><NotebookPen size={13} /> Scratch</button>
           </div>
-          {q.math && <div className="overflow-x-auto mb-8 -mx-2 px-2"><div className="whitespace-nowrap inline-block bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 font-mono text-lg font-black text-blue-700 min-w-0">{q.math}</div></div>}
+          {q.math && <div className="overflow-x-auto mb-8 -mx-2 px-2"><div className="whitespace-nowrap inline-block bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 font-mono text-lg font-black text-slate-700 min-w-0">{q.math}</div></div>}
           <div className="space-y-3">
             {q.options.map((opt, i) => (
               <motion.button key={i} whileTap={{ scale: revealed ? 1 : 0.98 }} onClick={() => handleSelect(i)} className={`w-full text-left px-3 py-2 rounded-2xl border-2 text-xs font-semibold transition-all ${getOptionStyle(i)}`}>
@@ -281,10 +281,10 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
               </motion.button>
             ))}
           </div>
-          {revealed && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={`mt-6 p-3 rounded-2xl flex gap-4 text-xs font-semibold ${selected === q.correctIndex ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'}`}><Info size={20} className="shrink-0 mt-0.5" /> {q.explanation}</motion.div>}
-          {hintVisible && !revealed && <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-2xl flex gap-3 text-amber-900"><Lightbulb size={20} className="shrink-0 text-amber-500 mt-0.5" /><p className="text-xs font-semibold">{q.hint}</p></motion.div>}
+          {revealed && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className={`mt-6 p-3 rounded-2xl flex gap-4 text-xs font-semibold ${selected === q.correctIndex ? 'bg-slate-50 text-slate-800' : 'bg-slate-50 text-slate-800'}`}><Info size={20} className="shrink-0 mt-0.5" /> {q.explanation}</motion.div>}
+          {hintVisible && !revealed && <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-5 p-3 bg-slate-50 border border-slate-200 rounded-2xl flex gap-3 text-slate-900"><Lightbulb size={20} className="shrink-0 text-slate-500 mt-0.5" /><p className="text-xs font-semibold">{q.hint}</p></motion.div>}
           <div className="mt-8 flex justify-between items-center">
-            {!revealed ? <button onClick={() => setHintVisible(true)} className="text-xs font-black text-amber-600 uppercase tracking-widest px-3 py-2 hover:bg-amber-50 rounded-xl transition-all">{hintVisible ? 'Hint Visible' : 'Need a Hint?'}</button> : <div />}
+            {!revealed ? <button onClick={() => setHintVisible(true)} className="text-xs font-black text-slate-600 uppercase tracking-widest px-3 py-2 hover:bg-slate-50 rounded-xl transition-all">{hintVisible ? 'Hint Visible' : 'Need a Hint?'}</button> : <div />}
             {revealed && <button onClick={handleNext} className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-3 shadow-xl transition-all active:scale-[0.98]">{isLast ? 'See Results' : 'Next Question'} <ArrowRight size={18} /></button>}
           </div>
         </div>
@@ -297,20 +297,20 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
   const pct = Math.round((correct / total) * 100); const mastered = correct / total >= 2 / 3
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-[2.5rem] border border-slate-200 p-4 text-center space-y-6 shadow-sm">
-      <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-white shadow-xl ${mastered ? 'bg-emerald-500' : 'bg-slate-900'}`}>{mastered ? <Award size={40} /> : <RotateCcw size={40} />}</div>
+      <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-white shadow-xl ${mastered ? 'bg-slate-500' : 'bg-slate-900'}`}>{mastered ? <Award size={40} /> : <RotateCcw size={40} />}</div>
       <div>
-        <p className={`text-[10px] font-black uppercase tracking-widest mb-2 ${mastered ? 'text-emerald-600' : 'text-slate-400'}`}>{mastered ? '✦ Mastered' : 'Keep Practising'}</p>
+        <p className={`text-[10px] font-black uppercase tracking-widest mb-2 ${mastered ? 'text-slate-600' : 'text-slate-400'}`}>{mastered ? '✦ Mastered' : 'Keep Practising'}</p>
         <h2 className="text-xl font-bold text-slate-900 tracking-tighter">Your Results</h2>
         <p className="text-sm text-slate-400 font-semibold mt-1">{TOPIC.title}</p>
       </div>
       <div className="flex flex-col items-center gap-3">
         <p className="text-3xl font-bold text-slate-900">{correct} <span className="text-slate-300 text-xl">/</span> {total}</p>
-        <div className="w-full max-w-xs h-2 bg-slate-100 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, delay: 0.3 }} className={`h-full rounded-full ${mastered ? 'bg-emerald-500' : 'bg-blue-500'}`} /></div>
+        <div className="w-full max-w-xs h-2 bg-slate-100 rounded-full overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, delay: 0.3 }} className={`h-full rounded-full ${mastered ? 'bg-slate-500' : 'bg-slate-500'}`} /></div>
       </div>
       <div className="flex flex-col gap-3 pt-2">
         <div className={`grid grid-cols-1 ${hidePracticeMore ? '' : 'sm:grid-cols-2'} gap-3`}>
           <button onClick={onRetry} className="w-full py-5 bg-slate-100 text-slate-700 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">Try Again</button>
-          {!hidePracticeMore && <button onClick={onPracticeMore} className="w-full py-5 bg-blue-50 text-blue-700 border border-blue-200 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-100 transition-all flex items-center justify-center gap-3">Practice More <NotebookPen size={18} /></button>}
+          {!hidePracticeMore && <button onClick={onPracticeMore} className="w-full py-5 bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-100 transition-all flex items-center justify-center gap-3">Practice More <NotebookPen size={18} /></button>}
         </div>
         <button onClick={onContinue} className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all flex items-center justify-center gap-3 shadow-xl">Continue <ArrowRight size={18} /></button>
       </div>
@@ -349,7 +349,7 @@ function TaxonomyAndBinomialNomenclaturePage({ user, onNavigate }: AuthedProps) 
   const handlePracticeMoreComplete = async (res: { correct: number; total: number }) => { setPracticeResult(res); setPreviousView('practice-more'); const s: TopicStatus = res.correct / res.total >= 2 / 3 ? 'mastered' : 'needs-practice'; setStatus(s); await saveProgress(s, res); setView('feedback') }
 
   return (
-    <div className="min-h-screen selection:bg-blue-100" style={{ background: 'oklch(98.5% 0.005 80)' }}>
+    <div className="min-h-screen selection:bg-slate-100" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
       <main className="pt-28 pb-24 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
@@ -362,22 +362,22 @@ function TaxonomyAndBinomialNomenclaturePage({ user, onNavigate }: AuthedProps) 
               <div className="space-y-4">
                 <motion.div onClick={() => setView('interactive-lesson')} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-md transition-all group">
                   <div className="flex items-center gap-6">
-                    <div className={`shrink-0 w-10 h-10 rounded-[1.25rem] flex items-center justify-center text-sm font-bold ${status === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>{status === 'mastered' ? '✓' : '3'}</div>
+                    <div className={`shrink-0 w-10 h-10 rounded-[1.25rem] flex items-center justify-center text-sm font-bold ${status === 'mastered' ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>{status === 'mastered' ? '✓' : '3'}</div>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 tracking-tight">{TOPIC.title}</p>
                       <p className="text-sm text-slate-400 mt-1">{TOPIC.description}</p>
-                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${status === 'mastered' ? 'text-emerald-600' : status === 'needs-practice' ? 'text-amber-600' : 'text-slate-300'}`}>{status === 'mastered' ? '✦ Mastered' : status === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}</p>
+                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${status === 'mastered' ? 'text-slate-600' : status === 'needs-practice' ? 'text-slate-600' : 'text-slate-300'}`}>{status === 'mastered' ? '✦ Mastered' : status === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}</p>
                     </div>
                   </div>
                   <ChevronRight size={28} className="text-slate-200 group-hover:text-slate-900 transition-colors shrink-0" />
                 </motion.div>
                 <motion.div onClick={() => onNavigate('learning-lifesci-g10-t1-species' as AppPage)} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-md transition-all group">
                   <div className="flex items-center gap-6">
-                    <div className={`shrink-0 w-10 h-10 rounded-[1.25rem] flex items-center justify-center text-sm font-bold ${nextStatus === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>{nextStatus === 'mastered' ? '✓' : '4'}</div>
+                    <div className={`shrink-0 w-10 h-10 rounded-[1.25rem] flex items-center justify-center text-sm font-bold ${nextStatus === 'mastered' ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>{nextStatus === 'mastered' ? '✓' : '4'}</div>
                     <div>
                       <p className="text-sm font-semibold text-slate-900 tracking-tight">The Species Concept</p>
                       <p className="text-sm text-slate-400 mt-1">What makes a species and how we define it.</p>
-                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${nextStatus === 'mastered' ? 'text-emerald-600' : nextStatus === 'needs-practice' ? 'text-amber-600' : 'text-slate-300'}`}>{nextStatus === 'mastered' ? '✦ Mastered' : nextStatus === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}</p>
+                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${nextStatus === 'mastered' ? 'text-slate-600' : nextStatus === 'needs-practice' ? 'text-slate-600' : 'text-slate-300'}`}>{nextStatus === 'mastered' ? '✦ Mastered' : nextStatus === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}</p>
                     </div>
                   </div>
                   <ChevronRight size={28} className="text-slate-200 group-hover:text-slate-900 transition-colors shrink-0" />
@@ -398,9 +398,9 @@ function TaxonomyAndBinomialNomenclaturePage({ user, onNavigate }: AuthedProps) 
                   {view === 'practice-more' && <PracticeModule questions={TOPIC.hardQuestions} onComplete={handlePracticeMoreComplete} />}
                   {view === 'remediation' && (
                     <div className="space-y-6">
-                      <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 flex gap-5 items-start">
-                        <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
-                        <div><p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p><p className="text-rose-700 text-xs leading-relaxed">It's okay — let's work through two extra questions to build your confidence.</p></div>
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex gap-5 items-start">
+                        <AlertCircle className="text-slate-500 shrink-0 mt-0.5" size={24} />
+                        <div><p className="text-base font-black text-slate-900 uppercase tracking-tight mb-1">Let's Try Again</p><p className="text-slate-700 text-xs leading-relaxed">It's okay — let's work through two extra questions to build your confidence.</p></div>
                       </div>
                       <PracticeModule questions={TOPIC.remediationQuestions} onComplete={handleRemediationComplete} />
                     </div>

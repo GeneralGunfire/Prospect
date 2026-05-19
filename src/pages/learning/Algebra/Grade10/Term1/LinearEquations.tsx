@@ -113,11 +113,11 @@ const SpeechBubble = ({ text, pos }: { text: string; pos: 'top' | 'bottom' }) =>
     transition={{ duration: 0.2 }}
     // Positioned absolutely relative to its parent math character.
     // -translate-x-1/2 centres it horizontally over the character.
-    className={`absolute ${pos === 'top' ? '-top-14' : '-bottom-14'} left-1/2 -translate-x-1/2 whitespace-nowrap bg-blue-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-lg z-20`}
+    className={`absolute ${pos === 'top' ? '-top-14' : '-bottom-14'} left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-600 text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-lg z-20`}
   >
     {text}
     {/* The bubble "tail" — a rotated square peeking out from the bubble edge */}
-    <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-blue-600 rotate-45 ${pos === 'top' ? '-bottom-1' : '-top-1'}`} />
+    <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-600 rotate-45 ${pos === 'top' ? '-bottom-1' : '-top-1'}`} />
   </motion.div>
 )
 
@@ -138,8 +138,8 @@ const InteractiveLesson = ({ onComplete }: { onComplete: () => void }) => {
     <div className="space-y-6">
       {/* Progress bar row: slide counter on the left, filled dots on the right */}
       <div className="flex items-center justify-between">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Slide {current + 1} of {TOPIC.interactiveSteps.length}</p>
-        <div className="flex gap-1">{TOPIC.interactiveSteps.map((_, i) => <div key={i} className={`h-1 w-8 rounded-full transition-all ${i <= current ? 'bg-blue-600' : 'bg-slate-200'}`} />)}</div>
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">Slide {current + 1} of {TOPIC.interactiveSteps.length}</p>
+        <div className="flex gap-1">{TOPIC.interactiveSteps.map((_, i) => <div key={i} className={`h-1 w-8 rounded-full transition-all ${i <= current ? 'bg-slate-600' : 'bg-slate-200'}`} />)}</div>
       </div>
 
       {/* AnimatePresence + key={current} means every time current changes,
@@ -206,7 +206,7 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
         {/* Header row: label on the left, current step counter on the right */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Step-by-Step Guide</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-blue-600">Step {stepIndex + 1} of {steps.length}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Step {stepIndex + 1} of {steps.length}</p>
         </div>
 
         {/* The problem statement at the top of the card */}
@@ -214,7 +214,7 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
 
         {/* Step progress bar: each segment fills blue as steps are revealed */}
         <div className="flex gap-1.5 mb-8">
-          {steps.map((_, i) => <div key={i} className={`flex-1 h-1 rounded-full transition-all ${i <= stepIndex ? 'bg-blue-600' : 'bg-slate-100'}`} />)}
+          {steps.map((_, i) => <div key={i} className={`flex-1 h-1 rounded-full transition-all ${i <= stepIndex ? 'bg-slate-600' : 'bg-slate-100'}`} />)}
         </div>
 
         {/* Only render steps up to and including the current one.
@@ -224,14 +224,14 @@ const GuidedPracticeModule = ({ onComplete }: { onComplete: () => void }) => {
             // Each step slides in from the left when it first appears.
             <motion.div key={i} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.25 }}
               // The active (newest) step gets a blue highlight; earlier steps are grey.
-              className={`flex gap-4 p-4 rounded-2xl border ${i === stepIndex ? 'bg-blue-50 border-blue-200' : 'bg-slate-50 border-slate-100'}`}>
+              className={`flex gap-4 p-4 rounded-2xl border ${i === stepIndex ? 'bg-slate-50 border-slate-200' : 'bg-slate-50 border-slate-100'}`}>
               {/* Step number badge — blue when active, grey when already passed */}
-              <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black ${i === stepIndex ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-400'}`}>{i + 1}</div>
+              <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black ${i === stepIndex ? 'bg-slate-600 text-white' : 'bg-white border border-slate-200 text-slate-400'}`}>{i + 1}</div>
               <div className="min-w-0">
                 <p className="text-base font-black text-slate-900">{s.instruction}</p>
                 <p className="text-slate-500 text-xs mt-0.5 mb-3 leading-relaxed">{s.explanation}</p>
                 {/* The actual math expression shown in a monospace font */}
-                <div className="overflow-x-auto -mx-1 px-1"><div className="inline-block whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-xl text-lg font-mono font-black text-blue-600 shadow-sm">{s.math}</div></div>
+                <div className="overflow-x-auto -mx-1 px-1"><div className="inline-block whitespace-nowrap px-4 py-2 bg-white border border-slate-200 rounded-xl text-lg font-mono font-black text-slate-600 shadow-sm">{s.math}</div></div>
               </div>
             </motion.div>
           ))}
@@ -424,12 +424,12 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
           <div className="px-5 pt-5 pb-3 border-b border-slate-100 shrink-0">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-1">Working Space</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-600 mb-1">Working Space</p>
                 <p className="text-sm font-black text-slate-900 leading-snug">{question}</p>
                 {/* Only render the math line if the question has a math prop */}
                 {math && (
                   <div className="overflow-x-auto mt-1 -mx-1 px-1">
-                    <span className="whitespace-nowrap font-mono text-sm font-black text-blue-700">{math}</span>
+                    <span className="whitespace-nowrap font-mono text-sm font-black text-slate-700">{math}</span>
                   </div>
                 )}
               </div>
@@ -461,7 +461,7 @@ const ScratchpadModal = ({ question, math, storageKey, onClose }: { question: st
             </button>
             {/* Clear wipes everything — styled red to signal it is destructive */}
             <button onClick={clearAll}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-rose-500 hover:bg-rose-50 transition-all">
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-500 hover:bg-slate-50 transition-all">
               <Trash2 size={13} /> Clear
             </button>
           </div>
@@ -551,9 +551,9 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
   // Before answering: selected option is blue; others are plain.
   // After answering: correct is green, wrong selected is red, others are faded.
   const getOptionStyle = (i: number) => {
-    if (!revealed) return selected === i ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-blue-200 hover:bg-blue-50 cursor-pointer'
-    if (i === q.correctIndex) return 'border-emerald-500 bg-emerald-50 text-emerald-900'
-    if (i === selected) return 'border-rose-500 bg-rose-50 text-rose-900'
+    if (!revealed) return selected === i ? 'border-slate-500 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-200 hover:bg-slate-50 cursor-pointer'
+    if (i === q.correctIndex) return 'border-slate-500 bg-slate-50 text-slate-900'
+    if (i === selected) return 'border-slate-500 bg-slate-50 text-slate-900'
     return 'border-slate-100 bg-white text-slate-300'
   }
 
@@ -568,7 +568,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
         {/* Question counter and dot progress bar */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Question {current + 1} of {questions.length}</p>
-          <div className="flex gap-1">{questions.map((_, i) => <div key={i} className={`w-8 h-1 rounded-full transition-all ${i <= current ? 'bg-blue-600' : 'bg-slate-100'}`} />)}</div>
+          <div className="flex gap-1">{questions.map((_, i) => <div key={i} className={`w-8 h-1 rounded-full transition-all ${i <= current ? 'bg-slate-600' : 'bg-slate-100'}`} />)}</div>
         </div>
 
         {/* Question text and scratchpad toggle button */}
@@ -583,7 +583,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
         {/* Math expression block — only rendered when the question has a math prop */}
         {q.math && (
           <div className="overflow-x-auto mb-8 -mx-2 px-2">
-            <div className="whitespace-nowrap inline-block bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 font-mono text-lg font-black text-blue-700 min-w-0">
+            <div className="whitespace-nowrap inline-block bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 font-mono text-lg font-black text-slate-700 min-w-0">
               {q.math}
             </div>
           </div>
@@ -604,7 +604,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
             Green background for correct, red for incorrect. */}
         {revealed && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-            className={`mt-6 p-3 rounded-2xl flex gap-3 text-xs font-semibold ${selected === q.correctIndex ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'}`}>
+            className={`mt-6 p-3 rounded-2xl flex gap-3 text-xs font-semibold ${selected === q.correctIndex ? 'bg-slate-50 text-slate-800' : 'bg-slate-50 text-slate-800'}`}>
             <Info size={20} className="shrink-0 mt-0.5" /> {q.explanation}
           </motion.div>
         )}
@@ -613,8 +613,8 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
             the student taps "Need a Hint?". Animates in with a height transition. */}
         {hintVisible && !revealed && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
-            className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-2xl flex gap-3 text-amber-900">
-            <Lightbulb size={20} className="shrink-0 text-amber-500 mt-0.5" />
+            className="mt-5 p-3 bg-slate-50 border border-slate-200 rounded-2xl flex gap-3 text-slate-900">
+            <Lightbulb size={20} className="shrink-0 text-slate-500 mt-0.5" />
             <p className="text-xs font-semibold">{q.hint}</p>
           </motion.div>
         )}
@@ -623,7 +623,7 @@ const PracticeModule = ({ questions, onComplete }: { questions: Question[]; onCo
         <div className="mt-8 flex justify-between items-center">
           {/* Show the hint button only before an answer is revealed */}
           {!revealed
-            ? <button onClick={() => setHintVisible(true)} className="text-xs font-black text-amber-600 uppercase tracking-widest px-3 py-2 hover:bg-amber-50 rounded-xl transition-all">{hintVisible ? 'Hint Visible' : 'Need a Hint?'}</button>
+            ? <button onClick={() => setHintVisible(true)} className="text-xs font-black text-slate-600 uppercase tracking-widest px-3 py-2 hover:bg-slate-50 rounded-xl transition-all">{hintVisible ? 'Hint Visible' : 'Need a Hint?'}</button>
             : <div />}
           {/* Show the next/results button only after an answer is revealed */}
           {revealed && (
@@ -655,13 +655,13 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
       className="bg-white rounded-[2.5rem] border border-slate-200 p-4 text-center space-y-8 shadow-sm">
 
       {/* Icon badge: trophy for mastered, retry arrow for needs more practice */}
-      <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-white shadow-xl ${mastered ? 'bg-emerald-500' : 'bg-slate-900'}`}>
+      <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto text-white shadow-xl ${mastered ? 'bg-slate-500' : 'bg-slate-900'}`}>
         {mastered ? <Award size={40} /> : <RotateCcw size={40} />}
       </div>
 
       {/* Result label and heading */}
       <div>
-        <p className={`text-[10px] font-black uppercase tracking-widest mb-2 ${mastered ? 'text-emerald-600' : 'text-slate-400'}`}>{mastered ? '✦ Mastered' : 'Keep Practising'}</p>
+        <p className={`text-[10px] font-black uppercase tracking-widest mb-2 ${mastered ? 'text-slate-600' : 'text-slate-400'}`}>{mastered ? '✦ Mastered' : 'Keep Practising'}</p>
         <h2 className="text-base font-bold text-slate-900 tracking-tighter">Your Results</h2>
         <p className="text-sm text-slate-400 font-semibold mt-1">{TOPIC.title}</p>
       </div>
@@ -672,7 +672,7 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
         <div className="w-full max-w-xs h-2 bg-slate-100 rounded-full overflow-hidden">
           {/* The bar width animates from 0% to the actual percentage */}
           <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.8, delay: 0.3 }}
-            className={`h-full rounded-full ${mastered ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+            className={`h-full rounded-full ${mastered ? 'bg-slate-500' : 'bg-slate-500'}`} />
         </div>
       </div>
 
@@ -683,7 +683,7 @@ const FeedbackModule = ({ correct, total, onRetry, onPracticeMore, onContinue, h
           <button onClick={onRetry} className="w-full py-5 bg-slate-100 text-slate-700 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">Try Again</button>
           {/* "Practice More" sends the student to the harder question set */}
           {!hidePracticeMore && (
-            <button onClick={onPracticeMore} className="w-full py-5 bg-blue-50 text-blue-700 border border-blue-200 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-100 transition-all flex items-center justify-center gap-3">
+            <button onClick={onPracticeMore} className="w-full py-5 bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-100 transition-all flex items-center justify-center gap-3">
               Practice More <NotebookPen size={18} />
             </button>
           )}
@@ -850,7 +850,7 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
   }
 
   return (
-    <div className="min-h-screen selection:bg-blue-100" style={{ background: 'oklch(98.5% 0.005 80)' }}>
+    <div className="min-h-screen selection:bg-slate-100" style={{ background: 'oklch(98.5% 0.005 80)' }}>
       {/* Shared site header — passing currentPage tells it which nav item to highlight */}
       <AppHeader currentPage="library" user={user} onNavigate={onNavigate} />
 
@@ -877,14 +877,14 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
                 >
                   <div className="flex items-center gap-6">
                     {/* Number badge turns green with a tick when the topic is mastered */}
-                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${status === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>
+                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${status === 'mastered' ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>
                       {status === 'mastered' ? '✓' : '1'}
                     </div>
                     <div>
                       <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">{TOPIC.title}</p>
                       <p className="text-sm text-slate-400 mt-1">{TOPIC.description}</p>
                       {/* Status label colour changes based on current mastery level */}
-                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${status === 'mastered' ? 'text-emerald-600' : status === 'needs-practice' ? 'text-amber-600' : 'text-slate-300'}`}>
+                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${status === 'mastered' ? 'text-slate-600' : status === 'needs-practice' ? 'text-slate-600' : 'text-slate-300'}`}>
                         {status === 'mastered' ? '✦ Mastered' : status === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}
                       </p>
                     </div>
@@ -899,13 +899,13 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
                   className="bg-white rounded-xl border border-slate-200 p-7 md:p-9 flex items-center justify-between gap-6 cursor-pointer hover:border-slate-300 hover:shadow-md transition-all group"
                 >
                   <div className="flex items-center gap-6">
-                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${simultaneousStatus === 'mastered' ? 'bg-emerald-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>
+                    <div className={`shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.25rem] flex items-center justify-center text-2xl font-black ${simultaneousStatus === 'mastered' ? 'bg-slate-500 text-white' : 'bg-slate-900 text-white shadow-md shadow-slate-900/10'}`}>
                       {simultaneousStatus === 'mastered' ? '✓' : '2'}
                     </div>
                     <div>
                       <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">Simultaneous Equations</p>
                       <p className="text-sm text-slate-400 mt-1">Solve two equations with two unknowns using substitution.</p>
-                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${simultaneousStatus === 'mastered' ? 'text-emerald-600' : simultaneousStatus === 'needs-practice' ? 'text-amber-600' : 'text-slate-300'}`}>
+                      <p className={`text-[10px] font-black uppercase tracking-widest mt-2 ${simultaneousStatus === 'mastered' ? 'text-slate-600' : simultaneousStatus === 'needs-practice' ? 'text-slate-600' : 'text-slate-300'}`}>
                         {simultaneousStatus === 'mastered' ? '✦ Mastered' : simultaneousStatus === 'needs-practice' ? '◉ Needs Practice' : '○ Not Started'}
                       </p>
                     </div>
@@ -940,11 +940,11 @@ function LinearEquationsPage({ user, onNavigate }: AuthedProps) {
                   {view === 'remediation' && (
                     <div className="space-y-6">
                       {/* Encouragement banner shown above the remediation questions */}
-                      <div className="bg-rose-50 border border-rose-200 rounded-xl p-3 flex gap-4 items-start">
-                        <AlertCircle className="text-rose-500 shrink-0 mt-0.5" size={24} />
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex gap-4 items-start">
+                        <AlertCircle className="text-slate-500 shrink-0 mt-0.5" size={24} />
                         <div>
-                          <p className="text-base font-black text-rose-900 uppercase tracking-tight mb-1">Let's Try Again</p>
-                          <p className="text-rose-700 text-xs leading-relaxed">It's okay! Let's work through two extra questions to build your confidence.</p>
+                          <p className="text-base font-black text-slate-900 uppercase tracking-tight mb-1">Let's Try Again</p>
+                          <p className="text-slate-700 text-xs leading-relaxed">It's okay! Let's work through two extra questions to build your confidence.</p>
                         </div>
                       </div>
                       {/* Simpler questions to rebuild understanding before another attempt */}

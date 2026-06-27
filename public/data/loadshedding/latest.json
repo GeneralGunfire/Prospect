@@ -6,8 +6,8 @@
   "statusNote": "Eskom status page is currently unreachable. Load shedding has been suspended since 26 March 2024. Check loadshedding.eskom.co.za for live status.",
   "source": "loadshedding.eskom.co.za",
   "forecast": [],
-  "updatedAt": "2026-06-27T14:22:07.961203+00:00",
-  "scrapedAt": "2026-06-27T14:22:07.961203+00:00",
+  "updatedAt": "2026-06-27T15:45:36.000965+00:00",
+  "scrapedAt": "2026-06-27T15:45:36.000965+00:00",
   "alerts": [
     {
       "id": "seed-e1",
@@ -18,8 +18,8 @@
       "description": "A transformer fault at the Dobsonville substation is causing unplanned outages across parts of Soweto. Eskom crews are on site.",
       "type": "transformer_fault",
       "urgency": "high",
-      "startDate": "2026-06-27T06:22:07.960355+00:00",
-      "estimatedRestoration": "2026-06-27T20:22:07.960355+00:00",
+      "startDate": "2026-06-27T07:45:35.999841+00:00",
+      "estimatedRestoration": "2026-06-27T21:45:35.999841+00:00",
       "status": "active",
       "sourceUrl": "https://www.eskom.co.za"
     },
@@ -32,8 +32,8 @@
       "description": "High demand causing overload at the Mitchells Plain substation. Rotating supply interruptions in affected areas until load normalises.",
       "type": "substation_overload",
       "urgency": "medium",
-      "startDate": "2026-06-27T12:22:07.960355+00:00",
-      "estimatedRestoration": "2026-06-28T00:22:07.960355+00:00",
+      "startDate": "2026-06-27T13:45:35.999841+00:00",
+      "estimatedRestoration": "2026-06-28T01:45:35.999841+00:00",
       "status": "active",
       "sourceUrl": "https://www.eskom.co.za"
     },
@@ -46,8 +46,8 @@
       "description": "Underground cable fault detected on the Pinetown feeder line. Affected customers are without supply while repairs are carried out.",
       "type": "cable_fault",
       "urgency": "high",
-      "startDate": "2026-06-27T09:22:07.960355+00:00",
-      "estimatedRestoration": "2026-06-27T22:22:07.960355+00:00",
+      "startDate": "2026-06-27T10:45:35.999841+00:00",
+      "estimatedRestoration": "2026-06-27T23:45:35.999841+00:00",
       "status": "active",
       "sourceUrl": "https://www.eskom.co.za"
     },
@@ -60,8 +60,8 @@
       "description": "Scheduled maintenance on the 132kV line supplying Gqeberha Central. Supply will be interrupted during the maintenance window.",
       "type": "planned_maintenance",
       "urgency": "low",
-      "startDate": "2026-06-28T14:22:07.960355+00:00",
-      "estimatedRestoration": "2026-06-28T22:22:07.960355+00:00",
+      "startDate": "2026-06-28T15:45:35.999841+00:00",
+      "estimatedRestoration": "2026-06-28T23:45:35.999841+00:00",
       "status": "upcoming",
       "sourceUrl": "https://www.eskom.co.za"
     }
